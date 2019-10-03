@@ -30,6 +30,24 @@ public class Casilla {
     public String getTipo(){
         return tipo;
     }
+    public boolean pertence(Jugador jugador) {
+        return this.duenho.getAvatar().equals(jugador.getAvatar());
+    }
+
+    public int getPosicion() {
+        return posicion;
+    }
+
+    /*@Override
+    public boolean equals(Object obj){
+        if (obj instanceof Casilla){
+            if(((Casilla)obj).getNombre().equals(this.nombre)){
+                return true;
+            }
+        }
+        return false;
+    }*/
+
 
 
 }
