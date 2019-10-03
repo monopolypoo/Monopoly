@@ -75,7 +75,7 @@ public class Grupo {
 
         if (casillas.size() != 0) {
             for (Casilla casilla : casillas) {
-                prop += casilla.getNombre() + "\t";
+                prop += casilla.getNombre() + "\t\t";
             }
         }
         if ((this.numeroGrupo != 0) && (this.color != null)) {
