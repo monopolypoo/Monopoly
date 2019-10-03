@@ -19,6 +19,10 @@ public class Casilla {
         return duenho;
     }
 
+    public float getValor() {
+        return valor;
+    }
+
     public void setDuenho(Jugador jugador){
         this.duenho = jugador;
     }
