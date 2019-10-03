@@ -70,6 +70,6 @@ public class Test {
         casillasGrupo4.add(solar10);
         casillasGrupo4.add(solar11);
         Grupo grupo4 = new Grupo(casillasGrupo4, 4, "naranja", "oeste");
-        //falta
+        //falta nada
     }
 }
