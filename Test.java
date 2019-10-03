@@ -70,6 +70,24 @@ public class Test {
         casillasGrupo4.add(solar10);
         casillasGrupo4.add(solar11);
         Grupo grupo4 = new Grupo(casillasGrupo4, 4, "naranja", "oeste");
-        //falta nada
+        ArrayList<Casilla>  casillasGrupo5 = new ArrayList<>();
+        casillasGrupo5.add(solar12);
+        casillasGrupo5.add(solar13);
+        casillasGrupo5.add(solar14);
+        Grupo grupo5 = new Grupo(casillasGrupo5,5, "verde", "norte");
+        ArrayList<Casilla>  casillasGrupo6 = new ArrayList<>();
+        casillasGrupo6.add(solar15);
+        casillasGrupo6.add(solar16);
+        casillasGrupo6.add(solar17);
+        Grupo grupo6 = new Grupo(casillasGrupo6,6, "rojo", "norte");
+        ArrayList<Casilla>  casillasGrupo7 = new ArrayList<>();
+        casillasGrupo7.add(solar18);
+        casillasGrupo7.add(solar19);
+        casillasGrupo7.add(solar20);
+        Grupo grupo7 = new Grupo(casillasGrupo7,7, "marron", "leste");
+        ArrayList<Casilla>  casillasGrupo8 = new ArrayList<>();
+        casillasGrupo8.add(solar21);
+        casillasGrupo8.add(solar22);
+        Grupo grupo8 = new Grupo(casillasGrupo8,8, "gris", "leste");
     }
 }
