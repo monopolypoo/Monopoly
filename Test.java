@@ -89,5 +89,12 @@ public class Test {
         casillasGrupo8.add(solar21);
         casillasGrupo8.add(solar22);
         Grupo grupo8 = new Grupo(casillasGrupo8,8, "gris", "leste");
+
+        Jugador jugador1 = new Jugador("Pepe", "Esfinge", 100000);
+        solar1.setDuenho(jugador1);
+        System.out.println(solar1.pertence(jugador1));
+        Jugador jugador2 = new Jugador("Dani", "Coche", 100000);
+        System.out.println(solar1.pertence(jugador2));
+
     }
 }
