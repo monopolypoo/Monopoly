@@ -139,17 +139,17 @@ public class Test {
         Grupo ladoLeste = new Grupo(casillasLadoLeste,11, "leste");
 
         ArrayList<Casilla>  casillasLadoSur = new ArrayList<>();
-        casillasLadoSur.add(saida);
-        casillasLadoSur.add(solar1);
-        casillasLadoSur.add(caixa1);
-        casillasLadoSur.add(solar2);
-        casillasLadoSur.add(imp1);
-        casillasLadoSur.add(trans1);
-        casillasLadoSur.add(solar3);
-        casillasLadoSur.add(sorte1);
-        casillasLadoSur.add(solar4);
-        casillasLadoSur.add(solar5);
         casillasLadoSur.add(carcere);
+        casillasLadoSur.add(solar5);
+        casillasLadoSur.add(solar4);
+        casillasLadoSur.add(sorte1);
+        casillasLadoSur.add(solar3);
+        casillasLadoSur.add(trans1);
+        casillasLadoSur.add(imp1);
+        casillasLadoSur.add(solar2);
+        casillasLadoSur.add(caixa1);
+        casillasLadoSur.add(solar1);
+        casillasLadoSur.add(saida);
         Grupo ladoSur = new Grupo(casillasLadoSur,12, "sur");
 
         Taboleiro taboleiro = new Taboleiro(ladoNorte, ladoOeste, ladoLeste, ladoSur);
