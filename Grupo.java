@@ -15,12 +15,13 @@ public class Grupo {
         this.lado = lado;
     }
 
-    public Grupo(ArrayList<Casilla> casillas, int numeroGrupo,  String lado){
+    public Grupo(ArrayList<Casilla> casillas, int numeroGrupo, String lado){
         this.casillas = casillas;
         this.numeroGrupo = numeroGrupo;
         this.color = null;
         this.lado = lado;
     }
+
     public ArrayList<Casilla> getCasillas(){
         return casillas;
     }
@@ -75,7 +76,7 @@ public class Grupo {
 
         if (casillas.size() != 0) {
             for (Casilla casilla : casillas) {
-                prop += casilla.getNombre() + "\t";
+                prop += casilla.getNombre() + "\t\t";
             }
         }
         if ((this.numeroGrupo != 0) && (this.color != null)) {

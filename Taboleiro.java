@@ -1,3 +1,4 @@
+import javax.swing.*;
 import java.util.ArrayList;
 
 public class Taboleiro {
@@ -47,45 +48,42 @@ public class Taboleiro {
 
     @Override
     public String toString(){
-        String textoTope =  " ──────────────── ──────────────── ──────────────── ──────────────── ──────────────── " +
-                "──────────────── ──────────────── ──────────────── ──────────────── ──────────────── " +
-                "──────────────── ";
-        String textoTopeMedio = " ────────────────                                                                    " +
-                "                                                                                     " +
-                " ──────────────── \n";
-        String textoEspaciado = "|                                                                               " +
-                "                                                                         |";
+        String BLANCO = "\033[0;37m";
 
-        String textoNorte = textoTope + "\n";
-        for (Casilla casilla: this.ladoNorte.getCasillas()){
-            textoNorte += "|" + casilla.getNombre();
+        String textoTope = BLANCO + " ";
+        for (int i=0; i<11; i++){
+            textoTope += "──────────────── ";
         }
-        textoNorte += "|\n" + textoTope + "\n";
+        textoTope += "\n";
 
+        String textoEspaciado = BLANCO + "| ";
+        for (int i=0; i<151; i++){
+            textoEspaciado += " ";
+        }
+        textoEspaciado += "|";
+
+        String textoTopeEspaciado = BLANCO + " ────────────────";
+        for (int i=0; i<154; i++){
+            textoTopeEspaciado += " ";
+        }
+        textoTopeEspaciado += "──────────────── \n";
+
+        String textoNorte = "";
         String textoSur = "";
-        for (Casilla casilla: this.ladoSur.getCasillas()){
-            textoSur += "|" + casilla.getNombre();
-        }
-        textoSur += "|\n";
-
-        String texto = textoNorte;
-        int i = 0;
-        int j;
-        for (Casilla casilla: this.ladoOeste.getCasillas()){
-            j = 0;
-            for (Casilla casilla1: this.ladoLeste.getCasillas()){
-                if (i == j){
-                    texto += "|" + casilla.getNombre() + textoEspaciado + casilla1.getNombre() + "|\n";
-                }
-                if ((i == 8) && (j == 8)){
-                    break;
-                }
-                j++;
+        String textoOesteLeste = "";
+        for (int i=0; i < ladoNorte.getCasillas().size(); i++){
+            textoNorte += BLANCO + "|" + ladoNorte.getCasillas().get(i).getColorGrupo() + ladoNorte.getCasillas().get(i).getNombre();
+            textoSur += BLANCO + "|" + ladoSur.getCasillas().get(i).getColorGrupo() + ladoSur.getCasillas().get(i).getNombre();
+            if (i<9){
+                textoOesteLeste +=  BLANCO + "|" + ladoOeste.getCasillas().get(i).getColorGrupo() +
+                                    ladoOeste.getCasillas().get(i).getNombre() + textoEspaciado +
+                                    ladoLeste.getCasillas().get(i).getColorGrupo() +
+                                    ladoLeste.getCasillas().get(i).getNombre() + BLANCO + "|\n";
             }
-            texto += textoTopeMedio;
-            i++;
+            if (i<8)
+                textoOesteLeste += BLANCO + textoTopeEspaciado;
         }
-        texto += textoTope + "\n" + textoSur + textoTope;
+        String texto = BLANCO + textoTope + textoNorte + "|\n" + textoTope + textoOesteLeste + textoTope + textoSur + BLANCO + "|\n" + textoTope;
         return texto;
     }
 }
