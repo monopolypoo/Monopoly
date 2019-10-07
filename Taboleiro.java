@@ -177,17 +177,17 @@ public class Taboleiro {
         this.ladoLeste = new Grupo(casillasLadoLeste, 16, "leste");
 
         ArrayList<Casilla>  casillasLadoSur = new ArrayList<>();
-        casillasLadoSur.add(saida);
-        casillasLadoSur.add(solar1);
-        casillasLadoSur.add(caixa1);
-        casillasLadoSur.add(solar2);
-        casillasLadoSur.add(imp1);
-        casillasLadoSur.add(trans1);
-        casillasLadoSur.add(solar3);
-        casillasLadoSur.add(sorte1);
-        casillasLadoSur.add(solar4);
-        casillasLadoSur.add(solar5);
         casillasLadoSur.add(carcere);
+        casillasLadoSur.add(solar5);
+        casillasLadoSur.add(solar4);
+        casillasLadoSur.add(sorte1);
+        casillasLadoSur.add(solar3);
+        casillasLadoSur.add(trans1);
+        casillasLadoSur.add(imp1);
+        casillasLadoSur.add(solar2);
+        casillasLadoSur.add(caixa1);
+        casillasLadoSur.add(solar1);
+        casillasLadoSur.add(saida);
         this.ladoSur = new Grupo(casillasLadoSur, 17, "sur");
 
     }
