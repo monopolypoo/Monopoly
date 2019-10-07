@@ -1,14 +1,30 @@
 public class Casilla {
     private String nombre;
     private String tipo;
-    private float valor;
+    private double valor;
     private int posicion;
     private Jugador duenho;
     private String colorGrupo;
 
     public Casilla(){}
 
-    public Casilla(String nombre, String tipo, int posicion, float valor, String colorGrupo){
+    public Casilla(String nombre, String tipo, int posicion){
+        this.nombre = nombre;
+        this.tipo = tipo;
+        this.posicion = posicion;
+        this.valor = 0;
+        this.colorGrupo = null;
+    }
+
+    public Casilla(String nombre, String tipo, int posicion, double valor){
+        this.nombre = nombre;
+        this.tipo = tipo;
+        this.posicion = posicion;
+        this.valor = valor;
+        this.colorGrupo = null;
+    }
+
+    public Casilla(String nombre, String tipo, int posicion, double valor, String colorGrupo){
         this.nombre = nombre;
         this.tipo = tipo;
         this.posicion = posicion;
@@ -37,6 +53,10 @@ public class Casilla {
 
     public void setColorGrupo(String colorGrupo){
         this.colorGrupo = colorGrupo;
+    }
+
+    public void setValor(double valor){
+        this.valor = valor;
     }
 
     public boolean pertence(Jugador jugador) {

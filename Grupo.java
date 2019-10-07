@@ -3,22 +3,39 @@ import java.util.ArrayList;
 public class Grupo {
     private int numeroGrupo=0;
     private ArrayList<Casilla> casillas;
+    private double valor;
     private String color;
     private String lado;
 
     public Grupo(){}
 
+    public Grupo(ArrayList<Casilla> casillas, int numeroGrupo, double valor, String color, String lado){
+        this.casillas = casillas;
+        this.numeroGrupo = numeroGrupo;
+        this.valor = valor;
+        this.color = color;
+        this.lado = lado;
+    }
+
     public Grupo(ArrayList<Casilla> casillas, int numeroGrupo, String color, String lado){
         this.casillas = casillas;
         this.numeroGrupo = numeroGrupo;
-        this.color = color;
+        this.valor = 100000 * Math.pow(1.3, this.numeroGrupo - 1);
         this.lado = lado;
+        setColor(color);
+    }
+
+    public Grupo(ArrayList<Casilla> casillas, int numeroGrupo, double valor, String color){
+        this.casillas = casillas;
+        this.numeroGrupo = numeroGrupo;
+        setValor(valor);
+        this.lado = null;
+        setColor(color);
     }
 
     public Grupo(ArrayList<Casilla> casillas, int numeroGrupo, String lado){
         this.casillas = casillas;
         this.numeroGrupo = numeroGrupo;
-        this.color = null;
         this.lado = lado;
     }
 
@@ -58,6 +75,16 @@ public class Grupo {
 
     public void setColor(String color){
         this.color = color;
+        for (Casilla casilla: casillas){
+            casilla.setColorGrupo(color);
+        }
+    }
+
+    public void setValor(double valor){
+        this.valor = valor;
+        for (Casilla casilla: casillas){
+            casilla.setValor(valor);
+        }
     }
 
     public void setLado(String lado){
