@@ -4,16 +4,23 @@ public class Dado {
     private int dado1;
     private int dado2;
 
-    void generarValorDados() throws InterruptedException {
-        Random ale = new Random(System.currentTimeMillis()); //pone una semilla nueva de cada vez
-
-        this.dado1 = ale.nextInt(1) + 5;
-        Thread.sleep(50);
-        ale = new Random(System.currentTimeMillis());
-        this.dado2 = ale.nextInt(1) + 5;
+    public Dado() {
 
     }
 
+    public void generarValorDados(Dado dado) throws InterruptedException {
+        Random ale = new Random(System.currentTimeMillis()); //pone una semilla nueva de cada vez
+
+        dado.dado1 = (int) (Math.random()*6 + 1);
+        Thread.sleep(50);
+        //ale = new Random(System.currentTimeMillis());
+        dado.dado2 = (int) (Math.random()*6 + 1);
+
+    }
+
+    public Dado(Dado dado) throws InterruptedException {
+        dado.generarValorDados(dado);
+    }
     public String toString() {
         String texto;
 
