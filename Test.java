@@ -19,8 +19,8 @@ public class Test {
         System.out.println(taboleiro);
 
         Dado dadito = new Dado();
-        Dado usable = new Dado(dadito);
-        System.out.println(usable);
+        dadito.lanzarDados();
+        System.out.println(dadito);
 
     }
 }
