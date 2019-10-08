@@ -9,18 +9,19 @@ public class Grupo {
 
     public Grupo(){}
 
-    public Grupo(ArrayList<Casilla> casillas, int numeroGrupo, double valor, String color, String lado){
+    public Grupo(ArrayList<Casilla> casillas, int numeroGrupo, String color, String lado, double valor){
         this.casillas = casillas;
         this.numeroGrupo = numeroGrupo;
-        this.valor = valor;
         this.color = color;
         this.lado = lado;
+        this.valor = valor;
     }
 
     public Grupo(ArrayList<Casilla> casillas, int numeroGrupo, String color, String lado){
         this.casillas = casillas;
         this.numeroGrupo = numeroGrupo;
         this.valor = 100000 * Math.pow(1.3, this.numeroGrupo - 1);
+        setValor(this.valor);
         this.lado = lado;
         setColor(color);
     }
@@ -28,6 +29,7 @@ public class Grupo {
     public Grupo(ArrayList<Casilla> casillas, int numeroGrupo, double valor, String color){
         this.casillas = casillas;
         this.numeroGrupo = numeroGrupo;
+        this.valor = valor;
         setValor(valor);
         this.lado = null;
         setColor(color);
@@ -81,7 +83,6 @@ public class Grupo {
     }
 
     public void setValor(double valor){
-        this.valor = valor;
         for (Casilla casilla: casillas){
             casilla.setValor(valor);
         }

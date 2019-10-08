@@ -1,11 +1,13 @@
 import javax.swing.*;
 import java.util.ArrayList;
+import java.util.HashMap;
 
 public class Taboleiro {
     private Grupo ladoNorte;
     private Grupo ladoOeste;
     private Grupo ladoLeste;
     private Grupo ladoSur;
+    private HashMap<String, Casilla> casillas;
 
     public Taboleiro(){
         // Casillas UDC Ferrol (SUR)
@@ -60,48 +62,48 @@ public class Taboleiro {
         ArrayList<Casilla> casillasGrupo1 = new ArrayList<>();
         casillasGrupo1.add(solar1);
         casillasGrupo1.add(solar2);
-        Grupo grupo1 = new Grupo(casillasGrupo1, 1, Valor.BLUE, "sur");
+        Grupo grupo1 = new Grupo(casillasGrupo1, 1, Valor.BLUE, "sur", Valor.PRECIO_GRUPO1);
 
         ArrayList<Casilla> casillasGrupo2 = new ArrayList<>();
         casillasGrupo2.add(solar3);
         casillasGrupo2.add(solar4);
         casillasGrupo2.add(solar5);
-        Grupo grupo2 = new Grupo(casillasGrupo2, 2, Valor.YELLOW, "sur");
+        Grupo grupo2 = new Grupo(casillasGrupo2, 2, Valor.YELLOW, "sur", Valor.PRECIO_GRUPO2);
 
         ArrayList<Casilla> casillasGrupo3 = new ArrayList<>();
         casillasGrupo3.add(solar6);
         casillasGrupo3.add(solar7);
         casillasGrupo3.add(solar8);
-        Grupo grupo3 = new Grupo(casillasGrupo3, 3, Valor.PURPLE, "oeste");
+        Grupo grupo3 = new Grupo(casillasGrupo3, 3, Valor.PURPLE, "oeste", Valor.PRECIO_GRUPO3);
 
         ArrayList<Casilla> casillasGrupo4 = new ArrayList<>();
         casillasGrupo4.add(solar9);
         casillasGrupo4.add(solar10);
         casillasGrupo4.add(solar11);
-        Grupo grupo4 = new Grupo(casillasGrupo4, 4, Valor.YELLOW_BRIGHT, "oeste");
+        Grupo grupo4 = new Grupo(casillasGrupo4, 4, Valor.YELLOW_BRIGHT, "oeste", Valor.PRECIO_GRUPO4);
 
         ArrayList<Casilla>  casillasGrupo5 = new ArrayList<>();
         casillasGrupo5.add(solar12);
         casillasGrupo5.add(solar13);
         casillasGrupo5.add(solar14);
-        Grupo grupo5 = new Grupo(casillasGrupo5,5, Valor.GREEN, "norte");
+        Grupo grupo5 = new Grupo(casillasGrupo5,5, Valor.GREEN, "norte", Valor.PRECIO_GRUPO5);
 
         ArrayList<Casilla>  casillasGrupo6 = new ArrayList<>();
         casillasGrupo6.add(solar15);
         casillasGrupo6.add(solar16);
         casillasGrupo6.add(solar17);
-        Grupo grupo6 = new Grupo(casillasGrupo6,6, Valor.RED, "norte");
+        Grupo grupo6 = new Grupo(casillasGrupo6,6, Valor.RED, "norte", Valor.PRECIO_GRUPO6);
 
         ArrayList<Casilla>  casillasGrupo7 = new ArrayList<>();
         casillasGrupo7.add(solar18);
         casillasGrupo7.add(solar19);
         casillasGrupo7.add(solar20);
-        Grupo grupo7 = new Grupo(casillasGrupo7,7, Valor.GREEN_BRIGHT, "leste");
+        Grupo grupo7 = new Grupo(casillasGrupo7,7, Valor.GREEN_BRIGHT, "leste", Valor.PRECIO_GRUPO7);
 
         ArrayList<Casilla>  casillasGrupo8 = new ArrayList<>();
         casillasGrupo8.add(solar21);
         casillasGrupo8.add(solar22);
-        Grupo grupo8 = new Grupo(casillasGrupo8,8, Valor.CYAN, "leste");
+        Grupo grupo8 = new Grupo(casillasGrupo8,8, Valor.CYAN, "leste", Valor.PRECIO_GRUPO8);
 
         ArrayList<Casilla>  casillasEspeciales = new ArrayList<>();
         casillasEspeciales.add(saida);
@@ -190,6 +192,9 @@ public class Taboleiro {
         casillasLadoSur.add(saida);
         this.ladoSur = new Grupo(casillasLadoSur, 17, "sur");
 
+        //añadimos las casillas a un HashMap
+        this.casillas = new HashMap<>();
+        this.casillas.put("Saída", saida);
     }
 
     public Grupo getLadoNorte(){
@@ -206,6 +211,10 @@ public class Taboleiro {
 
     public Grupo getLadoSur(){
         return ladoSur;
+    }
+
+    public HashMap<String, Casilla> getCasillas() {
+        return casillas;
     }
 
     public void setLadoNorte(Grupo lado){
@@ -226,7 +235,7 @@ public class Taboleiro {
 
     @Override
     public String toString(){
-        String BLANCO = "\033[0;37m";
+        String BLANCO = Valor.WHITE;
 
         String textoTope = BLANCO + "┌";
         for (int i=0; i<10; i++){
@@ -281,7 +290,7 @@ public class Taboleiro {
             if (i<8)
                 textoOesteLeste += BLANCO + textoTopeEspaciado;
         }
-        String texto = BLANCO + textoTope + textoNorte + "│\n" + textoTopeMedioArriba + textoOesteLeste + textoTopeMedioAbajo + textoSur + BLANCO + "│\n" + textoTopeAbajo;
+        String texto = BLANCO + textoTope + textoNorte + BLANCO + "│\n" + textoTopeMedioArriba + textoOesteLeste + textoTopeMedioAbajo + textoSur + BLANCO + "│\n" + textoTopeAbajo;
         return texto;
     }
 }

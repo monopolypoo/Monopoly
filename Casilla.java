@@ -1,3 +1,5 @@
+import java.util.HashMap;
+
 public class Casilla {
     private String nombre;
     private String tipo;
@@ -5,6 +7,7 @@ public class Casilla {
     private int posicion;
     private Jugador duenho;
     private String colorGrupo;
+    HashMap<String, Avatar> avatares;
 
     public Casilla(){}
 
@@ -14,6 +17,7 @@ public class Casilla {
         this.posicion = posicion;
         this.valor = 0;
         this.colorGrupo = null;
+        avatares = new HashMap<>();
     }
 
     public Casilla(String nombre, String tipo, int posicion, double valor){
@@ -22,6 +26,7 @@ public class Casilla {
         this.posicion = posicion;
         this.valor = valor;
         this.colorGrupo = null;
+        avatares = new HashMap<>();
     }
 
     public Casilla(String nombre, String tipo, int posicion, double valor, String colorGrupo){
@@ -30,7 +35,8 @@ public class Casilla {
         this.posicion = posicion;
         this.valor = valor;
         this.colorGrupo = colorGrupo;
-        //duenho = banca??
+        avatares = new HashMap<>();
+        //this.duenho = banca
     }
 
     public Jugador getDuenho(){

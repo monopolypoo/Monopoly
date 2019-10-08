@@ -2,6 +2,14 @@ public class Valor {
     public final static int PRECIO_INICIAL = 100000;
     public final static int DINERO_INICIAL = 2200000;
     public final static int VUELTA = 300000;
+    public final static int PRECIO_GRUPO1 = PRECIO_INICIAL;
+    public final static int PRECIO_GRUPO2 = 130000;
+    public final static int PRECIO_GRUPO3 = 170000;
+    public final static int PRECIO_GRUPO4 = 220000;
+    public final static int PRECIO_GRUPO5 = 290000;
+    public final static int PRECIO_GRUPO6 = 380000;
+    public final static int PRECIO_GRUPO7 = 500000;
+    public final static int PRECIO_GRUPO8 = 650000;
 
 
     public final static String BLACK = "\033[0;30m";   // BLACK
