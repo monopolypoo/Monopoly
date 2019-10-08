@@ -195,6 +195,46 @@ public class Taboleiro {
         //añadimos las casillas a un HashMap
         this.casillas = new HashMap<>();
         this.casillas.put("Saída", saida);
+        this.casillas.put("Enx.Eléctrica", solar1);
+        this.casillas.put("CaixaComunidade", caixa1);
+        this.casillas.put("Enx.Mecánica", solar2);
+        this.casillas.put("Imp.Militar", imp1);
+        this.casillas.put("Pto.Ferrol", trans1);
+        this.casillas.put("Podoloxía", solar3);
+        this.casillas.put("Sorte", sorte1);
+        this.casillas.put("Humanidades", solar4);
+        this.casillas.put("Documentación", solar5);
+
+        this.casillas.put("Cárcere", carcere);
+        this.casillas.put("Fisioterapia", solar6);
+        this.casillas.put("Serv.Teleco", serv1);
+        this.casillas.put("Turismo", solar7);
+        this.casillas.put("Náutica",solar8);
+        this.casillas.put("BaseEsp.Coruña", trans2);
+        this.casillas.put("Arquitectura", solar9);
+        this.casillas.put("Enx.Camiños", solar10);
+        this.casillas.put("FIC", solar11);
+
+        this.casillas.put("Parking", parking);
+        this.casillas.put("Historia", solar12);
+        this.casillas.put("Filoloxía", solar13);
+        this.casillas.put("C.daEducación", solar14);
+        this.casillas.put("Apto.AValleta", trans3);
+        this.casillas.put("Medicina", solar15);
+        this.casillas.put("Enfermería", solar16);
+        this.casillas.put("Serv.Eléctrico", serv2);
+        this.casillas.put("ADE", solar17);
+
+        this.casillas.put("IrCárcere", irCarcere);
+        this.casillas.put("Farmacia", solar18);
+        this.casillas.put("Bioloxía", solar19);
+        this.casillas.put("Química", solar20);
+        this.casillas.put("E.trenSantiago", trans4);
+        this.casillas.put("Física", solar21);
+        this.casillas.put("Imp.daLuz", imp2);
+        this.casillas.put("ETSE", solar22);
+
+
     }
 
     public Grupo getLadoNorte(){
