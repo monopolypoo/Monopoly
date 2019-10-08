@@ -1,7 +1,7 @@
 import java.util.ArrayList;
 
 public class Test {
-    public static void main(String[] args){
+    public static void main(String[] args) throws InterruptedException {
 
         /*System.out.println(grupo1);
         Jugador jugador1 = new Jugador("Pepe", "Esfinge", 100000);
@@ -17,6 +17,10 @@ public class Test {
         Taboleiro taboleiro = new Taboleiro();
 
         System.out.println(taboleiro);
+
+        Dado dadito = new Dado();
+        Dado usable = new Dado(dadito);
+        System.out.println(usable);
 
     }
 }
