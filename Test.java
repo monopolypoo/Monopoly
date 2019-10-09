@@ -11,16 +11,6 @@ public class Test {
         System.out.println(solar1.pertence(jugador2));
          */
 
-        //menu()
-        //dentro de menu se llama a taboleiro
-
-        Taboleiro taboleiro = new Taboleiro();
-
-        System.out.println(taboleiro);
-
-        Dado dadito = new Dado();
-        Dado usable = new Dado(dadito);
-        System.out.println(usable);
-
+        Menu menu = new Menu();
     }
 }

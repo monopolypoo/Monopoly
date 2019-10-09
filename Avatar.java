@@ -9,17 +9,19 @@ public class Avatar{
 
     public Avatar(){}
 
-    public Avatar(String tipo, Jugador jugador, ArrayList<Jugador> jugadores){
+    public Avatar(String tipo, Jugador jugador, ArrayList<Jugador> jugadores, Casilla casilla){
         if(tipo.equals("sombrero") || tipo.equals("esfinge") || tipo.equals("coche") || tipo.equals("pelota"))
             this.tipo = tipo;
+
         else
-            this.tipo = "Coche";
+            this.tipo = "coche";
         if (jugador == null){
             System.err.println("Error: jugador no inicializado.");
             System.exit(1);
         }
         this.jugador = jugador;
         this.generarId(jugadores);
+        this.casilla = casilla;
     }
 
     private boolean idUnico(String id, ArrayList<Jugador> jugadores){

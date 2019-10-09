@@ -237,7 +237,6 @@ public class Taboleiro {
         this.casillas.put("ETSE", solar22);
 
 
-        //SEGUIR AQUI
         this.casillasPosicion = new HashMap<>();
         //añadimos las casillas a un HashMap
         this.casillasPosicion.put(0, saida);

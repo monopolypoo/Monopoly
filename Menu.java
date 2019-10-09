@@ -6,10 +6,10 @@ public class Menu {
     private Dado dados;
     private Partida partida;
     private Jugador jugadorActual;
-    private Jugador jugadorTurno;
+    private Jugador jugadorTurnoSiguiente;
     private ArrayList<Jugador> jugadores;
 
-    public Menu(){
+    public Menu() throws InterruptedException {
         boolean seguir = true;
         this.taboleiro = new Taboleiro();
         this.dados = new Dado();
@@ -29,9 +29,17 @@ public class Menu {
                             partida.anhadeJugador(jugador);
                         }
                         else {
-                            Jugador jugador = new Jugador(comando[2], comando[3], jugadores);
+                            Jugador jugador = new Jugador(comando[2], comando[3], jugadores, taboleiro.getCasillaPosicion(0));
                             jugadores.add(jugador);
                             partida.anhadeJugador(jugador);
+                            jugadorActual = jugadores.get(0);
+
+                            if (jugadores.size() >= 2){
+                                jugadorTurnoSiguiente = jugadores.get(1);
+                            }
+                            else{
+                                jugadorTurnoSiguiente = jugadores.get(0);
+                            }
                         }
                     }
                     else
@@ -39,7 +47,7 @@ public class Menu {
                     break;
 
                 case "jugador":
-                    System.out.println(jugadorTurno);
+                    System.out.println(jugadorActual);
                     break;
 
                 case "listar":
@@ -62,15 +70,16 @@ public class Menu {
                     break;
 
                 case "lanzar":
-                    if (comando[1].equals("dados"))
-                        dados.lanzarDados(); //editar esta funcion
+                    if (comando[1].equals("dados")) {
+                        dados.lanzarDados(jugadorActual, taboleiro);
+                    }
                     else
                         System.out.println("Comando incorrecto.");
                     break;
 
                 case "acabar":
                     if (comando[1].equals("turno")){
-                        //HACER ESTO
+                        calcularJugadores();
                     }
                     else
                         System.out.println("Comando incorrecto.");
@@ -87,7 +96,7 @@ public class Menu {
                 case "describir":
                     if (comando[1].equals("jugador")) {
                         if (partida.getJugadores().containsKey(comando[2]))
-                            System.out.println(partida.getJugadores().get(comando[2])); //mirar en caso de que no este el jugador
+                            System.out.println(partida.getJugadores().get(comando[2]));
                         else
                             System.out.println("Comando incorrecto. Jugador no encontrado.");
                     }
@@ -138,6 +147,32 @@ public class Menu {
         Scanner teclado = new Scanner(System.in); //mirar esto!!!!!!!!!!!!!!!!!!!!!!
         comando = teclado.nextLine();
         return comando.split(" ");
+    }
+
+    public Jugador getJugadorTurnoSiguiente(Jugador jugadorActual){
+        int i=0;
+        int total = jugadores.size() - 1;
+        for (Jugador jug: this.jugadores){
+            if (jug.getNombre().equals(jugadorActual.getNombre())){
+                if (i == total){
+                    return jugadores.get(0);
+                }
+                else{
+                    i++;
+                    return jugadores.get(i);
+                }
+            }
+            i++;
+        }
+        return null;
+    }
+
+    public void calcularJugadores(){
+        this.jugadorActual = this.jugadorTurnoSiguiente;
+        this.jugadorTurnoSiguiente = getJugadorTurnoSiguiente(this.jugadorActual);
+        if (this.jugadorTurnoSiguiente == null){
+            System.err.println("ERROR ao calcular o xogador seguinte.");
+        }
     }
 
 }

@@ -39,6 +39,8 @@ public class Partida {
     public void anhadeJugador(Jugador jugador){
         if (jugador != null)
             this.jugadores.put(jugador.getNombre(), jugador);
+        if (jugador.getAvatar() != null)
+            this.avatares.put(jugador.getAvatar().getId(), jugador.getAvatar());
     }
 
     public void listarJugadores(){

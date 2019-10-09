@@ -12,16 +12,16 @@ public class Grupo {
     public Grupo(ArrayList<Casilla> casillas, int numeroGrupo, String color, String lado, double valor){
         this.casillas = casillas;
         this.numeroGrupo = numeroGrupo;
-        this.color = color;
+        setColor(color);
         this.lado = lado;
-        this.valor = valor;
+        setValor(valor);
     }
 
     public Grupo(ArrayList<Casilla> casillas, int numeroGrupo, String color, String lado){
         this.casillas = casillas;
         this.numeroGrupo = numeroGrupo;
         this.valor = 100000 * Math.pow(1.3, this.numeroGrupo - 1);
-        setValor(this.valor);
+        setValor(valor);
         this.lado = lado;
         setColor(color);
     }
