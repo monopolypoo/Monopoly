@@ -10,13 +10,14 @@ public class Menu {
     private ArrayList<Jugador> jugadores;
 
     public Menu(){
+        boolean seguir = true;
         this.taboleiro = new Taboleiro();
         this.dados = new Dado();
         this.partida = new Partida();
         this.jugadores = new ArrayList<>();
         String[] comando;
 
-        do{
+        while(seguir){ //mirar cuando acabar la partida
             System.out.print("$> ");
             comando = leerComando();
             switch (comando[0]){
@@ -44,11 +45,15 @@ public class Menu {
                 case "listar":
                     switch (comando[1]){
                         case "jugadores":
-                            System.out.println(partida.listarJugadores(););
+                            partida.listarJugadores();
                             break;
 
                         case "avatares":
-                            System.out.println(partida.listarAvatares(););
+                            partida.listarAvatares();
+                            break;
+
+                        case "enventa":
+                            //no para esta entrega
                             break;
 
                         default:
@@ -72,8 +77,9 @@ public class Menu {
                     break;
 
                 case "salir":
-                    if (comando[1].equals("carcel"))
+                    if (comando[1].equals("carcel")) {
                         //HACER ESTO
+                    }
                     else
                         System.out.println("Comando incorrecto.");
                     break;
@@ -106,10 +112,6 @@ public class Menu {
                     //no para esta entrega
                     break;
 
-                case "listar":
-                    //no para esta entrega
-                    break;
-
                 case "ver":
                     if (comando[1].equals("tablero"))
                         System.out.println(taboleiro);
@@ -119,11 +121,16 @@ public class Menu {
 
                     break;
 
+                case "abandonar":
+                    System.out.println("Abandonando partida...");
+                    seguir = false;
+                    break;
+
                 default:
                     System.out.println("Comando incorrecto.");
             }
 
-        }while(true) //mirar cuando acabar la partida
+        }
     }
 
     public String[] leerComando(){
