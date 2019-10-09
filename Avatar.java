@@ -9,7 +9,7 @@ public class Avatar{
     public Avatar(){}
 
     public Avatar(String tipo, Jugador jugador){
-        if(tipo.equals("Sombrero") || tipo.equals("Esfinge") || tipo.equals("Coche") || tipo.equals("Pelota"))
+        if(tipo.equals("sombrero") || tipo.equals("esfinge") || tipo.equals("coche") || tipo.equals("pelota"))
             this.tipo = tipo;
         else
             this.tipo = "Coche";
@@ -60,6 +60,7 @@ public class Avatar{
         String texto = "{\n" +
                 "\tid: " + this.id + "\n" +
                 "\ttipo: " + this.tipo + "\n" +
+                "\tcasilla: " + this.casilla.getNombre() + "\n" +
                 "\tjugador: " + this.jugador.getNombre() + "\n}";
 
         return texto;

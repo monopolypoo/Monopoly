@@ -18,7 +18,19 @@ public class Menu {
             comando = leerComando();
             switch (comando[0]){
                 case "crear":
+                    if (comando[1].equals("jugador")){
 
+                        if (comando[2].equals("banca")) {
+                            Jugador jugador = new Jugador();
+                            partida.anhadeJugador(jugador);
+                        }
+                        else {
+                            Jugador jugador = new Jugador(comando[2], comando[3]);
+                            partida.anhadeJugador(jugador);
+                        }
+                    }
+                    else
+                        System.out.println("Comando incorrecto.");
                     break;
 
                 case "jugador":
@@ -28,11 +40,11 @@ public class Menu {
                 case "listar":
                     switch (comando[1]){
                         case "jugadores":
-                            System.out.println(partida.getJugadores()); //mirar esto
+                            System.out.println(partida.listarJugadores(););
                             break;
 
                         case "avatares":
-                            System.out.println(partida.getAvatares()); //mirar esto
+                            System.out.println(partida.listarAvatares(););
                             break;
 
                         default:
@@ -42,7 +54,7 @@ public class Menu {
 
                 case "lanzar":
                     if (comando[1].equals("dados"))
-                        dados.lanzarDados();
+                        dados.lanzarDados(); //editar esta funcion
                     else
                         System.out.println("Comando incorrecto.");
                     break;
@@ -63,11 +75,20 @@ public class Menu {
                     break;
 
                 case "describir":
-                    if (comando[1].equals("jugador"))
-                        System.out.println(partida.getJugadores().get(comando[2]));
+                    if (comando[1].equals("jugador")) {
+                        if (partida.getJugadores().containsKey(comando[2]))
+                            System.out.println(partida.getJugadores().get(comando[2])); //mirar en caso de que no este el jugador
+                        else
+                            System.out.println("Comando incorrecto. Jugador no encontrado.");
+                    }
 
-                    else if (comando[1].equals("avatar"))
-                        System.out.println(partida.getAvatares().get(comando[2]));
+                    else if (comando[1].equals("avatar")) {
+                        if (partida.getAvatares().containsKey(comando[2])) {
+                            System.out.println(partida.getAvatares().get(comando[2])); //mirar en caso de que no este el avatar
+                        }
+                        else
+                            System.out.println("Comando incorrecto. Avatar no encontrado.");
+                    }
 
                     else {
                         if (taboleiro.getCasillas().containsKey(comando[2]))

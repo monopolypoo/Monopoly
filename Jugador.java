@@ -85,9 +85,7 @@ public class Jugador {
         String texto;
         String prop = "";
         if (this.avatar == null){
-            texto = "\nNombre: " + this.nombre +
-                    "\nFortuna: " + this.fortuna +
-                    "\nGastos: " + this.dineroGastado;
+            texto = "{\n\tNombre: " + this.nombre + "\n}";
         }
         else{
             if (propiedades.size() != 0){
@@ -95,11 +93,12 @@ public class Jugador {
                     prop += propi.getNombre() + "\t";
                 }
             }
-            texto = "\nNombre: " + this.nombre +
-                    "\nAvatar: " + this.avatar.getId() +
-                    "\nFortuna: " + this.fortuna +
-                    "\nGastos: " + this.dineroGastado +
-                    "\nPropiedades: " + prop;
+            texto = "{\n" +
+                    "\tNombre: " + this.nombre +
+                    "\n\tAvatar: " + this.avatar.getId() +
+                    "\n\tFortuna: " + this.fortuna +
+                    "\n\tGastos: " + this.dineroGastado +
+                    "\n\tPropiedades: " + prop + "\n}";
         }
         return texto;
     }

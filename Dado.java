@@ -22,7 +22,7 @@ public class Dado {
         dado.generarValorDados(dado);
     }
 
-    public int lanzarDados() throws InterruptedException {
+    public int lanzarDados() throws InterruptedException { //editar esta funcion
         this.dado1 = (int) Math.floor(Math.random() * 6 + 1);
         Thread.sleep(50);
         this.dado2 = (int) Math.floor(Math.random() * 6 + 1);

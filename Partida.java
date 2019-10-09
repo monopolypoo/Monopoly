@@ -43,9 +43,17 @@ public class Partida {
 
     public void listarJugadores(){
         Iterator<Jugador> jug_i = this.jugadores.values().iterator();
-                while(jug_i.hasNext()){
-                    Jugador jug = jug_i.next();
-                    System.out.println(jug.toString());
-                }
+        while(jug_i.hasNext()){
+            Jugador jug = jug_i.next();
+            System.out.println(jug.toString());
+        }
+    }
+
+    public void listarAvatares(){
+        Iterator<Avatar> ava_i = this.avatares.values().iterator();
+        while(ava_i.hasNext()){
+            Avatar ava = ava_i.next();
+            System.out.println(ava.toString());
+        }
     }
 }

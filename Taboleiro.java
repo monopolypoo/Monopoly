@@ -8,6 +8,7 @@ public class Taboleiro {
     private Grupo ladoLeste;
     private Grupo ladoSur;
     private HashMap<String, Casilla> casillas;
+    private HashMap<int, Casilla> casillasPosicion;
 
     public Taboleiro(){
         // Casillas UDC Ferrol (SUR)
@@ -167,10 +168,10 @@ public class Taboleiro {
         this.ladoOeste = new Grupo(casillasLadoOeste, 15, "oeste");
 
         ArrayList<Casilla>  casillasLadoLeste = new ArrayList<>();
+        casillasLadoLeste.add(solar18);
         casillasLadoLeste.add(solar19);
-        casillasLadoLeste.add(solar20);
         casillasLadoLeste.add(caixa3);
-        casillasLadoLeste.add(solar21);
+        casillasLadoLeste.add(solar20);
         casillasLadoLeste.add(trans4);
         casillasLadoLeste.add(sorte3);
         casillasLadoLeste.add(solar21);
@@ -191,6 +192,7 @@ public class Taboleiro {
         casillasLadoSur.add(solar1);
         casillasLadoSur.add(saida);
         this.ladoSur = new Grupo(casillasLadoSur, 17, "sur");
+
 
         //añadimos las casillas a un HashMap
         this.casillas = new HashMap<>();
@@ -235,6 +237,54 @@ public class Taboleiro {
         this.casillas.put("ETSE", solar22);
 
 
+        //SEGUIR AQUI
+        this.casillasPosicion = new HashMap<>();
+        //añadimos las casillas a un HashMap
+        this.casillasPosicion = new HashMap<>();
+        this.casillasPosicion.put(0, saida);
+        this.casillasPosicion.put(1, solar1);
+        this.casillasPosicion.put(2, caixa1);
+        this.casillasPosicion.put(3, solar2);
+        this.casillasPosicion.put(4, imp1);
+        this.casillasPosicion.put(5, trans1);
+        this.casillasPosicion.put(6, solar3);
+        this.casillasPosicion.put(7, sorte1);
+        this.casillasPosicion.put(8, solar4);
+        this.casillasPosicion.put(9, solar5);
+
+        this.casillasPosicion.put(10, carcere);
+        this.casillasPosicion.put(11, solar6);
+        this.casillasPosicion.put(12, serv1);
+        this.casillasPosicion.put(13, solar7);
+        this.casillasPosicion.put(14,solar8);
+        this.casillasPosicion.put(15, trans2);
+        this.casillasPosicion.put(16, solar9);
+        this.casillasPosicion.put(17, caixa2);
+        this.casillasPosicion.put(18, solar10);
+        this.casillasPosicion.put(19, solar11);
+
+        this.casillasPosicion.put(20, parking);
+        this.casillasPosicion.put(21, solar12);
+        this.casillasPosicion.put(22, sorte2);
+        this.casillasPosicion.put(23, solar13);
+        this.casillasPosicion.put(24, solar14);
+        this.casillasPosicion.put(25, trans3);
+        this.casillasPosicion.put(26, solar15);
+        this.casillasPosicion.put(27, solar16);
+        this.casillasPosicion.put(28, serv2);
+        this.casillasPosicion.put(29, solar17);
+
+        this.casillasPosicion.put(30, irCarcere);
+        this.casillasPosicion.put(31, solar18);
+        this.casillasPosicion.put(32, solar19);
+        this.casillasPosicion.put(33, caixa3);
+        this.casillasPosicion.put(34, solar20);
+        this.casillasPosicion.put(35, trans4);
+        this.casillasPosicion.put(36, sorte3);
+        this.casillasPosicion.put(37, solar21);
+        this.casillasPosicion.put(38, imp2);
+        this.casillasPosicion.put(39, solar22);
+
     }
 
     public Grupo getLadoNorte(){
@@ -255,6 +305,10 @@ public class Taboleiro {
 
     public HashMap<String, Casilla> getCasillas() {
         return casillas;
+    }
+
+    public Casilla getCasillaPosicion(int posicion){
+        return casillasPosicion.get(posicion);
     }
 
     public void setLadoNorte(Grupo lado){
