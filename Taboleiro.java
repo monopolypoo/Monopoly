@@ -8,7 +8,7 @@ public class Taboleiro {
     private Grupo ladoLeste;
     private Grupo ladoSur;
     private HashMap<String, Casilla> casillas;
-    private HashMap<int, Casilla> casillasPosicion;
+    private HashMap<Integer, Casilla> casillasPosicion;
 
     public Taboleiro(){
         // Casillas UDC Ferrol (SUR)
@@ -240,7 +240,6 @@ public class Taboleiro {
         //SEGUIR AQUI
         this.casillasPosicion = new HashMap<>();
         //añadimos las casillas a un HashMap
-        this.casillasPosicion = new HashMap<>();
         this.casillasPosicion.put(0, saida);
         this.casillasPosicion.put(1, solar1);
         this.casillasPosicion.put(2, caixa1);

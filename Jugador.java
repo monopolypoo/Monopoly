@@ -15,19 +15,11 @@ public class Jugador {
         this.propiedades = new ArrayList<>(); //tambien se le pueden poner inicialmente todas las propiedades a la banca
     }
 
-    public Jugador(String nombre, String tipo_avatar, float fortuna){
-        this.nombre = nombre;
-        this.fortuna = fortuna;
-        this.dineroGastado = 0;
-        this.avatar = new Avatar(tipo_avatar, this);
-        this.propiedades = new ArrayList<>();
-    }
-
-    public Jugador(String nombre, String tipo_avatar){
+    public Jugador(String nombre, String tipo_avatar,  ArrayList<Jugador> jugadores){
         this.nombre = nombre;
         this.fortuna = Valor.DINERO_INICIAL;
         this.dineroGastado = 0;
-        Avatar avatar = new Avatar(tipo_avatar, this)
+        Avatar avatar = new Avatar(tipo_avatar, this, jugadores);
         this.avatar = avatar;
         this.propiedades = new ArrayList<>();
     }

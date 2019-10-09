@@ -1,3 +1,4 @@
+import java.util.ArrayList;
 import java.util.Random;
 
 public class Avatar{
@@ -8,7 +9,7 @@ public class Avatar{
 
     public Avatar(){}
 
-    public Avatar(String tipo, Jugador jugador){
+    public Avatar(String tipo, Jugador jugador, ArrayList<Jugador> jugadores){
         if(tipo.equals("sombrero") || tipo.equals("esfinge") || tipo.equals("coche") || tipo.equals("pelota"))
             this.tipo = tipo;
         else
@@ -18,23 +19,26 @@ public class Avatar{
             System.exit(1);
         }
         this.jugador = jugador;
-        this.generarId();
+        this.generarId(jugadores);
     }
 
-    private int idUnico(String id){
-        //comparar los ids de todos los jugadores con el que se pasa como argumento y si son distintos return 1 y si son iguales return 0
+    private boolean idUnico(String id, ArrayList<Jugador> jugadores){
+        for (Jugador jug: jugadores){
+            if (jug.getAvatar().id.equals(id))
+                return false;
+        }
+        return true;
     }
 
-    private void generarId(){
+    private void generarId(ArrayList<Jugador> jugadores){
+        String idAux = "";
         do{
             Random ale = new Random(System.currentTimeMillis()); //pone una semilla nueva de cada vez
             int numero = ale.nextInt(20) + 65; //genera un numero aleatorio entre 65 y 65+20
-            String nombre = "" + (char) numero; //se pasa a ASCII y se convierte en String concatenandolo con ""
-        }while (!idUnico(nombre));
+            idAux += (char) numero; //se pasa a ASCII y se convierte en String concatenandolo con ""
+        }while (!idUnico(idAux, jugadores));
 
-        this.id = nombre;
-
-        //FALTA AÑADIR LA LÓGICA PARA CHEQUEAR QUE EL ID ES ÚNICO
+        this.id = idAux;
     }
 
     public String getId(){

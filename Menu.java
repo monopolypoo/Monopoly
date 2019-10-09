@@ -1,3 +1,4 @@
+import java.util.ArrayList;
 import java.util.Scanner;
 
 public class Menu {
@@ -6,11 +7,13 @@ public class Menu {
     private Partida partida;
     private Jugador jugadorActual;
     private Jugador jugadorTurno;
+    private ArrayList<Jugador> jugadores;
 
     public Menu(){
         this.taboleiro = new Taboleiro();
         this.dados = new Dado();
         this.partida = new Partida();
+        this.jugadores = new ArrayList<>();
         String[] comando;
 
         do{
@@ -25,7 +28,8 @@ public class Menu {
                             partida.anhadeJugador(jugador);
                         }
                         else {
-                            Jugador jugador = new Jugador(comando[2], comando[3]);
+                            Jugador jugador = new Jugador(comando[2], comando[3], jugadores);
+                            jugadores.add(jugador);
                             partida.anhadeJugador(jugador);
                         }
                     }
