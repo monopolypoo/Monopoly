@@ -3,6 +3,7 @@ import java.util.Random;
 public class Dado {
     private int dado1;
     private int dado2;
+    private boolean iguales;
 
     public Dado() {
 
@@ -23,15 +24,22 @@ public class Dado {
     }
 
     public int lanzarLosDados() throws InterruptedException {
+        this.iguales = false;
         this.dado1 = (int) Math.floor(Math.random() * 6 + 1);
         Thread.sleep(50);
         this.dado2 = (int) Math.floor(Math.random() * 6 + 1);
+        if (this.dado2 == this.dado1) {
+            this.iguales = true;
+        } else {
+            this.iguales = false;
+        }
         return this.dado1 + this.dado2;
     }
 
     public void lanzarDados(Jugador jugador, Taboleiro taboleiro) throws InterruptedException {
         int posActual, posSig;
         int dado;
+
         Casilla casillaSiguiente;
         dado = lanzarLosDados();
 
@@ -40,8 +48,12 @@ public class Dado {
         casillaSiguiente = taboleiro.getCasillaPosicion(posSig);
 
         jugador.getAvatar().setCasilla(casillaSiguiente);
+
     }
 
+    public boolean sonIguales() {
+        return this.iguales;
+    }
 
     public String toString() {
         return "O valor do primeiro dado é: " + this.dado1 + "\nO valor do segundo dado é: " + this.dado2;
