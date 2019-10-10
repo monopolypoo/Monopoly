@@ -4,6 +4,7 @@ public class Dado {
     private int dado1;
     private int dado2;
     private boolean iguales;
+    private int posActual;
 
     public Dado() {
 
@@ -37,14 +38,14 @@ public class Dado {
     }
 
     public void lanzarDados(Jugador jugador, Taboleiro taboleiro) throws InterruptedException {
-        int posActual, posSig;
+        int posSig;
         int dado;
 
         Casilla casillaSiguiente;
         dado = lanzarLosDados();
 
-        posActual = jugador.getAvatar().getCasilla().getPosicion();
-        posSig = posActual + dado;
+        this.posActual = jugador.getAvatar().getCasilla().getPosicion();
+        posSig = this.posActual + dado;
         casillaSiguiente = taboleiro.getCasillaPosicion(posSig);
 
         jugador.getAvatar().setCasilla(casillaSiguiente);
@@ -55,8 +56,11 @@ public class Dado {
         return this.iguales;
     }
 
-    public String toString() {
-        return "O valor do primeiro dado é: " + this.dado1 + "\nO valor do segundo dado é: " + this.dado2;
+    public String textoLanzarDados(Taboleiro taboleiro) {
+        String texto;
+        int sumaDados = this.dado1 + this.dado2;
+        texto = " avanza " + sumaDados + " posicións, dende " + taboleiro.getCasillaPosicion(posActual).getNombreSinEspacio() + " ata " + taboleiro.getCasillaPosicion(posActual + sumaDados).getNombreSinEspacio() + "."; // Falta pagaronse
+        return texto;
     }
 
 
