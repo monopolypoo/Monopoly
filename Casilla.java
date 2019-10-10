@@ -51,6 +51,12 @@ public class Casilla {
         return nombre;
     }
 
+    public String getNombreSinEspacio(){
+        String[] nom;
+        nom = nombre.split(" ");
+        return nom[0];
+    }
+
     public String getTipo(){
         return tipo;
     }
@@ -71,6 +77,11 @@ public class Casilla {
 
     public int getPosicion() {
         return posicion;
+    }
+
+    @Override
+    public int hashCode() {
+        return super.hashCode();
     }
 
     //escribir toString()
