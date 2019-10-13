@@ -9,9 +9,10 @@ public class Casilla {
     private String colorGrupo;
     HashMap<String, Avatar> avatares;
 
-    public Casilla(){}
+    public Casilla() {
+    }
 
-    public Casilla(String nombre, String tipo, int posicion){
+    public Casilla(String nombre, String tipo, int posicion) {
         this.nombre = nombre;
         this.tipo = tipo;
         this.posicion = posicion;
@@ -20,7 +21,7 @@ public class Casilla {
         avatares = new HashMap<>();
     }
 
-    public Casilla(String nombre, String tipo, int posicion, double valor){
+    public Casilla(String nombre, String tipo, int posicion, double valor) {
         this.nombre = nombre;
         this.tipo = tipo;
         this.posicion = posicion;
@@ -29,7 +30,7 @@ public class Casilla {
         avatares = new HashMap<>();
     }
 
-    public Casilla(String nombre, String tipo, int posicion, double valor, String colorGrupo){
+    public Casilla(String nombre, String tipo, int posicion, double valor, String colorGrupo) {
         this.nombre = nombre;
         this.tipo = tipo;
         this.posicion = posicion;
@@ -39,35 +40,43 @@ public class Casilla {
         //this.duenho = banca
     }
 
-    public Jugador getDuenho(){
+    public Jugador getDuenho() {
         return duenho;
     }
 
-    public void setDuenho(Jugador jugador){
+    public void setDuenho(Jugador jugador) {
         this.duenho = jugador;
     }
 
-    public String getNombre(){
+    public String getNombre() {
         return nombre;
     }
 
-    public String getNombreSinEspacio(){
+    public String getNombreSinEspacio() {
         String[] nom;
         nom = nombre.split(" ");
-        return nom[0];
+        if (nom.length == 2) {
+            return nom[0] + " " + nom[1];
+        } else if (nom.length == 3) {
+            return nom[0] + " " + nom[1] + " " + nom[2];
+        } else {
+            return nom[0];
+        }
     }
 
-    public String getTipo(){
+    public String getTipo() {
         return tipo;
     }
 
-    public String getColorGrupo(){ return colorGrupo;}
+    public String getColorGrupo() {
+        return colorGrupo;
+    }
 
-    public void setColorGrupo(String colorGrupo){
+    public void setColorGrupo(String colorGrupo) {
         this.colorGrupo = colorGrupo;
     }
 
-    public void setValor(double valor){
+    public void setValor(double valor) {
         this.valor = valor;
     }
 
@@ -95,7 +104,6 @@ public class Casilla {
         }
         return false;
     }*/
-
 
 
 }
