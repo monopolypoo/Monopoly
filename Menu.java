@@ -83,27 +83,31 @@ public class Menu {
 
                 case "lanzar":
                     if (comando[1].equals("dados") && comando.length == 2) {
-                        if (!this.dadosLanzados) {
-                            dados.lanzarDados(jugadorActual, taboleiro);
-                            if (dados.sonIguales()) {
-                                this.dadosLanzados = false;
-                                this.sigueTurno = true;
-                                this.contadorDobles++;
-                                System.out.println("Sacaches dobles! Levas: " + this.contadorDobles + " veces.");
+                        if (jugadores.size() > 0) {
+                            if (!this.dadosLanzados) {
+                                dados.lanzarDados(jugadorActual, taboleiro);
+                                if (dados.sonIguales()) {
+                                    this.dadosLanzados = false;
+                                    this.sigueTurno = true;
+                                    this.contadorDobles++;
+                                    System.out.println("Sacaches dobles! Levas: " + this.contadorDobles + " veces.");
+                                } else {
+                                    this.dadosLanzados = true;
+                                    this.sigueTurno = false;
+                                    this.contadorDobles = 0;
+                                }
+                                if (this.contadorDobles == 3) {
+                                    this.jugadorActual.getAvatar().setCasilla(taboleiro.getCasillaPosicion(30));
+                                    this.dadosLanzados = true;
+                                    System.out.println("Sacaches tres dobles seguidos, polo que tes que ir ao cárcere!");
+                                }
+                                System.out.println(taboleiro);
+                                System.out.println("O avatar " + jugadorActual.getAvatar().getId() + dados.textoLanzarDados(taboleiro));
                             } else {
-                                this.dadosLanzados = true;
-                                this.sigueTurno = false;
-                                this.contadorDobles = 0;
+                                System.out.println("Xa tiraches os dados! Para poder tiralos o seguinte xogador antes debes acabar turno!");
                             }
-                            if (this.contadorDobles == 3) {
-                                this.jugadorActual.getAvatar().setCasilla(taboleiro.getCasillaPosicion(30));
-                                this.dadosLanzados = true;
-                                System.out.println("Sacaches tres dobles seguidos, polo que tes que ir ao cárcere!");
-                            }
-                            System.out.println(taboleiro);
-                            System.out.println("O avatar " + jugadorActual.getAvatar().getId() + dados.textoLanzarDados(taboleiro));
-                        } else {
-                            System.out.println("Xa tiraches os dados! Para poder tiralos o seguinte xogador antes debes acabar turno!");
+                        }else{
+                            System.out.println("Antes de lanzar os dados inserte o xogador!");
                         }
                     } else {
                         System.out.println("Comando incorrecto.");
