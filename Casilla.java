@@ -1,3 +1,4 @@
+import java.util.ArrayList;
 import java.util.HashMap;
 
 public class Casilla {
@@ -7,7 +8,13 @@ public class Casilla {
     private int posicion;
     private Jugador duenho;
     private String colorGrupo;
-    HashMap<String, Avatar> avatares;
+    private double valorCasa;
+    private double valorPiscina;
+    private double valorPistaDeporte;
+    private double valorHotel;
+    private double valorAlquiler;
+    private ArrayList<String> vecesCasilla;
+    private HashMap<String, Avatar> avatares;
 
     public Casilla() {
     }
@@ -18,8 +25,10 @@ public class Casilla {
         this.posicion = posicion;
         this.valor = 0;
         this.colorGrupo = null;
-        avatares = new HashMap<>();
+        this.vecesCasilla = new ArrayList<>();
+        this.avatares = new HashMap<>();
     }
+
 
     public Casilla(String nombre, String tipo, int posicion, double valor) {
         this.nombre = nombre;
@@ -27,7 +36,9 @@ public class Casilla {
         this.posicion = posicion;
         this.valor = valor;
         this.colorGrupo = null;
-        avatares = new HashMap<>();
+        this.duenho = null;
+        this.vecesCasilla = new ArrayList<>();
+        this.avatares = new HashMap<>();
     }
 
     public Casilla(String nombre, String tipo, int posicion, double valor, String colorGrupo) {
@@ -36,7 +47,8 @@ public class Casilla {
         this.posicion = posicion;
         this.valor = valor;
         this.colorGrupo = colorGrupo;
-        avatares = new HashMap<>();
+        this.vecesCasilla = new ArrayList<>();
+        this.avatares = new HashMap<>();
         //this.duenho = banca
     }
 
@@ -47,6 +59,27 @@ public class Casilla {
     public void setDuenho(Jugador jugador) {
         this.duenho = jugador;
     }
+
+    public void setVecesCasilla(Jugador jugador) {
+        this.vecesCasilla.add(jugador.getNombre());
+    }
+
+    public int getVecesCasilla(Jugador jugador) {
+        int veces = 0;
+        for (String nombre : this.vecesCasilla){
+            if(nombre.equals(jugador.getNombre())){
+                veces++;
+            }
+        }
+        return veces;
+    }
+
+    /*public String GetVecesCasilla(){
+        for (String nombre : this.vecesCasilla){
+            if()
+        }
+        return "";
+    }*/
 
     public String getNombre() {
         return nombre;
@@ -78,6 +111,11 @@ public class Casilla {
 
     public void setValor(double valor) {
         this.valor = valor;
+        this.valorCasa = 0.6 * this.valor;
+        this.valorPiscina = 0.4 * this.valor;
+        this.valorPistaDeporte = 1.25 * this.valor;
+        this.valorHotel = this.valorCasa;
+        this.valorAlquiler = 0.1 * this.valor;
     }
 
     public boolean pertence(Jugador jugador) {
@@ -94,6 +132,33 @@ public class Casilla {
     }
 
     //escribir toString()
+
+    @Override
+    public String toString() {
+        String texto;
+        if (this.posicion == 7 || this.posicion == 17 || this.posicion == 2 || this.posicion == 22 || this.posicion == 33 || this.posicion == 36 || this.posicion == 30) {
+            texto = "No hay información sobre esta casilla!";
+        } else if (this.posicion == 10) {
+
+                texto = "{\n\tsalir: " + 0.25 * Valor.VUELTA + ",\n\tjugadores: ";
+        } else {
+            String banca;
+            if (this.duenho == null) {
+                banca = "banca";
+            } else {
+                banca = this.duenho.getNombre();
+            }
+            texto = "{\n\ttipo: " + this.getTipo() + ",\n\tgrupo: " + /*this.colorGrupo + */ ",\n\tpropietario: " + banca +
+                    ",\n\tvalor: " + this.valor + ",\n\talquiler: " + this.valorAlquiler + ",\n\tvalor hotel: " + this.valorHotel +
+                    ",\n\tvalor casa: " + this.valorCasa + ",\n\tvalor piscina: " + this.valorPistaDeporte + ",\n\tvalor pista de deporte: "
+                    + this.valorPistaDeporte + ",\n\talquiler una casa: " + 5 * this.valor + ",\n\talquiler dos casas: " + 15 * this.valor
+                    + ",\n\talquiler tres casas: " + 35 * this.valor + ",\n\talquiler cuatro casas: " + 50 * this.valor + ",\n\talquiler hotel: "
+                    + 70 * this.valor + ",\n\talquiler piscina: " + 25 * this.valor + ",\n\talquiler pista de deporte: " + 25 * this.valor
+                    + ",\n}";
+        }
+        return texto;
+    }
+
 
     /*@Override
     public boolean equals(Object obj){
