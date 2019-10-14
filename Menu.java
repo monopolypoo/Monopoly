@@ -27,33 +27,28 @@ public class Menu {
             System.out.print("$> ");
             comando = leerComando();
             switch (comando[0]) {
-                case "crear":
-                    if (comando.length == 4) {
-                        if (comando[1].equals("jugador")) {
-                            if (jugadores.size() < 4) {
-                                if (comando[2].equals("banca")) {
-                                    Jugador jugador = new Jugador();
-                                    partida.anhadeJugador(jugador);
-                                } else {
-                                    Jugador jugador = new Jugador(comando[2], comando[3], jugadores, taboleiro.getCasillaPosicion(0));
-                                    System.out.println(jugador);
-                                    jugadores.add(jugador);
-                                    partida.anhadeJugador(jugador);
-                                    jugadorActual = jugadores.get(0);
+				case "crear":
+				if (comando.length == 4) {
+				    if (comando[1].equals("jugador")) {
+				        if (jugadores.size() < 6) {
+				            Jugador jugador = new Jugador(comando[2], comando[3], jugadores, taboleiro.getCasillaPosicion(0));
+				            System.out.println(jugador);
+				            jugadores.add(jugador);
+				            partida.anhadeJugador(jugador);
+				            jugadorActual = jugadores.get(0);
 
-                                    if (jugadores.size() >= 2) {
-                                        jugadorTurnoSiguiente = jugadores.get(1);
-                                    } else {
-                                        jugadorTurnoSiguiente = jugadores.get(0);
-                                    }
-                                }
-                            } else {
-                                System.out.println("O número de xogadores xa é o máximo, non podes engadir máis!");
-                            }
-                        }
-                    } else
-                        System.out.println("Comando incorrecto.");
-                    break;
+				            if (jugadores.size() >= 2) {
+				                jugadorTurnoSiguiente = jugadores.get(1);
+				            } else {
+				                jugadorTurnoSiguiente = jugadores.get(0);
+				            }
+				        } else {
+				            System.out.println("O número de xogadores xa é o máximo, non podes engadir máis!");
+				        }
+				    }
+				} else
+				    System.out.println("Comando incorrecto.");
+				break;
 
                 case "jugador":
                     System.out.println(jugadorActual);
