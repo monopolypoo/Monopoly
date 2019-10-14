@@ -10,13 +10,13 @@ public class Taboleiro {
     private HashMap<String, Casilla> casillas;
     private HashMap<Integer, Casilla> casillasPosicion;
 
-    public Taboleiro(){
+    public Taboleiro() {
         // Casillas UDC Ferrol (SUR)
-        Casilla saida = new Casilla( "Saída           ", "especial", 0);
+        Casilla saida = new Casilla("Saída           ", "especial", 0);
         Casilla solar1 = new Casilla("Enx. Eléctrica  ", "solar", 1);
         Casilla caixa1 = new Casilla("Caixa Comunidade", "caixa", 2);
         Casilla solar2 = new Casilla("Enx. Mecánica   ", "solar", 3);
-        Casilla imp1 = new Casilla(  "Imp. Militar    ", "imposto", 4, Valor.VUELTA);
+        Casilla imp1 = new Casilla("Imp. Militar    ", "imposto", 4, Valor.VUELTA);
         Casilla trans1 = new Casilla("Pto. Ferrol     ", "transporte", 5);
         Casilla solar3 = new Casilla("Podoloxía       ", "solar", 6);
         Casilla sorte1 = new Casilla("Sorte           ", "sorte", 7);
@@ -25,39 +25,39 @@ public class Taboleiro {
 
         // Casillas UDC Coruña (OESTE)
         Casilla carcere = new Casilla("Cárcere         ", "especial", 10);
-        Casilla solar6 = new Casilla( "Fisioterapia    ", "solar", 11);
-        Casilla serv1 = new Casilla(  "Serv. Teleco    ", "servizos", 12);
-        Casilla solar7 = new Casilla( "Turismo         ", "solar", 13);
-        Casilla solar8 = new Casilla( "Náutica         ", "solar", 14);
-        Casilla trans2 = new Casilla( "Base Esp. Coruña", "transporte", 15);
-        Casilla solar9 = new Casilla( "Arquitectura    ", "solar", 16);
-        Casilla caixa2 = new Casilla( "Caixa Comunidade", "caixa", 17);
+        Casilla solar6 = new Casilla("Fisioterapia    ", "solar", 11);
+        Casilla serv1 = new Casilla("Serv. Teleco    ", "servizos", 12);
+        Casilla solar7 = new Casilla("Turismo         ", "solar", 13);
+        Casilla solar8 = new Casilla("Náutica         ", "solar", 14);
+        Casilla trans2 = new Casilla("Base Esp. Coruña", "transporte", 15);
+        Casilla solar9 = new Casilla("Arquitectura    ", "solar", 16);
+        Casilla caixa2 = new Casilla("Caixa Comunidade", "caixa", 17);
         Casilla solar10 = new Casilla("Enx. Camiños    ", "solar", 18);
         Casilla solar11 = new Casilla("FIC             ", "solar", 19);
 
         // Casillas USC Santiago (NORTE)
         Casilla parking = new Casilla("Parking         ", "especial", 20);
         Casilla solar12 = new Casilla("Historia        ", "solar", 21);
-        Casilla sorte2 = new Casilla( "Sorte           ", "sorte", 22);
+        Casilla sorte2 = new Casilla("Sorte           ", "sorte", 22);
         Casilla solar13 = new Casilla("Filoloxía       ", "solar", 23);
         Casilla solar14 = new Casilla("C. da Educación ", "solar", 24);
-        Casilla trans3 = new Casilla( "Apto. A Valleta ", "transporte", 25);
+        Casilla trans3 = new Casilla("Apto. A Valleta ", "transporte", 25);
         Casilla solar15 = new Casilla("Medicina        ", "solar", 26);
         Casilla solar16 = new Casilla("Enfermería      ", "solar", 27);
-        Casilla serv2 = new Casilla(  "Serv. Eléctrico ", "servizos", 28);
+        Casilla serv2 = new Casilla("Serv. Eléctrico ", "servizos", 28);
         Casilla solar17 = new Casilla("ADE             ", "solar", 29);
 
         // Casillas USC Santiago (LESTE)
         Casilla irCarcere = new Casilla("Ir Cárcere      ", "especial", 30);
-        Casilla solar18 = new Casilla(  "Farmacia        ", "solar", 31);
-        Casilla solar19 = new Casilla(  "Bioloxía        ", "solar", 32);
-        Casilla caixa3 = new Casilla(   "Caixa Comunidade", "solar", 33);
-        Casilla solar20 = new Casilla(  "Química         ", "solar", 34);
-        Casilla trans4 = new Casilla(   "E. tren Santiago", "transporte", 35);
-        Casilla sorte3 = new Casilla(   "Sorte           ", "sorte", 36);
-        Casilla solar21 = new Casilla(  "Física          ", "solar", 37);
-        Casilla imp2 = new Casilla(     "Imp. da luz     ", "imposto", 38, Valor.VUELTA / 2.0);
-        Casilla solar22 = new Casilla(  "ETSE            ", "solar", 39);
+        Casilla solar18 = new Casilla("Farmacia        ", "solar", 31);
+        Casilla solar19 = new Casilla("Bioloxía        ", "solar", 32);
+        Casilla caixa3 = new Casilla("Caixa Comunidade", "solar", 33);
+        Casilla solar20 = new Casilla("Química         ", "solar", 34);
+        Casilla trans4 = new Casilla("E. tren Santiago", "transporte", 35);
+        Casilla sorte3 = new Casilla("Sorte           ", "sorte", 36);
+        Casilla solar21 = new Casilla("Física          ", "solar", 37);
+        Casilla imp2 = new Casilla("Imp. da luz     ", "imposto", 38, Valor.VUELTA / 2.0);
+        Casilla solar22 = new Casilla("ETSE            ", "solar", 39);
 
         //Creamos los grupos
         ArrayList<Casilla> casillasGrupo1 = new ArrayList<>();
@@ -83,54 +83,54 @@ public class Taboleiro {
         casillasGrupo4.add(solar11);
         Grupo grupo4 = new Grupo(casillasGrupo4, 4, Valor.YELLOW_BRIGHT, "oeste", Valor.PRECIO_GRUPO4);
 
-        ArrayList<Casilla>  casillasGrupo5 = new ArrayList<>();
+        ArrayList<Casilla> casillasGrupo5 = new ArrayList<>();
         casillasGrupo5.add(solar12);
         casillasGrupo5.add(solar13);
         casillasGrupo5.add(solar14);
-        Grupo grupo5 = new Grupo(casillasGrupo5,5, Valor.GREEN, "norte", Valor.PRECIO_GRUPO5);
+        Grupo grupo5 = new Grupo(casillasGrupo5, 5, Valor.GREEN, "norte", Valor.PRECIO_GRUPO5);
 
-        ArrayList<Casilla>  casillasGrupo6 = new ArrayList<>();
+        ArrayList<Casilla> casillasGrupo6 = new ArrayList<>();
         casillasGrupo6.add(solar15);
         casillasGrupo6.add(solar16);
         casillasGrupo6.add(solar17);
-        Grupo grupo6 = new Grupo(casillasGrupo6,6, Valor.RED, "norte", Valor.PRECIO_GRUPO6);
+        Grupo grupo6 = new Grupo(casillasGrupo6, 6, Valor.RED, "norte", Valor.PRECIO_GRUPO6);
 
-        ArrayList<Casilla>  casillasGrupo7 = new ArrayList<>();
+        ArrayList<Casilla> casillasGrupo7 = new ArrayList<>();
         casillasGrupo7.add(solar18);
         casillasGrupo7.add(solar19);
         casillasGrupo7.add(solar20);
-        Grupo grupo7 = new Grupo(casillasGrupo7,7, Valor.GREEN_BRIGHT, "leste", Valor.PRECIO_GRUPO7);
+        Grupo grupo7 = new Grupo(casillasGrupo7, 7, Valor.GREEN_BRIGHT, "leste", Valor.PRECIO_GRUPO7);
 
-        ArrayList<Casilla>  casillasGrupo8 = new ArrayList<>();
+        ArrayList<Casilla> casillasGrupo8 = new ArrayList<>();
         casillasGrupo8.add(solar21);
         casillasGrupo8.add(solar22);
-        Grupo grupo8 = new Grupo(casillasGrupo8,8, Valor.CYAN, "leste", Valor.PRECIO_GRUPO8);
+        Grupo grupo8 = new Grupo(casillasGrupo8, 8, Valor.CYAN, "leste", Valor.PRECIO_GRUPO8);
 
-        ArrayList<Casilla>  casillasEspeciales = new ArrayList<>();
+        ArrayList<Casilla> casillasEspeciales = new ArrayList<>();
         casillasEspeciales.add(saida);
         casillasEspeciales.add(carcere);
         casillasEspeciales.add(parking);
         casillasEspeciales.add(irCarcere);
         Grupo grupo9 = new Grupo(casillasEspeciales, 9, 0, Valor.BLACK_BRIGHT);
 
-        ArrayList<Casilla>  casillasTransportes = new ArrayList<>();
+        ArrayList<Casilla> casillasTransportes = new ArrayList<>();
         casillasTransportes.add(trans1);
         casillasTransportes.add(trans2);
         casillasTransportes.add(trans3);
         casillasTransportes.add(trans4);
         Grupo grupo10 = new Grupo(casillasTransportes, 10, Valor.VUELTA, Valor.BLACK_BOLD_BRIGHT);
 
-        ArrayList<Casilla>  casillasServicios = new ArrayList<>();
+        ArrayList<Casilla> casillasServicios = new ArrayList<>();
         casillasServicios.add(serv1);
         casillasServicios.add(serv2);
         Grupo grupo11 = new Grupo(casillasServicios, 11, 0.75 * Valor.VUELTA, Valor.CYAN_BRIGHT);
 
-        ArrayList<Casilla>  casillasImpuestos = new ArrayList<>();
+        ArrayList<Casilla> casillasImpuestos = new ArrayList<>();
         casillasImpuestos.add(imp1);
         casillasImpuestos.add(imp2);
         Grupo grupo12 = new Grupo(casillasImpuestos, 12, 0, Valor.RED);
 
-        ArrayList<Casilla>  casillasCaixasSortes = new ArrayList<>();
+        ArrayList<Casilla> casillasCaixasSortes = new ArrayList<>();
         casillasCaixasSortes.add(caixa1);
         casillasCaixasSortes.add(caixa2);
         casillasCaixasSortes.add(caixa3);
@@ -141,7 +141,7 @@ public class Taboleiro {
 
 
         //hacemos los grupos de los lados
-        ArrayList<Casilla>  casillasLadoNorte = new ArrayList<>();
+        ArrayList<Casilla> casillasLadoNorte = new ArrayList<>();
         casillasLadoNorte.add(parking);
         casillasLadoNorte.add(solar12);
         casillasLadoNorte.add(sorte2);
@@ -155,7 +155,7 @@ public class Taboleiro {
         casillasLadoNorte.add(irCarcere);
         this.ladoNorte = new Grupo(casillasLadoNorte, 14, "norte");
 
-        ArrayList<Casilla>  casillasLadoOeste = new ArrayList<>();
+        ArrayList<Casilla> casillasLadoOeste = new ArrayList<>();
         casillasLadoOeste.add(solar11);
         casillasLadoOeste.add(solar10);
         casillasLadoOeste.add(caixa2);
@@ -167,7 +167,7 @@ public class Taboleiro {
         casillasLadoOeste.add(solar6);
         this.ladoOeste = new Grupo(casillasLadoOeste, 15, "oeste");
 
-        ArrayList<Casilla>  casillasLadoLeste = new ArrayList<>();
+        ArrayList<Casilla> casillasLadoLeste = new ArrayList<>();
         casillasLadoLeste.add(solar18);
         casillasLadoLeste.add(solar19);
         casillasLadoLeste.add(caixa3);
@@ -179,7 +179,7 @@ public class Taboleiro {
         casillasLadoLeste.add(solar22);
         this.ladoLeste = new Grupo(casillasLadoLeste, 16, "leste");
 
-        ArrayList<Casilla>  casillasLadoSur = new ArrayList<>();
+        ArrayList<Casilla> casillasLadoSur = new ArrayList<>();
         casillasLadoSur.add(carcere);
         casillasLadoSur.add(solar5);
         casillasLadoSur.add(solar4);
@@ -211,7 +211,7 @@ public class Taboleiro {
         this.casillas.put("Fisioterapia", solar6);
         this.casillas.put("Serv.Teleco", serv1);
         this.casillas.put("Turismo", solar7);
-        this.casillas.put("Náutica",solar8);
+        this.casillas.put("Náutica", solar8);
         this.casillas.put("BaseEsp.Coruña", trans2);
         this.casillas.put("Arquitectura", solar9);
         this.casillas.put("Enx.Camiños", solar10);
@@ -254,7 +254,7 @@ public class Taboleiro {
         this.casillasPosicion.put(11, solar6);
         this.casillasPosicion.put(12, serv1);
         this.casillasPosicion.put(13, solar7);
-        this.casillasPosicion.put(14,solar8);
+        this.casillasPosicion.put(14, solar8);
         this.casillasPosicion.put(15, trans2);
         this.casillasPosicion.put(16, solar9);
         this.casillasPosicion.put(17, caixa2);
@@ -285,19 +285,19 @@ public class Taboleiro {
 
     }
 
-    public Grupo getLadoNorte(){
+    public Grupo getLadoNorte() {
         return ladoNorte;
     }
 
-    public Grupo getLadoOeste(){
+    public Grupo getLadoOeste() {
         return ladoOeste;
     }
 
-    public Grupo getLadoLeste(){
+    public Grupo getLadoLeste() {
         return ladoLeste;
     }
 
-    public Grupo getLadoSur(){
+    public Grupo getLadoSur() {
         return ladoSur;
     }
 
@@ -305,64 +305,65 @@ public class Taboleiro {
         return casillas;
     }
 
-    public Casilla getCasillaPosicion(int posicion){
+    public Casilla getCasillaPosicion(int posicion) {
         return casillasPosicion.get(posicion);
     }
 
-    public void setLadoNorte(Grupo lado){
+    public void setLadoNorte(Grupo lado) {
         this.ladoNorte = lado;
     }
 
-    public void setLadoOeste(Grupo lado){
+    public void setLadoOeste(Grupo lado) {
         this.ladoOeste = lado;
     }
 
-    public void setLadoLeste(Grupo lado){
+    public void setLadoLeste(Grupo lado) {
         this.ladoLeste = lado;
     }
 
-    public void setLadoSur(Grupo lado){
+    public void setLadoSur(Grupo lado) {
         this.ladoSur = lado;
     }
 
     @Override
-    public String toString(){
+    public String toString() {
         String BLANCO = Valor.WHITE;
+        String textoAvatares = "";
 
         String textoTope = BLANCO + "┌";
-        for (int i=0; i<10; i++){
+        for (int i = 0; i < 10; i++) {
             textoTope += "────────────────┬";
         }
         textoTope += "────────────────┐\n";
 
         String textoTopeAbajo = BLANCO + "└";
-        for (int i=0; i<10; i++){
+        for (int i = 0; i < 10; i++) {
             textoTopeAbajo += "────────────────┴";
         }
         textoTopeAbajo += "────────────────┘\n";
 
 
         String textoTopeMedioArriba = BLANCO + "├────────────────┼";
-        for (int i=0; i<8; i++){
+        for (int i = 0; i < 8; i++) {
             textoTopeMedioArriba += "────────────────┴";
         }
         textoTopeMedioArriba += "────────────────┼────────────────┤\n";
 
         String textoTopeMedioAbajo = BLANCO + "├────────────────┼";
-        for (int i=0; i<8; i++){
+        for (int i = 0; i < 8; i++) {
             textoTopeMedioAbajo += "────────────────┬";
         }
         textoTopeMedioAbajo += "────────────────┼────────────────┤\n";
 
 
         String textoEspaciado = BLANCO + "│ ";
-        for (int i=0; i<151; i++){
+        for (int i = 0; i < 151; i++) {
             textoEspaciado += " ";
         }
         textoEspaciado += "│";
         // ┬
         String textoTopeEspaciado = BLANCO + "├────────────────┤";
-        for (int i=0; i<152; i++){
+        for (int i = 0; i < 152; i++) {
             textoTopeEspaciado += " ";
         }
         textoTopeEspaciado += "├────────────────┤\n";
@@ -370,19 +371,27 @@ public class Taboleiro {
         String textoNorte = "";
         String textoSur = "";
         String textoOesteLeste = "";
-        for (int i=0; i < ladoNorte.getCasillas().size(); i++){
+        for (int i = 0; i < ladoNorte.getCasillas().size(); i++) {
             textoNorte += BLANCO + "│" + ladoNorte.getCasillas().get(i).getColorGrupo() + ladoNorte.getCasillas().get(i).getNombre();
+            textoAvatares += BLANCO + "│";
+            /*if (!ladoNorte.getCasillas().get(i).getDuenho().getAvatar().getId().isEmpty()) {
+                textoAvatares += " &" + ladoNorte.getCasillas().get(i).getDuenho().getAvatar().getId();
+            } else {
+                for (int j = 0; j < 15; j++) {
+                    textoAvatares += " ";
+                }
+            }*/
             textoSur += BLANCO + "│" + ladoSur.getCasillas().get(i).getColorGrupo() + ladoSur.getCasillas().get(i).getNombre();
-            if (i<9){
-                textoOesteLeste +=  BLANCO + "│" + ladoOeste.getCasillas().get(i).getColorGrupo() +
-                                    ladoOeste.getCasillas().get(i).getNombre() + textoEspaciado +
-                                    ladoLeste.getCasillas().get(i).getColorGrupo() +
-                                    ladoLeste.getCasillas().get(i).getNombre() + BLANCO + "|\n";
+            if (i < 9) {
+                textoOesteLeste += BLANCO + "│" + ladoOeste.getCasillas().get(i).getColorGrupo() +
+                        ladoOeste.getCasillas().get(i).getNombre() + textoEspaciado +
+                        ladoLeste.getCasillas().get(i).getColorGrupo() +
+                        ladoLeste.getCasillas().get(i).getNombre() + BLANCO + "|\n";
             }
-            if (i<8)
+            if (i < 8)
                 textoOesteLeste += BLANCO + textoTopeEspaciado;
         }
-        String texto = BLANCO + textoTope + textoNorte + BLANCO + "│\n" + textoTopeMedioArriba + textoOesteLeste + textoTopeMedioAbajo + textoSur + BLANCO + "│\n" + textoTopeAbajo;
+        String texto = BLANCO + textoTope + textoNorte + BLANCO + "│\n" +  textoTopeMedioArriba + textoOesteLeste + textoTopeMedioAbajo + textoSur + BLANCO + "│\n" + textoTopeAbajo;
         return texto;
     }
 }
