@@ -13,7 +13,7 @@ public class Casilla {
     private double valorPistaDeporte;
     private double valorHotel;
     private double valorAlquiler;
-    private ArrayList<String> vecesCasilla;
+    private HashMap<String, String[]> vecesCasilla;
     private HashMap<String, Avatar> avatares;
 
     public Casilla() {
@@ -25,7 +25,7 @@ public class Casilla {
         this.posicion = posicion;
         this.valor = 0;
         this.colorGrupo = null;
-        this.vecesCasilla = new ArrayList<>();
+        this.vecesCasilla = new HashMap<>();
         this.avatares = new HashMap<>();
     }
 
@@ -37,7 +37,7 @@ public class Casilla {
         this.valor = valor;
         this.colorGrupo = null;
         this.duenho = null;
-        this.vecesCasilla = new ArrayList<>();
+        this.vecesCasilla = new HashMap<>();
         this.avatares = new HashMap<>();
     }
 
@@ -47,7 +47,7 @@ public class Casilla {
         this.posicion = posicion;
         this.valor = valor;
         this.colorGrupo = colorGrupo;
-        this.vecesCasilla = new ArrayList<>();
+        this.vecesCasilla = new HashMap<>();
         this.avatares = new HashMap<>();
         //this.duenho = banca
     }
@@ -61,25 +61,34 @@ public class Casilla {
     }
 
     public void setVecesCasilla(Jugador jugador) {
-        this.vecesCasilla.add(jugador.getNombre());
-    }
+        String[] texto = new String[2];
+        int aux;
 
-    public int getVecesCasilla(Jugador jugador) {
-        int veces = 0;
-        for (String nombre : this.vecesCasilla){
-            if(nombre.equals(jugador.getNombre())){
-                veces++;
-            }
+        if (this.vecesCasilla.containsKey(jugador.getNombre())){
+            texto = this.vecesCasilla.get(jugador.getNombre());
+            aux = Integer.parseInt(texto[1]);
+            aux++;
+            texto[1] = "" + aux;
+            this.vecesCasilla.replace(jugador.getNombre(), texto);
         }
-        return veces;
+        else{
+            texto[0] = jugador.getNombre();
+            texto[1] = "1";
+            this.vecesCasilla.put(jugador.getNombre(), texto);
+        }
     }
 
-    /*public String GetVecesCasilla(){
-        for (String nombre : this.vecesCasilla){
-            if()
+    public HashMap<String, String[]> getVecesCasilla() {
+        return this.vecesCasilla;
+    }
+
+    public String GetVecesCasilla(){
+        String texto;
+        for (String[] nombre : this.vecesCasilla.values()){
+
         }
         return "";
-    }*/
+    }
 
     public String getNombre() {
         return nombre;
@@ -139,8 +148,18 @@ public class Casilla {
         if (this.posicion == 7 || this.posicion == 17 || this.posicion == 2 || this.posicion == 22 || this.posicion == 33 || this.posicion == 36 || this.posicion == 30) {
             texto = "No hay información sobre esta casilla!";
         } else if (this.posicion == 10) {
-
-                texto = "{\n\tsalir: " + 0.25 * Valor.VUELTA + ",\n\tjugadores: ";
+            texto = "";
+            for (String[] nombre : this.vecesCasilla.values()){
+                texto += "[" + nombre[0] + ", " + nombre[1] + "] ";
+            }
+            texto = "{\n\tsalir: " + 0.25 * Valor.VUELTA + ",\n\tjugadores: " + texto + "\n}";
+        } else if (this.posicion == 20){
+            texto = "[";
+            for (String[] nombre : this.vecesCasilla.values()){
+                texto += nombre[0] + " "; //mirar para ponerle la coma sin que se la ponga al ultimo tambien
+            }
+            texto += "]";
+            texto = "{\n\tbote: " + this.valor + ",\n\tjugadores: " + texto + "\n}";
         } else {
             String banca;
             if (this.duenho == null) {
