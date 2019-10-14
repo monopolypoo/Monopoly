@@ -144,7 +144,7 @@ public class Menu {
                     break;
 
                 case "describir":
-                    if (comando.length == 2) {
+                    if (comando.length == 3) {
                         if (comando[1].equals("jugador")) {
                             if (partida.getJugadores().containsKey(comando[2]))
                                 System.out.println(partida.getJugadores().get(comando[2]));
@@ -155,12 +155,12 @@ public class Menu {
                                 System.out.println(partida.getAvatares().get(comando[2])); //mirar en caso de que no este el avatar
                             } else
                                 System.out.println("Comando incorrecto. Avatar no encontrado.");
-                        } else {
-                            if (taboleiro.getCasillas().containsKey(comando[1]))
-                                System.out.println(taboleiro.getCasillas().get(comando[1]));
-                            else
-                                System.out.println("Comando incorrecto. O nome dunha casilla debe introducirse tal e como aparece no taboleiro pero SEN espazos.");
                         }
+                    } else if (comando.length == 2) {
+                        if (taboleiro.getCasillas().containsKey(comando[1]))
+                            System.out.println(taboleiro.getCasillas().get(comando[1]));
+                        else
+                            System.out.println("Comando incorrecto. O nome dunha casilla debe introducirse tal e como aparece no taboleiro pero SEN espazos.");
                     } else {
                         System.out.println("Comando incorrecto.");
                     }
@@ -191,11 +191,12 @@ public class Menu {
             }
 
         }
+
     }
 
     public String[] leerComando() {
         String comando;
-        Scanner teclado = new Scanner(System.in); //mirar esto!!!!!!!!!!!!!!!!!!!!!!
+        Scanner teclado = new Scanner(System.in);
         comando = teclado.nextLine();
         return comando.split(" ");
     }
