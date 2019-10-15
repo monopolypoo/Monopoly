@@ -23,32 +23,33 @@ public class Menu {
         this.dadosLanzados = false;
         String[] comando;
 
+        String texto;
         while (seguir) { //mirar cuando acabar la partida
             System.out.print("$> ");
             comando = leerComando();
             switch (comando[0]) {
-				case "crear":
-				if (comando.length == 4) {
-				    if (comando[1].equals("jugador")) {
-				        if (jugadores.size() < 6) {
-				            Jugador jugador = new Jugador(comando[2], comando[3], jugadores, taboleiro.getCasillaPosicion(0));
-				            System.out.println(jugador);
-				            jugadores.add(jugador);
-				            partida.anhadeJugador(jugador);
-				            jugadorActual = jugadores.get(0);
+                case "crear":
+                    if (comando.length == 4) {
+                        if (comando[1].equals("jugador")) {
+                            if (jugadores.size() < 6) {
+                                Jugador jugador = new Jugador(comando[2], comando[3], jugadores, taboleiro.getCasillaPosicion(0));
+                                System.out.println(jugador);
+                                jugadores.add(jugador);
+                                partida.anhadeJugador(jugador);
+                                jugadorActual = jugadores.get(0);
 
-				            if (jugadores.size() >= 2) {
-				                jugadorTurnoSiguiente = jugadores.get(1);
-				            } else {
-				                jugadorTurnoSiguiente = jugadores.get(0);
-				            }
-				        } else {
-				            System.out.println("O número de xogadores xa é o máximo, non podes engadir máis!");
-				        }
-				    }
-				} else
-				    System.out.println("Comando incorrecto.");
-				break;
+                                if (jugadores.size() >= 2) {
+                                    jugadorTurnoSiguiente = jugadores.get(1);
+                                } else {
+                                    jugadorTurnoSiguiente = jugadores.get(0);
+                                }
+                            } else {
+                                System.out.println("O número de xogadores xa é o máximo, non podes engadir máis!");
+                            }
+                        }
+                    } else
+                        System.out.println("Comando incorrecto.");
+                    break;
 
                 case "jugador":
                     System.out.println(jugadorActual);
@@ -82,13 +83,14 @@ public class Menu {
                     if (comando.length == 2) {
                         if (comando[1].equals("dados")) {
                             if (jugadores.size() > 0) {
+                                texto = "";
                                 if (!this.dadosLanzados) {
                                     dados.lanzarDados(jugadorActual, taboleiro);
                                     if (dados.sonIguales()) {
                                         this.dadosLanzados = false;
                                         this.sigueTurno = true;
                                         this.contadorDobles++;
-                                        System.out.println("Sacaches dobles! Levas: " + this.contadorDobles + " veces.");
+                                        texto = "Sacaches dobles! Levas: " + this.contadorDobles + " veces.";
                                     } else {
                                         this.dadosLanzados = true;
                                         this.sigueTurno = false;
@@ -97,16 +99,18 @@ public class Menu {
                                     if (this.contadorDobles == 3) {
                                         this.jugadorActual.getAvatar().setCasilla(taboleiro.getCasillaPosicion(30));
                                         this.dadosLanzados = true;
-                                        System.out.println("Sacaches tres dobles seguidos, polo que tes que ir ao cárcere!");
+                                        texto = "Sacaches tres dobles seguidos, polo que tes que ir ao cárcere!";
                                     }
                                     System.out.println(taboleiro);
-                                    System.out.println("O avatar " + jugadorActual.getAvatar().getId() + dados.textoLanzarDados(taboleiro));
+                                    System.out.println("O avatar " + jugadorActual.getAvatar().getId() + dados.textoLanzarDados(taboleiro) + texto);
                                 } else {
                                     System.out.println("Xa tiraches os dados! Para poder tiralos o seguinte xogador antes debes acabar turno!");
                                 }
                             } else {
                                 System.out.println("Antes de lanzar os dados inserte o xogador!");
                             }
+                        } else {
+                            System.out.println("Comando incorrecto.");
                         }
                     } else {
                         System.out.println("Comando incorrecto.");
