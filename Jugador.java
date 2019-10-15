@@ -6,6 +6,8 @@ public class Jugador {
     private float dineroGastado;
     private Avatar avatar;
     private ArrayList<Casilla> propiedades;
+    private boolean estarCarcere;
+    private int contadorEstarCárcere;
 
     public Jugador() {
         this.nombre = "banca";
@@ -13,6 +15,8 @@ public class Jugador {
         this.dineroGastado = 0;
         this.avatar = null;
         this.propiedades = new ArrayList<>(); //tambien se le pueden poner inicialmente todas las propiedades a la banca
+        this.estarCarcere = false;
+        this.contadorEstarCárcere = 0;
     }
 
     public Jugador(String nombre, String tipo_avatar,  ArrayList<Jugador> jugadores, Casilla casilla){
@@ -22,6 +26,8 @@ public class Jugador {
         Avatar avatar = new Avatar(tipo_avatar, this, jugadores, casilla);
         this.avatar = avatar;
         this.propiedades = new ArrayList<>();
+        this.estarCarcere = false;
+        this.contadorEstarCárcere = 0;
     }
 
     public String getNombre() {
@@ -50,8 +56,34 @@ public class Jugador {
         this.fortuna = fortuna;
     }
 
+    public boolean getEstarCarcere() {
+        return estarCarcere;
+    }
+
+    public void setEstarCarcere(boolean estarCarcere){
+        this.estarCarcere = estarCarcere;
+    }
+
+    public void setContadorEstarCárcere(int opcion){
+        if (opcion == 1){
+            this.contadorEstarCárcere++;
+            if (this.contadorEstarCárcere >= 3){
+                this.estarCarcere = false;
+            }
+        }
+        else if (opcion == 0){
+            this.contadorEstarCárcere = 0;
+            this.estarCarcere = false;
+        }
+
+    }
+
     public void sumarFortuna(float fortuna){
         this.fortuna = this.fortuna + fortuna;
+    }
+
+    public void restarFortuna(float fortuna){
+        this.fortuna = this.fortuna - fortuna;
     }
 
     public ArrayList<Casilla> getPropiedades(){
@@ -74,6 +106,18 @@ public class Jugador {
     public void anhadirPropiedad(Casilla casilla){
         if (casilla != null)
             this.propiedades.add(casilla);
+    }
+
+    public void irCarcere(Taboleiro taboleiro){
+        int posSig = 10;
+        Casilla casillaSiguiente;
+
+        casillaSiguiente = taboleiro.getCasillaPosicion(posSig);
+        this.getAvatar().setCasilla(casillaSiguiente);
+
+        taboleiro.getCasillaPosicion(10).setVecesCasilla(this); //lo añadimos al historial de la carcel
+
+        this.estarCarcere = true;
     }
 
     @Override
@@ -99,6 +143,5 @@ public class Jugador {
         return texto;
     }
 }
-
 
 
