@@ -5,6 +5,7 @@ public class Dado {
     private int dado2;
     private boolean iguales;
     private int posActual;
+    private int posSiguiente;
 
     public Dado() {
 
@@ -38,15 +39,20 @@ public class Dado {
     }
 
     public void lanzarDados(Jugador jugador, Taboleiro taboleiro) throws InterruptedException {
-        int posSig;
         int dado;
 
         Casilla casillaSiguiente;
         dado = lanzarLosDados();
 
         this.posActual = jugador.getAvatar().getCasilla().getPosicion();
-        posSig = this.posActual + dado;
-        casillaSiguiente = taboleiro.getCasillaPosicion(posSig);
+        this.posSiguiente = this.posActual + dado;
+        if(this.posSiguiente > 39){
+            jugador.sumarFortuna(Valor.VUELTA);
+        } else if(this.posSiguiente == 30){
+            
+        }
+        this.posSiguiente = this.posSiguiente % 40;
+        casillaSiguiente = taboleiro.getCasillaPosicion(this.posSiguiente);
 
         jugador.getAvatar().setCasilla(casillaSiguiente);
 
@@ -59,7 +65,7 @@ public class Dado {
     public String textoLanzarDados(Taboleiro taboleiro) {
         String texto;
         int sumaDados = this.dado1 + this.dado2;
-        texto = " avanza " + sumaDados + " posicións, dende " + taboleiro.getCasillaPosicion(posActual).getNombreSinEspacio() + " ata " + taboleiro.getCasillaPosicion(posActual + sumaDados).getNombreSinEspacio() + "."; // Falta pagaronse
+        texto = " avanza " + sumaDados + " posicións, dende " + taboleiro.getCasillaPosicion(this.posActual).getNombreSinEspacio() + " ata " + taboleiro.getCasillaPosicion(this.posSiguiente).getNombreSinEspacio() + "."; // Falta pagaronse
         return texto;
     }
 
