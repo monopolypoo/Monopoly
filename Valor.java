@@ -1,3 +1,5 @@
+import java.security.PublicKey;
+
 public class Valor {
     public final static int PRECIO_INICIAL = 100000;
     public final static int DINERO_INICIAL = 2200000;
@@ -10,6 +12,7 @@ public class Valor {
     public final static int PRECIO_GRUPO6 = 380000;
     public final static int PRECIO_GRUPO7 = 500000;
     public final static int PRECIO_GRUPO8 = 650000;
+    public final static int SAIR_CARCERE = 75000;
 
 
     public final static String BLACK = "\033[0;30m";   // BLACK

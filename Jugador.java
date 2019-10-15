@@ -7,7 +7,7 @@ public class Jugador {
     private Avatar avatar;
     private ArrayList<Casilla> propiedades;
     private boolean estarCarcere;
-    private int contadorEstarCárcere;
+    private int contadorEstarCarcere;
 
     public Jugador() {
         this.nombre = "banca";
@@ -16,7 +16,7 @@ public class Jugador {
         this.avatar = null;
         this.propiedades = new ArrayList<>(); //tambien se le pueden poner inicialmente todas las propiedades a la banca
         this.estarCarcere = false;
-        this.contadorEstarCárcere = 0;
+        this.contadorEstarCarcere = 0;
     }
 
     public Jugador(String nombre, String tipo_avatar,  ArrayList<Jugador> jugadores, Casilla casilla){
@@ -27,7 +27,7 @@ public class Jugador {
         this.avatar = avatar;
         this.propiedades = new ArrayList<>();
         this.estarCarcere = false;
-        this.contadorEstarCárcere = 0;
+        this.contadorEstarCarcere = 0;
     }
 
     public String getNombre() {
@@ -64,18 +64,21 @@ public class Jugador {
         this.estarCarcere = estarCarcere;
     }
 
-    public void setContadorEstarCárcere(int opcion){
+    public void setContadorEstarCarcere(int opcion){
         if (opcion == 1){
-            this.contadorEstarCárcere++;
-            if (this.contadorEstarCárcere >= 3){
+            this.contadorEstarCarcere++;
+            if (this.contadorEstarCarcere >= 3){
                 this.estarCarcere = false;
             }
         }
         else if (opcion == 0){
-            this.contadorEstarCárcere = 0;
+            this.contadorEstarCarcere = 0;
             this.estarCarcere = false;
         }
+    }
 
+    public int getContadorEstarCarcere(){
+        return this.contadorEstarCarcere;
     }
 
     public void sumarFortuna(float fortuna){

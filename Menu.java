@@ -37,6 +37,8 @@ public class Menu {
                                 jugadores.add(jugador);
                                 partida.anhadeJugador(jugador);
                                 jugadorActual = jugadores.get(0);
+                                this.sigueTurno = true;
+                                this.dadosLanzados = false;
 
                                 if (jugadores.size() >= 2) {
                                     jugadorTurnoSiguiente = jugadores.get(1);
@@ -85,24 +87,53 @@ public class Menu {
                             if (jugadores.size() > 0) {
                                 texto = "";
                                 if (!this.dadosLanzados) {
-                                    dados.lanzarDados(jugadorActual, taboleiro);
-                                    if (dados.sonIguales()) {
-                                        this.dadosLanzados = false;
-                                        this.sigueTurno = true;
-                                        this.contadorDobles++;
-                                        texto = "Sacaches dobles! Levas: " + this.contadorDobles + " veces.";
-                                    } else {
-                                        this.dadosLanzados = true;
-                                        this.sigueTurno = false;
-                                        this.contadorDobles = 0;
+                                    if (!this.jugadorActual.getEstarCarcere()) {
+                                        dados.lanzarDados(jugadorActual, taboleiro);
+                                        if (dados.sonIguales()) {
+                                            this.dadosLanzados = false;
+                                            this.sigueTurno = true;
+                                            this.contadorDobles++;
+                                            texto = " Sacaches dobles! Levas: " + this.contadorDobles + " veces.";
+                                        } else {
+                                            this.dadosLanzados = true;
+                                            this.sigueTurno = false;
+                                            this.contadorDobles = 0;
+                                        }
+                                        if (this.contadorDobles == 3) {
+                                            this.jugadorActual.irCarcere(taboleiro);
+                                            this.dadosLanzados = true;
+                                            this.sigueTurno = false;
+                                            texto = "Sacaches tres dobles seguidos, polo que tes que ir ao cárcere!";
+                                        }
+                                        System.out.println(taboleiro);
+                                        System.out.println("O avatar " + jugadorActual.getAvatar().getId() + dados.textoLanzarDados(taboleiro) + texto);
                                     }
-                                    if (this.contadorDobles == 3) {
-                                        this.jugadorActual.getAvatar().setCasilla(taboleiro.getCasillaPosicion(30));
-                                        this.dadosLanzados = true;
-                                        texto = "Sacaches tres dobles seguidos, polo que tes que ir ao cárcere!";
+                                    else{
+                                        dados.lanzarLosDados();
+                                        if (dados.sonIguales()) {
+                                            this.jugadorActual.setContadorEstarCarcere(0);
+                                            System.out.println("Sacaches dobles, podes saír do cárcere. Lanza os dados para continuar.");
+                                            this.dadosLanzados = false;
+                                            this.sigueTurno = true;
+                                        }
+                                        else{
+                                            this.jugadorActual.setContadorEstarCarcere(1);
+                                            System.out.println("Non sacaches dobles, levas " + this.jugadorActual.getContadorEstarCarcere() + " intentos.");
+                                            this.dadosLanzados = true;
+                                            this.sigueTurno = false;
+                                            if (this.jugadorActual.getContadorEstarCarcere() >= 3){
+                                                System.out.println("Xa levas 3 intentos, polo que debes pagar para saír.");
+                                                if (this.jugadorActual.getFortuna() >= Valor.SAIR_CARCERE){
+                                                    this.jugadorActual.restarFortuna(Valor.SAIR_CARCERE);
+                                                    this.jugadorActual.setContadorEstarCarcere(0);
+                                                    System.out.println("Pago efectuado. Xa poderás tirar no seguinte turno.");
+                                                }
+                                                else{
+                                                    System.out.println("Non tes suficientes cartos para saír do cárcere, polo que estás en bancarrota.");
+                                                }
+                                            }
+                                        }
                                     }
-                                    System.out.println(taboleiro);
-                                    System.out.println("O avatar " + jugadorActual.getAvatar().getId() + dados.textoLanzarDados(taboleiro) + texto);
                                 } else {
                                     System.out.println("Xa tiraches os dados! Para poder tiralos o seguinte xogador antes debes acabar turno!");
                                 }
@@ -124,10 +155,18 @@ public class Menu {
                             if (!this.sigueTurno) {
                                 calcularJugadores();
                                 this.dadosLanzados = false;
+                                this.sigueTurno = true;
                                 System.out.println("O xogador actual é " + this.jugadorActual.getNombre() + ".");
+
+                                if (this.jugadorActual.getEstarCarcere()){
+                                    System.out.println("Estás no cárcere, polo que debes tirar os dados para obter dobles.");
+                                }
                             } else {
-                                System.out.println("Non podes acabar turno porque tes que volver a tirar os dados!");
+                                System.out.println("Non podes acabar turno porque tes que tirar os dados!");
                             }
+                        }
+                        else{
+                            System.out.println("Comando incorrecto.");
                         }
                     } else
                         System.out.println("Comando incorrecto.");
@@ -136,7 +175,18 @@ public class Menu {
                 case "salir":
                     if (comando.length == 2) {
                         if (comando[1].equals("carcel")) {
-                            //HACER ESTO
+                            if (this.jugadorActual.getFortuna() >= Valor.SAIR_CARCERE){
+                                this.jugadorActual.restarFortuna(Valor.SAIR_CARCERE);
+                                this.jugadorActual.setContadorEstarCarcere(0);
+                                this.sigueTurno = true;
+                                this.dadosLanzados = false;
+                            }
+                            else{
+                                System.out.println("Non tes suficientes cartos para saír do cárcere, polo que debes esperar a que pasen os turnos de penalización.");
+                            }
+                        }
+                        else{
+                            System.out.println("Comando incorrecto.");
                         }
                     } else
                         System.out.println("Comando incorrecto.");
@@ -155,6 +205,9 @@ public class Menu {
                             } else
                                 System.out.println("Comando incorrecto. Avatar no encontrado.");
                         }
+                        else{
+                            System.out.println("Comando incorrecto.");
+                        }
                     } else if (comando.length == 2) {
                         if (taboleiro.getCasillas().containsKey(comando[1]))
                             System.out.println(taboleiro.getCasillas().get(comando[1]));
@@ -167,15 +220,18 @@ public class Menu {
                     break;
 
                 case "comprar":
-                    //no para esta entrega
+                    //comprobar que no esta en la carcel y que ha tirado los dados
+                    //HACER ESTO
                     break;
 
                 case "ver":
                     if (comando.length == 2) {
                         if (comando[1].equals("tablero"))
                             System.out.println(taboleiro);
-
-                    } else
+                        else
+                            System.out.println("Comando incorrecto.");
+                    }
+                    else
                         System.out.println("Comando incorrecto");
 
                     break;
