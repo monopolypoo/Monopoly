@@ -61,6 +61,13 @@ public class Avatar{
         this.casilla = casilla;
     }
 
+    public boolean haiAvatar(){
+        if(this.getId() != null){
+            return true;
+        }
+        return false;
+    }
+
     @Override
     public String toString(){
         String texto = "{\n" +
