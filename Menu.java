@@ -33,6 +33,7 @@ public class Menu {
                         if (comando[1].equals("jugador")) {
                             if (jugadores.size() < 6) {
                                 Jugador jugador = new Jugador(comando[2], comando[3], jugadores, taboleiro.getCasillaPosicion(0));
+                                taboleiro.getCasillaPosicion(0).setAvatar(jugador.getAvatar().getId(), jugador.getAvatar());
                                 System.out.println(jugador);
                                 jugadores.add(jugador);
                                 partida.anhadeJugador(jugador);
