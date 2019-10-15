@@ -328,7 +328,9 @@ public class Taboleiro {
     @Override
     public String toString() {
         String BLANCO = Valor.WHITE;
-        String textoAvatares = "";
+        String textoAvataresNorte = "";
+        String textoAvataresLados = "";
+        String textoAvataresSur = "";
 
         String textoTope = BLANCO + "┌";
         for (int i = 0; i < 10; i++) {
@@ -373,25 +375,48 @@ public class Taboleiro {
         String textoOesteLeste = "";
         for (int i = 0; i < ladoNorte.getCasillas().size(); i++) {
             textoNorte += BLANCO + "│" + ladoNorte.getCasillas().get(i).getColorGrupo() + ladoNorte.getCasillas().get(i).getNombre();
-            textoAvatares += BLANCO + "│";
-            /*if (!ladoNorte.getCasillas().get(i).getDuenho().getAvatar().getId().isEmpty()) {
-                textoAvatares += " &" + ladoNorte.getCasillas().get(i).getDuenho().getAvatar().getId();
+            textoAvataresNorte += BLANCO + "│";
+            textoAvataresSur += BLANCO + "|";
+            if (ladoNorte.getCasillas().get(i).haiAvatar()) {
+                textoAvataresNorte += ladoNorte.getCasillas().get(i).getIds();
             } else {
-                for (int j = 0; j < 15; j++) {
-                    textoAvatares += " ";
+                for (int j = 0; j < 16; j++) {
+                    textoAvataresNorte += " ";
                 }
-            }*/
+            }
+            if (ladoSur.getCasillas().get(i).haiAvatar()) {
+                textoAvataresSur += ladoSur.getCasillas().get(i).getIds();
+            } else {
+                for (int j = 0; j < 16; j++) {
+                    textoAvataresSur += " ";
+                }
+            }
             textoSur += BLANCO + "│" + ladoSur.getCasillas().get(i).getColorGrupo() + ladoSur.getCasillas().get(i).getNombre();
             if (i < 9) {
                 textoOesteLeste += BLANCO + "│" + ladoOeste.getCasillas().get(i).getColorGrupo() +
-                        ladoOeste.getCasillas().get(i).getNombre() + textoEspaciado +
-                        ladoLeste.getCasillas().get(i).getColorGrupo() +
-                        ladoLeste.getCasillas().get(i).getNombre() + BLANCO + "|\n";
+                        ladoOeste.getCasillas().get(i).getNombre() + textoEspaciado + ladoLeste.getCasillas().get(i).getColorGrupo() +
+                        ladoLeste.getCasillas().get(i).getNombre() + BLANCO + "|\n|";
+                if (ladoOeste.getCasillas().get(i).haiAvatar()) {
+                    textoOesteLeste += ladoOeste.getCasillas().get(i).getIds();
+                } else {
+                    for (int j = 0; j < 16; j++) {
+                        textoOesteLeste += " ";
+                    }
+                }
+                textoOesteLeste += textoEspaciado;
+                if (ladoLeste.getCasillas().get(i).haiAvatar()) {
+                    textoOesteLeste += ladoLeste.getCasillas().get(i).getIds();
+                } else {
+                    for (int j = 0; j < 16; j++) {
+                        textoOesteLeste += " ";
+                    }
+                }
+                textoOesteLeste += BLANCO + "|\n";
             }
             if (i < 8)
                 textoOesteLeste += BLANCO + textoTopeEspaciado;
         }
-        String texto = BLANCO + textoTope + textoNorte + BLANCO + "│\n" +  textoTopeMedioArriba + textoOesteLeste + textoTopeMedioAbajo + textoSur + BLANCO + "│\n" + textoTopeAbajo;
+        String texto = BLANCO + textoTope + textoNorte + BLANCO + "│\n" + textoAvataresNorte + "|\n" + textoTopeMedioArriba + textoOesteLeste + textoTopeMedioAbajo + textoSur + BLANCO + "│\n" + textoAvataresSur + "|\n" + textoTopeAbajo;
         return texto;
     }
 }
