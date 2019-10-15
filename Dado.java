@@ -45,6 +45,7 @@ public class Dado {
         dado = lanzarLosDados();
 
         this.posActual = jugador.getAvatar().getCasilla().getPosicion();
+        taboleiro.getCasillaPosicion(this.posActual).eliminarAvatar(jugador.getAvatar().getId());
         this.posSiguiente = this.posActual + dado;
         if(this.posSiguiente > 39){
             jugador.sumarFortuna(Valor.VUELTA);
@@ -59,6 +60,7 @@ public class Dado {
 
             jugador.getAvatar().setCasilla(casillaSiguiente);
         }
+        taboleiro.getCasillaPosicion(this.posSiguiente).setAvatar(jugador.getAvatar().getId(), jugador.getAvatar());
     }
 
     public boolean sonIguales() {
