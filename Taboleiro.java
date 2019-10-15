@@ -325,6 +325,35 @@ public class Taboleiro {
         this.ladoSur = lado;
     }
 
+    public void subirPrecios(){
+        ArrayList<Grupo> todasLasCasillas = new ArrayList<>();
+        todasLasCasillas.add(this.ladoNorte);
+        todasLasCasillas.add(this.ladoSur);
+        todasLasCasillas.add(this.ladoOeste);
+        todasLasCasillas.add(this.ladoLeste);
+
+        for (Casilla casilla : todasLasCasillas.get(0).getCasillas()){
+            if (casilla.getTipo().equals("solar")){
+                casilla.setValor(casilla.getValor() * 1.05);
+            }
+        }
+        for (Casilla casilla : todasLasCasillas.get(1).getCasillas()){
+            if (casilla.getTipo().equals("solar")){
+                casilla.setValor(casilla.getValor() * 1.05);
+            }
+        }
+        for (Casilla casilla : todasLasCasillas.get(2).getCasillas()){
+            if (casilla.getTipo().equals("solar")){
+                casilla.setValor(casilla.getValor() * 1.05);
+            }
+        }
+        for (Casilla casilla : todasLasCasillas.get(3).getCasillas()){
+            if (casilla.getTipo().equals("solar")){
+                casilla.setValor(casilla.getValor() * 1.05);
+            }
+        }
+    }
+
     @Override
     public String toString() {
         String BLANCO = Valor.WHITE;

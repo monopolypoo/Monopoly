@@ -1,3 +1,4 @@
+import javax.persistence.criteria.CriteriaBuilder;
 import java.util.Random;
 
 public class Dado {
@@ -49,6 +50,10 @@ public class Dado {
         this.posSiguiente = this.posActual + dado;
         if(this.posSiguiente > 39){
             jugador.sumarFortuna(Valor.VUELTA);
+            taboleiro.getCasillaPosicion(0).setVecesCasilla(jugador);
+            if (taboleiro.getCasillaPosicion(0).isSubirPrecio()){
+                taboleiro.subirPrecios();
+            }
         }
         if (this.posSiguiente == 30){
             jugador.irCarcere(taboleiro);

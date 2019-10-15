@@ -78,6 +78,14 @@ public class Casilla {
         }
     }
 
+    public boolean isSubirPrecio(){
+        for (String[] cadena : this.vecesCasilla.values()){
+            if (Integer.parseInt(cadena[1]) < 4)
+                return false;
+        }
+        return true;
+    }
+
     public boolean haiAvatar(){
         return this.avatares.size() != 0;
     }
@@ -131,6 +139,10 @@ public class Casilla {
 
     public String getNombre() {
         return nombre;
+    }
+
+    public double getValor() {
+        return valor;
     }
 
     public String getNombreSinEspacio() {
