@@ -78,6 +78,45 @@ public class Casilla {
         }
     }
 
+    public boolean haiAvatar(){
+        return this.avatares.size() != 0;
+    }
+
+    public void setAvatar(String id, Avatar avatar) {
+        this.avatares.put(id, avatar);
+    }
+
+    public Avatar getAvatarCasilla(String id) {
+        return avatares.get(id);
+    }
+
+    public void eliminarAvatar(String id) {
+        this.avatares.remove(id);
+    }
+
+    public HashMap<String, Avatar> getAvatares() {
+        return avatares;
+    }
+
+    public String getIds(){
+        String texto = " &";
+        int tam, i = 1;
+        tam = this.avatares.size();
+
+        for (Avatar avatar : this.avatares.values()) {
+            texto += avatar.getId();
+            if(tam != i){
+                texto += ",";
+            }
+            i++;
+        }
+        for(int j = 0 ; j < 16 - (tam * 2 + 1) ; j++){
+            texto += " ";
+        }
+
+        return  texto;
+    }
+
     public HashMap<String, String[]> getVecesCasilla() {
         return this.vecesCasilla;
     }
