@@ -50,6 +50,10 @@ public class Jugador {
         this.fortuna = fortuna;
     }
 
+    public void sumarFortuna(float fortuna){
+        this.fortuna = this.fortuna + fortuna;
+    }
+
     public ArrayList<Casilla> getPropiedades(){
         return (propiedades);
     }
