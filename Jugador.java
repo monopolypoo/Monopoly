@@ -107,6 +107,15 @@ public class Jugador {
         this.propiedades = propiedades;
     }
 
+    public void pagarAlquiler(Casilla casilla){
+        if(casilla.getDuenho() != null){
+            if(!casilla.getDuenho().getNombre().equals(this.getNombre())){
+                this.restarFortuna((float) casilla.getValorAlquiler());
+                casilla.getDuenho().sumarFortuna((float) casilla.getValorAlquiler());
+            }
+        }
+    }
+
     public void anhadirPropiedad(Casilla casilla){
         if (casilla != null)
             this.propiedades.add(casilla);
