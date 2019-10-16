@@ -1,4 +1,5 @@
 import java.util.ArrayList;
+import java.util.HashMap;
 
 public class Jugador {
     private String nombre;
@@ -123,6 +124,26 @@ public class Jugador {
         this.estarCarcere = true;
     }
 
+    public void comprarCasilla(Casilla casilla, Taboleiro taboleiro){
+       if (taboleiro.sePuedeComprar(casilla)) {
+           if (casilla.getDuenho() == null) {
+               if (this.fortuna >= casilla.getValor()) {
+                   casilla.setDuenho(this);
+                   this.propiedades.add(casilla);
+
+               } else {
+                   System.out.println("Non tes suficientes cartos para comprar esta casilla.");
+               }
+           }
+           else{
+               System.out.println("Non podes comprar esta casilla porque xa ten dono.");
+           }
+       }
+       else{
+           System.out.println("Esa casilla non se pode comprar.");
+       }
+    }
+
     @Override
     public String toString(){
         String texto;
@@ -131,9 +152,14 @@ public class Jugador {
             texto = "{\n\tNombre: " + this.nombre + "\n}";
         }
         else{
-            if (propiedades.size() != 0){
+            int tam = 0, i = 1;
+            if ((tam = propiedades.size()) != 0){
                 for (Casilla propi : propiedades){
-                    prop += propi.getNombre() + "\t";
+                    prop += propi.getNombreSinEspacio();
+                    if (i != tam){
+                        prop += ", ";
+                    }
+                    i++;
                 }
             }
             texto = "{\n" +

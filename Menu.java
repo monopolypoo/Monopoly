@@ -11,6 +11,7 @@ public class Menu {
     private boolean sigueTurno;
     private int contadorDobles;
     private boolean dadosLanzados;
+    private boolean poderComprar;
 
     public Menu() throws InterruptedException {
         boolean seguir = true;
@@ -94,16 +95,20 @@ public class Menu {
                                             this.dadosLanzados = false;
                                             this.sigueTurno = true;
                                             this.contadorDobles++;
+                                            this.poderComprar = true;
                                             texto = " Sacaches dobles! Levas: " + this.contadorDobles + " veces.";
                                         } else {
                                             this.dadosLanzados = true;
                                             this.sigueTurno = false;
+                                            this.poderComprar = true;
                                             this.contadorDobles = 0;
                                         }
                                         if (this.contadorDobles == 3) {
                                             this.jugadorActual.irCarcere(taboleiro);
                                             this.dadosLanzados = true;
                                             this.sigueTurno = false;
+                                            this.poderComprar = false;
+                                            this.contadorDobles = 0;
                                             texto = "Sacaches tres dobles seguidos, polo que tes que ir ao cárcere!";
                                         }
                                         System.out.println(taboleiro);
@@ -221,8 +226,22 @@ public class Menu {
                     break;
 
                 case "comprar":
-                    //comprobar que no esta en la carcel y que ha tirado los dados
-                    //HACER ESTO
+                    if (comando.length == 2){
+                        if (!this.jugadorActual.getEstarCarcere()){
+                            if (this.poderComprar){
+                                this.jugadorActual.comprarCasilla(this.jugadorActual.getAvatar().getCasilla(), this.taboleiro);
+                            }
+                            else{
+                                System.out.println("Para comprar unha casilla antes debe tirar os dados.");
+                            }
+                        }
+                        else{
+                            System.out.println("Se estás no cárcere non podes comprar.");
+                        }
+                    }
+                    else{
+                        System.out.println("Comando incorrecto.");
+                    }
                     break;
 
                 case "ver":

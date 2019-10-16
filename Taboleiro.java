@@ -9,6 +9,7 @@ public class Taboleiro {
     private Grupo ladoSur;
     private HashMap<String, Casilla> casillas;
     private HashMap<Integer, Casilla> casillasPosicion;
+    private ArrayList<Casilla> casillasNoEnVenta;
 
     public Taboleiro() {
         // Casillas UDC Ferrol (SUR)
@@ -283,6 +284,20 @@ public class Taboleiro {
         this.casillasPosicion.put(38, imp2);
         this.casillasPosicion.put(39, solar22);
 
+        this.casillasNoEnVenta = new ArrayList<>();
+        casillasNoEnVenta.add(sorte1);
+        casillasNoEnVenta.add(sorte2);
+        casillasNoEnVenta.add(sorte3);
+        casillasNoEnVenta.add(caixa1);
+        casillasNoEnVenta.add(caixa2);
+        casillasNoEnVenta.add(caixa3);
+        casillasNoEnVenta.add(saida);
+        casillasNoEnVenta.add(carcere);
+        casillasNoEnVenta.add(parking);
+        casillasNoEnVenta.add(irCarcere);
+        casillasNoEnVenta.add(imp1);
+        casillasNoEnVenta.add(imp2);
+
     }
 
     public Grupo getLadoNorte() {
@@ -352,6 +367,14 @@ public class Taboleiro {
                 casilla.setValor(casilla.getValor() * 1.05);
             }
         }
+    }
+
+    public boolean sePuedeComprar(Casilla casilla){
+        if (this.casillasNoEnVenta.contains(casilla)){
+            return true;
+        }
+        else
+            return false;
     }
 
     @Override

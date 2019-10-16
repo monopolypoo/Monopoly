@@ -27,6 +27,7 @@ public class Casilla {
         this.colorGrupo = null;
         this.vecesCasilla = new HashMap<>();
         this.avatares = new HashMap<>();
+        this.duenho = null;
     }
 
 
@@ -49,7 +50,7 @@ public class Casilla {
         this.colorGrupo = colorGrupo;
         this.vecesCasilla = new HashMap<>();
         this.avatares = new HashMap<>();
-        //this.duenho = banca
+        this.duenho = null;
     }
 
     public Jugador getDuenho() {
