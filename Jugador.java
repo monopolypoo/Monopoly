@@ -114,11 +114,11 @@ public class Jugador {
                     this.restarFortuna((float) casilla.getValorAlquiler());
                     this.dineroGastado += casilla.getValorAlquiler();
                     casilla.getDuenho().sumarFortuna((float) casilla.getValorAlquiler());
-                    System.out.println("Caeches nunha casilla que pertence ao avatar " + casilla.getDuenho().getAvatar().getId()
-                            + ", polo que se lle pagou o alquiler de " + casilla.getValorAlquiler() + "€.");
+                    System.out.println("Caiste en una casilla que pertenece al avatar " + casilla.getDuenho().getAvatar().getId()
+                            + ", por lo que se le pagó el alquiler de " + casilla.getValorAlquiler() + "€.");
                 }
                 else{
-                    System.out.println("Non tes cartos suficientes para pagar o alquiler, polo que estás en bancarrota.");
+                    System.out.println("No tienes dinero suficiente para pagar el alquiler, por lo que estás en bancarrota.");
                 }
             }
         }
@@ -130,10 +130,10 @@ public class Jugador {
                 this.restarFortuna((float) casilla.getValor());
                 this.dineroGastado += casilla.getValor();
                 taboleiro.getCasillaPosicion(20).sumarValor((float) casilla.getValor());
-                System.out.println("Caeches nunha casilla de impostos, polo que se realizou o pago de " + casilla.getValor() + "€.");
+                System.out.println("Caíste en una casilla de impuestos, por lo que se realizó el pago de " + casilla.getValor() + "€.");
             }
             else{
-                System.out.println("Non tes cartos suficientes para pagar o imposto, polo que estás en bancarrota.");
+                System.out.println("No tienes dinero suficiente para pagar el imposto, por lo que estás en bancarrota.");
             }
         }
     }
@@ -141,7 +141,7 @@ public class Jugador {
     public void cobrarParking(Casilla casilla){
         if (casilla.getPosicion() == 20){
             this.sumarFortuna((float) casilla.getValor());
-            System.out.println("Caeches no Parking, polo que cobras o total acumulado que é de: " + casilla.getValor() + "€.");
+            System.out.println("Caíste en el Parking, por lo que cobras el total acumulado que es de: " + casilla.getValor() + "€.");
             casilla.setValor(0);
         }
     }
@@ -174,15 +174,15 @@ public class Jugador {
                    System.out.println("El jugador " + this.nombre + " compra la casilla " + casilla.getNombreSinEspacio()
                                         + " por " + casilla.getValor() + "€. Su fortuna actual es: " + this.fortuna + "€.");
                } else {
-                   System.out.println("Non tes suficientes cartos para comprar esta casilla.");
+                   System.out.println("No tienes suficiente dinero para comprar esta casilla.");
                }
            }
            else{
-               System.out.println("Non podes comprar esta casilla porque xa ten dono.");
+               System.out.println("No puedes comprar esta casilla porque ya tiene dueño.");
            }
        }
        else{
-           System.out.println("Esa casilla non se pode comprar.");
+           System.out.println("Esta casilla no se puede comprar.");
        }
     }
 
