@@ -129,7 +129,7 @@ public class Taboleiro {
         ArrayList<Casilla> casillasImpuestos = new ArrayList<>();
         casillasImpuestos.add(imp1);
         casillasImpuestos.add(imp2);
-        Grupo grupo12 = new Grupo(casillasImpuestos, 12, 0, Valor.RED);
+        Grupo grupo12 = new Grupo(casillasImpuestos, Valor.RED, 12);
 
         ArrayList<Casilla> casillasCaixasSortes = new ArrayList<>();
         casillasCaixasSortes.add(caixa1);
@@ -371,10 +371,10 @@ public class Taboleiro {
 
     public boolean sePuedeComprar(Casilla casilla){
         if (this.casillasNoEnVenta.contains(casilla)){
-            return true;
+            return false;
         }
         else
-            return false;
+            return true;
     }
 
     @Override

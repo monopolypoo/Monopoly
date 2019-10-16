@@ -110,11 +110,15 @@ public class Menu {
                                             this.poderComprar = false;
                                             this.contadorDobles = 0;
                                             texto = "Sacaches tres dobles seguidos, polo que tes que ir ao cárcere!";
+                                            System.out.println(taboleiro);
+                                            System.out.println("O avatar " + jugadorActual.getAvatar().getId() + dados.textoLanzarDados(taboleiro) + texto);
                                         }else{
+                                            System.out.println(taboleiro);
+                                            System.out.println("O avatar " + jugadorActual.getAvatar().getId() + dados.textoLanzarDados(taboleiro) + texto);
                                             this.jugadorActual.pagarAlquiler(this.jugadorActual.getAvatar().getCasilla());
+                                            this.jugadorActual.pagarImpuestos(this.jugadorActual.getAvatar().getCasilla(), this.taboleiro);
+                                            this.jugadorActual.cobrarParking(this.jugadorActual.getAvatar().getCasilla());
                                         }
-                                        System.out.println(taboleiro);
-                                        System.out.println("O avatar " + jugadorActual.getAvatar().getId() + dados.textoLanzarDados(taboleiro) + texto);
                                     }
                                     else{
                                         dados.lanzarLosDados();
@@ -229,16 +233,19 @@ public class Menu {
 
                 case "comprar":
                     if (comando.length == 2){
-                        if (!this.jugadorActual.getEstarCarcere()){
-                            if (this.poderComprar){
-                                this.jugadorActual.comprarCasilla(this.jugadorActual.getAvatar().getCasilla(), this.taboleiro);
-                            }
-                            else{
-                                System.out.println("Para comprar unha casilla antes debe tirar os dados.");
+                        if (comando[1].equals(this.jugadorActual.getAvatar().getCasilla().getNombreSinEspacio())) {
+                            if (!this.jugadorActual.getEstarCarcere()) {
+                                if (this.poderComprar) {
+                                    this.jugadorActual.comprarCasilla(this.jugadorActual.getAvatar().getCasilla(), this.taboleiro);
+                                } else {
+                                    System.out.println("Para comprar unha casilla antes debe tirar os dados.");
+                                }
+                            } else {
+                                System.out.println("Se estás no cárcere non podes comprar.");
                             }
                         }
                         else{
-                            System.out.println("Se estás no cárcere non podes comprar.");
+                            System.out.println("Non podes comprar unha casilla na que non estás.");
                         }
                     }
                     else{

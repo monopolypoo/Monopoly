@@ -191,6 +191,10 @@ public class Casilla {
         return posicion;
     }
 
+    public void sumarValor(float valor){
+        this.valor += valor;
+    }
+
     @Override
     public int hashCode() {
         return super.hashCode();

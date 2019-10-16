@@ -41,6 +41,12 @@ public class Grupo {
         this.lado = lado;
     }
 
+    public Grupo(ArrayList<Casilla> casillas, String color, int numeroGrupo){
+        this.casillas = casillas;
+        this.numeroGrupo = numeroGrupo;
+        setColor(color);
+    }
+
     public ArrayList<Casilla> getCasillas(){
         return casillas;
     }

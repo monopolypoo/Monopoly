@@ -110,9 +110,39 @@ public class Jugador {
     public void pagarAlquiler(Casilla casilla){
         if(casilla.getDuenho() != null){
             if(!casilla.getDuenho().getNombre().equals(this.getNombre())){
-                this.restarFortuna((float) casilla.getValorAlquiler());
-                casilla.getDuenho().sumarFortuna((float) casilla.getValorAlquiler());
+                if (this.fortuna >= casilla.getValorAlquiler()) {
+                    this.restarFortuna((float) casilla.getValorAlquiler());
+                    this.dineroGastado += casilla.getValorAlquiler();
+                    casilla.getDuenho().sumarFortuna((float) casilla.getValorAlquiler());
+                    System.out.println("Caeches nunha casilla que pertence ao avatar " + casilla.getDuenho().getAvatar().getId()
+                            + ", polo que se lle pagou o alquiler de " + casilla.getValorAlquiler() + "€.");
+                }
+                else{
+                    System.out.println("Non tes cartos suficientes para pagar o alquiler, polo que estás en bancarrota.");
+                }
             }
+        }
+    }
+
+    public void pagarImpuestos(Casilla casilla, Taboleiro taboleiro){
+        if ((casilla.getPosicion() == 4) || (casilla.getPosicion() == 38)){
+            if (this.fortuna >= casilla.getValor()) {
+                this.restarFortuna((float) casilla.getValor());
+                this.dineroGastado += casilla.getValor();
+                taboleiro.getCasillaPosicion(20).sumarValor((float) casilla.getValor());
+                System.out.println("Caeches nunha casilla de impostos, polo que se realizou o pago de " + casilla.getValor() + "€.");
+            }
+            else{
+                System.out.println("Non tes cartos suficientes para pagar o imposto, polo que estás en bancarrota.");
+            }
+        }
+    }
+
+    public void cobrarParking(Casilla casilla){
+        if (casilla.getPosicion() == 20){
+            this.sumarFortuna((float) casilla.getValor());
+            System.out.println("Caeches no Parking, polo que cobras o total acumulado que é de: " + casilla.getValor() + "€.");
+            casilla.setValor(0);
         }
     }
 
@@ -137,9 +167,12 @@ public class Jugador {
        if (taboleiro.sePuedeComprar(casilla)) {
            if (casilla.getDuenho() == null) {
                if (this.fortuna >= casilla.getValor()) {
+                   restarFortuna((float) casilla.getValor());
+                   this.dineroGastado += casilla.getValor();
                    casilla.setDuenho(this);
                    this.propiedades.add(casilla);
-
+                   System.out.println("El jugador " + this.nombre + " compra la casilla " + casilla.getNombreSinEspacio()
+                                        + " por " + casilla.getValor() + "€. Su fortuna actual es: " + this.fortuna + "€.");
                } else {
                    System.out.println("Non tes suficientes cartos para comprar esta casilla.");
                }
