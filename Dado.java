@@ -1,4 +1,3 @@
-import javax.persistence.criteria.CriteriaBuilder;
 import java.util.Random;
 
 public class Dado {
@@ -57,7 +56,7 @@ public class Dado {
         }
         if (this.posSiguiente == 30){
             jugador.irCarcere(taboleiro);
-            System.out.println("Tocouche a casilla Ir Cárcere, polo que agora estás no cárcere."); //decir lo que tiene que hacer
+            System.out.println("Caíste en la casilla Ir Cárcel, por lo que ahora estás en la cárcel.");
         }
         else {
             this.posSiguiente = this.posSiguiente % 40;
@@ -75,8 +74,8 @@ public class Dado {
     public String textoLanzarDados(Taboleiro taboleiro) {
         String texto;
         int sumaDados = this.dado1 + this.dado2;
-        texto = " avanza " + sumaDados + " posicións, dende " + taboleiro.getCasillaPosicion(this.posActual).getNombreSinEspacio() +
-                " ata " + taboleiro.getCasillaPosicion(this.posSiguiente).getNombreSinEspacio() + "."; // Falta pagaronse
+        texto = " avanza " + sumaDados + " posiciones, desde " + taboleiro.getCasillaPosicion(this.posActual).getNombreSinEspacio() +
+                " hasta " + taboleiro.getCasillaPosicion(this.posSiguiente).getNombreSinEspacio() + "."; // Falta pagaronse
         return texto;
     }
 
