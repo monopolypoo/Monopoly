@@ -65,29 +65,28 @@ public class Casilla {
         String[] texto = new String[2];
         int aux;
 
-        if (this.vecesCasilla.containsKey(jugador.getNombre())){
+        if (this.vecesCasilla.containsKey(jugador.getNombre())) {
             texto = this.vecesCasilla.get(jugador.getNombre());
             aux = Integer.parseInt(texto[1]);
             aux++;
             texto[1] = "" + aux;
             this.vecesCasilla.replace(jugador.getNombre(), texto);
-        }
-        else{
+        } else {
             texto[0] = jugador.getNombre();
             texto[1] = "1";
             this.vecesCasilla.put(jugador.getNombre(), texto);
         }
     }
 
-    public boolean isSubirPrecio(){
-        for (String[] cadena : this.vecesCasilla.values()){
+    public boolean isSubirPrecio() {
+        for (String[] cadena : this.vecesCasilla.values()) {
             if (Integer.parseInt(cadena[1]) < 4)
                 return false;
         }
         return true;
     }
 
-    public boolean haiAvatar(){
+    public boolean haiAvatar() {
         return this.avatares.size() != 0;
     }
 
@@ -107,23 +106,23 @@ public class Casilla {
         return avatares;
     }
 
-    public String getIds(){
+    public String getIds() {
         String texto = " &";
         int tam, i = 1;
         tam = this.avatares.size();
 
         for (Avatar avatar : this.avatares.values()) {
             texto += avatar.getId();
-            if(tam != i){
+            if (tam != i) {
                 texto += ",";
             }
             i++;
         }
-        for(int j = 0 ; j < 16 - (tam * 2 + 1) ; j++){
+        for (int j = 0; j < 18 - (tam * 2 + 1); j++) {
             texto += " ";
         }
 
-        return  texto;
+        return texto;
     }
 
     public double getValorAlquiler() {
@@ -134,9 +133,9 @@ public class Casilla {
         return this.vecesCasilla;
     }
 
-    public String GetVecesCasilla(){
+    public String GetVecesCasilla() {
         String texto;
-        for (String[] nombre : this.vecesCasilla.values()){
+        for (String[] nombre : this.vecesCasilla.values()) {
 
         }
         return "";
@@ -157,6 +156,22 @@ public class Casilla {
             return nom[0] + " " + nom[1];
         } else if (nom.length == 3) {
             return nom[0] + " " + nom[1] + " " + nom[2];
+        } else if (nom.length == 4) {
+            return nom[0] + " " + nom[1] + " " + nom[2] + " " + nom[3];
+        } else {
+            return nom[0];
+        }
+    }
+
+    public String getNombreSinEspacios() {
+        String[] nom;
+        nom = nombre.split(" ");
+        if (nom.length == 2) {
+            return nom[0] + nom[1];
+        } else if (nom.length == 3) {
+            return nom[0] + nom[1] + nom[2];
+        } else if (nom.length == 4) {
+            return nom[0] + nom[1] + nom[2] + nom[3];
         } else {
             return nom[0];
         }
@@ -191,7 +206,7 @@ public class Casilla {
         return posicion;
     }
 
-    public void sumarValor(float valor){
+    public void sumarValor(float valor) {
         this.valor += valor;
     }
 
@@ -209,13 +224,13 @@ public class Casilla {
             texto = "No hay información sobre esta casilla!";
         } else if (this.posicion == 10) {
             texto = "";
-            for (String[] nombre : this.vecesCasilla.values()){
+            for (String[] nombre : this.vecesCasilla.values()) {
                 texto += "[" + nombre[0] + ", " + nombre[1] + "] ";
             }
             texto = "{\n\tsalir: " + 0.25 * Valor.VUELTA + ",\n\tjugadores: " + texto + "\n}";
-        } else if (this.posicion == 20){
+        } else if (this.posicion == 20) {
             texto = "[";
-            for (String[] nombre : this.vecesCasilla.values()){
+            for (String[] nombre : this.vecesCasilla.values()) {
                 texto += nombre[0] + " "; //mirar para ponerle la coma sin que se la ponga al ultimo tambien
             }
             texto += "]";
