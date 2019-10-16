@@ -126,6 +126,10 @@ public class Casilla {
         return  texto;
     }
 
+    public double getValorAlquiler() {
+        return valorAlquiler;
+    }
+
     public HashMap<String, String[]> getVecesCasilla() {
         return this.vecesCasilla;
     }
