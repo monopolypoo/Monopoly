@@ -110,6 +110,8 @@ public class Menu {
                                             this.poderComprar = false;
                                             this.contadorDobles = 0;
                                             texto = "Sacaches tres dobles seguidos, polo que tes que ir ao cárcere!";
+                                        }else{
+                                            this.jugadorActual.pagarAlquiler(this.jugadorActual.getAvatar().getCasilla());
                                         }
                                         System.out.println(taboleiro);
                                         System.out.println("O avatar " + jugadorActual.getAvatar().getId() + dados.textoLanzarDados(taboleiro) + texto);
