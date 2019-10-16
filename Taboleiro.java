@@ -13,52 +13,52 @@ public class Taboleiro {
 
     public Taboleiro() {
         // Casillas UDC Ferrol (SUR)
-        Casilla saida = new Casilla("Saída           ", "especial", 0);
-        Casilla solar1 = new Casilla("Enx. Eléctrica  ", "solar", 1);
-        Casilla caixa1 = new Casilla("Caixa Comunidade", "caixa", 2);
-        Casilla solar2 = new Casilla("Enx. Mecánica   ", "solar", 3);
-        Casilla imp1 = new Casilla("Imp. Militar    ", "imposto", 4, Valor.VUELTA);
-        Casilla trans1 = new Casilla("Pto. Ferrol     ", "transporte", 5);
-        Casilla solar3 = new Casilla("Podoloxía       ", "solar", 6);
-        Casilla sorte1 = new Casilla("Sorte           ", "sorte", 7);
-        Casilla solar4 = new Casilla("Humanidades     ", "solar", 8);
-        Casilla solar5 = new Casilla("Documentación   ", "solar", 9);
+        Casilla saida = new Casilla(" Salida           ", "especial", 0);
+        Casilla solar1 = new Casilla("Ing. Eléctrica    ", "solar", 1);
+        Casilla caixa1 = new Casilla(" Caja Comunidad   ", "caixa", 2);
+        Casilla solar2 = new Casilla(" Ing. Mecánica    ", "solar", 3);
+        Casilla imp1 = new Casilla(" Imp. Militar     ", "imposto", 4, Valor.VUELTA);
+        Casilla trans1 = new Casilla(" Pto. Ferrol      ", "transporte", 5);
+        Casilla solar3 = new Casilla(" Podología        ", "solar", 6);
+        Casilla sorte1 = new Casilla(" Suerte           ", "sorte", 7);
+        Casilla solar4 = new Casilla(" Humanidades      ", "solar", 8);
+        Casilla solar5 = new Casilla(" Documentación    ", "solar", 9);
 
         // Casillas UDC Coruña (OESTE)
-        Casilla carcere = new Casilla("Cárcere         ", "especial", 10);
-        Casilla solar6 = new Casilla("Fisioterapia    ", "solar", 11);
-        Casilla serv1 = new Casilla("Serv. Teleco    ", "servizos", 12);
-        Casilla solar7 = new Casilla("Turismo         ", "solar", 13);
-        Casilla solar8 = new Casilla("Náutica         ", "solar", 14);
-        Casilla trans2 = new Casilla("Base Esp. Coruña", "transporte", 15);
-        Casilla solar9 = new Casilla("Arquitectura    ", "solar", 16);
-        Casilla caixa2 = new Casilla("Caixa Comunidade", "caixa", 17);
-        Casilla solar10 = new Casilla("Enx. Camiños    ", "solar", 18);
-        Casilla solar11 = new Casilla("FIC             ", "solar", 19);
+        Casilla carcere = new Casilla(" Cárcel           ", "especial", 10);
+        Casilla solar6 = new Casilla( " Fisioterapia     ", "solar", 11);
+        Casilla serv1 = new Casilla(" Serv. Teleco     ", "servizos", 12);
+        Casilla solar7 = new Casilla(" Turismo          ", "solar", 13);
+        Casilla solar8 = new Casilla(" Náutica          ", "solar", 14);
+        Casilla trans2 = new Casilla(" Base Esp. Coruña ", "transporte", 15);
+        Casilla solar9 = new Casilla(" Arquitectura     ", "solar", 16);
+        Casilla caixa2 = new Casilla(" Caja Comunidad   ", "caixa", 17);
+        Casilla solar10 = new Casilla(" Ing. Caminos     ", "solar", 18);
+        Casilla solar11 = new Casilla(" FIC              ", "solar", 19);
 
         // Casillas USC Santiago (NORTE)
-        Casilla parking = new Casilla("Parking         ", "especial", 20);
-        Casilla solar12 = new Casilla("Historia        ", "solar", 21);
-        Casilla sorte2 = new Casilla("Sorte           ", "sorte", 22);
-        Casilla solar13 = new Casilla("Filoloxía       ", "solar", 23);
-        Casilla solar14 = new Casilla("C. da Educación ", "solar", 24);
-        Casilla trans3 = new Casilla("Apto. A Valleta ", "transporte", 25);
-        Casilla solar15 = new Casilla("Medicina        ", "solar", 26);
-        Casilla solar16 = new Casilla("Enfermería      ", "solar", 27);
-        Casilla serv2 = new Casilla("Serv. Eléctrico ", "servizos", 28);
-        Casilla solar17 = new Casilla("ADE             ", "solar", 29);
+        Casilla parking = new Casilla(" Parking          ", "especial", 20);
+        Casilla solar12 = new Casilla(" Historia         ", "solar", 21);
+        Casilla sorte2 = new Casilla(" Suerte           ", "sorte", 22);
+        Casilla solar13 = new Casilla(" Filología        ", "solar", 23);
+        Casilla solar14 = new Casilla(" C. de Educación  ", "solar", 24);
+        Casilla trans3 = new Casilla(" Apto. A Valleta  ", "transporte", 25);
+        Casilla solar15 = new Casilla(" Medicina         ", "solar", 26);
+        Casilla solar16 = new Casilla(" Enfermería       ", "solar", 27);
+        Casilla serv2 = new Casilla(" Serv. Eléctrico  ", "servizos", 28);
+        Casilla solar17 = new Casilla(" ADE              ", "solar", 29);
 
         // Casillas USC Santiago (LESTE)
-        Casilla irCarcere = new Casilla("Ir Cárcere      ", "especial", 30);
-        Casilla solar18 = new Casilla("Farmacia        ", "solar", 31);
-        Casilla solar19 = new Casilla("Bioloxía        ", "solar", 32);
-        Casilla caixa3 = new Casilla("Caixa Comunidade", "solar", 33);
-        Casilla solar20 = new Casilla("Química         ", "solar", 34);
-        Casilla trans4 = new Casilla("E. tren Santiago", "transporte", 35);
-        Casilla sorte3 = new Casilla("Sorte           ", "sorte", 36);
-        Casilla solar21 = new Casilla("Física          ", "solar", 37);
-        Casilla imp2 = new Casilla("Imp. da luz     ", "imposto", 38, Valor.VUELTA / 2.0);
-        Casilla solar22 = new Casilla("ETSE            ", "solar", 39);
+        Casilla irCarcere = new Casilla(" Ir Cárcel        ", "especial", 30);
+        Casilla solar18 = new Casilla(" Farmacia         ", "solar", 31);
+        Casilla solar19 = new Casilla(" Bioloxía         ", "solar", 32);
+        Casilla caixa3 = new Casilla(" Caja Comunidad   ", "solar", 33);
+        Casilla solar20 = new Casilla(" Química          ", "solar", 34);
+        Casilla trans4 = new Casilla(" E. tren Santiago ", "transporte", 35);
+        Casilla sorte3 = new Casilla(" Suerte           ", "sorte", 36);
+        Casilla solar21 = new Casilla(" Física           ", "solar", 37);
+        Casilla imp2 = new Casilla(   " Imp. de la luz   ", "imposto", 38, Valor.VUELTA / 2.0);
+        Casilla solar22 = new Casilla(" ETSE             ", "solar", 39);
 
         //Creamos los grupos
         ArrayList<Casilla> casillasGrupo1 = new ArrayList<>();
@@ -197,44 +197,44 @@ public class Taboleiro {
 
         //añadimos las casillas a un HashMap
         this.casillas = new HashMap<>();
-        this.casillas.put("Saída", saida);
-        this.casillas.put("Enx.Eléctrica", solar1);
-        this.casillas.put("CaixaComunidade", caixa1);
-        this.casillas.put("Enx.Mecánica", solar2);
+        this.casillas.put("Salida", saida);
+        this.casillas.put("Ing.Eléctrica", solar1);
+        this.casillas.put("CajaComunidad", caixa1);
+        this.casillas.put("Ing.Mecánica", solar2);
         this.casillas.put("Imp.Militar", imp1);
         this.casillas.put("Pto.Ferrol", trans1);
-        this.casillas.put("Podoloxía", solar3);
-        this.casillas.put("Sorte", sorte1);
+        this.casillas.put("Podología", solar3);
+        this.casillas.put("Suerte", sorte1);
         this.casillas.put("Humanidades", solar4);
         this.casillas.put("Documentación", solar5);
 
-        this.casillas.put("Cárcere", carcere);
+        this.casillas.put("Cárcel", carcere);
         this.casillas.put("Fisioterapia", solar6);
         this.casillas.put("Serv.Teleco", serv1);
         this.casillas.put("Turismo", solar7);
         this.casillas.put("Náutica", solar8);
         this.casillas.put("BaseEsp.Coruña", trans2);
         this.casillas.put("Arquitectura", solar9);
-        this.casillas.put("Enx.Camiños", solar10);
+        this.casillas.put("Ing.Camiños", solar10);
         this.casillas.put("FIC", solar11);
 
         this.casillas.put("Parking", parking);
         this.casillas.put("Historia", solar12);
-        this.casillas.put("Filoloxía", solar13);
-        this.casillas.put("C.daEducación", solar14);
+        this.casillas.put("Filología", solar13);
+        this.casillas.put("C.deEducación", solar14);
         this.casillas.put("Apto.AValleta", trans3);
         this.casillas.put("Medicina", solar15);
         this.casillas.put("Enfermería", solar16);
         this.casillas.put("Serv.Eléctrico", serv2);
         this.casillas.put("ADE", solar17);
 
-        this.casillas.put("IrCárcere", irCarcere);
+        this.casillas.put("IrCárcel", irCarcere);
         this.casillas.put("Farmacia", solar18);
-        this.casillas.put("Bioloxía", solar19);
+        this.casillas.put("Biología", solar19);
         this.casillas.put("Química", solar20);
         this.casillas.put("E.trenSantiago", trans4);
         this.casillas.put("Física", solar21);
-        this.casillas.put("Imp.daLuz", imp2);
+        this.casillas.put("Imp.delaLuz", imp2);
         this.casillas.put("ETSE", solar22);
 
 
@@ -386,41 +386,41 @@ public class Taboleiro {
 
         String textoTope = BLANCO + "┌";
         for (int i = 0; i < 10; i++) {
-            textoTope += "────────────────┬";
+            textoTope += "──────────────────┬";
         }
-        textoTope += "────────────────┐\n";
+        textoTope += "──────────────────┐\n";
 
         String textoTopeAbajo = BLANCO + "└";
         for (int i = 0; i < 10; i++) {
-            textoTopeAbajo += "────────────────┴";
+            textoTopeAbajo += "──────────────────┴";
         }
-        textoTopeAbajo += "────────────────┘\n";
+        textoTopeAbajo += "──────────────────┘\n";
 
 
-        String textoTopeMedioArriba = BLANCO + "├────────────────┼";
+        String textoTopeMedioArriba = BLANCO + "├──────────────────┼";
         for (int i = 0; i < 8; i++) {
-            textoTopeMedioArriba += "────────────────┴";
+            textoTopeMedioArriba += "──────────────────┴";
         }
-        textoTopeMedioArriba += "────────────────┼────────────────┤\n";
+        textoTopeMedioArriba += "──────────────────┼──────────────────┤\n";
 
-        String textoTopeMedioAbajo = BLANCO + "├────────────────┼";
+        String textoTopeMedioAbajo = BLANCO + "├──────────────────┼";
         for (int i = 0; i < 8; i++) {
-            textoTopeMedioAbajo += "────────────────┬";
+            textoTopeMedioAbajo += "──────────────────┬";
         }
-        textoTopeMedioAbajo += "────────────────┼────────────────┤\n";
+        textoTopeMedioAbajo += "──────────────────┼──────────────────┤\n";
 
 
         String textoEspaciado = BLANCO + "│ ";
-        for (int i = 0; i < 151; i++) {
+        for (int i = 0; i < 169; i++) {
             textoEspaciado += " ";
         }
         textoEspaciado += "│";
         // ┬
-        String textoTopeEspaciado = BLANCO + "├────────────────┤";
-        for (int i = 0; i < 152; i++) {
+        String textoTopeEspaciado = BLANCO + "├──────────────────┤";
+        for (int i = 0; i < 170; i++) {
             textoTopeEspaciado += " ";
         }
-        textoTopeEspaciado += "├────────────────┤\n";
+        textoTopeEspaciado += "├──────────────────┤\n";
 
         String textoNorte = "";
         String textoSur = "";
@@ -432,14 +432,14 @@ public class Taboleiro {
             if (ladoNorte.getCasillas().get(i).haiAvatar()) {
                 textoAvataresNorte += ladoNorte.getCasillas().get(i).getIds();
             } else {
-                for (int j = 0; j < 16; j++) {
+                for (int j = 0; j < 18; j++) {
                     textoAvataresNorte += " ";
                 }
             }
             if (ladoSur.getCasillas().get(i).haiAvatar()) {
                 textoAvataresSur += ladoSur.getCasillas().get(i).getIds();
             } else {
-                for (int j = 0; j < 16; j++) {
+                for (int j = 0; j < 18; j++) {
                     textoAvataresSur += " ";
                 }
             }
@@ -451,7 +451,7 @@ public class Taboleiro {
                 if (ladoOeste.getCasillas().get(i).haiAvatar()) {
                     textoOesteLeste += ladoOeste.getCasillas().get(i).getIds();
                 } else {
-                    for (int j = 0; j < 16; j++) {
+                    for (int j = 0; j < 18; j++) {
                         textoOesteLeste += " ";
                     }
                 }
@@ -459,7 +459,7 @@ public class Taboleiro {
                 if (ladoLeste.getCasillas().get(i).haiAvatar()) {
                     textoOesteLeste += ladoLeste.getCasillas().get(i).getIds();
                 } else {
-                    for (int j = 0; j < 16; j++) {
+                    for (int j = 0; j < 18; j++) {
                         textoOesteLeste += " ";
                     }
                 }
