@@ -369,6 +369,15 @@ public class Taboleiro {
         }
     }
 
+    public String listarEnVenta(){
+        String texto = "";
+        for (Casilla cas : casillasNoEnVenta){
+            texto += "{\n\ttipo: " + cas.getTipo() + "\n\tnombre: " + cas.getNombreSinEspacio() + "\n\tvalor: " + cas.getValor() + "}\n";
+        }
+
+        return texto;
+    }
+
     public boolean sePuedeComprar(Casilla casilla){
         if (this.casillasNoEnVenta.contains(casilla)){
             return false;
