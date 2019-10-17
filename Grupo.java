@@ -121,4 +121,13 @@ public class Grupo {
             texto = "O grupo todavía non se inicializou.";
         return texto;
     }
+
+    public boolean equals(Object obj){
+        if (this.getNumeroGrupo() == ((Grupo) obj).getNumeroGrupo()){
+            return true;
+        }
+        else{
+            return false;
+        }
+    }
 }

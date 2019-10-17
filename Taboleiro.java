@@ -10,6 +10,8 @@ public class Taboleiro {
     private HashMap<String, Casilla> casillas;
     private HashMap<Integer, Casilla> casillasPosicion;
     private ArrayList<Casilla> casillasNoEnVenta;
+    private ArrayList<Casilla> casillasEnVenta;
+
 
     public Taboleiro() {
         // Casillas UDC Ferrol (SUR)
@@ -298,6 +300,36 @@ public class Taboleiro {
         casillasNoEnVenta.add(imp1);
         casillasNoEnVenta.add(imp2);
 
+        this.casillasEnVenta = new ArrayList<>();
+        casillasEnVenta.add(solar1);
+        casillasEnVenta.add(solar2);
+        casillasEnVenta.add(trans1);
+        casillasEnVenta.add(solar3);
+        casillasEnVenta.add(solar4);
+        casillasEnVenta.add(solar5);
+        casillasEnVenta.add(solar6);
+        casillasEnVenta.add(serv1);
+        casillasEnVenta.add(solar7);
+        casillasEnVenta.add(solar8);
+        casillasEnVenta.add(trans2);
+        casillasEnVenta.add(solar9);
+        casillasEnVenta.add(solar10);
+        casillasEnVenta.add(solar11);
+        casillasEnVenta.add(solar12);
+        casillasEnVenta.add(solar13);
+        casillasEnVenta.add(solar14);
+        casillasEnVenta.add(trans3);
+        casillasEnVenta.add(solar15);
+        casillasEnVenta.add(solar16);
+        casillasEnVenta.add(serv2);
+        casillasEnVenta.add(solar17);
+        casillasEnVenta.add(solar18);
+        casillasEnVenta.add(solar19);
+        casillasEnVenta.add(solar20);
+        casillasEnVenta.add(trans4);
+        casillasEnVenta.add(solar21);
+        casillasEnVenta.add(solar22);
+
     }
 
     public Grupo getLadoNorte() {
@@ -340,6 +372,14 @@ public class Taboleiro {
         this.ladoSur = lado;
     }
 
+    public ArrayList<Casilla> getCasillasNoEnVenta(){
+        return casillasNoEnVenta;
+    }
+
+    public ArrayList<Casilla> getCasillasEnVenta(){
+        return casillasEnVenta;
+    }
+
     public void subirPrecios(){
         ArrayList<Grupo> todasLasCasillas = new ArrayList<>();
         todasLasCasillas.add(this.ladoNorte);
@@ -369,13 +409,12 @@ public class Taboleiro {
         }
     }
 
-    public String listarEnVenta(){
+    public void listarEnVenta(){
         String texto = "";
-        for (Casilla cas : casillasNoEnVenta){
-            texto += "{\n\ttipo: " + cas.getTipo() + "\n\tnombre: " + cas.getNombreSinEspacio() + "\n\tvalor: " + cas.getValor() + "}\n";
+        for (Casilla cas : this.casillasEnVenta){
+            texto += "{\n\tNombre: " + cas.getNombreSinEspacio() + "\n\tTipo: " + cas.getTipo() + "\n\tValor: " + cas.getValor() + "\n}\n";
         }
-
-        return texto;
+        System.out.println(texto);
     }
 
     public boolean sePuedeComprar(Casilla casilla){

@@ -6,6 +6,7 @@ public class Dado {
     private boolean iguales;
     private int posActual;
     private int posSiguiente;
+    private int dadoTotal;
 
     public Dado() {
 
@@ -19,6 +20,10 @@ public class Dado {
         //ale = new Random(System.currentTimeMillis());
         dado.dado2 = (int) (Math.random() * 6 + 1);
 
+    }
+
+    public int getDadoTotal(){
+        return this.dadoTotal;
     }
 
     public Dado(Dado dado) throws InterruptedException {
@@ -42,11 +47,11 @@ public class Dado {
         int dado;
 
         Casilla casillaSiguiente;
-        dado = lanzarLosDados();
+        this.dadoTotal = lanzarLosDados();
 
         this.posActual = jugador.getAvatar().getCasilla().getPosicion();
         taboleiro.getCasillaPosicion(this.posActual).eliminarAvatar(jugador.getAvatar().getId());
-        this.posSiguiente = this.posActual + dado;
+        this.posSiguiente = this.posActual + this.dadoTotal;
         if(this.posSiguiente > 39){
             jugador.sumarFortuna(Valor.VUELTA);
             taboleiro.getCasillaPosicion(0).setVecesCasilla(jugador);
@@ -61,7 +66,6 @@ public class Dado {
         else {
             this.posSiguiente = this.posSiguiente % 40;
             casillaSiguiente = taboleiro.getCasillaPosicion(this.posSiguiente);
-
             jugador.getAvatar().setCasilla(casillaSiguiente);
         }
         taboleiro.getCasillaPosicion(this.posSiguiente).setAvatar(jugador.getAvatar().getId(), jugador.getAvatar());

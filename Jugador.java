@@ -107,18 +107,39 @@ public class Jugador {
         this.propiedades = propiedades;
     }
 
-    public void pagarAlquiler(Casilla casilla){
+    public void pagarAlquiler(Casilla casilla, int dadoTotal, Taboleiro taboleiro){
+        int deuda;
         if(casilla.getDuenho() != null){
             if(!casilla.getDuenho().getNombre().equals(this.getNombre())){
-                if (this.fortuna >= casilla.getValorAlquiler()) {
-                    this.restarFortuna((float) casilla.getValorAlquiler());
-                    this.dineroGastado += casilla.getValorAlquiler();
-                    casilla.getDuenho().sumarFortuna((float) casilla.getValorAlquiler());
-                    System.out.println("Caiste en una casilla que pertenece al avatar " + casilla.getDuenho().getAvatar().getId()
-                            + ", por lo que se le pagó el alquiler de " + casilla.getValorAlquiler() + "€.");
+                if ((casilla.getPosicion() == 12) || (casilla.getPosicion() == 28)){
+                    if ((taboleiro.getCasillaPosicion(12).getDuenho() != null) && (taboleiro.getCasillaPosicion(28).getDuenho() != null) &&
+                            (taboleiro.getCasillaPosicion(12).getDuenho().equals(taboleiro.getCasillaPosicion(28).getDuenho()))){
+                        deuda = (10 * dadoTotal * (Valor.VUELTA / 200));
+                        this.restarFortuna((float) deuda);
+                        this.dineroGastado += deuda;
+                        casilla.getDuenho().sumarFortuna((float) deuda);
+                        System.out.println("Caiste en una casilla de servicios que pertenece al avatar " + casilla.getDuenho().getAvatar().getId()
+                                + ", por lo que se le pagó un alquiler de " + deuda + "€.");
+                    }
+                    else{
+                        deuda = (4 * dadoTotal * (Valor.VUELTA / 200));
+                        this.restarFortuna((float) deuda);
+                        this.dineroGastado += deuda;
+                        casilla.getDuenho().sumarFortuna((float) deuda);
+                        System.out.println("Caiste en una casilla de servicios que pertenece al avatar " + casilla.getDuenho().getAvatar().getId()
+                                + ", por lo que se le pagó un alquiler de " + deuda + "€.");
+                    }
                 }
-                else{
-                    System.out.println("No tienes dinero suficiente para pagar el alquiler, por lo que estás en bancarrota.");
+                else {
+                    if (this.fortuna >= casilla.getValorAlquiler()) {
+                        this.restarFortuna((float) casilla.getValorAlquiler());
+                        this.dineroGastado += casilla.getValorAlquiler();
+                        casilla.getDuenho().sumarFortuna((float) casilla.getValorAlquiler());
+                        System.out.println("Caiste en una casilla que pertenece al avatar " + casilla.getDuenho().getAvatar().getId()
+                                + ", por lo que se le pagó el alquiler de " + casilla.getValorAlquiler() + "€.");
+                    } else {
+                        System.out.println("No tienes dinero suficiente para pagar el alquiler, por lo que estás en bancarrota.");
+                    }
                 }
             }
         }
@@ -164,27 +185,27 @@ public class Jugador {
     }
 
     public void comprarCasilla(Casilla casilla, Taboleiro taboleiro){
-       if (taboleiro.sePuedeComprar(casilla)) {
-           if (casilla.getDuenho() == null) {
-               if (this.fortuna >= casilla.getValor()) {
-                   restarFortuna((float) casilla.getValor());
-                   this.dineroGastado += casilla.getValor();
-                   casilla.setDuenho(this);
-                   this.propiedades.add(casilla);
-                   System.out.println("El jugador " + this.nombre + " compra la casilla " + casilla.getNombreSinEspacio()
-                                        + " por " + casilla.getValor() + "€. Su fortuna actual es: " + this.fortuna + "€.");
-                   taboleiro.casillasEnVenta.remove(casilla);
-               } else {
-                   System.out.println("No tienes suficiente dinero para comprar esta casilla.");
-               }
-           }
-           else{
-               System.out.println("No puedes comprar esta casilla porque ya tiene dueño.");
-           }
-       }
-       else{
-           System.out.println("Esta casilla no se puede comprar.");
-       }
+        if (taboleiro.sePuedeComprar(casilla)) {
+            if (casilla.getDuenho() == null) {
+                if (this.fortuna >= casilla.getValor()) {
+                    restarFortuna((float) casilla.getValor());
+                    this.dineroGastado += casilla.getValor();
+                    casilla.setDuenho(this);
+                    this.propiedades.add(casilla);
+                    System.out.println("El jugador " + this.nombre + " compra la casilla " + casilla.getNombreSinEspacio()
+                            + " por " + casilla.getValor() + "€. Su fortuna actual es: " + this.fortuna + "€.");
+                    taboleiro.getCasillasEnVenta().remove(casilla);
+                } else {
+                    System.out.println("No tienes suficiente dinero para comprar esta casilla.");
+                }
+            }
+            else{
+                System.out.println("No puedes comprar esta casilla porque ya tiene dueño.");
+            }
+        }
+        else{
+            System.out.println("Esta casilla no se puede comprar.");
+        }
     }
 
     @Override
@@ -215,5 +236,4 @@ public class Jugador {
         return texto;
     }
 }
-
 

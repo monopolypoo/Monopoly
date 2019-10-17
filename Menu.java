@@ -71,7 +71,7 @@ public class Menu {
                                 break;
 
                             case "enventa":
-                                //no para esta entrega
+                                taboleiro.listarEnVenta();
                                 break;
 
                             default:
@@ -115,7 +115,7 @@ public class Menu {
                                         } else {
                                             System.out.println(taboleiro);
                                             System.out.println("El avatar " + jugadorActual.getAvatar().getId() + dados.textoLanzarDados(taboleiro) + texto);
-                                            this.jugadorActual.pagarAlquiler(this.jugadorActual.getAvatar().getCasilla());
+                                            this.jugadorActual.pagarAlquiler(this.jugadorActual.getAvatar().getCasilla(), dados.getDadoTotal(), taboleiro);
                                             this.jugadorActual.pagarImpuestos(this.jugadorActual.getAvatar().getCasilla(), this.taboleiro);
                                             this.jugadorActual.cobrarParking(this.jugadorActual.getAvatar().getCasilla());
                                         }
