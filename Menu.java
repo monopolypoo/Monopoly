@@ -90,7 +90,7 @@ public class Menu {
                                 texto = "";
                                 if (!this.dadosLanzados) {
                                     if (!this.jugadorActual.getEstarCarcere()) {
-                                        dados.lanzarDados(jugadorActual, taboleiro);
+                                        dados.lanzarDados(jugadorActual, taboleiro, this);
                                         if (dados.sonIguales()) {
                                             this.dadosLanzados = false;
                                             this.sigueTurno = true;
@@ -110,6 +110,8 @@ public class Menu {
                                             this.poderComprar = false;
                                             this.contadorDobles = 0;
                                             texto = "Sacastes tres dobles seguidos, por lo que tienes que ir a la cárcel!";
+                                            taboleiro.getCasillaPosicion(jugadorActual.getAvatar().getCasilla().getPosicion()).eliminarAvatar(jugadorActual.getAvatar().getId());
+                                            taboleiro.getCasillaPosicion(10).setAvatar(jugadorActual.getAvatar().getId(), jugadorActual.getAvatar());
                                             System.out.println(taboleiro);
                                             System.out.println("El avatar " + jugadorActual.getAvatar().getId() + dados.textoLanzarDados(taboleiro) + texto);
                                         } else {
@@ -230,6 +232,7 @@ public class Menu {
                             if (!this.jugadorActual.getEstarCarcere()) {
                                 if (this.poderComprar) {
                                     this.jugadorActual.comprarCasilla(this.jugadorActual.getAvatar().getCasilla(), this.taboleiro);
+                                    taboleiro.setContadorVueltas(0);
                                 } else {
                                     System.out.println("Para comprar una casilla antes debe tirar los dados.");
                                 }
@@ -266,6 +269,10 @@ public class Menu {
 
         }
 
+    }
+
+    public int numeroJugadores(){
+        return jugadores.size();
     }
 
     public String[] leerComando() {
