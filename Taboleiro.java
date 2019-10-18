@@ -11,9 +11,14 @@ public class Taboleiro {
     private HashMap<Integer, Casilla> casillasPosicion;
     private ArrayList<Casilla> casillasNoEnVenta;
     private ArrayList<Casilla> casillasEnVenta;
+    private boolean sePuedeSubirPrecio;
+    public int contadorVueltas;
 
 
     public Taboleiro() {
+        this.sePuedeSubirPrecio = false;
+        this.contadorVueltas = 0;
+
         // Casillas UDC Ferrol (SUR)
         Casilla saida = new Casilla(" Salida           ", "especial", 0);
         Casilla solar1 = new Casilla("Ing. Eléctrica    ", "solar", 1);
@@ -28,7 +33,7 @@ public class Taboleiro {
 
         // Casillas UDC Coruña (OESTE)
         Casilla carcere = new Casilla(" Cárcel           ", "especial", 10);
-        Casilla solar6 = new Casilla( " Fisioterapia     ", "solar", 11);
+        Casilla solar6 = new Casilla(" Fisioterapia     ", "solar", 11);
         Casilla serv1 = new Casilla(" Serv. Teleco     ", "servizos", 12);
         Casilla solar7 = new Casilla(" Turismo          ", "solar", 13);
         Casilla solar8 = new Casilla(" Náutica          ", "solar", 14);
@@ -59,7 +64,7 @@ public class Taboleiro {
         Casilla trans4 = new Casilla(" E. tren Santiago ", "transporte", 35);
         Casilla sorte3 = new Casilla(" Suerte           ", "sorte", 36);
         Casilla solar21 = new Casilla(" Física           ", "solar", 37);
-        Casilla imp2 = new Casilla(   " Imp. de la luz   ", "imposto", 38, Valor.VUELTA / 2.0);
+        Casilla imp2 = new Casilla(" Imp. de la luz   ", "imposto", 38, Valor.VUELTA / 2.0);
         Casilla solar22 = new Casilla(" ETSE             ", "solar", 39);
 
         //Creamos los grupos
@@ -372,56 +377,74 @@ public class Taboleiro {
         this.ladoSur = lado;
     }
 
-    public ArrayList<Casilla> getCasillasNoEnVenta(){
+    public ArrayList<Casilla> getCasillasNoEnVenta() {
         return casillasNoEnVenta;
     }
 
-    public ArrayList<Casilla> getCasillasEnVenta(){
+    public ArrayList<Casilla> getCasillasEnVenta() {
         return casillasEnVenta;
     }
 
-    public void subirPrecios(){
+    public void setContadorVueltas(int contadorVueltas) {
+        this.contadorVueltas = contadorVueltas;
+    }
+
+    public void getCasillasTransportes() {
+    }
+
+    ;
+
+    public void subirPreciosTotal(Menu menu) {
+        this.contadorVueltas++;
+        if (this.contadorVueltas == 4 * menu.numeroJugadores()) {
+            this.sePuedeSubirPrecio = true;
+        }
+    }
+
+    public void subirPrecios() {
         ArrayList<Grupo> todasLasCasillas = new ArrayList<>();
         todasLasCasillas.add(this.ladoNorte);
         todasLasCasillas.add(this.ladoSur);
         todasLasCasillas.add(this.ladoOeste);
         todasLasCasillas.add(this.ladoLeste);
 
-        for (Casilla casilla : todasLasCasillas.get(0).getCasillas()){
-            if (casilla.getTipo().equals("solar")){
-                casilla.setValor(casilla.getValor() * 1.05);
+        if (this.sePuedeSubirPrecio) {
+
+            for (Casilla casilla : todasLasCasillas.get(0).getCasillas()) {
+                if (casilla.getTipo().equals("solar")) {
+                    casilla.setValor(casilla.getValor() * 1.05);
+                }
             }
-        }
-        for (Casilla casilla : todasLasCasillas.get(1).getCasillas()){
-            if (casilla.getTipo().equals("solar")){
-                casilla.setValor(casilla.getValor() * 1.05);
+            for (Casilla casilla : todasLasCasillas.get(1).getCasillas()) {
+                if (casilla.getTipo().equals("solar")) {
+                    casilla.setValor(casilla.getValor() * 1.05);
+                }
             }
-        }
-        for (Casilla casilla : todasLasCasillas.get(2).getCasillas()){
-            if (casilla.getTipo().equals("solar")){
-                casilla.setValor(casilla.getValor() * 1.05);
+            for (Casilla casilla : todasLasCasillas.get(2).getCasillas()) {
+                if (casilla.getTipo().equals("solar")) {
+                    casilla.setValor(casilla.getValor() * 1.05);
+                }
             }
-        }
-        for (Casilla casilla : todasLasCasillas.get(3).getCasillas()){
-            if (casilla.getTipo().equals("solar")){
-                casilla.setValor(casilla.getValor() * 1.05);
+            for (Casilla casilla : todasLasCasillas.get(3).getCasillas()) {
+                if (casilla.getTipo().equals("solar")) {
+                    casilla.setValor(casilla.getValor() * 1.05);
+                }
             }
         }
     }
 
-    public void listarEnVenta(){
+    public void listarEnVenta() {
         String texto = "";
-        for (Casilla cas : this.casillasEnVenta){
+        for (Casilla cas : this.casillasEnVenta) {
             texto += "{\n\tNombre: " + cas.getNombreSinEspacio() + "\n\tTipo: " + cas.getTipo() + "\n\tValor: " + cas.getValor() + "\n}\n";
         }
         System.out.println(texto);
     }
 
-    public boolean sePuedeComprar(Casilla casilla){
-        if (this.casillasNoEnVenta.contains(casilla)){
+    public boolean sePuedeComprar(Casilla casilla) {
+        if (this.casillasNoEnVenta.contains(casilla)) {
             return false;
-        }
-        else
+        } else
             return true;
     }
 
