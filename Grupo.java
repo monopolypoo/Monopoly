@@ -47,6 +47,10 @@ public class Grupo {
         setColor(color);
     }
 
+    public void subirPrecioGrupos(Casilla casilla){
+
+    }
+
     public ArrayList<Casilla> getCasillas(){
         return casillas;
     }
