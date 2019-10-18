@@ -158,20 +158,8 @@ public class Casilla {
             return nom[0] + " " + nom[1] + " " + nom[2];
         } else if (nom.length == 4) {
             return nom[0] + " " + nom[1] + " " + nom[2] + " " + nom[3];
-        } else {
-            return nom[0];
-        }
-    }
-
-    public String getNombreSinEspacios() {
-        String[] nom;
-        nom = nombre.split(" ");
-        if (nom.length == 2) {
-            return nom[0] + nom[1];
-        } else if (nom.length == 3) {
-            return nom[0] + nom[1] + nom[2];
-        } else if (nom.length == 4) {
-            return nom[0] + nom[1] + nom[2] + nom[3];
+        } else if (nom.length == 5) {
+            return nom[0] + " " + nom[1] + " " + nom[2] + " " + nom[3] + " " + nom[4];
         } else {
             return nom[0];
         }

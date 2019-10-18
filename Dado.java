@@ -55,6 +55,7 @@ public class Dado {
         if(this.posSiguiente > 39){
             jugador.sumarFortuna(Valor.VUELTA);
             taboleiro.getCasillaPosicion(0).setVecesCasilla(jugador);
+            System.out.println("Has pasado por la casilla de salida, cobras: " + Valor.VUELTA + "€.");
             if (taboleiro.getCasillaPosicion(0).isSubirPrecio()){
                 taboleiro.subirPrecios();
             }
