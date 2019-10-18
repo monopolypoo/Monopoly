@@ -22,7 +22,7 @@ public class Dado {
 
     }
 
-    public int getDadoTotal(){
+    public int getDadoTotal() {
         return this.dadoTotal;
     }
 
@@ -43,8 +43,7 @@ public class Dado {
         return this.dado1 + this.dado2;
     }
 
-    public void lanzarDados(Jugador jugador, Taboleiro taboleiro) throws InterruptedException {
-        int dado;
+    public void lanzarDados(Jugador jugador, Taboleiro taboleiro, Menu menu) throws InterruptedException {
 
         Casilla casillaSiguiente;
         this.dadoTotal = lanzarLosDados();
@@ -52,24 +51,26 @@ public class Dado {
         this.posActual = jugador.getAvatar().getCasilla().getPosicion();
         taboleiro.getCasillaPosicion(this.posActual).eliminarAvatar(jugador.getAvatar().getId());
         this.posSiguiente = this.posActual + this.dadoTotal;
-        if(this.posSiguiente > 39){
+        if (this.posSiguiente > 39) {
             jugador.sumarFortuna(Valor.VUELTA);
             taboleiro.getCasillaPosicion(0).setVecesCasilla(jugador);
             System.out.println("Has pasado por la casilla de salida, cobras: " + Valor.VUELTA + "€.");
-            if (taboleiro.getCasillaPosicion(0).isSubirPrecio()){
+            if (taboleiro.getCasillaPosicion(0).isSubirPrecio()) {
                 taboleiro.subirPrecios();
             }
+            taboleiro.subirPreciosTotal(menu);
         }
-        if (this.posSiguiente == 30){
+        if (this.posSiguiente == 30) {
             jugador.irCarcere(taboleiro);
             System.out.println("Caíste en la casilla Ir Cárcel, por lo que ahora estás en la cárcel.");
-        }
-        else {
+            taboleiro.getCasillaPosicion(10).setAvatar(jugador.getAvatar().getId(), jugador.getAvatar());
+            taboleiro.setContadorVueltas(0);
+        } else {
             this.posSiguiente = this.posSiguiente % 40;
             casillaSiguiente = taboleiro.getCasillaPosicion(this.posSiguiente);
             jugador.getAvatar().setCasilla(casillaSiguiente);
+            taboleiro.getCasillaPosicion(this.posSiguiente).setAvatar(jugador.getAvatar().getId(), jugador.getAvatar());
         }
-        taboleiro.getCasillaPosicion(this.posSiguiente).setAvatar(jugador.getAvatar().getId(), jugador.getAvatar());
     }
 
     public boolean sonIguales() {
