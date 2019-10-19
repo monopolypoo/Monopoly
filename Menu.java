@@ -240,7 +240,8 @@ public class Menu {
                                 System.out.println("Si estás en la cárcel no puedes comprar.");
                             }
                         } else {
-                            System.out.println("No puedes comprar una casilla en la que no estás.");
+                            System.out.println("No puedes comprar una casilla en la que no estás. \n" +
+                                    "Asegurate de que has introducido bien el nombre de la casilla (tal y como aparece en el tablero pero sin espacios).");
                         }
                     } else {
                         System.out.println("Comando incorrecto.");

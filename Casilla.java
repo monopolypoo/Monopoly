@@ -15,6 +15,7 @@ public class Casilla {
     private double valorAlquiler;
     private HashMap<String, String[]> vecesCasilla;
     private HashMap<String, Avatar> avatares;
+    private Grupo grupo;
 
     public Casilla() {
     }
@@ -28,6 +29,7 @@ public class Casilla {
         this.vecesCasilla = new HashMap<>();
         this.avatares = new HashMap<>();
         this.duenho = null;
+        this.grupo = null;
     }
 
 
@@ -40,6 +42,8 @@ public class Casilla {
         this.duenho = null;
         this.vecesCasilla = new HashMap<>();
         this.avatares = new HashMap<>();
+        this.grupo = null;
+
     }
 
     public Casilla(String nombre, String tipo, int posicion, double valor, String colorGrupo) {
@@ -51,6 +55,7 @@ public class Casilla {
         this.vecesCasilla = new HashMap<>();
         this.avatares = new HashMap<>();
         this.duenho = null;
+        this.grupo = null;
     }
 
     public Jugador getDuenho() {
@@ -100,6 +105,14 @@ public class Casilla {
 
     public void eliminarAvatar(String id) {
         this.avatares.remove(id);
+    }
+
+    public Grupo getGrupo(){
+        return this.grupo;
+    }
+
+    public void setGrupo(Grupo grupo){
+        this.grupo = grupo;
     }
 
     public HashMap<String, Avatar> getAvatares() {
@@ -245,7 +258,7 @@ public class Casilla {
             } else {
                 banca = this.duenho.getNombre();
             }
-            texto = "{\n\ttipo: " + this.getTipo() + ",\n\tgrupo: " + /*this.colorGrupo + */ ",\n\tpropietario: " + banca +
+            texto = "{\n\ttipo: " + this.getTipo() + ",\n\tgrupo: " + this.getGrupo().getNumeroGrupo() +  ",\n\tpropietario: " + banca +
                     ",\n\tvalor: " + this.valor + ",\n\talquiler: " + this.valorAlquiler + ",\n\tvalor hotel: " + this.valorHotel +
                     ",\n\tvalor casa: " + this.valorCasa + ",\n\tvalor piscina: " + this.valorPistaDeporte + ",\n\tvalor pista de deporte: "
                     + this.valorPistaDeporte + ",\n\talquiler una casa: " + 5 * this.valor + ",\n\talquiler dos casas: " + 15 * this.valor

@@ -15,6 +15,7 @@ public class Grupo {
         setColor(color);
         this.lado = lado;
         setValor(valor);
+        SetGrupo(this);
     }
 
     public Grupo(ArrayList<Casilla> casillas, int numeroGrupo, String color, String lado){
@@ -24,6 +25,7 @@ public class Grupo {
         setValor(valor);
         this.lado = lado;
         setColor(color);
+        SetGrupo(this);
     }
 
     public Grupo(ArrayList<Casilla> casillas, int numeroGrupo, double valor, String color){
@@ -33,22 +35,21 @@ public class Grupo {
         setValor(valor);
         this.lado = null;
         setColor(color);
+        SetGrupo(this);
     }
 
     public Grupo(ArrayList<Casilla> casillas, int numeroGrupo, String lado){
         this.casillas = casillas;
         this.numeroGrupo = numeroGrupo;
         this.lado = lado;
+        SetGrupo(this);
     }
 
     public Grupo(ArrayList<Casilla> casillas, String color, int numeroGrupo){
         this.casillas = casillas;
         this.numeroGrupo = numeroGrupo;
         setColor(color);
-    }
-
-    public void subirPrecioGrupos(Casilla casilla){
-
+        SetGrupo(this);
     }
 
     public ArrayList<Casilla> getCasillas(){
@@ -98,6 +99,12 @@ public class Grupo {
         }
     }
 
+    public void SetGrupo(Grupo grupo){
+        for (Casilla casilla: casillas){
+            casilla.setGrupo(grupo);
+        }
+    }
+
     public void setLado(String lado){
         this.lado = lado;
     }
@@ -105,6 +112,35 @@ public class Grupo {
     public void anhadirCasilla(Casilla casilla){
         if (casilla != null)
             this.casillas.add(casilla);
+    }
+
+    public boolean tenerTodasCasillas(){
+        Jugador jugadorActual, jugadorAnterior = null;
+        for (Casilla cas: casillas){
+            if (cas.getDuenho() != null){
+                jugadorActual = cas.getDuenho();
+                if (jugadorAnterior != null){
+                    if (!jugadorAnterior.getAvatar().getId().equals(jugadorActual.getAvatar().getId())){
+                        return false;
+                    }
+                }
+                jugadorAnterior = jugadorActual;
+            }
+            else{
+                return false;
+            }
+        }
+        return true;
+    }
+
+    public int cuantasCasillasTiene(Jugador jugador){
+        int contador = 0;
+        for (Casilla cas: casillas){
+            if (cas.getDuenho().getAvatar().getId().equals(jugador.getAvatar().getId())){
+                contador++;
+            }
+        }
+        return contador;
     }
 
     @Override

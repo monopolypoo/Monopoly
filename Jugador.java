@@ -108,35 +108,56 @@ public class Jugador {
     }
 
     public void pagarAlquiler(Casilla casilla, int dadoTotal, Taboleiro taboleiro){
-        int deuda;
+        int contador;
+        float deuda;
         if(casilla.getDuenho() != null){
             if(!casilla.getDuenho().getNombre().equals(this.getNombre())){
                 if ((casilla.getPosicion() == 12) || (casilla.getPosicion() == 28)){
                     if ((taboleiro.getCasillaPosicion(12).getDuenho() != null) && (taboleiro.getCasillaPosicion(28).getDuenho() != null) &&
                             (taboleiro.getCasillaPosicion(12).getDuenho().equals(taboleiro.getCasillaPosicion(28).getDuenho()))){
-                        deuda = (10 * dadoTotal * (Valor.VUELTA / 200));
-                        this.restarFortuna((float) deuda);
+                        deuda = (float) (10 * dadoTotal * (Valor.VUELTA / 200));
+                        this.restarFortuna(deuda);
                         this.dineroGastado += deuda;
-                        casilla.getDuenho().sumarFortuna((float) deuda);
+                        casilla.getDuenho().sumarFortuna(deuda);
                         System.out.println("Caiste en una casilla de servicios que pertenece al avatar " + casilla.getDuenho().getAvatar().getId()
                                 + ", por lo que se le pagó un alquiler de " + deuda + "€.");
                     }
                     else{
-                        deuda = (4 * dadoTotal * (Valor.VUELTA / 200));
-                        this.restarFortuna((float) deuda);
+                        deuda = (float) (4 * dadoTotal * (Valor.VUELTA / 200));
+                        this.restarFortuna(deuda);
                         this.dineroGastado += deuda;
-                        casilla.getDuenho().sumarFortuna((float) deuda);
+                        casilla.getDuenho().sumarFortuna(deuda);
                         System.out.println("Caiste en una casilla de servicios que pertenece al avatar " + casilla.getDuenho().getAvatar().getId()
                                 + ", por lo que se le pagó un alquiler de " + deuda + "€.");
                     }
                 }
+                else if ((casilla.getPosicion() == 5) || (casilla.getPosicion() == 15) || (casilla.getPosicion() == 25) ||
+                        (casilla.getPosicion() == 35)){ //si es le de transportes
+                    contador = casilla.getGrupo().cuantasCasillasTiene(this);
+                    deuda = (float) (contador * 0.25 * casilla.getValorAlquiler());
+                    this.restarFortuna(deuda);
+                    this.dineroGastado += deuda;
+                    casilla.getDuenho().sumarFortuna(deuda);
+                    System.out.println("Caiste en una casilla de transportes que pertenece al avatar " + casilla.getDuenho().getAvatar().getId()
+                            + ". Este avatar tiene " + contador + "casillas de transportes, por lo que se le pagó un alquiler de " + deuda + "€.");
+                }
                 else {
                     if (this.fortuna >= casilla.getValorAlquiler()) {
-                        this.restarFortuna((float) casilla.getValorAlquiler());
-                        this.dineroGastado += casilla.getValorAlquiler();
-                        casilla.getDuenho().sumarFortuna((float) casilla.getValorAlquiler());
-                        System.out.println("Caiste en una casilla que pertenece al avatar " + casilla.getDuenho().getAvatar().getId()
-                                + ", por lo que se le pagó el alquiler de " + casilla.getValorAlquiler() + "€.");
+                        if (casilla.getGrupo().tenerTodasCasillas()){
+                            this.restarFortuna((float) (2 * casilla.getValorAlquiler()));
+                            this.dineroGastado += 2 * casilla.getValorAlquiler();
+                            casilla.getDuenho().sumarFortuna((float) (2 * casilla.getValorAlquiler()));
+                            System.out.println("Caiste en una casilla que pertenece al avatar " + casilla.getDuenho().getAvatar().getId()
+                                    + ", y además todas las casillas de ese grupo le pertenecen, por lo que se le pagó el alquiler de "
+                                    + 2 * casilla.getValorAlquiler() + "€.");
+                        }
+                        else {
+                            this.restarFortuna((float) casilla.getValorAlquiler());
+                            this.dineroGastado += casilla.getValorAlquiler();
+                            casilla.getDuenho().sumarFortuna((float) casilla.getValorAlquiler());
+                            System.out.println("Caiste en una casilla que pertenece al avatar " + casilla.getDuenho().getAvatar().getId()
+                                    + ", por lo que se le pagó el alquiler de " + casilla.getValorAlquiler() + "€.");
+                        }
                     } else {
                         System.out.println("No tienes dinero suficiente para pagar el alquiler, por lo que estás en bancarrota.");
                     }
