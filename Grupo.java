@@ -1,15 +1,16 @@
 import java.util.ArrayList;
 
 public class Grupo {
-    private int numeroGrupo=0;
+    private int numeroGrupo = 0;
     private ArrayList<Casilla> casillas;
     private double valor;
     private String color;
     private String lado;
 
-    public Grupo(){}
+    public Grupo() {
+    }
 
-    public Grupo(ArrayList<Casilla> casillas, int numeroGrupo, String color, String lado, double valor){
+    public Grupo(ArrayList<Casilla> casillas, int numeroGrupo, String color, String lado, double valor) {
         this.casillas = casillas;
         this.numeroGrupo = numeroGrupo;
         setColor(color);
@@ -18,7 +19,7 @@ public class Grupo {
         SetGrupo(this);
     }
 
-    public Grupo(ArrayList<Casilla> casillas, int numeroGrupo, String color, String lado){
+    public Grupo(ArrayList<Casilla> casillas, int numeroGrupo, String color, String lado) {
         this.casillas = casillas;
         this.numeroGrupo = numeroGrupo;
         this.valor = 100000 * Math.pow(1.3, this.numeroGrupo - 1);
@@ -28,7 +29,7 @@ public class Grupo {
         SetGrupo(this);
     }
 
-    public Grupo(ArrayList<Casilla> casillas, int numeroGrupo, double valor, String color){
+    public Grupo(ArrayList<Casilla> casillas, int numeroGrupo, double valor, String color) {
         this.casillas = casillas;
         this.numeroGrupo = numeroGrupo;
         this.valor = valor;
@@ -38,43 +39,43 @@ public class Grupo {
         SetGrupo(this);
     }
 
-    public Grupo(ArrayList<Casilla> casillas, int numeroGrupo, String lado){
+    public Grupo(ArrayList<Casilla> casillas, int numeroGrupo, String lado) {
         this.casillas = casillas;
         this.numeroGrupo = numeroGrupo;
         this.lado = lado;
         SetGrupo(this);
     }
 
-    public Grupo(ArrayList<Casilla> casillas, String color, int numeroGrupo){
+    public Grupo(ArrayList<Casilla> casillas, String color, int numeroGrupo) {
         this.casillas = casillas;
         this.numeroGrupo = numeroGrupo;
         setColor(color);
         SetGrupo(this);
     }
 
-    public ArrayList<Casilla> getCasillas(){
+    public ArrayList<Casilla> getCasillas() {
         return casillas;
     }
 
-    public int getNumeroGrupo(){
+    public int getNumeroGrupo() {
         return numeroGrupo;
     }
 
-    public String getColor(){
+    public String getColor() {
         return color;
     }
 
-    public String getLado(){
+    public String getLado() {
         return lado;
     }
 
-    public void setCasillas(ArrayList<Casilla> casillas){
-        if (casillas == null){
+    public void setCasillas(ArrayList<Casilla> casillas) {
+        if (casillas == null) {
             System.err.println("Error: casillas no inicializadas.");
             return;
         }
-        for (Casilla casilla: casillas){
-            if (casilla == null){
+        for (Casilla casilla : casillas) {
+            if (casilla == null) {
                 System.err.println("Error: casilla no inicializada.");
                 return;
             }
@@ -82,65 +83,71 @@ public class Grupo {
         this.casillas = casillas;
     }
 
-    public void setNumeroGrupo(int numeroGrupo){
+    // Se debería borrar que no permitimos cambiar el número del grupo por el medio de la partida
+    public void setNumeroGrupo(int numeroGrupo) {
         this.numeroGrupo = numeroGrupo;
     }
 
-    public void setColor(String color){
+    public void setColor(String color) {
         this.color = color;
-        for (Casilla casilla: casillas){
+        for (Casilla casilla : casillas) {
             casilla.setColorGrupo(color);
         }
     }
 
-    public void setValor(double valor){
-        for (Casilla casilla: casillas){
+    public void setValor(double valor) {
+        for (Casilla casilla : casillas) {
             casilla.setValor(valor);
         }
     }
 
-    public void SetGrupo(Grupo grupo){
-        for (Casilla casilla: casillas){
+    public void SetGrupo(Grupo grupo) {
+        for (Casilla casilla : casillas) {
             casilla.setGrupo(grupo);
         }
     }
 
-    public void setLado(String lado){
+    // Se debería borrar que no permitimos cambiar el lado por el medio de la partida
+    public void setLado(String lado) {
         this.lado = lado;
     }
 
-    public void anhadirCasilla(Casilla casilla){
+    // Se debería borrar que no permitimos añadir casillas al grupo por el medio de la partida
+    public void anhadirCasilla(Casilla casilla) {
         if (casilla != null)
             this.casillas.add(casilla);
     }
 
-    public boolean tenerTodasCasillas(){
+    public boolean tenerTodasCasillas() {
         Jugador jugadorActual, jugadorAnterior = null;
-        for (Casilla cas: casillas){
-            if (cas.getDuenho() != null){
+        for (Casilla cas : casillas) {
+            if (cas.getDuenho() != null) {
                 jugadorActual = cas.getDuenho();
-                if (jugadorAnterior != null){
-                    if (!jugadorAnterior.getAvatar().getId().equals(jugadorActual.getAvatar().getId())){
+                if (jugadorAnterior != null) {
+                    if (!jugadorAnterior.getAvatar().getId().equals(jugadorActual.getAvatar().getId())) {
                         return false;
                     }
                 }
                 jugadorAnterior = jugadorActual;
-            }
-            else{
+            } else {
                 return false;
             }
         }
         return true;
     }
 
-    public int cuantasCasillasTiene(Jugador jugador){
+    public int cuantasCasillasTiene(Jugador jugador) {
         int contador = 0;
-        for (Casilla cas: casillas){
-            if (cas.getDuenho().getAvatar().getId().equals(jugador.getAvatar().getId())){
+        for (Casilla cas : casillas) {
+            if (cas.getDuenho().getAvatar().getId().equals(jugador.getAvatar().getId())) {
                 contador++;
             }
         }
         return contador;
+    }
+
+    public double getValor() {
+        return valor;
     }
 
     @Override
@@ -162,11 +169,10 @@ public class Grupo {
         return texto;
     }
 
-    public boolean equals(Object obj){
-        if (this.getNumeroGrupo() == ((Grupo) obj).getNumeroGrupo()){
+    public boolean equals(Object obj) {
+        if (this.getNumeroGrupo() == ((Grupo) obj).getNumeroGrupo()) {
             return true;
-        }
-        else{
+        } else {
             return false;
         }
     }
