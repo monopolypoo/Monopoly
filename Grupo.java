@@ -69,6 +69,10 @@ public class Grupo {
         return lado;
     }
 
+    public double getValor() {
+        return valor;
+    }
+
     public void setCasillas(ArrayList<Casilla> casillas) {
         if (casillas == null) {
             System.err.println("Error: casillas no inicializadas.");
@@ -112,7 +116,6 @@ public class Grupo {
         this.lado = lado;
     }
 
-    // Se debería borrar que no permitimos añadir casillas al grupo por el medio de la partida
     public void anhadirCasilla(Casilla casilla) {
         if (casilla != null)
             this.casillas.add(casilla);
@@ -144,10 +147,6 @@ public class Grupo {
             }
         }
         return contador;
-    }
-
-    public double getValor() {
-        return valor;
     }
 
     @Override

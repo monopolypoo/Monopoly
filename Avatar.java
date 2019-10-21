@@ -7,7 +7,9 @@ public class Avatar{
     private Jugador jugador;
     private Casilla casilla;
 
-    public Avatar(){}
+    public Avatar(){
+        this.id = "banca";
+    }
 
     public Avatar(String tipo, Jugador jugador, ArrayList<Jugador> jugadores, Casilla casilla){
         if(tipo.equals("sombrero") || tipo.equals("esfinge") || tipo.equals("coche") || tipo.equals("pelota"))
@@ -62,12 +64,7 @@ public class Avatar{
         this.casilla = casilla;
     }
 
-    public boolean haiAvatar(){
-        if(this.getId() != null){
-            return true;
-        }
-        return false;
-    }
+    //no definimos setId(), ni setTipo(), ni setJugador() porque no permitimos modificar un avatar una vez creado
 
     @Override
     public String toString(){

@@ -1,3 +1,7 @@
+import java.io.BufferedReader;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Scanner;
 
@@ -9,9 +13,10 @@ public class Menu {
     private Jugador jugadorTurnoSiguiente;
     private ArrayList<Jugador> jugadores;
     private boolean sigueTurno;
-    private int contadorDobles;
     private boolean dadosLanzados;
     private boolean poderComprar;
+    private boolean esLeerArchivo = false;
+    private int contadorDobles;
 
     public Menu() throws InterruptedException {
         boolean seguir = true;
@@ -24,11 +29,29 @@ public class Menu {
         this.dadosLanzados = false;
         boolean partidaEmpezada = false;
         String[] comando;
-
         String texto;
+
+        System.out.print("Desea leer los comandos de un archivo (si/no): ");
+        comando = leerComando();
+
+        //abrir archivo de los comandos
+        BufferedReader buffRead = abrirArchivo();
+
+        if (comando[0].toLowerCase().equals("si")){
+            this.esLeerArchivo = true;
+        }
+
         while (seguir) { //mirar cuando acabar la partida
             System.out.print("$> ");
-            comando = leerComando();
+
+            if (this.esLeerArchivo){
+                //leer comandos del archivo
+                comando = leerComandoArchivo(buffRead);
+            } else {
+                //leer comandos por consola
+                comando = leerComando();
+            }
+
             switch (comando[0]) {
                 case "crear":
                     if (comando.length == 4) {
@@ -270,6 +293,10 @@ public class Menu {
                     seguir = false;
                     break;
 
+                case "stop":
+                    new Scanner(System.in).nextLine();
+                    break;
+
                 default:
                     System.out.println("Comando incorrecto.");
             }
@@ -287,6 +314,40 @@ public class Menu {
         Scanner teclado = new Scanner(System.in);
         comando = teclado.nextLine();
         return comando.split(" ");
+    }
+
+    public BufferedReader abrirArchivo(){
+        BufferedReader buffRead= null;
+        try {
+            String directorio= "/Users/davidmohedano/Documents/USC/Segundo/Primer cuatrimestre/POO/proyecto1/src/";
+            FileReader fileRead= new FileReader(directorio + "comandos.txt");
+            buffRead= new BufferedReader(fileRead);
+        } catch(FileNotFoundException notFound) {
+            System.out.print(notFound.getMessage());
+            System.exit(0);
+        }
+        return buffRead;
+    }
+
+    public String[] leerComandoArchivo(BufferedReader buffRead){
+        String comandoEntero = null;
+        String[] comando;
+        try {
+            comandoEntero= buffRead.readLine();
+        } catch(IOException io) {
+            System.out.println(io.getMessage());
+        }
+        if (comandoEntero != null) {
+            System.out.println(comandoEntero);
+            comando = comandoEntero.split(" ");
+        }
+        else{
+            System.out.println("ERROR leyendo el archivo. Se acabó de leer el archivo, introduce tus comandos.");
+            System.out.print("$> ");
+            this.esLeerArchivo = false;
+            comando = leerComando();
+        }
+        return comando;
     }
 
     public Jugador getJugadorTurnoSiguiente(Jugador jugadorActual) {

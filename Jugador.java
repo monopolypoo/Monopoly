@@ -1,5 +1,4 @@
 import java.util.ArrayList;
-import java.util.HashMap;
 
 public class Jugador {
     private String nombre;
@@ -14,7 +13,7 @@ public class Jugador {
         this.nombre = "banca";
         this.fortuna = 1000000000;
         this.dineroGastado = 0;
-        this.avatar = null;
+        this.avatar = new Avatar();
         this.propiedades = new ArrayList<>(); //tambien se le pueden poner inicialmente todas las propiedades a la banca
         this.estarCarcere = false;
         this.contadorEstarCarcere = 0;
@@ -38,6 +37,9 @@ public class Jugador {
     }
 
     public Avatar getAvatar() {
+        if (avatar == null){
+            avatar = new Avatar();
+        }
         return avatar;
     }
     //No definimos un setAvatar porque no permitimos cambiar de avatar una vez asignado
