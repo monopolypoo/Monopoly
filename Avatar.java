@@ -33,10 +33,11 @@ public class Avatar{
     }
 
     private void generarId(ArrayList<Jugador> jugadores){
-        String idAux = "";
+        String idAux;
         do{
             Random ale = new Random(System.currentTimeMillis()); //pone una semilla nueva de cada vez
             int numero = ale.nextInt(20) + 65; //genera un numero aleatorio entre 65 y 65+20
+            idAux = ""; // Se iguala aquí si no podría tener dos letras un id
             idAux += (char) numero; //se pasa a ASCII y se convierte en String concatenandolo con ""
         }while (!idUnico(idAux, jugadores));
 
