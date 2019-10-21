@@ -1,3 +1,9 @@
+package juego_fisico;
+
+import monopoly.Menu;
+import monopoly.Valor;
+import partida_virtual.Jugador;
+
 import java.util.Random;
 
 public class Dado {
@@ -90,6 +96,4 @@ public class Dado {
                 " hasta " + taboleiro.getCasillaPosicion(this.posSiguiente).getNombreSinEspacio() + "."; // Falta pagaronse
         return texto;
     }
-
-
 }
