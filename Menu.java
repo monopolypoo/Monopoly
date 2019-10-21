@@ -22,6 +22,7 @@ public class Menu {
         this.sigueTurno = false;
         this.contadorDobles = 0;
         this.dadosLanzados = false;
+        boolean partidaEmpezada = false;
         String[] comando;
 
         String texto;
@@ -33,19 +34,23 @@ public class Menu {
                     if (comando.length == 4) {
                         if (comando[1].equals("jugador")) {
                             if (jugadores.size() < 6) {
-                                Jugador jugador = new Jugador(comando[2], comando[3], jugadores, taboleiro.getCasillaPosicion(0));
-                                taboleiro.getCasillaPosicion(0).setAvatar(jugador.getAvatar().getId(), jugador.getAvatar());
-                                System.out.println(jugador);
-                                jugadores.add(jugador);
-                                partida.anhadeJugador(jugador);
-                                jugadorActual = jugadores.get(0);
-                                this.sigueTurno = true;
-                                this.dadosLanzados = false;
+                                if (!partidaEmpezada) {
+                                    Jugador jugador = new Jugador(comando[2], comando[3], jugadores, taboleiro.getCasillaPosicion(0));
+                                    taboleiro.getCasillaPosicion(0).setAvatar(jugador.getAvatar().getId(), jugador.getAvatar());
+                                    System.out.println(jugador);
+                                    jugadores.add(jugador);
+                                    partida.anhadeJugador(jugador);
+                                    jugadorActual = jugadores.get(0);
+                                    this.sigueTurno = true;
+                                    this.dadosLanzados = false;
 
-                                if (jugadores.size() >= 2) {
-                                    jugadorTurnoSiguiente = jugadores.get(1);
-                                } else {
-                                    jugadorTurnoSiguiente = jugadores.get(0);
+                                    if (jugadores.size() >= 2) {
+                                        jugadorTurnoSiguiente = jugadores.get(1);
+                                    } else {
+                                        jugadorTurnoSiguiente = jugadores.get(0);
+                                    }
+                                } else{
+                                    System.out.println("No puedes crear más jugadores ya que la partida ya está empezada!");
                                 }
                             } else {
                                 System.out.println("El número de jugadores ya es el máximo, no puedes añadir más!");
@@ -91,7 +96,8 @@ public class Menu {
                                 if (!this.dadosLanzados) {
                                     if (!this.jugadorActual.getEstarCarcere()) {
                                         dados.lanzarDados(jugadorActual, taboleiro, this);
-                                        if (dados.sonIguales()) {
+                                        partidaEmpezada = true;
+                                        if (dados.getIguales()) {
                                             this.dadosLanzados = false;
                                             this.sigueTurno = true;
                                             this.contadorDobles++;
@@ -123,7 +129,7 @@ public class Menu {
                                         }
                                     } else {
                                         dados.lanzarLosDados();
-                                        if (dados.sonIguales()) {
+                                        if (dados.getIguales()) {
                                             this.jugadorActual.setContadorEstarCarcere(0);
                                             System.out.println("Sacastes dobles, puedes salír de la cárcel. Lanza los dados para continuar.");
                                             this.dadosLanzados = false;
@@ -272,7 +278,7 @@ public class Menu {
 
     }
 
-    public int numeroJugadores(){
+    public int numeroJugadores() {
         return jugadores.size();
     }
 
