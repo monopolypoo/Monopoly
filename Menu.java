@@ -1,9 +1,13 @@
+package monopoly;
+
 import java.io.BufferedReader;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Scanner;
+import juego_fisico.*;
+import partida_virtual.*;
 
 public class Menu {
     private Taboleiro taboleiro;
@@ -235,12 +239,12 @@ public class Menu {
                             if (partida.getJugadores().containsKey(comando[2]))
                                 System.out.println(partida.getJugadores().get(comando[2]));
                             else
-                                System.out.println("Comando incorrecto. Jugador no encontrado.");
+                                System.out.println("Comando incorrecto. partida_virtual.Jugador no encontrado.");
                         } else if (comando[1].equals("avatar")) {
                             if (partida.getAvatares().containsKey(comando[2])) {
                                 System.out.println(partida.getAvatares().get(comando[2])); //mirar en caso de que no este el avatar
                             } else
-                                System.out.println("Comando incorrecto. Avatar no encontrado.");
+                                System.out.println("Comando incorrecto. partida_virtual.Avatar no encontrado.");
                         } else {
                             System.out.println("Comando incorrecto.");
                         }
@@ -319,7 +323,7 @@ public class Menu {
     public BufferedReader abrirArchivo(){
         BufferedReader buffRead= null;
         try {
-            String directorio= "/Users/davidmohedano/Documents/USC/Segundo/Primer cuatrimestre/POO/proyecto1/src/";
+            String directorio= "/home/dani/Dropbox/Uni/2_Curso_1_Cuatri/POO/1_Entrega/src/";
             FileReader fileRead= new FileReader(directorio + "comandos.txt");
             buffRead= new BufferedReader(fileRead);
         } catch(FileNotFoundException notFound) {
