@@ -11,6 +11,12 @@ public class Dado {
     public Dado() {
 
     }
+    // NO se permite ponerle valor predeterminado a ningún campo del dado ya que sería trucar la "aletoriedad" de
+    // los mismos
+
+    // Tampoco se permite saber el valor de los dados por separado, no hay que saberlo, ni los campos calculados
+    // de posActual y posSiguiente
+
 
     public void generarValorDados(Dado dado) throws InterruptedException {
         Random ale = new Random(System.currentTimeMillis()); //pone una semilla nueva de cada vez
@@ -73,7 +79,7 @@ public class Dado {
         }
     }
 
-    public boolean sonIguales() {
+    public boolean getIguales() {
         return this.iguales;
     }
 
