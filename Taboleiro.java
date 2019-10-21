@@ -433,6 +433,10 @@ public class Taboleiro {
         }
     }
 
+    public int getContadorVueltas() {
+        return contadorVueltas;
+    }
+
     public void listarEnVenta() {
         String texto = "";
         for (Casilla cas : this.casillasEnVenta) {
@@ -452,7 +456,6 @@ public class Taboleiro {
     public String toString() {
         String BLANCO = Valor.WHITE;
         String textoAvataresNorte = "";
-        String textoAvataresLados = "";
         String textoAvataresSur = "";
 
         String textoTope = BLANCO + "┌";
