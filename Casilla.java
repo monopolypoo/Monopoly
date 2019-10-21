@@ -58,6 +58,27 @@ public class Casilla {
         this.grupo = null;
     }
 
+    public double getValorCasa() {
+        return valorCasa;
+    }
+
+    public double getValorHotel() {
+        return valorHotel;
+    }
+
+    public double getValorPiscina() {
+        return valorPiscina;
+    }
+
+    public double getValorPistaDeporte() {
+        return valorPistaDeporte;
+    }
+
+    // Los setters de: Nombre, Avatares, VecesCasilla(HashMap), Posicion, Tipo y los valores de las diferentes
+    // estructuras que se pueden construir.
+    // no los añadimos ya que estos campos se meten en el contructor de la casilla y no se permiten modificar durante
+    // el transcurso de la partida
+
     public Jugador getDuenho() {
         return duenho;
     }
