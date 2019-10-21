@@ -1,3 +1,8 @@
+package partida_virtual;
+
+import juego_fisico.*;
+import monopoly.Valor;
+
 import java.util.ArrayList;
 
 public class Jugador {
@@ -250,7 +255,7 @@ public class Jugador {
             }
             texto = "{\n" +
                     "\tNombre: " + this.nombre +
-                    "\n\tAvatar: " + this.avatar.getId() +
+                    "\n\tpartida_virtual.Avatar: " + this.avatar.getId() +
                     "\n\tFortuna: " + this.fortuna +
                     "\n\tGastos: " + this.dineroGastado +
                     "\n\tPropiedades: " + prop + "\n}";
