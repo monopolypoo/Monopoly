@@ -1,3 +1,7 @@
+package partida_virtual;
+
+import juego_fisico.Casilla;
+
 import java.util.ArrayList;
 import java.util.Random;
 
