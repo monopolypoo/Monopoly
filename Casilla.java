@@ -1,3 +1,9 @@
+package juego_fisico;
+
+import monopoly.Valor;
+import partida_virtual.Avatar;
+import partida_virtual.Jugador;
+
 import java.util.HashMap;
 
 public class Casilla {
@@ -292,8 +298,8 @@ public class Casilla {
 
     /*@Override
     public boolean equals(Object obj){
-        if (obj instanceof Casilla){
-            if(((Casilla)obj).getNombre().equals(this.nombre)){
+        if (obj instanceof juego_fisico.Casilla){
+            if(((juego_fisico.Casilla)obj).getNombre().equals(this.nombre)){
                 return true;
             }
         }
