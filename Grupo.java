@@ -1,3 +1,7 @@
+package juego_fisico;
+
+import partida_virtual.Jugador;
+
 import java.util.ArrayList;
 
 public class Grupo {
