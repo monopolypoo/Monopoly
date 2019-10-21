@@ -1,3 +1,9 @@
+package juego_fisico;
+
+import juego_fisico.Grupo;
+import monopoly.Menu;
+import monopoly.Valor;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 
@@ -439,7 +445,7 @@ public class Taboleiro {
     public void listarEnVenta() {
         String texto = "";
         for (Casilla cas : this.casillasEnVenta) {
-            texto += "{\n\tNombre: " + cas.getNombreSinEspacio() + "\n\tTipo: " + cas.getTipo() + "\n\tValor: " + cas.getValor() + "\n}\n";
+            texto += "{\n\tNombre: " + cas.getNombreSinEspacio() + "\n\tTipo: " + cas.getTipo() + "\n\tmonopoly.Valor: " + cas.getValor() + "\n}\n";
         }
         System.out.println(texto);
     }
