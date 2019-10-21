@@ -24,8 +24,7 @@ public class Jugador {
         this.nombre = nombre;
         this.fortuna = Valor.DINERO_INICIAL;
         this.dineroGastado = 0;
-        Avatar avatar = new Avatar(tipo_avatar, this, jugadores, casilla);
-        this.avatar = avatar;
+        this.avatar = new Avatar(tipo_avatar, this, jugadores, casilla);
         this.propiedades = new ArrayList<>();
         this.estarCarcere = false;
         this.contadorEstarCarcere = 0;
