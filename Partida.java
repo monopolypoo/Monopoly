@@ -1,4 +1,5 @@
-import java.sql.SQLOutput;
+package partida_virtual;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
