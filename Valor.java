@@ -1,3 +1,5 @@
+package monopoly;
+
 import java.security.PublicKey;
 
 public class Valor {
