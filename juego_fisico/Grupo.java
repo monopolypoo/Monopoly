@@ -105,7 +105,7 @@ public class Grupo {
 
     public void setValor(double valor) {
         for (Casilla casilla : casillas) {
-            casilla.setValor(valor);
+            casilla.SetValor(valor);
         }
     }
 

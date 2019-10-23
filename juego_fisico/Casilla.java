@@ -121,8 +121,8 @@ public class Casilla {
         return this.avatares.size() != 0;
     }
 
-    public void setAvatar(String id, Avatar avatar) {
-        this.avatares.put(id, avatar);
+    public void setAvatar(Avatar avatar) {
+        this.avatares.put(avatar.getId(), avatar);
     }
 
     public Avatar getAvatarCasilla(String id) {
@@ -231,7 +231,11 @@ public class Casilla {
         this.colorGrupo = colorGrupo;
     }
 
-    public void setValor(double valor) {
+    public void setValor(double valor){
+        this.valor = valor;
+    }
+
+    public void SetValor(double valor) {
         this.valor = valor;
         this.valorCasa = 0.6 * this.valor;
         this.valorPiscina = 0.4 * this.valor;

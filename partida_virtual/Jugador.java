@@ -190,7 +190,7 @@ public class Jugador {
         if (casilla.getPosicion() == 20){
             this.sumarFortuna((float) casilla.getValor());
             System.out.println("Caíste en el Parking, por lo que cobras el total acumulado que es de: " + casilla.getValor() + "€.");
-            casilla.setValor(0);
+            casilla.SetValor(0);
         }
     }
 
@@ -255,7 +255,7 @@ public class Jugador {
             }
             texto = "{\n" +
                     "\tNombre: " + this.nombre +
-                    "\n\tpartida_virtual.Avatar: " + this.avatar.getId() +
+                    "\n\tAvatar: " + this.avatar.getId() +
                     "\n\tFortuna: " + this.fortuna +
                     "\n\tGastos: " + this.dineroGastado +
                     "\n\tPropiedades: " + prop + "\n}";

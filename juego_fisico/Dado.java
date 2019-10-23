@@ -75,13 +75,13 @@ public class Dado {
         if (this.posSiguiente == 30) {
             jugador.irCarcere(taboleiro);
             System.out.println("Caíste en la casilla Ir Cárcel, por lo que ahora estás en la cárcel.");
-            taboleiro.getCasillaPosicion(10).setAvatar(jugador.getAvatar().getId(), jugador.getAvatar());
+            taboleiro.getCasillaPosicion(10).setAvatar(jugador.getAvatar());
             taboleiro.setContadorVueltas(0);
         } else {
             this.posSiguiente = this.posSiguiente % 40;
             casillaSiguiente = taboleiro.getCasillaPosicion(this.posSiguiente);
             jugador.getAvatar().setCasilla(casillaSiguiente);
-            taboleiro.getCasillaPosicion(this.posSiguiente).setAvatar(jugador.getAvatar().getId(), jugador.getAvatar());
+            taboleiro.getCasillaPosicion(this.posSiguiente).setAvatar(jugador.getAvatar());
         }
     }
 

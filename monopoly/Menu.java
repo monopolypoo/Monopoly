@@ -32,27 +32,63 @@ public class Menu {
         this.contadorDobles = 0;
         this.dadosLanzados = false;
         boolean partidaEmpezada = false;
-        String[] comando;
+        String[] comando, comando2;
         String texto;
 
         System.out.print("Desea leer los comandos de un archivo (si/no): ");
-        comando = leerComando();
+        comando2 = leerComando();
 
         //abrir archivo de los comandos
         BufferedReader buffRead = abrirArchivo();
 
-        if (comando[0].toLowerCase().equals("si")){
+        if (comando2[0].toLowerCase().equals("si")){
             this.esLeerArchivo = true;
         }
 
         while (seguir) { //mirar cuando acabar la partida
-            System.out.print("$> ");
+            /*if (this.esLeerArchivo) {
+                if (!esPrimeraVez){
+                    comando = leerComandoArchivo(buffRead);
+                    if (!comando[0].equals("stop")){
+                        if (comando[0].equals("acabado")){
+                            System.out.print("$> ");
+                            comando = leerComando();
+                        }
+                        else {
+                            System.out.print("Leer comando del archivo (si/no)?: ");
+                            comando2 = leerComando();
+                            if (!comando2[0].toLowerCase().equals("si")) {
+                                System.out.print("$> ");
+                                comando = leerComando();
+                            } else {
+                                texto = "$> ";
+                                for (int i = 0; i < comando.length; i++) {
+                                    texto += comando[i] + " ";
+                                }
+                                System.out.println(texto);
+                            }
+                        }
+                    }
+                    else{
+                        texto = "$> ";
+                        for (int i=0; i < comando.length; i++){
+                            texto += comando[i] + " ";
+                        }
+                        System.out.println(texto);
+                    }
+                }
+            }
+            else{
+                System.out.print("$> ");
+                comando = leerComando();
+            } */
 
             if (this.esLeerArchivo){
                 //leer comandos del archivo
                 comando = leerComandoArchivo(buffRead);
             } else {
                 //leer comandos por consola
+                System.out.print("$> ");
                 comando = leerComando();
             }
 
@@ -63,7 +99,7 @@ public class Menu {
                             if (jugadores.size() < 6) {
                                 if (!partidaEmpezada) {
                                     Jugador jugador = new Jugador(comando[2], comando[3], jugadores, taboleiro.getCasillaPosicion(0));
-                                    taboleiro.getCasillaPosicion(0).setAvatar(jugador.getAvatar().getId(), jugador.getAvatar());
+                                    taboleiro.getCasillaPosicion(0).setAvatar(jugador.getAvatar());
                                     System.out.println(jugador);
                                     jugadores.add(jugador);
                                     partida.anhadeJugador(jugador);
@@ -144,7 +180,7 @@ public class Menu {
                                             this.contadorDobles = 0;
                                             texto = "Sacastes tres dobles seguidos, por lo que tienes que ir a la cárcel!";
                                             taboleiro.getCasillaPosicion(jugadorActual.getAvatar().getCasilla().getPosicion()).eliminarAvatar(jugadorActual.getAvatar().getId());
-                                            taboleiro.getCasillaPosicion(10).setAvatar(jugadorActual.getAvatar().getId(), jugadorActual.getAvatar());
+                                            taboleiro.getCasillaPosicion(10).setAvatar(jugadorActual.getAvatar());
                                             System.out.println(taboleiro);
                                             System.out.println("El avatar " + jugadorActual.getAvatar().getId() + dados.textoLanzarDados(taboleiro) + texto);
                                         } else {
@@ -170,6 +206,7 @@ public class Menu {
                                                 System.out.println("Ya llevas 3 intentos, por lo que debes pagar para salír.");
                                                 if (this.jugadorActual.getFortuna() >= Valor.SAIR_CARCERE) {
                                                     this.jugadorActual.restarFortuna(Valor.SAIR_CARCERE);
+                                                    this.taboleiro.getCasillaPosicion(20).sumarValor(Valor.SAIR_CARCERE);
                                                     this.jugadorActual.setContadorEstarCarcere(0);
                                                     System.out.println("Pago efectuado. Ya podrás tirar en el seguiente turno.");
                                                 } else {
@@ -220,6 +257,7 @@ public class Menu {
                         if (comando[1].equals("carcel")) {
                             if (this.jugadorActual.getFortuna() >= Valor.SAIR_CARCERE) {
                                 this.jugadorActual.restarFortuna(Valor.SAIR_CARCERE);
+                                this.taboleiro.getCasillaPosicion(20).sumarValor(Valor.SAIR_CARCERE);
                                 this.jugadorActual.setContadorEstarCarcere(0);
                                 this.sigueTurno = true;
                                 this.dadosLanzados = false;
@@ -304,7 +342,6 @@ public class Menu {
                 default:
                     System.out.println("Comando incorrecto.");
             }
-
         }
 
     }
@@ -323,7 +360,7 @@ public class Menu {
     public BufferedReader abrirArchivo(){
         BufferedReader buffRead= null;
         try {
-            String directorio= "/home/dani/Dropbox/Uni/2_Curso_1_Cuatri/POO/1_Entrega/src/";
+            String directorio= "/Users/davidmohedano/Documents/USC/Segundo/Primer cuatrimestre/POO/proyecto1/src/";
             FileReader fileRead= new FileReader(directorio + "comandos.txt");
             buffRead= new BufferedReader(fileRead);
         } catch(FileNotFoundException notFound) {
@@ -342,13 +379,13 @@ public class Menu {
             System.out.println(io.getMessage());
         }
         if (comandoEntero != null) {
-            System.out.println(comandoEntero);
+            System.out.println("$> " + comandoEntero);
             comando = comandoEntero.split(" ");
         }
         else{
             System.out.println("ERROR leyendo el archivo. Se acabó de leer el archivo, introduce tus comandos.");
-            System.out.print("$> ");
             this.esLeerArchivo = false;
+            System.out.print("$> ");
             comando = leerComando();
         }
         return comando;
