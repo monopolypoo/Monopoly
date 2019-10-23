@@ -16,6 +16,7 @@ public class Avatar{
     }
 
     public Avatar(String tipo, Jugador jugador, ArrayList<Jugador> jugadores, Casilla casilla){
+        tipo = tipo.toLowerCase();
         if(tipo.equals("sombrero") || tipo.equals("esfinge") || tipo.equals("coche") || tipo.equals("pelota"))
             this.tipo = tipo;
 

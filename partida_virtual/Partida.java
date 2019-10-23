@@ -59,4 +59,26 @@ public class Partida {
             System.out.println(ava.toString());
         }
     }
+
+    public void listarComandos(){
+        String comandos;
+        comandos = "{\n\tLa lista de comandos disponibles son:\n" +
+                "\t\tAbandonar partida ──> Acaba la partida en el momento deseado por los jugadores.\n" +
+                "\t\tVer tablero ──> Imprime por pantalla la posición actual de los avatares de cada jugador.\n" +
+                "\t\tVer comandos ──> Imprime los comandos disponibles.\n" +
+                "\t\tComprar casilla ──> Para comprar la casilla en la que te encuentras debes introducir el nombre de la misma sin espacios.\n" +
+                "\t\tDescribir jugador nombre ──> Describe el jugador que tiene en el campo <nombre> su nombre de jugador.\n" +
+                "\t\tDescribir avatar id ──> Describe el jugador que tiene en el campo <id> su identificador.\n" +
+                "\t\tDescribir casilla ──> Describe la casilla. El nombre de la casilla debe aparecer tal y como está en el tablero sin espacios.\n" +
+                "\t\tSalir carcel ──> En caso de encontrarte en la cárcel y disponer de fondos suficientes se le permite al jugador abandonarla.\n" +
+                "\t\tAcabar turno ──> En caso de haber lanzado los dados y no querer interactuar más con el tablero se debe acabar turno para que puede pasar el turno al siguiente jugador.\n" +
+                "\t\tLanzar dados ──> Comando encargado de lanzar los dados y colocar al jugador que los lance en la posición que le tocara en los mismos.\n" +
+                "\t\tListar jugadores ──> Muestra por pantalla el nombre y los atributos de todos los jugadores que están en la partida.\n" +
+                "\t\tListar avatares ──> Muestra por pantalla el id y los atributos de todos los avatares que están en la partida.\n" +
+                "\t\tListar enventa ──> Muestra por pantalla todas las casillas disponibles para la compra.\n" +
+                "\t\tJugador ──> Muestra por pantalla la información del jugador que dispone del turno.\n" +
+                "\t\tCrear jugador nombre avatar ──> Crea al jugador que poniéndole como nombre: <nombre> y como avatar: <avatar>. Los avatares disponibles son: Coche, Esfinge, Sombrero, Pelota.\n" +
+                "}";
+        System.out.println(comandos);
+    }
 }
