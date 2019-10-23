@@ -6,6 +6,7 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Scanner;
+
 import juego_fisico.*;
 import partida_virtual.*;
 
@@ -41,7 +42,7 @@ public class Menu {
         //abrir archivo de los comandos
         BufferedReader buffRead = abrirArchivo();
 
-        if (comando2[0].toLowerCase().equals("si")){
+        if (comando2[0].toLowerCase().equals("si")) {
             this.esLeerArchivo = true;
         }
 
@@ -83,7 +84,7 @@ public class Menu {
                 comando = leerComando();
             } */
 
-            if (this.esLeerArchivo){
+            if (this.esLeerArchivo) {
                 //leer comandos del archivo
                 comando = leerComandoArchivo(buffRead);
             } else {
@@ -92,7 +93,7 @@ public class Menu {
                 comando = leerComando();
             }
 
-            switch (comando[0]) {
+            switch (comando[0].toLowerCase()) {
                 case "crear":
                     if (comando.length == 4) {
                         if (comando[1].equals("jugador")) {
@@ -112,7 +113,7 @@ public class Menu {
                                     } else {
                                         jugadorTurnoSiguiente = jugadores.get(0);
                                     }
-                                } else{
+                                } else {
                                     System.out.println("No puedes crear más jugadores ya que la partida ya está empezada!");
                                 }
                             } else {
@@ -120,7 +121,7 @@ public class Menu {
                             }
                         }
                     } else
-                        System.out.println("Comando incorrecto.");
+                        System.out.println("Comando incorrecto. Para ver los comandos disponibles escriba: Ver Comandos");
                     break;
 
                 case "jugador":
@@ -143,11 +144,11 @@ public class Menu {
                                 break;
 
                             default:
-                                System.out.println("Comando incorrecto.");
+                                System.out.println("Comando incorrecto. Para ver los comandos disponibles escriba: Ver Comandos");
                                 break;
                         }
                     } else {
-                        System.out.println("Comando incorrecto.");
+                        System.out.println("Comando incorrecto. Para ver los comandos disponibles escriba: Ver Comandos");
                     }
                     break;
 
@@ -219,13 +220,13 @@ public class Menu {
                                     System.out.println("Ya tirastes los dados! Para poder tirarlos el siguinte jugador antes debes acabar turno!");
                                 }
                             } else {
-                                System.out.println("Antes de lanzar los dados inserte al jugador!");
+                                System.out.println("Antes de lanzar los dados inserte al jugador! Si no sabe como hacerlo teclee: Ver comandos.");
                             }
                         } else {
-                            System.out.println("Comando incorrecto.");
+                            System.out.println("Comando incorrecto. Para ver los comandos disponibles escriba: Ver Comandos");
                         }
                     } else {
-                        System.out.println("Comando incorrecto.");
+                        System.out.println("Comando incorrecto. Para ver los comandos disponibles escriba: Ver Comandos");
                     }
 
                     break;
@@ -246,13 +247,14 @@ public class Menu {
                                 System.out.println("No puedes acabar turno porque tienes que tirar los dados!");
                             }
                         } else {
-                            System.out.println("Comando incorrecto.");
+                            System.out.println("Comando incorrecto. Para ver los comandos disponibles escriba: Ver Comandos");
                         }
                     } else
-                        System.out.println("Comando incorrecto.");
+                        System.out.println("Comando incorrecto. Para ver los comandos disponibles escriba: Ver Comandos");
                     break;
 
                 case "salir":
+                    // Poner que si no se encuentra en la carcel no lo haga, porque te resta el dinero si tienes y nada más
                     if (comando.length == 2) {
                         if (comando[1].equals("carcel")) {
                             if (this.jugadorActual.getFortuna() >= Valor.SAIR_CARCERE) {
@@ -265,10 +267,10 @@ public class Menu {
                                 System.out.println("No tienes suficiente dinero para salír de la cárcel, por lo que debes esperar a que pasen los turnos de penalización.");
                             }
                         } else {
-                            System.out.println("Comando incorrecto.");
+                            System.out.println("Comando incorrecto. Para ver los comandos disponibles escriba: Ver Comandos");
                         }
                     } else
-                        System.out.println("Comando incorrecto.");
+                        System.out.println("Comando incorrecto. Para ver los comandos disponibles escriba: Ver Comandos");
                     break;
 
                 case "describir":
@@ -277,22 +279,22 @@ public class Menu {
                             if (partida.getJugadores().containsKey(comando[2]))
                                 System.out.println(partida.getJugadores().get(comando[2]));
                             else
-                                System.out.println("Comando incorrecto. partida_virtual.Jugador no encontrado.");
+                                System.out.println("Comando incorrecto. partida virtual. Jugador no encontrado. Para ver los comandos disponibles escriba: Ver Comandos");
                         } else if (comando[1].equals("avatar")) {
                             if (partida.getAvatares().containsKey(comando[2])) {
                                 System.out.println(partida.getAvatares().get(comando[2])); //mirar en caso de que no este el avatar
                             } else
-                                System.out.println("Comando incorrecto. partida_virtual.Avatar no encontrado.");
+                                System.out.println("Comando incorrecto. partida virtual. Avatar no encontrado. Para ver los comandos disponibles escriba: Ver Comandos");
                         } else {
-                            System.out.println("Comando incorrecto.");
+                            System.out.println("Comando incorrecto. Para ver los comandos disponibles escriba: Ver Comandos");
                         }
                     } else if (comando.length == 2) {
                         if (taboleiro.getCasillas().containsKey(comando[1]))
                             System.out.println(taboleiro.getCasillas().get(comando[1]));
                         else
-                            System.out.println("Comando incorrecto. El nome de una casilla debe introducirse tal y como aparece en el tablero pero SIN espacios.");
+                            System.out.println("Comando incorrecto. El nombree de una casilla debe introducirse tal y como aparece en el tablero pero SIN espacios. \nPara ver todos los comandos disponibles escriba: Ver Comandos");
                     } else {
-                        System.out.println("Comando incorrecto.");
+                        System.out.println("Comando incorrecto. Para ver los comandos disponibles escriba: Ver Comandos");
                     }
 
                     break;
@@ -315,7 +317,7 @@ public class Menu {
                                     "Asegurate de que has introducido bien el nombre de la casilla (tal y como aparece en el tablero pero sin espacios).");
                         }
                     } else {
-                        System.out.println("Comando incorrecto.");
+                        System.out.println("Comando incorrecto. Para ver los comandos disponibles escriba: Ver Comandos");
                     }
                     break;
 
@@ -323,10 +325,13 @@ public class Menu {
                     if (comando.length == 2) {
                         if (comando[1].equals("tablero"))
                             System.out.println(taboleiro);
-                        else
-                            System.out.println("Comando incorrecto.");
+                        else if(comando[1].toLowerCase().equals("comandos")){
+                            partida.listarComandos();
+                        }
+                            else
+                            System.out.println("Comando incorrecto. Para ver los comandos disponibles escriba: Ver Comandos");
                     } else
-                        System.out.println("Comando incorrecto");
+                        System.out.println("Comando incorrecto. Para ver los comandos disponibles escriba: Ver Comandos");
 
                     break;
 
@@ -340,7 +345,7 @@ public class Menu {
                     break;
 
                 default:
-                    System.out.println("Comando incorrecto.");
+                    System.out.println("Comando incorrecto. Para ver los comandos disponibles escriba: Ver Comandos");
             }
         }
 
@@ -357,32 +362,31 @@ public class Menu {
         return comando.split(" ");
     }
 
-    public BufferedReader abrirArchivo(){
-        BufferedReader buffRead= null;
+    public BufferedReader abrirArchivo() {
+        BufferedReader buffRead = null;
         try {
-            String directorio= "/Users/davidmohedano/Documents/USC/Segundo/Primer cuatrimestre/POO/proyecto1/src/";
-            FileReader fileRead= new FileReader(directorio + "comandos.txt");
-            buffRead= new BufferedReader(fileRead);
-        } catch(FileNotFoundException notFound) {
+            String directorio = "/home/dani/Dropbox/Uni/2_Curso_1_Cuatri/POO/1_Entrega/src/";
+            FileReader fileRead = new FileReader(directorio + "comandos.txt");
+            buffRead = new BufferedReader(fileRead);
+        } catch (FileNotFoundException notFound) {
             System.out.print(notFound.getMessage());
             System.exit(0);
         }
         return buffRead;
     }
 
-    public String[] leerComandoArchivo(BufferedReader buffRead){
+    public String[] leerComandoArchivo(BufferedReader buffRead) {
         String comandoEntero = null;
         String[] comando;
         try {
-            comandoEntero= buffRead.readLine();
-        } catch(IOException io) {
+            comandoEntero = buffRead.readLine();
+        } catch (IOException io) {
             System.out.println(io.getMessage());
         }
         if (comandoEntero != null) {
             System.out.println("$> " + comandoEntero);
             comando = comandoEntero.split(" ");
-        }
-        else{
+        } else {
             System.out.println("ERROR leyendo el archivo. Se acabó de leer el archivo, introduce tus comandos.");
             this.esLeerArchivo = false;
             System.out.print("$> ");
