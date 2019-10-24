@@ -33,6 +33,7 @@ public class Menu {
         this.contadorDobles = 0;
         this.dadosLanzados = false;
         boolean partidaEmpezada = false;
+        boolean combinado = false;
         String[] comando, comando2;
         String texto;
 
@@ -44,49 +45,19 @@ public class Menu {
 
         if (comando2[0].toLowerCase().equals("si")) {
             this.esLeerArchivo = true;
+            System.out.println("Si necesita introducir un comando en el medio de la ejecución automática, podrá hacerlo en cada stop, tecleando 'si', donde le aparecerá la entrada típica por línea de comandos.");
         }
 
         while (seguir) { //mirar cuando acabar la partida
-            /*if (this.esLeerArchivo) {
-                if (!esPrimeraVez){
-                    comando = leerComandoArchivo(buffRead);
-                    if (!comando[0].equals("stop")){
-                        if (comando[0].equals("acabado")){
-                            System.out.print("$> ");
-                            comando = leerComando();
-                        }
-                        else {
-                            System.out.print("Leer comando del archivo (si/no)?: ");
-                            comando2 = leerComando();
-                            if (!comando2[0].toLowerCase().equals("si")) {
-                                System.out.print("$> ");
-                                comando = leerComando();
-                            } else {
-                                texto = "$> ";
-                                for (int i = 0; i < comando.length; i++) {
-                                    texto += comando[i] + " ";
-                                }
-                                System.out.println(texto);
-                            }
-                        }
-                    }
-                    else{
-                        texto = "$> ";
-                        for (int i=0; i < comando.length; i++){
-                            texto += comando[i] + " ";
-                        }
-                        System.out.println(texto);
-                    }
-                }
-            }
-            else{
-                System.out.print("$> ");
-                comando = leerComando();
-            } */
 
             if (this.esLeerArchivo) {
                 //leer comandos del archivo
-                comando = leerComandoArchivo(buffRead);
+                if (!combinado) {
+                    comando = leerComandoArchivo(buffRead);
+                } else {
+                    comando = leerComando();
+                    combinado = false;
+                }
             } else {
                 //leer comandos por consola
                 System.out.print("$> ");
@@ -279,12 +250,12 @@ public class Menu {
                             if (partida.getJugadores().containsKey(comando[2]))
                                 System.out.println(partida.getJugadores().get(comando[2]));
                             else
-                                System.out.println("Comando incorrecto. partida virtual. Jugador no encontrado. Para ver los comandos disponibles escriba: Ver Comandos");
+                                System.out.println("Comando incorrecto. Jugador no encontrado. Para ver los comandos disponibles escriba: Ver Comandos");
                         } else if (comando[1].equals("avatar")) {
                             if (partida.getAvatares().containsKey(comando[2])) {
                                 System.out.println(partida.getAvatares().get(comando[2])); //mirar en caso de que no este el avatar
                             } else
-                                System.out.println("Comando incorrecto. partida virtual. Avatar no encontrado. Para ver los comandos disponibles escriba: Ver Comandos");
+                                System.out.println("Comando incorrecto. Avatar no encontrado. Para ver los comandos disponibles escriba: Ver Comandos");
                         } else {
                             System.out.println("Comando incorrecto. Para ver los comandos disponibles escriba: Ver Comandos");
                         }
@@ -325,10 +296,9 @@ public class Menu {
                     if (comando.length == 2) {
                         if (comando[1].equals("tablero"))
                             System.out.println(taboleiro);
-                        else if(comando[1].toLowerCase().equals("comandos")){
+                        else if (comando[1].toLowerCase().equals("comandos")) {
                             partida.listarComandos();
-                        }
-                            else
+                        } else
                             System.out.println("Comando incorrecto. Para ver los comandos disponibles escriba: Ver Comandos");
                     } else
                         System.out.println("Comando incorrecto. Para ver los comandos disponibles escriba: Ver Comandos");
@@ -341,7 +311,12 @@ public class Menu {
                     break;
 
                 case "stop":
-                    new Scanner(System.in).nextLine();
+                    comando2 = leerComando();
+                    if (comando2[0].toLowerCase().equals("si")) {
+                        combinado = true;
+                        System.out.print("$> ");
+                    }
+                    //new Scanner(System.in).nextLine();
                     break;
 
                 default:
