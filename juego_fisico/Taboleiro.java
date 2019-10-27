@@ -17,7 +17,7 @@ public class Taboleiro {
     private ArrayList<Casilla> casillasNoEnVenta;
     private ArrayList<Casilla> casillasEnVenta;
     private boolean sePuedeSubirPrecio;
-    public int contadorVueltas;
+    private int contadorVueltas;
 
 
     public Taboleiro() {
@@ -507,7 +507,7 @@ public class Taboleiro {
         for (int i = 0; i < ladoNorte.getCasillas().size(); i++) {
             textoNorte += BLANCO + "│" + ladoNorte.getCasillas().get(i).getColorGrupo() + ladoNorte.getCasillas().get(i).getNombre();
             textoAvataresNorte += BLANCO + "│";
-            textoAvataresSur += BLANCO + "|";
+            textoAvataresSur += BLANCO + "│";
             if (ladoNorte.getCasillas().get(i).haiAvatar()) {
                 textoAvataresNorte += ladoNorte.getCasillas().get(i).getIds();
             } else {
@@ -526,7 +526,7 @@ public class Taboleiro {
             if (i < 9) {
                 textoOesteLeste += BLANCO + "│" + ladoOeste.getCasillas().get(i).getColorGrupo() +
                         ladoOeste.getCasillas().get(i).getNombre() + textoEspaciado + ladoLeste.getCasillas().get(i).getColorGrupo() +
-                        ladoLeste.getCasillas().get(i).getNombre() + BLANCO + "|\n|";
+                        ladoLeste.getCasillas().get(i).getNombre() + BLANCO + "│\n│";
                 if (ladoOeste.getCasillas().get(i).haiAvatar()) {
                     textoOesteLeste += ladoOeste.getCasillas().get(i).getIds();
                 } else {
@@ -542,12 +542,12 @@ public class Taboleiro {
                         textoOesteLeste += " ";
                     }
                 }
-                textoOesteLeste += BLANCO + "|\n";
+                textoOesteLeste += BLANCO + "│\n";
             }
             if (i < 8)
                 textoOesteLeste += BLANCO + textoTopeEspaciado;
         }
-        String texto = BLANCO + textoTope + textoNorte + BLANCO + "│\n" + textoAvataresNorte + "|\n" + textoTopeMedioArriba + textoOesteLeste + textoTopeMedioAbajo + textoSur + BLANCO + "│\n" + textoAvataresSur + "|\n" + textoTopeAbajo;
+        String texto = BLANCO + textoTope + textoNorte + BLANCO + "│\n" + textoAvataresNorte + "│\n" + textoTopeMedioArriba + textoOesteLeste + textoTopeMedioAbajo + textoSur + BLANCO + "│\n" + textoAvataresSur + "│\n" + textoTopeAbajo;
         return texto;
     }
 }
