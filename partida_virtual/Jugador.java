@@ -222,6 +222,7 @@ public class Jugador {
                     System.out.println("El jugador " + this.nombre + " compra la casilla " + casilla.getNombreSinEspacio()
                             + " por " + casilla.getValor() + "€. Su fortuna actual es: " + this.fortuna + "€.");
                     taboleiro.getCasillasEnVenta().remove(casilla);
+                    taboleiro.setContadorVueltas(0);
                 } else {
                     System.out.println("No tienes suficiente dinero para comprar esta casilla.");
                 }
