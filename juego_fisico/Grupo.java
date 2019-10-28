@@ -10,6 +10,9 @@ public class Grupo {
     private double valor;
     private String color;
     private String lado;
+    private int numeroHoteles;
+    private int nmeroPistas;
+    private int numeroPiscinas;
 
     public Grupo() {
     }
@@ -21,6 +24,9 @@ public class Grupo {
         this.lado = lado;
         setValor(valor);
         SetGrupo(this);
+        this.numeroHoteles = 0;
+        this.nmeroPistas = 0;
+        this.numeroPiscinas = 0;
     }
 
     public Grupo(ArrayList<Casilla> casillas, int numeroGrupo, String color, String lado) {
@@ -31,6 +37,9 @@ public class Grupo {
         this.lado = lado;
         setColor(color);
         SetGrupo(this);
+        this.numeroHoteles = 0;
+        this.nmeroPistas = 0;
+        this.numeroPiscinas = 0;
     }
 
     public Grupo(ArrayList<Casilla> casillas, int numeroGrupo, double valor, String color) {
@@ -41,6 +50,9 @@ public class Grupo {
         this.lado = null;
         setColor(color);
         SetGrupo(this);
+        this.numeroHoteles = 0;
+        this.nmeroPistas = 0;
+        this.numeroPiscinas = 0;
     }
 
     public Grupo(ArrayList<Casilla> casillas, int numeroGrupo, String lado) {
@@ -48,6 +60,9 @@ public class Grupo {
         this.numeroGrupo = numeroGrupo;
         this.lado = lado;
         SetGrupo(this);
+        this.numeroHoteles = 0;
+        this.nmeroPistas = 0;
+        this.numeroPiscinas = 0;
     }
 
     public Grupo(ArrayList<Casilla> casillas, String color, int numeroGrupo) {
@@ -55,6 +70,9 @@ public class Grupo {
         this.numeroGrupo = numeroGrupo;
         setColor(color);
         SetGrupo(this);
+        this.numeroHoteles = 0;
+        this.nmeroPistas = 0;
+        this.numeroPiscinas = 0;
     }
 
     public ArrayList<Casilla> getCasillas() {
@@ -75,6 +93,36 @@ public class Grupo {
 
     public double getValor() {
         return valor;
+    }
+
+    public int getNmeroPistas() {
+        return nmeroPistas;
+    }
+
+    public int getNumeroHoteles() {
+        return numeroHoteles;
+    }
+
+    public int getNumeroPiscinas() {
+        return numeroPiscinas;
+    }
+
+    public void setNmeroPistas(int nmeroPistas) {
+        if (numeroPiscinas >= 0) {
+            this.nmeroPistas = nmeroPistas;
+        }
+    }
+
+    public void setNumeroHoteles(int numeroHoteles) {
+        if (numeroHoteles >= 0) {
+            this.numeroHoteles = numeroHoteles;
+        }
+    }
+
+    public void setNumeroPiscinas(int numeroPiscinas) {
+        if (numeroPiscinas >= 0) {
+            this.numeroPiscinas = numeroPiscinas;
+        }
     }
 
     public void setCasillas(ArrayList<Casilla> casillas) {
@@ -172,6 +220,7 @@ public class Grupo {
         return texto;
     }
 
+    @Override
     public boolean equals(Object obj) {
         if (this.getNumeroGrupo() == ((Grupo) obj).getNumeroGrupo()) {
             return true;

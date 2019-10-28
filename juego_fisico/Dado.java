@@ -82,6 +82,9 @@ public class Dado {
             casillaSiguiente = taboleiro.getCasillaPosicion(this.posSiguiente);
             jugador.getAvatar().setCasilla(casillaSiguiente);
             taboleiro.getCasillaPosicion(this.posSiguiente).setAvatar(jugador.getAvatar());
+            if (this.posSiguiente != 10 && this.posSiguiente != 20 && this.posSiguiente != 0) {
+                taboleiro.getCasillaPosicion(this.posSiguiente).setVecesCasilla(jugador);
+            }
         }
     }
 

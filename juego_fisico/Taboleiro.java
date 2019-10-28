@@ -3,9 +3,11 @@ package juego_fisico;
 import juego_fisico.Grupo;
 import monopoly.Menu;
 import monopoly.Valor;
+import partida_virtual.Jugador;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Random;
 
 public class Taboleiro {
     private Grupo ladoNorte;
@@ -18,6 +20,11 @@ public class Taboleiro {
     private ArrayList<Casilla> casillasEnVenta;
     private boolean sePuedeSubirPrecio;
     private int contadorVueltas;
+    private ArrayList<String> idCasas;
+    private ArrayList<String> idHoteles;
+    private ArrayList<String> idPiscinas;
+    private ArrayList<String> idPistas;
+    private HashMap<String, Casilla> edificaciones;
 
 
     public Taboleiro() {
@@ -438,6 +445,7 @@ public class Taboleiro {
         }
     }
 
+
     public int getContadorVueltas() {
         return contadorVueltas;
     }
@@ -456,6 +464,30 @@ public class Taboleiro {
         } else
             return true;
     }
+
+    public String idCasa(Casilla casilla) {
+        String id;
+        String[] aux;
+        int numero;
+        if (this.idCasas == null) {
+            this.idCasas = new ArrayList<>();
+        }
+        if(this.edificaciones == null){
+            this.edificaciones = new HashMap<>();
+        }
+        if (this.idCasas.size() == 0) {
+            id = "case-1";
+        } else {
+            aux = this.idCasas.get(this.idCasas.size() - 1).split("-");
+            numero = Integer.parseInt(aux[1]);
+            numero++;
+            id = "casa-" + numero;
+        }
+        this.idCasas.add(id);
+        this.edificaciones.put(id, casilla);
+        return id;
+    }
+
 
     @Override
     public String toString() {

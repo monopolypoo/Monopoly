@@ -4,7 +4,9 @@ import monopoly.Valor;
 import partida_virtual.Avatar;
 import partida_virtual.Jugador;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Scanner;
 
 public class Casilla {
     private String nombre;
@@ -21,6 +23,8 @@ public class Casilla {
     private HashMap<String, String[]> vecesCasilla;
     private HashMap<String, Avatar> avatares;
     private Grupo grupo;
+    private int numeroCasas;
+    private int numeroHoteles;
 
     public Casilla() {
     }
@@ -35,6 +39,8 @@ public class Casilla {
         this.avatares = new HashMap<>();
         this.duenho = null;
         this.grupo = null;
+        this.numeroCasas = 0;
+        this.numeroHoteles = 0;
     }
 
 
@@ -48,7 +54,8 @@ public class Casilla {
         this.vecesCasilla = new HashMap<>();
         this.avatares = new HashMap<>();
         this.grupo = null;
-
+        this.numeroCasas = 0;
+        this.numeroHoteles = 0;
     }
 
     public Casilla(String nombre, String tipo, int posicion, double valor, String colorGrupo) {
@@ -61,6 +68,8 @@ public class Casilla {
         this.avatares = new HashMap<>();
         this.duenho = null;
         this.grupo = null;
+        this.numeroCasas = 0;
+        this.numeroHoteles = 0;
     }
 
     public double getValorCasa() {
@@ -133,11 +142,11 @@ public class Casilla {
         this.avatares.remove(id);
     }
 
-    public Grupo getGrupo(){
+    public Grupo getGrupo() {
         return this.grupo;
     }
 
-    public void setGrupo(Grupo grupo){
+    public void setGrupo(Grupo grupo) {
         this.grupo = grupo;
     }
 
@@ -219,6 +228,7 @@ public class Casilla {
             return nom[0];
         }
     }
+
     public String getTipo() {
         return tipo;
     }
@@ -231,7 +241,7 @@ public class Casilla {
         this.colorGrupo = colorGrupo;
     }
 
-    public void setValor(double valor){
+    public void setValor(double valor) {
         this.valor = valor;
     }
 
@@ -254,6 +264,83 @@ public class Casilla {
 
     public void sumarValor(float valor) {
         this.valor += valor;
+    }
+
+    public void construirCasa(Jugador jugador, Taboleiro taboleiro) {
+        if (this.duenho != null) {
+            if (jugador.getAvatar().getId().equals(this.duenho.getAvatar().getId())) {
+                int aux;
+                if (this.getVecesCasilla().containsKey(jugador.getNombre())) {
+                    aux = Integer.parseInt(this.getVecesCasilla().get(jugador.getNombre())[0]);
+                } else {
+                    aux = 0;
+                }
+
+                if (this.grupo.tenerTodasCasillas() || aux >= 2) {
+                    if (jugador.getFortuna() >= this.valorCasa) {
+                        if (this.numeroCasas < 4) {
+                            String id;
+                            this.numeroCasas++;
+                            this.duenho.restarFortuna((float) this.valorCasa);
+                            id = taboleiro.idCasa(this);
+                            // falta añadirlo a un arraylist de ids.
+                            System.out.println("El avatar " + this.duenho.getAvatar().getId() + " ha construído una casa en la casilla " + this.getNombreSinEspacio() + " por un valor de: " + this.valorCasa +
+                                    "\nLa fortuna actual del jugador es de: " + this.duenho.getFortuna());
+                        } else {
+                            System.out.print("Ya hay 4 casas construídas! Quiere construír un hotel? [si/no] ");
+                            String comando;
+                            Scanner leer = new Scanner(System.in);
+                            comando = leer.nextLine();
+                            if (comando.toLowerCase().equals("si")) {
+                                construirHotel(jugador, taboleiro);
+                            } else {
+                                System.out.println("De acuerdo. No se hará ninguna acción.");
+                            }
+                        }
+                    } else {
+                        System.out.println("No tienes suficiente dinero para construir una casa.");
+                    }
+                } else {
+                    System.out.println("No tienes todas las casillas del grupo ni has caído dos veces en la casilla por lo que no puedes hacer esto!");
+                }
+            } else {
+                System.out.println("NO eres el dueño de esta casilla, por lo que no puedes contruír en esta casilla!");
+            }
+        } else {
+            System.out.println("No eres el dueño de esta casilla, por lo que no puedes construír en esta casilla!");
+        }
+    }
+
+    public void construirHotel(Jugador jugador, Taboleiro taboleiro) {
+        if (this.duenho != null) {
+            if (jugador.getAvatar().getId().equals(this.duenho.getAvatar().getId())) {
+                if (this.grupo.tenerTodasCasillas()) {
+                    if (jugador.getFortuna() >= this.valorHotel) {
+                        if (this.numeroCasas == 4 && this.grupo.getNumeroHoteles() < 4) {
+                            this.numeroCasas = 0;
+                            this.numeroHoteles++;
+                            this.duenho.restarFortuna((float) this.valorHotel);
+                            this.grupo.setNumeroHoteles(this.grupo.getNumeroHoteles() + 1);
+                            // falta lo mismo que en casas y crear la funcion y elimiar las 4 casas del arraylist y hashmap
+                            System.out.println("El avatar " + this.duenho.getAvatar().getId() + " ha construído un hotel en la casilla " + this.getNombreSinEspacio() + " por un valor de: " + this.valorHotel +
+                                    "\nLa fortuna actual del jugador es de: " + this.duenho.getFortuna());
+                        } else if (this.grupo.getNumeroHoteles() > 3) {
+                            System.out.println("No puedes tener más de tres hoteles en el grupo!");
+                        } else {
+                            System.out.println("Para construír un hotel necesitas tener 4 casas construídas.");
+                        }
+                    } else {
+                        System.out.println("No tienes suficiente dinero para construir un hotel.");
+                    }
+                } else {
+                    System.out.println("No tienes todas las casillas del grupo por lo que no puedes hacer esto!");
+                }
+            } else {
+                System.out.println("NO eres el dueño de esta casilla, por lo que no puedes contruír en esta casilla!");
+            }
+        } else {
+            System.out.println("NO eres el dueño de esta casilla, por lo que no puedes construír en esta casilla!");
+        }
     }
 
     @Override
@@ -288,7 +375,7 @@ public class Casilla {
             } else {
                 banca = this.duenho.getNombre();
             }
-            texto = "{\n\ttipo: " + this.getTipo() + ",\n\tgrupo: " + this.getGrupo().getNumeroGrupo() +  ",\n\tpropietario: " + banca +
+            texto = "{\n\ttipo: " + this.getTipo() + ",\n\tgrupo: " + this.getGrupo().getNumeroGrupo() + ",\n\tpropietario: " + banca +
                     ",\n\tvalor: " + this.valor + ",\n\talquiler: " + this.valorAlquiler + ",\n\tvalor hotel: " + this.valorHotel +
                     ",\n\tvalor casa: " + this.valorCasa + ",\n\tvalor piscina: " + this.valorPistaDeporte + ",\n\tvalor pista de deporte: "
                     + this.valorPistaDeporte + ",\n\talquiler una casa: " + 5 * this.valor + ",\n\talquiler dos casas: " + 15 * this.valor
