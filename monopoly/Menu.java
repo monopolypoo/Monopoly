@@ -305,6 +305,9 @@ public class Menu {
 
                     break;
 
+                case "edificar":
+                    break;
+
                 case "abandonar":
                     System.out.println("Abandonando partida...");
                     seguir = false;
