@@ -11,6 +11,7 @@ public class Jugador {
     private float dineroGastado;
     private Avatar avatar;
     private ArrayList<Casilla> propiedades;
+    private ArrayList<String> edificaciones;
     private boolean estarCarcere;
     private int contadorEstarCarcere;
 
@@ -134,6 +135,23 @@ public class Jugador {
             }
         }
         this.propiedades = propiedades;
+    }
+    
+
+    public ArrayList<String> getEdificaciones(){
+        return this.edificaciones;
+    }
+
+    public void añadirEdificacion(String edificio) {
+        if (edificio != null) {
+            this.edificaciones.add(edificio);
+        }
+    }
+
+    public void eliminarCasa(String id){
+        if (id != null){
+            this.edificaciones.remove(id);
+        }
     }
 
     public void pagarAlquiler(Casilla casilla, int dadoTotal, Taboleiro taboleiro) {
