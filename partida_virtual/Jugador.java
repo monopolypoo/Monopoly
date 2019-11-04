@@ -1,3 +1,4 @@
+
 package partida_virtual;
 
 import juego_fisico.*;
@@ -136,7 +137,7 @@ public class Jugador {
         }
         this.propiedades = propiedades;
     }
-    
+
 
     public ArrayList<String> getEdificaciones(){
         return this.edificaciones;
@@ -304,4 +305,3 @@ public class Jugador {
         return texto;
     }
 }
-

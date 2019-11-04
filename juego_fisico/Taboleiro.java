@@ -465,6 +465,31 @@ public class Taboleiro {
             return true;
     }
 
+    public void eliminarCasa(String id){
+        if (this.edificaciones.containsKey(id)){
+            this.edificaciones.remove(id);
+            this.idCasas.remove(id);
+        }
+    }
+    public void eliminarHotel(String id){
+        if (this.edificaciones.containsKey(id)){
+            this.edificaciones.remove(id);
+            this.idHoteles.remove(id);
+        }
+    }
+    public void eliminarPiscina(String id){
+        if (this.edificaciones.containsKey(id)){
+            this.edificaciones.remove(id);
+            this.idPiscinas.remove(id);
+        }
+    }
+    public void eliminarPista(String id){
+        if (this.edificaciones.containsKey(id)){
+            this.edificaciones.remove(id);
+            this.idPistas.remove(id);
+        }
+    }
+
     public String idCasa(Casilla casilla) {
         String id;
         String[] aux;
