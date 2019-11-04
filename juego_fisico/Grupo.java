@@ -3,6 +3,7 @@ package juego_fisico;
 import partida_virtual.Jugador;
 
 import java.util.ArrayList;
+import java.util.Objects;
 
 public class Grupo {
     private int numeroGrupo = 0;
@@ -18,10 +19,14 @@ public class Grupo {
     }
 
     public Grupo(ArrayList<Casilla> casillas, int numeroGrupo, String color, String lado, double valor) {
-        this.casillas = casillas;
-        this.numeroGrupo = numeroGrupo;
+        this.casillas = Objects.requireNonNullElseGet(casillas, ArrayList::new);
+        if (numeroGrupo >= 0) {
+            this.numeroGrupo = numeroGrupo;
+        }
         setColor(color);
-        this.lado = lado;
+        if (lado.equals("norte") || lado.equals("sur") || lado.equals("este") || lado.equals("oeste")) {
+            this.lado = lado;
+        }
         setValor(valor);
         SetGrupo(this);
         this.numeroHoteles = 0;
@@ -30,11 +35,15 @@ public class Grupo {
     }
 
     public Grupo(ArrayList<Casilla> casillas, int numeroGrupo, String color, String lado) {
-        this.casillas = casillas;
-        this.numeroGrupo = numeroGrupo;
-        this.valor = 100000 * Math.pow(1.3, this.numeroGrupo - 1);
-        setValor(valor);
-        this.lado = lado;
+        this.casillas = Objects.requireNonNullElseGet(casillas, ArrayList::new);
+        if (numeroGrupo >= 0) {
+            this.numeroGrupo = numeroGrupo;
+            this.valor = 100000 * Math.pow(1.3, this.numeroGrupo - 1);
+            setValor(valor);
+        }
+        if (lado.equals("norte") || lado.equals("sur") || lado.equals("este") || lado.equals("oeste")) {
+            this.lado = lado;
+        }
         setColor(color);
         SetGrupo(this);
         this.numeroHoteles = 0;
@@ -43,7 +52,7 @@ public class Grupo {
     }
 
     public Grupo(ArrayList<Casilla> casillas, int numeroGrupo, double valor, String color) {
-        this.casillas = casillas;
+        this.casillas = Objects.requireNonNullElseGet(casillas, ArrayList::new);
         this.numeroGrupo = numeroGrupo;
         this.valor = valor;
         setValor(valor);
@@ -58,7 +67,9 @@ public class Grupo {
     public Grupo(ArrayList<Casilla> casillas, int numeroGrupo, String lado) {
         this.casillas = casillas;
         this.numeroGrupo = numeroGrupo;
-        this.lado = lado;
+        if (lado.equals("norte") || lado.equals("sur") || lado.equals("este") || lado.equals("oeste")) {
+            this.lado = lado;
+        }
         SetGrupo(this);
         this.numeroHoteles = 0;
         this.nmeroPistas = 0;
@@ -95,7 +106,7 @@ public class Grupo {
         return valor;
     }
 
-    public int getNmeroPistas() {
+    public int getNumeroPistas() {
         return nmeroPistas;
     }
 
@@ -107,20 +118,25 @@ public class Grupo {
         return numeroPiscinas;
     }
 
-    public void setNmeroPistas(int nmeroPistas) {
-        if (numeroPiscinas >= 0) {
+    public void setNumeroPistas(int nmeroPistas) {
+        if (nmeroPistas >= 0 && nmeroPistas <= this.casillas.size()) {
             this.nmeroPistas = nmeroPistas;
         }
     }
 
+    public int getNumeroSolares() {
+        return this.casillas.size();
+    }
+
     public void setNumeroHoteles(int numeroHoteles) {
-        if (numeroHoteles >= 0) {
+        if (numeroHoteles >= 0 && numeroHoteles <= this.casillas.size()) {
             this.numeroHoteles = numeroHoteles;
+
         }
     }
 
     public void setNumeroPiscinas(int numeroPiscinas) {
-        if (numeroPiscinas >= 0) {
+        if (numeroPiscinas >= 0 && numeroPiscinas <= this.casillas.size()) {
             this.numeroPiscinas = numeroPiscinas;
         }
     }
@@ -145,27 +161,35 @@ public class Grupo {
     }
 
     public void setColor(String color) {
-        this.color = color;
-        for (Casilla casilla : casillas) {
-            casilla.setColorGrupo(color);
+        if (color != null) {
+            this.color = color;
+            for (Casilla casilla : casillas) {
+                casilla.setColorGrupo(color);
+            }
         }
     }
 
     public void setValor(double valor) {
-        for (Casilla casilla : casillas) {
-            casilla.SetValor(valor);
+        if (valor > 0) {
+            for (Casilla casilla : casillas) {
+                casilla.SetValor(valor);
+            }
         }
     }
 
     public void SetGrupo(Grupo grupo) {
-        for (Casilla casilla : casillas) {
-            casilla.setGrupo(grupo);
+        if (grupo != null) {
+            for (Casilla casilla : casillas) {
+                casilla.setGrupo(grupo);
+            }
         }
     }
 
     // Se debería borrar que no permitimos cambiar el lado por el medio de la partida
     public void setLado(String lado) {
-        this.lado = lado;
+        if (lado.equals("norte") || lado.equals("sur") || lado.equals("este") || lado.equals("oeste")) {
+            this.lado = lado;
+        }
     }
 
     public void anhadirCasilla(Casilla casilla) {
@@ -193,9 +217,11 @@ public class Grupo {
 
     public int cuantasCasillasTiene(Jugador jugador) {
         int contador = 0;
-        for (Casilla cas : casillas) {
-            if (cas.getDuenho().getAvatar().getId().equals(jugador.getAvatar().getId())) {
-                contador++;
+        if (jugador != null) {
+            for (Casilla cas : casillas) {
+                if (cas.getDuenho().getAvatar().getId().equals(jugador.getAvatar().getId())) {
+                    contador++;
+                }
             }
         }
         return contador;
