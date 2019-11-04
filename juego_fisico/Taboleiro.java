@@ -476,7 +476,7 @@ public class Taboleiro {
             this.edificaciones = new HashMap<>();
         }
         if (this.idCasas.size() == 0) {
-            id = "case-1";
+            id = "casa-1";
         } else {
             aux = this.idCasas.get(this.idCasas.size() - 1).split("-");
             numero = Integer.parseInt(aux[1]);
@@ -484,6 +484,75 @@ public class Taboleiro {
             id = "casa-" + numero;
         }
         this.idCasas.add(id);
+        this.edificaciones.put(id, casilla);
+        return id;
+    }
+
+    public String idHotel(Casilla casilla) {
+        String id;
+        String[] aux;
+        int numero;
+        if (this.idHoteles == null) {
+            this.idHoteles = new ArrayList<>();
+        }
+        if(this.edificaciones == null){
+            this.edificaciones = new HashMap<>();
+        }
+        if (this.idHoteles.size() == 0) {
+            id = "hotel-1";
+        } else {
+            aux = this.idHoteles.get(this.idHoteles.size() - 1).split("-");
+            numero = Integer.parseInt(aux[1]);
+            numero++;
+            id = "hotel-" + numero;
+        }
+        this.idHoteles.add(id);
+        this.edificaciones.put(id, casilla);
+        return id;
+    }
+
+    public String idPiscina(Casilla casilla) {
+        String id;
+        String[] aux;
+        int numero;
+        if (this.idPiscinas == null) {
+            this.idPiscinas = new ArrayList<>();
+        }
+        if(this.edificaciones == null){
+            this.edificaciones = new HashMap<>();
+        }
+        if (this.idPiscinas.size() == 0) {
+            id = "piscina-1";
+        } else {
+            aux = this.idPiscinas.get(this.idPiscinas.size() - 1).split("-");
+            numero = Integer.parseInt(aux[1]);
+            numero++;
+            id = "piscina-" + numero;
+        }
+        this.idPiscinas.add(id);
+        this.edificaciones.put(id, casilla);
+        return id;
+    }
+
+    public String idPista(Casilla casilla) {
+        String id;
+        String[] aux;
+        int numero;
+        if (this.idPistas == null) {
+            this.idPistas = new ArrayList<>();
+        }
+        if(this.edificaciones == null){
+            this.edificaciones = new HashMap<>();
+        }
+        if (this.idPistas.size() == 0) {
+            id = "pista-1";
+        } else {
+            aux = this.idPistas.get(this.idPistas.size() - 1).split("-");
+            numero = Integer.parseInt(aux[1]);
+            numero++;
+            id = "pista-" + numero;
+        }
+        this.idPistas.add(id);
         this.edificaciones.put(id, casilla);
         return id;
     }

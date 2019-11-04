@@ -283,7 +283,7 @@ public class Casilla {
                             this.numeroCasas++;
                             this.duenho.restarFortuna((float) this.valorCasa);
                             id = taboleiro.idCasa(this);
-                            // falta añadirlo a un arraylist de ids.
+                            jugador.añadirEdificacion(id);
                             System.out.println("El avatar " + this.duenho.getAvatar().getId() + " ha construído una casa en la casilla " + this.getNombreSinEspacio() + " por un valor de: " + this.valorCasa +
                                     "\nLa fortuna actual del jugador es de: " + this.duenho.getFortuna());
                         } else {
@@ -321,6 +321,8 @@ public class Casilla {
                             this.numeroHoteles++;
                             this.duenho.restarFortuna((float) this.valorHotel);
                             this.grupo.setNumeroHoteles(this.grupo.getNumeroHoteles() + 1);
+                            String id = taboleiro.idHotel(this);
+                            jugador.añadirEdificacion(id);
                             // falta lo mismo que en casas y crear la funcion y elimiar las 4 casas del arraylist y hashmap
                             System.out.println("El avatar " + this.duenho.getAvatar().getId() + " ha construído un hotel en la casilla " + this.getNombreSinEspacio() + " por un valor de: " + this.valorHotel +
                                     "\nLa fortuna actual del jugador es de: " + this.duenho.getFortuna());
