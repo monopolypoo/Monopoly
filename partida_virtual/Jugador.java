@@ -15,6 +15,12 @@ public class Jugador {
     private ArrayList<String> edificaciones;
     private boolean estarCarcere;
     private int contadorEstarCarcere;
+    private float dineroInvertido;
+    private float tasasImpuestos;
+    private float pagoAlquileres;
+    private float cobroAlquileres;
+    private int vecesSalida;
+    private float premiosInversionesBote;
 
     public Jugador() {
         this.nombre = "banca";
@@ -25,6 +31,12 @@ public class Jugador {
         this.edificaciones = new ArrayList<>();
         this.estarCarcere = false;
         this.contadorEstarCarcere = 0;
+        this.dineroInvertido = 0;
+        this.tasasImpuestos = 0;
+        this.pagoAlquileres = 0;
+        this.cobroAlquileres = 0;
+        this.vecesSalida = 0;
+        this.premiosInversionesBote = 0;
     }
 
     public Jugador(String nombre, String tipo_avatar, ArrayList<Jugador> jugadores, Casilla casilla) {
@@ -44,6 +56,12 @@ public class Jugador {
         this.edificaciones = new ArrayList<>();
         this.estarCarcere = false;
         this.contadorEstarCarcere = 0;
+        this.dineroInvertido = 0;
+        this.tasasImpuestos = 0;
+        this.pagoAlquileres = 0;
+        this.cobroAlquileres = 0;
+        this.vecesSalida = 0;
+        this.premiosInversionesBote = 0;
     }
 
     public String getNombre() {
@@ -55,6 +73,64 @@ public class Jugador {
             this.nombre = nombre;
         } else {
             this.nombre = "jugador_random";
+        }
+    }
+
+    public float getDineroInvertido() {
+        return dineroInvertido;
+    }
+
+    public void sumarDineroInvertido(float dineroInvertido) {
+        if (dineroInvertido > 0) {
+            this.dineroInvertido += dineroInvertido;
+        }
+    }
+
+    public float getPagoAlquileres() {
+        return pagoAlquileres;
+    }
+
+    public void sumarPagoAlquileres(float pagoAlquileres) {
+        if (pagoAlquileres > 0) {
+            this.pagoAlquileres += pagoAlquileres;
+        }
+    }
+
+    public float getCobroAlquileres() {
+        return cobroAlquileres;
+    }
+
+    public void sumarCobroAlquileres(float cobroAlquileres) {
+        if (cobroAlquileres > 0) {
+            this.cobroAlquileres += cobroAlquileres;
+        }
+    }
+
+    public float getTasasImpuestos() {
+        return tasasImpuestos;
+    }
+
+    public void sumarTasasImpuestos(float tasasImpuestos) {
+        if (tasasImpuestos > 0){
+            this.tasasImpuestos += tasasImpuestos;
+        }
+    }
+
+    public int getVecesSalida() {
+        return vecesSalida;
+    }
+
+    public void sumarVecesSalida(){
+        this.vecesSalida++;
+    }
+
+    public float getPremiosInversionesBote() {
+        return premiosInversionesBote;
+    }
+
+    public void sumarPremiosInversionesBote(float premiosInversionesBote){
+        if(premiosInversionesBote > 0){
+            this.premiosInversionesBote += premiosInversionesBote;
         }
     }
 
@@ -141,7 +217,7 @@ public class Jugador {
     }
 
 
-    public ArrayList<String> getEdificaciones(){
+    public ArrayList<String> getEdificaciones() {
         return this.edificaciones;
     }
 
@@ -151,8 +227,8 @@ public class Jugador {
         }
     }
 
-    public void eliminarCasa(String id){
-        if (id != null){
+    public void eliminarCasa(String id) {
+        if (id != null) {
             this.edificaciones.remove(id);
         }
     }
@@ -297,20 +373,18 @@ public class Jugador {
                     }
                     i++;
                 }
-            }
-            else
+            } else
                 prop = "[ ]";
-            if ((tam = this.edificaciones.size()) != 0){
-                i=0;
-                for (String id : this.edificaciones){
+            if ((tam = this.edificaciones.size()) != 0) {
+                i = 0;
+                for (String id : this.edificaciones) {
                     edif += id;
-                    if (i != tam){
+                    if (i != tam) {
                         edif += ", ";
                     }
                     i++;
                 }
-            }
-            else
+            } else
                 edif = "[ ]";
             texto = "{\n" +
                     "\tNombre: " + this.nombre +
