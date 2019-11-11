@@ -523,8 +523,7 @@ public class Casilla {
         } else if (this.posicion == 4 || this.posicion == 38) {
             texto = "{\n\ttipo: " + this.tipo + ",\n\tapagar: " + this.valor + ",\n}";
         } else {
-            String banca, edificaciones = "[ ]no" +
-                    "";
+            String banca, edificaciones = "[ ]";
             if (this.duenho == null) {
                 banca = "banca";
             } else {
