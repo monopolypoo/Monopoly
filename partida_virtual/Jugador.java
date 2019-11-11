@@ -22,6 +22,7 @@ public class Jugador {
         this.dineroGastado = 0;
         this.avatar = new Avatar();
         this.propiedades = new ArrayList<>(); //tambien se le pueden poner inicialmente todas las propiedades a la banca
+        this.edificaciones = new ArrayList<>();
         this.estarCarcere = false;
         this.contadorEstarCarcere = 0;
     }
@@ -40,6 +41,7 @@ public class Jugador {
             this.avatar = new Avatar();
         }
         this.propiedades = new ArrayList<>();
+        this.edificaciones = new ArrayList<>();
         this.estarCarcere = false;
         this.contadorEstarCarcere = 0;
     }
@@ -282,12 +284,13 @@ public class Jugador {
     public String toString() {
         String texto;
         String prop = "";
+        String edif = "";
         if (this.avatar == null) {
             texto = "{\n\tNombre: " + this.nombre + "\n}";
         } else {
             int tam = 0, i = 1;
-            if ((tam = propiedades.size()) != 0) {
-                for (Casilla propi : propiedades) {
+            if ((tam = this.propiedades.size()) != 0) {
+                for (Casilla propi : this.propiedades) {
                     prop += propi.getNombreSinEspacio();
                     if (i != tam) {
                         prop += ", ";
@@ -295,12 +298,27 @@ public class Jugador {
                     i++;
                 }
             }
+            else
+                prop = "[ ]";
+            if ((tam = this.edificaciones.size()) != 0){
+                i=0;
+                for (String id : this.edificaciones){
+                    edif += id;
+                    if (i != tam){
+                        edif += ", ";
+                    }
+                    i++;
+                }
+            }
+            else
+                edif = "[ ]";
             texto = "{\n" +
                     "\tNombre: " + this.nombre +
                     "\n\tAvatar: " + this.avatar.getId() +
                     "\n\tFortuna: " + this.fortuna +
                     "\n\tGastos: " + this.dineroGastado +
-                    "\n\tPropiedades: " + prop + "\n}";
+                    "\n\tPropiedades: " + prop +
+                    "\n\tEdificaciones: " + edif + "\n}";
         }
         return texto;
     }
