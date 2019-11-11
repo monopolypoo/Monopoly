@@ -338,7 +338,7 @@ public class Menu {
                 case "hipotecar":
                     if (comando.length == 2){
                         if (taboleiro.getCasillas().containsKey(comando[1])){
-                            this.jugadorActual.getAvatar().getCasilla().hipotecarCasilla(this.jugadorActual, taboleiro);
+                            taboleiro.getCasillas().get(comando[1]).hipotecarCasilla(this.jugadorActual, taboleiro);
                         }
                         else{
                             System.out.println("Comando incorrecto. El nombre de una casilla debe introducirse tal y como aparece en el tablero pero SIN espacios." +
