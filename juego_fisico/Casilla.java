@@ -321,7 +321,7 @@ public class Casilla {
     }
      */
 
-    public void eliminarCasas(Jugador jugador, Taboleiro taboleiro){
+    public void eliminarCasas(Jugador jugador, Taboleiro taboleiro) {
         if (this.idCasas.size() >= 4) {
             for (String id : this.idCasas) {
                 taboleiro.eliminarCasa(id);
@@ -520,20 +520,27 @@ public class Casilla {
             }
             texto += "]";
             texto = "{\n\tbote: " + this.valor + ",\n\tjugadores: " + texto + "\n}";
+        } else if (this.posicion == 4 || this.posicion == 38) {
+            texto = "{\n\ttipo: " + this.tipo + ",\n\tapagar: " + this.valor + ",\n}";
         } else {
-            String banca;
+            String banca, edificaciones = "[ ]no" +
+                    "";
             if (this.duenho == null) {
                 banca = "banca";
             } else {
+                if (this.duenho.getEdificaciones() != null) {
+                    edificaciones = this.duenho.getEdificaciones().toString();
+                }
                 banca = this.duenho.getNombre();
             }
+
             texto = "{\n\ttipo: " + this.getTipo() + ",\n\tgrupo: " + this.getGrupo().getNumeroGrupo() + ",\n\tpropietario: " + banca +
                     ",\n\tvalor: " + this.valor + ",\n\talquiler: " + this.valorAlquiler + ",\n\tvalor hotel: " + this.valorHotel +
                     ",\n\tvalor casa: " + this.valorCasa + ",\n\tvalor piscina: " + this.valorPistaDeporte + ",\n\tvalor pista de deporte: "
                     + this.valorPistaDeporte + ",\n\talquiler una casa: " + 5 * this.valor + ",\n\talquiler dos casas: " + 15 * this.valor
                     + ",\n\talquiler tres casas: " + 35 * this.valor + ",\n\talquiler cuatro casas: " + 50 * this.valor + ",\n\talquiler hotel: "
                     + 70 * this.valor + ",\n\talquiler piscina: " + 25 * this.valor + ",\n\talquiler pista de deporte: " + 25 * this.valor
-                    + ",\n}";
+                    + ",\n\tedificaciones: " + edificaciones + ",\n}";
         }
         return texto;
     }
