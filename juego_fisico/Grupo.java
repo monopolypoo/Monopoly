@@ -231,6 +231,7 @@ public class Grupo {
     @Override
     public String toString() {
         String texto = "";
+        int casas = 0, hoteles = 3, piscinas = 3, pistas = 3, numGrupo = this.casillas.size();
 
         if (this.casillas.size() != 0) {
             for (Casilla casilla : this.casillas) {
@@ -239,9 +240,34 @@ public class Grupo {
                         ",\n\tHoteles: " + casilla.getIdHoteles().toString() +
                         ",\n\tPiscinas: " + casilla.getIdPiscinas().toString() +
                         ",\n\tPista: " + casilla.getIdPistas().toString() +
-                        ",\n\tAlquiler: " + casilla.getValorAlquiler() + ",\n}";
+                        ",\n\tAlquiler: " + casilla.getValorAlquiler() + ",\n}\n";
+                casas += 4 - casilla.getIdCasas().size();
+                hoteles -= casilla.getIdHoteles().size();
+                pistas -= casilla.getIdPistas().size();
+                piscinas -= casilla.getIdPiscinas().size();
+            }
+            if (casas != 0) {
+                texto += "Se pueden edificar " + casas + " casas más. ";
+            } else {
+                texto += "No se pueden edificar más casas. ";
+            }
+            if (hoteles != 0) {
+                texto += "Se pueden edificar " + hoteles + " hoteles más. \n";
+            } else {
+                texto += "No se pueden edificar más hoteles. \n";
+            }
+            if (pistas != 0) {
+                texto += "Se pueden edificar " + pistas + " pistas de deporte más. ";
+            } else {
+                texto += "No se pueden edificar más pistas de deporte. ";
+            }
+            if (piscinas != 0) {
+                texto += "Se pueden edificar " + piscinas + " piscinas más. ";
+            } else {
+                texto += "No se pueden edificar más piscinas. ";
             }
         }
+
         return texto;
     }
 
