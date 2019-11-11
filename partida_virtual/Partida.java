@@ -1,7 +1,6 @@
 
 package partida_virtual;
 
-import juego_fisico.Casilla;
 import juego_fisico.Grupo;
 import juego_fisico.Taboleiro;
 
@@ -71,22 +70,25 @@ public class Partida {
         }
     }
 
-    public void listarEdificios(Taboleiro taboleiro) {
+    public void listarEdificios(Taboleiro taboleiro){
         String texto = "";
         String[] aux;
         double coste = 0;
         Iterator<Jugador> jug_i = this.jugadores.values().iterator();
         while (jug_i.hasNext()) {
             Jugador jug = jug_i.next();
-            for (String id : jug.getEdificaciones()) {
+            for (String id : jug.getEdificaciones()){
                 aux = id.split("-");
-                if (aux[0].equals("casa")) {
+                if (aux[0].equals("casa")){
                     coste = taboleiro.getEdificaciones().get(id).getValorCasa();
-                } else if (aux[0].equals("hotel")) {
+                }
+                else if (aux[0].equals("hotel")){
                     coste = taboleiro.getEdificaciones().get(id).getValorHotel();
-                } else if (aux[0].equals("piscina")) {
+                }
+                else if (aux[0].equals("piscina")){
                     coste = taboleiro.getEdificaciones().get(id).getValorPiscina();
-                } else if (aux[0].equals("pista")) {
+                }
+                else if (aux[0].equals("pista")){
                     coste = taboleiro.getEdificaciones().get(id).getValorPistaDeporte();
                 }
                 texto += "{\n\tid: " + id + ",\n" +
@@ -108,66 +110,10 @@ public class Partida {
             this.avatares = avatares;
     }
 
-    public void añadirGrupo(Grupo grupo) {
-        if (grupo != null && this.grupos != null) {
+    public void añadirGrupo(Grupo grupo){
+        if(grupo != null && this.grupos != null){
             this.grupos.add(grupo);
         }
-    }
-
-    public String casillaMasRentable() {
-        String texto = "";
-        double precio = 0;
-
-        for (Grupo grupo : this.grupos) {
-            for (Casilla casilla : grupo.getCasillas()) {
-                if (precio <= casilla.getValorAlquiler()) {
-                    precio = casilla.getValorAlquiler();
-                    texto = casilla.getNombreSinEspacio();
-                }
-            }
-        }
-        return texto;
-    }
-
-    public String grupoMasRentable() {
-        String texto = "";
-        double precio = 0, rentable = 0;
-
-        for (Grupo grupo : this.grupos) {
-            for (Casilla casilla : grupo.getCasillas()) {
-                precio += casilla.getValorAlquiler();
-            }
-            if (rentable <= precio) {
-                rentable = precio;
-                texto = "" + grupo.getNumeroGrupo();
-            }
-            precio = 0;
-        }
-
-        return texto;
-    }
-
-    public void estadisticas() {
-        String texto;
-        texto = "{\n\tCasilla más rentable: " + casillaMasRentable() +
-                "\n\tGrupo más rentable: " + grupoMasRentable() +
-                "\n\tCasilla más frecuentada: " +
-                "\n\tJugador más vueltas: " +
-                "\n\tJugador más veces dados: " +
-                "\n\tJugador en cabeza: " +
-                "\n}";
-        System.out.println(texto);
-    }
-
-    public void estadisticas_jugador(Jugador jugador) {
-        String texto = "";
-        if (jugador != null) {
-            if (this.getJugadores().containsKey(jugador.getNombre())) {
-                texto = "{\n\tDinero invertido: " +
-                        "\n\tPago tasas impuestos: ";
-            }
-        }
-        System.out.println(texto);
     }
 
     public void listarComandos() {

@@ -20,7 +20,7 @@ public class Grupo {
     }
 
     public Grupo(ArrayList<Casilla> casillas, int numeroGrupo, String color, String lado, double valor) {
-        this.casillas = Objects.requireNonNullElseGet(casillas, ArrayList::new);
+        this.casillas = casillas;
         if (numeroGrupo >= 0) {
             this.numeroGrupo = numeroGrupo;
         }
@@ -29,14 +29,13 @@ public class Grupo {
             this.lado = lado;
         }
         setValor(valor);
-        SetGrupo(this);
         this.numeroHoteles = 0;
         this.nmeroPistas = 0;
         this.numeroPiscinas = 0;
     }
 
     public Grupo(ArrayList<Casilla> casillas, int numeroGrupo, String color, String lado) {
-        this.casillas = Objects.requireNonNullElseGet(casillas, ArrayList::new);
+        this.casillas = casillas;
         if (numeroGrupo >= 0) {
             this.numeroGrupo = numeroGrupo;
             this.valor = 100000 * Math.pow(1.3, this.numeroGrupo - 1);
@@ -46,20 +45,18 @@ public class Grupo {
             this.lado = lado;
         }
         setColor(color);
-        SetGrupo(this);
         this.numeroHoteles = 0;
         this.nmeroPistas = 0;
         this.numeroPiscinas = 0;
     }
 
     public Grupo(ArrayList<Casilla> casillas, int numeroGrupo, double valor, String color) {
-        this.casillas = Objects.requireNonNullElseGet(casillas, ArrayList::new);
+        this.casillas = casillas;
         this.numeroGrupo = numeroGrupo;
         this.valor = valor;
         setValor(valor);
         this.lado = null;
         setColor(color);
-        SetGrupo(this);
         this.numeroHoteles = 0;
         this.nmeroPistas = 0;
         this.numeroPiscinas = 0;
@@ -71,7 +68,6 @@ public class Grupo {
         if (lado.equals("norte") || lado.equals("sur") || lado.equals("este") || lado.equals("oeste")) {
             this.lado = lado;
         }
-        SetGrupo(this);
         this.numeroHoteles = 0;
         this.nmeroPistas = 0;
         this.numeroPiscinas = 0;
@@ -81,7 +77,6 @@ public class Grupo {
         this.casillas = casillas;
         this.numeroGrupo = numeroGrupo;
         setColor(color);
-        SetGrupo(this);
         this.numeroHoteles = 0;
         this.nmeroPistas = 0;
         this.numeroPiscinas = 0;
@@ -178,10 +173,10 @@ public class Grupo {
         }
     }
 
-    public void SetGrupo(Grupo grupo) {
-        if (grupo != null) {
+    public void SetGrupo() {
+        if (this != null) {
             for (Casilla casilla : casillas) {
-                casilla.setGrupo(grupo);
+                casilla.setGrupo(this);
             }
         }
     }

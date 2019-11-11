@@ -340,17 +340,27 @@ public class Jugador {
         if (casilla != null && taboleiro != null) {
             if (taboleiro.sePuedeComprar(casilla)) {
                 if (casilla.getDuenho() == null) {
-                    if (this.fortuna >= casilla.getValor()) {
-                        restarFortuna((float) casilla.getValor());
-                        this.dineroGastado += casilla.getValor();
-                        casilla.setDuenho(this);
-                        this.propiedades.add(casilla);
-                        System.out.println("El jugador " + this.nombre + " compra la casilla " + casilla.getNombreSinEspacio()
-                                + " por " + casilla.getValor() + "€. Su fortuna actual es: " + this.fortuna + "€.");
-                        taboleiro.getCasillasEnVenta().remove(casilla);
-                        taboleiro.setContadorVueltas(0);
-                    } else {
-                        System.out.println("No tienes suficiente dinero para comprar esta casilla.");
+                    if (!casilla.EsHiportecado()) {
+                        if (this.fortuna >= casilla.getValor()) {
+                            restarFortuna((float) casilla.getValor());
+                            this.dineroGastado += casilla.getValor();
+                            casilla.setDuenho(this);
+                            this.propiedades.add(casilla);
+                            System.out.println("El jugador " + this.nombre + " compra la casilla " + casilla.getNombreSinEspacio()
+                                    + " por " + casilla.getValor() + "€. Su fortuna actual es: " + this.fortuna + "€.");
+                            taboleiro.getCasillasEnVenta().remove(casilla);
+                            taboleiro.setContadorVueltas(0);
+                        } else {
+                            System.out.println("No tienes suficiente dinero para comprar esta casilla.");
+                        }
+                    }
+                    else{
+                        if (this.getNombre().equals(casilla.getDuenhoAnterior())){
+                            System.out.println("Esta casilla está hipotecada. Si quieres hacerte con ella debes deshipotecarla.");
+                        }
+                        else{
+                            System.out.println("Esta casilla está hipotecada. Para poder comprarla debes ser su dueño anterior.");
+                        }
                     }
                 } else {
                     System.out.println("No puedes comprar esta casilla porque ya tiene dueño.");

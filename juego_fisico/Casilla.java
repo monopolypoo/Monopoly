@@ -120,6 +120,14 @@ public class Casilla {
         this.esHiportecado = esHiportecado;
     }
 
+    public Jugador getDuenhoAnterior(){
+        return this.duenhoAnterior;
+    }
+
+    public void setDuenhoAnterior(Jugador duenhoAnterior) {
+        this.duenhoAnterior = duenhoAnterior;
+    }
+
     // Los setters de: Nombre, Avatares, VecesCasilla(HashMap), Posicion, Tipo y los valores de las diferentes
     // estructuras que se pueden construir.
     // no los añadimos ya que estos campos se meten en el contructor de la casilla y no se permiten modificar durante
@@ -609,7 +617,7 @@ public class Casilla {
                             this.duenhoAnterior = jugador;
                             jugador.sumarFortuna((float) this.valor / 2);
                             System.out.println(jugador.getNombre() + " recibe " + this.valor/2 + "€ por la hipoteca de " + this.getNombreSinEspacio() +
-                                                ". No puede recibir alquileres ni edificar en el grupo."); //MIRAR ESTO, PONERLE BIEN EL GRUPO QUE ES!!!!!!!!!!!!!!!!!
+                                                ". No puede recibir alquileres ni edificar en el grupo " + this.grupo.getNumeroGrupo() +".");
                         }
                         else{
                             System.out.println(jugador.getNombre() + " no puede hipotecar " + this.getNombreSinEspacio() + ". No puedes hipotecar la casilla porque existen edificios en ella, antes de hipotecarla debes venderlos todos.");
