@@ -41,9 +41,10 @@ public class Menu {
         comando2 = leerComando();
 
         //abrir archivo de los comandos
-        BufferedReader buffRead = abrirArchivo();
+        BufferedReader buffRead = null;
 
         if (comando2[0].toLowerCase().equals("si")) {
+            buffRead = abrirArchivo();
             this.esLeerArchivo = true;
             System.out.println("Si necesita introducir un comando en el medio de la ejecución automática, podrá hacerlo en cada stop, tecleando 'si', donde le aparecerá la entrada típica por línea de comandos.");
         }
@@ -306,6 +307,25 @@ public class Menu {
                     break;
 
                 case "edificar":
+                    if (comando.length == 2){
+                        if (comando[1].equals("casa")){
+                            this.jugadorActual.getAvatar().getCasilla().construirCasa(this.jugadorActual, this.taboleiro);
+                        }
+                        else if (comando[1].equals("hotel")){
+                            this.jugadorActual.getAvatar().getCasilla().construirHotel(this.jugadorActual, this.taboleiro);
+                        }
+                        else if (comando[1].equals("piscina")){
+                            this.jugadorActual.getAvatar().getCasilla().construirPiscina(this.jugadorActual, this.taboleiro);
+                        }
+                        else if (comando[1].equals("pista")){
+                            this.jugadorActual.getAvatar().getCasilla().construirPista(this.jugadorActual, this.taboleiro);
+                        }
+                    }
+                    else if (comando.length == 4){
+                        if (comando[1].equals("pista") && comando[2].equals("de") && comando[3].equals("deportes")){
+                            this.jugadorActual.getAvatar().getCasilla().construirPista(this.jugadorActual, this.taboleiro);
+                        }
+                    }
                     break;
 
                 case "abandonar":
@@ -343,7 +363,7 @@ public class Menu {
     public BufferedReader abrirArchivo() {
         BufferedReader buffRead = null;
         try {
-            String directorio = "/home/dani/Dropbox/Uni/2_Curso_1_Cuatri/POO/1_Entrega/src/";
+            String directorio = "/Users/davidmohedano/Documents/USC/Segundo/Primer cuatrimestre/POO/proyecto1/src/";
             FileReader fileRead = new FileReader(directorio + "comandos.txt");
             buffRead = new BufferedReader(fileRead);
         } catch (FileNotFoundException notFound) {
