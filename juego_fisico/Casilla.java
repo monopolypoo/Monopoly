@@ -14,6 +14,7 @@ public class Casilla {
     private double valor;
     private int posicion;
     private Jugador duenho;
+    private Jugador duenhoAnterior;
     private String colorGrupo;
     private double valorCasa;
     private double valorPiscina;
@@ -43,6 +44,7 @@ public class Casilla {
         this.vecesCasilla = new HashMap<>();
         this.avatares = new HashMap<>();
         this.duenho = null;
+        this.duenhoAnterior = null;
         this.grupo = null;
         this.numeroCasas = 0;
         this.numeroHoteles = 0;
@@ -61,6 +63,7 @@ public class Casilla {
         this.valor = valor;
         this.colorGrupo = null;
         this.duenho = null;
+        this.duenhoAnterior = null;
         this.vecesCasilla = new HashMap<>();
         this.avatares = new HashMap<>();
         this.grupo = null;
@@ -82,6 +85,7 @@ public class Casilla {
         this.vecesCasilla = new HashMap<>();
         this.avatares = new HashMap<>();
         this.duenho = null;
+        this.duenhoAnterior = null;
         this.grupo = null;
         this.numeroCasas = 0;
         this.numeroHoteles = 0;
@@ -584,12 +588,47 @@ public class Casilla {
         return false;
     }
 
-    public void hipotecarCasilla(Jugador jugador, Taboleiro taboleiro){
-        if (this.duenho != null){
+    public boolean hayAlgunaHipoteca(){
+        for (Casilla casilla : this.grupo.getCasillas()){
+            if (casilla.esHiportecado){
+                return true;
+            }
+        }
+        return false;
+    }
 
+    public void hipotecarCasilla(Jugador jugador, Taboleiro taboleiro){
+        if (taboleiro.sePuedeComprar(this)){
+            if (this.duenho != null){
+                if (this.duenho.getNombre().equals(jugador.getNombre())){
+                    if (!this.esHiportecado){
+                        if (!hayEdificios()){
+                            setEsHiportecado(true);
+                            jugador.eliminarPropiedad(this);
+                            this.duenho = null;
+                            this.duenhoAnterior = jugador;
+                            jugador.sumarFortuna((float) this.valor / 2);
+                            System.out.println(jugador.getNombre() + " recibe " + this.valor/2 + "€ por la hipoteca de " + this.getNombreSinEspacio() +
+                                                ". No puede recibir alquileres ni edificar en el grupo."); //MIRAR ESTO, PONERLE BIEN EL GRUPO QUE ES!!!!!!!!!!!!!!!!!
+                        }
+                        else{
+                            System.out.println(jugador.getNombre() + " no puede hipotecar " + this.getNombreSinEspacio() + ". No puedes hipotecar la casilla porque existen edificios en ella, antes de hipotecarla debes venderlos todos.");
+                        }
+                    }
+                    else{
+                        System.out.println(jugador.getNombre() + " no puede hipotecar " + this.getNombreSinEspacio() + ". No puedes hipotecar esta casilla porque ya está hipotecada.");
+                    }
+                }
+                else{
+                    System.out.println(jugador.getNombre() + " no puede hipotecar " + this.getNombreSinEspacio() + ". No puedes hipotecar una casilla que no te pertenece.");
+                }
+            }
+            else{
+                System.out.println(jugador.getNombre() + " no puede hipotecar " + this.getNombreSinEspacio() + ". No se puede hipotecar una casilla que no tiene dueño.");
+            }
         }
         else{
-            System.out.println("No se puede hipotecar una casilla que no tiene dueño.");
+            System.out.println(jugador.getNombre() + " no puede hipotecar " + this.getNombreSinEspacio() + ". Esta casilla no se puede hipotecar, ya que tampoco puede ser comprada.");
         }
     }
 
