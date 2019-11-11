@@ -4,6 +4,7 @@ import juego_fisico.Grupo;
 import monopoly.Menu;
 import monopoly.Valor;
 import partida_virtual.Jugador;
+import partida_virtual.Partida;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -27,7 +28,7 @@ public class Taboleiro {
     private HashMap<String, Casilla> edificaciones;
 
 
-    public Taboleiro() {
+    public Taboleiro(Partida partida) {
         this.sePuedeSubirPrecio = false;
         this.contadorVueltas = 0;
 
@@ -76,7 +77,7 @@ public class Taboleiro {
         Casilla trans4 = new Casilla(" E. tren Santiago ", "transporte", 35);
         Casilla sorte3 = new Casilla(" Suerte           ", "sorte", 36);
         Casilla solar21 = new Casilla(" Física           ", "solar", 37);
-        Casilla imp2 = new Casilla(" Imp. de la luz   ", "imposto", 38, Valor.VUELTA / 2.0);
+        Casilla imp2 = new Casilla(" Imp. de la Luz   ", "imposto", 38, Valor.VUELTA / 2.0);
         Casilla solar22 = new Casilla(" ETSE             ", "solar", 39);
 
         //Creamos los grupos
@@ -84,47 +85,55 @@ public class Taboleiro {
         casillasGrupo1.add(solar1);
         casillasGrupo1.add(solar2);
         Grupo grupo1 = new Grupo(casillasGrupo1, 1, Valor.BLUE, "sur", Valor.PRECIO_GRUPO1);
+        partida.añadirGrupo(grupo1);
 
         ArrayList<Casilla> casillasGrupo2 = new ArrayList<>();
         casillasGrupo2.add(solar3);
         casillasGrupo2.add(solar4);
         casillasGrupo2.add(solar5);
         Grupo grupo2 = new Grupo(casillasGrupo2, 2, Valor.YELLOW, "sur", Valor.PRECIO_GRUPO2);
+        partida.añadirGrupo(grupo2);
 
         ArrayList<Casilla> casillasGrupo3 = new ArrayList<>();
         casillasGrupo3.add(solar6);
         casillasGrupo3.add(solar7);
         casillasGrupo3.add(solar8);
         Grupo grupo3 = new Grupo(casillasGrupo3, 3, Valor.PURPLE, "oeste", Valor.PRECIO_GRUPO3);
+        partida.añadirGrupo(grupo3);
 
         ArrayList<Casilla> casillasGrupo4 = new ArrayList<>();
         casillasGrupo4.add(solar9);
         casillasGrupo4.add(solar10);
         casillasGrupo4.add(solar11);
         Grupo grupo4 = new Grupo(casillasGrupo4, 4, Valor.YELLOW_BRIGHT, "oeste", Valor.PRECIO_GRUPO4);
+        partida.añadirGrupo(grupo4);
 
         ArrayList<Casilla> casillasGrupo5 = new ArrayList<>();
         casillasGrupo5.add(solar12);
         casillasGrupo5.add(solar13);
         casillasGrupo5.add(solar14);
         Grupo grupo5 = new Grupo(casillasGrupo5, 5, Valor.GREEN, "norte", Valor.PRECIO_GRUPO5);
+        partida.añadirGrupo(grupo5);
 
         ArrayList<Casilla> casillasGrupo6 = new ArrayList<>();
         casillasGrupo6.add(solar15);
         casillasGrupo6.add(solar16);
         casillasGrupo6.add(solar17);
         Grupo grupo6 = new Grupo(casillasGrupo6, 6, Valor.RED, "norte", Valor.PRECIO_GRUPO6);
+        partida.añadirGrupo(grupo6);
 
         ArrayList<Casilla> casillasGrupo7 = new ArrayList<>();
         casillasGrupo7.add(solar18);
         casillasGrupo7.add(solar19);
         casillasGrupo7.add(solar20);
         Grupo grupo7 = new Grupo(casillasGrupo7, 7, Valor.GREEN_BRIGHT, "leste", Valor.PRECIO_GRUPO7);
+        partida.añadirGrupo(grupo7);
 
         ArrayList<Casilla> casillasGrupo8 = new ArrayList<>();
         casillasGrupo8.add(solar21);
         casillasGrupo8.add(solar22);
         Grupo grupo8 = new Grupo(casillasGrupo8, 8, Valor.CYAN, "leste", Valor.PRECIO_GRUPO8);
+        partida.añadirGrupo(grupo8);
 
         ArrayList<Casilla> casillasEspeciales = new ArrayList<>();
         casillasEspeciales.add(saida);
@@ -132,6 +141,7 @@ public class Taboleiro {
         casillasEspeciales.add(parking);
         casillasEspeciales.add(irCarcere);
         Grupo grupo9 = new Grupo(casillasEspeciales, 9, 0, Valor.BLACK_BRIGHT);
+        partida.añadirGrupo(grupo9);
 
         ArrayList<Casilla> casillasTransportes = new ArrayList<>();
         casillasTransportes.add(trans1);
@@ -139,16 +149,19 @@ public class Taboleiro {
         casillasTransportes.add(trans3);
         casillasTransportes.add(trans4);
         Grupo grupo10 = new Grupo(casillasTransportes, 10, Valor.VUELTA, Valor.BLACK_BOLD_BRIGHT);
+        partida.añadirGrupo(grupo10);
 
         ArrayList<Casilla> casillasServicios = new ArrayList<>();
         casillasServicios.add(serv1);
         casillasServicios.add(serv2);
         Grupo grupo11 = new Grupo(casillasServicios, 11, 0.75 * Valor.VUELTA, Valor.CYAN_BRIGHT);
+        partida.añadirGrupo(grupo11);
 
         ArrayList<Casilla> casillasImpuestos = new ArrayList<>();
         casillasImpuestos.add(imp1);
         casillasImpuestos.add(imp2);
         Grupo grupo12 = new Grupo(casillasImpuestos, Valor.RED, 12);
+        partida.añadirGrupo(grupo12);
 
         ArrayList<Casilla> casillasCaixasSortes = new ArrayList<>();
         casillasCaixasSortes.add(caixa1);
@@ -158,6 +171,7 @@ public class Taboleiro {
         casillasCaixasSortes.add(sorte2);
         casillasCaixasSortes.add(sorte3);
         Grupo grupo13 = new Grupo(casillasCaixasSortes, 13, 0, Valor.BLACK_BOLD);
+        partida.añadirGrupo(grupo13);
 
 
         //hacemos los grupos de los lados

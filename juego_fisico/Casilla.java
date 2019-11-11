@@ -282,7 +282,7 @@ public class Casilla {
         this.valor += valor;
     }
 
-    /*
+
     public ArrayList<String> getIdCasas() {
         return idCasas;
     }
@@ -319,7 +319,7 @@ public class Casilla {
     public void añadirIdPistas(String id) {
         this.idPistas.add(id);
     }
-     */
+
 
     public void eliminarCasas(Jugador jugador, Taboleiro taboleiro) {
         if (this.idCasas.size() >= 4) {
@@ -336,7 +336,7 @@ public class Casilla {
             if (jugador.getAvatar().getId().equals(this.duenho.getAvatar().getId())) {
                 int aux;
                 if (this.getVecesCasilla().containsKey(jugador.getNombre())) {
-                    aux = Integer.parseInt(this.getVecesCasilla().get(jugador.getNombre())[0]);
+                    aux = Integer.parseInt(this.getVecesCasilla().get(jugador.getNombre())[1]);
                 } else {
                     aux = 0;
                 }
@@ -382,7 +382,7 @@ public class Casilla {
             if (jugador.getAvatar().getId().equals(this.duenho.getAvatar().getId())) {
                 int aux;
                 if (this.getVecesCasilla().containsKey(jugador.getNombre())) {
-                    aux = Integer.parseInt(this.getVecesCasilla().get(jugador.getNombre())[0]);
+                    aux = Integer.parseInt(this.getVecesCasilla().get(jugador.getNombre())[1]);
                 } else {
                     aux = 0;
                 }
@@ -424,7 +424,7 @@ public class Casilla {
             if (jugador.getAvatar().getId().equals(this.duenho.getAvatar().getId())) {
                 int aux;
                 if (this.getVecesCasilla().containsKey(jugador.getNombre())) {
-                    aux = Integer.parseInt(this.getVecesCasilla().get(jugador.getNombre())[0]);
+                    aux = Integer.parseInt(this.getVecesCasilla().get(jugador.getNombre())[1]);
                 } else {
                     aux = 0;
                 }
@@ -463,7 +463,7 @@ public class Casilla {
             if (jugador.getAvatar().getId().equals(this.duenho.getAvatar().getId())) {
                 int aux;
                 if (this.getVecesCasilla().containsKey(jugador.getNombre())) {
-                    aux = Integer.parseInt(this.getVecesCasilla().get(jugador.getNombre())[0]);
+                    aux = Integer.parseInt(this.getVecesCasilla().get(jugador.getNombre())[1]);
                 } else {
                     aux = 0;
                 }

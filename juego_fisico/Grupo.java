@@ -230,20 +230,18 @@ public class Grupo {
 
     @Override
     public String toString() {
-        String texto;
-        String prop = "";
+        String texto = "";
 
-        if (casillas.size() != 0) {
-            for (Casilla casilla : casillas) {
-                prop += casilla.getNombre() + "\t\t";
+        if (this.casillas.size() != 0) {
+            for (Casilla casilla : this.casillas) {
+                texto += "\n{\n\tPropiedad: " + casilla.getNombreSinEspacio() +
+                        ",\n\tCasas: " + casilla.getIdCasas().toString() +
+                        ",\n\tHoteles: " + casilla.getIdHoteles().toString() +
+                        ",\n\tPiscinas: " + casilla.getIdPiscinas().toString() +
+                        ",\n\tPista: " + casilla.getIdPistas().toString() +
+                        ",\n\tAlquiler: " + casilla.getValorAlquiler() + ",\n}";
             }
         }
-        if ((this.numeroGrupo != 0) && (this.color != null)) {
-            texto = "\nO grupo de casillas " + this.numeroGrupo +
-                    " é de color " + this.color +
-                    ".\nConta coas casillas:\n\t" + prop;
-        } else
-            texto = "O grupo todavía non se inicializou.";
         return texto;
     }
 
