@@ -25,9 +25,9 @@ public class Menu {
 
     public Menu() throws InterruptedException {
         boolean seguir = true;
-        this.taboleiro = new Taboleiro();
-        this.dados = new Dado();
         this.partida = new Partida();
+        this.taboleiro = new Taboleiro(this.partida);
+        this.dados = new Dado();
         this.jugadores = new ArrayList<>();
         this.sigueTurno = false;
         this.contadorDobles = 0;
@@ -118,6 +118,17 @@ public class Menu {
                             default:
                                 System.out.println("Comando incorrecto. Para ver los comandos disponibles escriba: Ver Comandos");
                                 break;
+                        }
+                    } else if (comando.length == 3) {
+                        if(comando[1].equals("edificios")){
+                            if(Integer.parseInt(comando[2]) >= 0  && Integer.parseInt(comando[2]) < 9){ // ponerle excepción
+                                this.partida.describirGrupo(Integer.parseInt(comando[2]));
+                            } else {
+                                System.out.println("Número incorrecto, tiene que ser mayor o igual a 0 y menos que 9." +
+                                        "");
+                            }
+                        } else {
+                            System.out.println("Comando incorrecto. Para ver los comandos disponibles escriba: Ver Comandos");
                         }
                     } else {
                         System.out.println("Comando incorrecto. Para ver los comandos disponibles escriba: Ver Comandos");
@@ -307,22 +318,18 @@ public class Menu {
                     break;
 
                 case "edificar":
-                    if (comando.length == 2){
-                        if (comando[1].equals("casa")){
+                    if (comando.length == 2) {
+                        if (comando[1].equals("casa")) {
                             this.jugadorActual.getAvatar().getCasilla().construirCasa(this.jugadorActual, this.taboleiro);
-                        }
-                        else if (comando[1].equals("hotel")){
+                        } else if (comando[1].equals("hotel")) {
                             this.jugadorActual.getAvatar().getCasilla().construirHotel(this.jugadorActual, this.taboleiro);
-                        }
-                        else if (comando[1].equals("piscina")){
+                        } else if (comando[1].equals("piscina")) {
                             this.jugadorActual.getAvatar().getCasilla().construirPiscina(this.jugadorActual, this.taboleiro);
-                        }
-                        else if (comando[1].equals("pista")){
+                        } else if (comando[1].equals("pista")) {
                             this.jugadorActual.getAvatar().getCasilla().construirPista(this.jugadorActual, this.taboleiro);
                         }
-                    }
-                    else if (comando.length == 4){
-                        if (comando[1].equals("pista") && comando[2].equals("de") && comando[3].equals("deportes")){
+                    } else if (comando.length == 4) {
+                        if (comando[1].equals("pista") && comando[2].equals("de") && comando[3].equals("deportes")) {
                             this.jugadorActual.getAvatar().getCasilla().construirPista(this.jugadorActual, this.taboleiro);
                         }
                     }
