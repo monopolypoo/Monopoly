@@ -29,6 +29,7 @@ public class Casilla {
     private Grupo grupo;
     private int numeroCasas;
     private int numeroHoteles;
+    private boolean esHiportecado;
 
     public Casilla() {
     }
@@ -49,6 +50,7 @@ public class Casilla {
         this.idHoteles = new ArrayList<>();
         this.idPiscinas = new ArrayList<>();
         this.idPistas = new ArrayList<>();
+        this.esHiportecado = false;
     }
 
 
@@ -68,6 +70,7 @@ public class Casilla {
         this.idHoteles = new ArrayList<>();
         this.idPiscinas = new ArrayList<>();
         this.idPistas = new ArrayList<>();
+        this.esHiportecado = false;
     }
 
     public Casilla(String nombre, String tipo, int posicion, double valor, String colorGrupo) {
@@ -86,6 +89,7 @@ public class Casilla {
         this.idHoteles = new ArrayList<>();
         this.idPiscinas = new ArrayList<>();
         this.idPistas = new ArrayList<>();
+        this.esHiportecado = false;
     }
 
     public double getValorCasa() {
@@ -102,6 +106,14 @@ public class Casilla {
 
     public double getValorPistaDeporte() {
         return valorPistaDeporte;
+    }
+
+    public boolean EsHiportecado() {
+        return esHiportecado;
+    }
+
+    public void setEsHiportecado(boolean esHiportecado) {
+        this.esHiportecado = esHiportecado;
     }
 
     // Los setters de: Nombre, Avatares, VecesCasilla(HashMap), Posicion, Tipo y los valores de las diferentes
@@ -190,7 +202,70 @@ public class Casilla {
     }
 
     public double getValorAlquiler() {
-        return valorAlquiler;
+        double valor = 0;
+        int aux = 0;
+        aux = idCasas.size();
+        switch (aux){
+            case 1:
+                valor = 5 * valorAlquiler;
+                break;
+            case 2:
+                valor = 15 * valorAlquiler;
+                break;
+            case 3:
+                valor = 35 * valorAlquiler;
+                break;
+            case 4:
+                valor = 50 * valorAlquiler;
+                break;
+            default:
+                valor = valorAlquiler;
+                break;
+        }
+        aux = idHoteles.size();
+        switch (aux){
+            case 1:
+                valor += 70 * valorAlquiler;
+                break;
+            case 2:
+                valor += 140 * valorAlquiler;
+                break;
+            case 3:
+                valor += 210 * valorAlquiler;
+                break;
+            default:
+                break;
+        }
+        aux = idPiscinas.size();
+        switch (aux){
+            case 1:
+                valor += 25 * valorAlquiler;
+                break;
+            case 2:
+                valor += 50 * valorAlquiler;
+                break;
+            case 3:
+                valor += 75 * valorAlquiler;
+                break;
+            default:
+                break;
+        }
+        aux = idPistas.size();
+        switch (aux){
+            case 1:
+                valor += 25 * valorAlquiler;
+                break;
+            case 2:
+                valor += 50 * valorAlquiler;
+                break;
+            case 3:
+                valor += 75 * valorAlquiler;
+                break;
+            default:
+                break;
+        }
+
+        return valor;
     }
 
     public HashMap<String, String[]> getVecesCasilla() {
@@ -494,6 +569,27 @@ public class Casilla {
             }
         } else {
             System.out.println("NO eres el dueño de esta casilla, por lo que no puedes construír en esta casilla!");
+        }
+    }
+
+    public boolean hayEdificios(){
+        if (this.idCasas.size() > 0)
+            return true;
+        if (this.idHoteles.size() > 0)
+            return true;
+        if (this.idPistas.size() > 0)
+            return true;
+        if (this.idPiscinas.size() > 0)
+            return true;
+        return false;
+    }
+
+    public void hipotecarCasilla(Jugador jugador, Taboleiro taboleiro){
+        if (this.duenho != null){
+
+        }
+        else{
+            System.out.println("No se puede hipotecar una casilla que no tiene dueño.");
         }
     }
 

@@ -415,10 +415,9 @@ public class Taboleiro {
         this.contadorVueltas = contadorVueltas;
     }
 
-    public void getCasillasTransportes() {
+    public HashMap<String, Casilla> getEdificaciones() {
+        return edificaciones;
     }
-
-    ;
 
     public void subirPreciosTotal(Menu menu) {
         this.contadorVueltas++;
