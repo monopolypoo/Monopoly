@@ -205,7 +205,7 @@ public class Jugador {
                                     + ", por lo que se le pagó el alquiler de " + casilla.getValorAlquiler() + "€.");
                         }
                     } else {
-                        System.out.println("No tienes dinero suficiente para pagar el alquiler, por lo que estás en bancarrota.");
+                        System.out.println("No tienes dinero suficiente para pagar el alquiler, por lo que debes hipotecar tus propiedades o estarás en bancarrota.");
                     }
                 }
             }
@@ -221,7 +221,7 @@ public class Jugador {
                     taboleiro.getCasillaPosicion(20).sumarValor((float) casilla.getValor());
                     System.out.println("Caíste en una casilla de impuestos, por lo que se realizó el pago de " + casilla.getValor() + "€.");
                 } else {
-                    System.out.println("No tienes dinero suficiente para pagar el imposto, por lo que estás en bancarrota.");
+                    System.out.println("No tienes dinero suficiente para pagar el impuesto, por lo que debes hipotecar tus propiedades o estarás en bancarrota.");
                 }
             }
         }
