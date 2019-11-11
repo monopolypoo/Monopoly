@@ -1,6 +1,8 @@
 
 package partida_virtual;
 
+import juego_fisico.Grupo;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -11,11 +13,13 @@ public class Partida {
     private Jugador banca;
     private ArrayList<Jugador> turnos;
     private int turno_actual;
+    private ArrayList<Grupo> grupos;
 
     public Partida() {
         this.jugadores = new HashMap<>();
         this.avatares = new HashMap<>();
         this.banca = new Jugador();
+        this.grupos = new ArrayList<>();
     }
 
     public Partida(HashMap<String, Jugador> jugadores) {
@@ -23,6 +27,7 @@ public class Partida {
             this.jugadores = jugadores;
         }
         this.avatares = new HashMap<>();
+        this.grupos = new ArrayList<>();
     }
 
     public HashMap<String, Jugador> getJugadores() {
@@ -64,6 +69,21 @@ public class Partida {
         }
     }
 
+    public ArrayList<Grupo> getGrupos() {
+        return grupos;
+    }
+
+    public void setAvatares(HashMap<String, Avatar> avatares) {
+        if (avatares != null)
+            this.avatares = avatares;
+    }
+
+    public void añadirGrupo(Grupo grupo){
+        if(grupo != null && this.grupos != null){
+            this.grupos.add(grupo);
+        }
+    }
+
     public void listarComandos() {
         String comandos;
         comandos = "{\n\tLa lista de comandos disponibles son:\n" +
@@ -84,5 +104,9 @@ public class Partida {
                 "\t\tCrear jugador nombre avatar ──> Crea al jugador que poniéndole como nombre: <nombre> y como avatar: <avatar>. Los avatares disponibles son: Coche, Esfinge, Sombrero, Pelota.\n" +
                 "}";
         System.out.println(comandos);
+    }
+
+    public void describirGrupo(int parseInt) {
+        System.out.println(this.grupos.get(parseInt));
     }
 }
