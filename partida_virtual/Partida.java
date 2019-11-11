@@ -2,6 +2,7 @@
 package partida_virtual;
 
 import juego_fisico.Grupo;
+import juego_fisico.Taboleiro;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -67,6 +68,37 @@ public class Partida {
             Avatar ava = ava_i.next();
             System.out.println(ava.toString());
         }
+    }
+
+    public void listarEdificios(Taboleiro taboleiro){
+        String texto = "";
+        String[] aux;
+        double coste = 0;
+        Iterator<Jugador> jug_i = this.jugadores.values().iterator();
+        while (jug_i.hasNext()) {
+            Jugador jug = jug_i.next();
+            for (String id : jug.getEdificaciones()){
+                aux = id.split("-");
+                if (aux[0].equals("casa")){
+                    coste = taboleiro.getEdificaciones().get(id).getValorCasa();
+                }
+                else if (aux[0].equals("hotel")){
+                    coste = taboleiro.getEdificaciones().get(id).getValorHotel();
+                }
+                else if (aux[0].equals("piscina")){
+                    coste = taboleiro.getEdificaciones().get(id).getValorPiscina();
+                }
+                else if (aux[0].equals("pista")){
+                    coste = taboleiro.getEdificaciones().get(id).getValorPistaDeporte();
+                }
+                texto += "{\n\tid: " + id + ",\n" +
+                        "\tpropietario: " + jug.getNombre() + ",\n" +
+                        "\tcasilla: " + taboleiro.getEdificaciones().get(id).getNombre() + ",\n" +
+                        "\tgrupo: " + taboleiro.getEdificaciones().get(id).getGrupo().getNumeroGrupo() + ",\n" +
+                        "\tcoste: " + coste + "\n}\n";
+            }
+        }
+        System.out.println(texto);
     }
 
     public ArrayList<Grupo> getGrupos() {
