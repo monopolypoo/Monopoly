@@ -275,7 +275,7 @@ public class Menu {
                         if (taboleiro.getCasillas().containsKey(comando[1]))
                             System.out.println(taboleiro.getCasillas().get(comando[1]));
                         else
-                            System.out.println("Comando incorrecto. El nombree de una casilla debe introducirse tal y como aparece en el tablero pero SIN espacios. \nPara ver todos los comandos disponibles escriba: Ver Comandos");
+                            System.out.println("Comando incorrecto. El nombre de una casilla debe introducirse tal y como aparece en el tablero pero SIN espacios. \nPara ver todos los comandos disponibles escriba: Ver Comandos");
                     } else {
                         System.out.println("Comando incorrecto. Para ver los comandos disponibles escriba: Ver Comandos");
                     }
@@ -332,6 +332,21 @@ public class Menu {
                         if (comando[1].equals("pista") && comando[2].equals("de") && comando[3].equals("deportes")) {
                             this.jugadorActual.getAvatar().getCasilla().construirPista(this.jugadorActual, this.taboleiro);
                         }
+                    }
+                    break;
+
+                case "hipotecar":
+                    if (comando.length == 2){
+                        if (taboleiro.getCasillas().containsKey(comando[1])){
+                            this.jugadorActual.getAvatar().getCasilla().hipotecarCasilla(this.jugadorActual, taboleiro);
+                        }
+                        else{
+                            System.out.println("Comando incorrecto. El nombre de una casilla debe introducirse tal y como aparece en el tablero pero SIN espacios." +
+                                    " \nPara ver todos los comandos disponibles escriba: Ver Comandos");
+                        }
+                    }
+                    else{
+                        System.out.println("Comando incorrecto. Para ver los comandos disponibles escriba: Ver Comandos");
                     }
                     break;
 
