@@ -120,8 +120,8 @@ public class Menu {
                                 break;
                         }
                     } else if (comando.length == 3) {
-                        if(comando[1].equals("edificios")){
-                            if(Integer.parseInt(comando[2]) >= 0  && Integer.parseInt(comando[2]) < 9){ // ponerle excepción
+                        if (comando[1].equals("edificios")) {
+                            if (Integer.parseInt(comando[2]) >= 0 && Integer.parseInt(comando[2]) < 9) { // ponerle excepción
                                 this.partida.describirGrupo(Integer.parseInt(comando[2]));
                             } else {
                                 System.out.println("Número incorrecto, tiene que ser mayor o igual a 0 y menos que 9." +
@@ -336,16 +336,27 @@ public class Menu {
                     break;
 
                 case "hipotecar":
-                    if (comando.length == 2){
-                        if (taboleiro.getCasillas().containsKey(comando[1])){
+                    if (comando.length == 2) {
+                        if (taboleiro.getCasillas().containsKey(comando[1])) {
                             taboleiro.getCasillas().get(comando[1]).hipotecarCasilla(this.jugadorActual, taboleiro);
-                        }
-                        else{
+                        } else {
                             System.out.println("Comando incorrecto. El nombre de una casilla debe introducirse tal y como aparece en el tablero pero SIN espacios." +
                                     " \nPara ver todos los comandos disponibles escriba: Ver Comandos");
                         }
+                    } else {
+                        System.out.println("Comando incorrecto. Para ver los comandos disponibles escriba: Ver Comandos");
                     }
-                    else{
+                    break;
+
+                case "estadisticas":
+                    if (comando.length == 1) {
+                        this.partida.estadisticas();
+                    } else if (comando.length == 2) {
+                        if (this.partida.getJugadores().containsKey(comando[1])) {
+                            this.partida.estadisticas_jugador(this.partida.getJugadores().get(comando[1]));
+                        } else
+                            System.out.println("Comando incorrecto. Jugador no encontrado. Para ver los comandos disponibles escriba: Ver Comandos");
+                    } else {
                         System.out.println("Comando incorrecto. Para ver los comandos disponibles escriba: Ver Comandos");
                     }
                     break;
