@@ -30,6 +30,8 @@ public class Casilla {
     private Grupo grupo;
     private int numeroCasas;
     private int numeroHoteles;
+    private int numeroPiscinas;
+    private int numeroPistas;
     private boolean esHiportecado;
 
     public Casilla() {
@@ -48,6 +50,8 @@ public class Casilla {
         this.grupo = null;
         this.numeroCasas = 0;
         this.numeroHoteles = 0;
+        this.numeroPiscinas = 0;
+        this.numeroPistas = 0;
         this.idCasas = new ArrayList<>();
         this.idHoteles = new ArrayList<>();
         this.idPiscinas = new ArrayList<>();
@@ -69,6 +73,8 @@ public class Casilla {
         this.grupo = null;
         this.numeroCasas = 0;
         this.numeroHoteles = 0;
+        this.numeroPiscinas = 0;
+        this.numeroPistas = 0;
         this.idCasas = new ArrayList<>();
         this.idHoteles = new ArrayList<>();
         this.idPiscinas = new ArrayList<>();
@@ -89,6 +95,8 @@ public class Casilla {
         this.grupo = null;
         this.numeroCasas = 0;
         this.numeroHoteles = 0;
+        this.numeroPiscinas = 0;
+        this.numeroPistas = 0;
         this.idCasas = new ArrayList<>();
         this.idHoteles = new ArrayList<>();
         this.idPiscinas = new ArrayList<>();
@@ -416,7 +424,7 @@ public class Casilla {
             for (String id : this.idCasas) {
                 taboleiro.eliminarCasa(id);
                 this.idCasas.remove(id);
-                jugador.eliminarCasa(id);
+                jugador.eliminarEdificacion(id);
             }
         }
     }
@@ -522,6 +530,7 @@ public class Casilla {
                 if (this.grupo.tenerTodasCasillas() || aux >= 2) {
                     if (jugador.getFortuna() >= this.valorPiscina) {
                         if (this.numeroCasas >= 2 && this.numeroHoteles >= 1 && this.grupo.getNumeroPiscinas() < this.grupo.getNumeroSolares()) {
+                            this.numeroPiscinas++;
                             this.duenho.restarFortuna((float) this.valorPiscina);
                             this.grupo.setNumeroPiscinas(this.grupo.getNumeroPiscinas() + 1);
                             String id = taboleiro.idPiscina(this);
@@ -561,6 +570,7 @@ public class Casilla {
                 if (this.grupo.tenerTodasCasillas() || aux >= 2) {
                     if (jugador.getFortuna() >= this.valorPistaDeporte) {
                         if (this.numeroHoteles >= 2 && this.grupo.getNumeroPistas() < this.grupo.getNumeroSolares()) {
+                            this.numeroPistas++;
                             this.duenho.restarFortuna((float) this.valorPistaDeporte);
                             this.grupo.setNumeroPistas(this.grupo.getNumeroPistas() + 1);
                             String id = taboleiro.idPista(this);
@@ -592,11 +602,19 @@ public class Casilla {
             if (jugador.getAvatar().getId().equals(this.duenho.getAvatar().getId())) {
                 if (this.numeroCasas >= numero) {
                     this.numeroCasas = this.numeroCasas - numero;
-
-
+                    String id[] = new String[numero];
+                    for (int i = 0; i < numero; i++) {
+                        id[i] = this.idCasas.get(i);
+                    }
+                    for (int i = 0; i < numero; i++) {
+                        this.idCasas.remove(id[i]);
+                        jugador.eliminarEdificacion(id[i]);
+                    }
+                    this.duenho.sumarFortuna((float) (numero * this.valorCasa / 2));
+                    System.out.println(this.duenho.getNombre() + " ha vendido " + numero + " casa(s) en " + this.getNombreSinEspacio() + ", recibiendo " + (numero * this.valorCasa / 2) + "€. En la propiedad queda(n) " + this.numeroCasas + " casa(s).");
                 } else {
                     if (this.numeroCasas > 0) {
-                        System.out.println("Solamente se puede(n) vender " + this.numeroCasas + "casa(s) y se recibirían " + this.numeroCasas * this.valorCasa / 2 + "€.");
+                        System.out.println("Solamente se puede(n) vender " + this.numeroCasas + " casa(s) y se recibirían " + this.numeroCasas * this.valorCasa / 2 + "€.");
                     } else {
                         System.out.println("En esta casilla no tienes casas construidas, por lo que no puedes venderlas.");
                     }
@@ -606,6 +624,96 @@ public class Casilla {
             }
         } else {
             System.out.println("No eres el dueño de esta casilla, por lo que no puedes vender casas en esta casilla!");
+        }
+    }
+
+    public void venderHotel(Jugador jugador, Taboleiro taboleiro, int numero){
+        if (this.duenho != null) {
+            if (jugador.getAvatar().getId().equals(this.duenho.getAvatar().getId())) {
+                if (this.numeroHoteles >= numero) {
+                    this.numeroHoteles = this.numeroHoteles - numero;
+                    String id[] = new String[numero];
+                    for (int i = 0; i < numero; i++) {
+                        id[i] = this.idHoteles.get(i);
+                    }
+                    for (int i = 0; i < numero; i++) {
+                        this.idHoteles.remove(id[i]);
+                        jugador.eliminarEdificacion(id[i]);
+                    }
+                    this.duenho.sumarFortuna((float) (numero * this.valorHotel / 2));
+                    System.out.println(this.duenho.getNombre() + " ha vendido " + numero + " hotel(es) en " + this.getNombreSinEspacio() + ", recibiendo " + (numero * this.valorHotel / 2) + "€. En la propiedad queda(n) " + this.numeroHoteles + " hotel(es).");
+                } else {
+                    if (this.numeroHoteles > 0) {
+                        System.out.println("Solamente se puede(n) vender " + this.numeroHoteles + " hotel(es) y se recibirían " + this.numeroHoteles * this.valorHotel / 2 + "€.");
+                    } else {
+                        System.out.println("En esta casilla no tienes hoteles construidos, por lo que no puedes venderlos.");
+                    }
+                }
+            } else {
+                System.out.println("No eres el dueño de esta casilla, por lo que no puedes vender hoteles en esta casilla!");
+            }
+        } else {
+            System.out.println("No eres el dueño de esta casilla, por lo que no puedes vender hoteles en esta casilla!");
+        }
+    }
+
+    public void venderPiscina(Jugador jugador, Taboleiro taboleiro, int numero){
+        if (this.duenho != null) {
+            if (jugador.getAvatar().getId().equals(this.duenho.getAvatar().getId())) {
+                if (this.numeroPiscinas >= numero) {
+                    this.numeroPiscinas = this.numeroPiscinas - numero;
+                    String id[] = new String[numero];
+                    for (int i = 0; i < numero; i++) {
+                        id[i] = this.idPiscinas.get(i);
+                    }
+                    for (int i = 0; i < numero; i++) {
+                        this.idPiscinas.remove(id[i]);
+                        jugador.eliminarEdificacion(id[i]);
+                    }
+                    this.duenho.sumarFortuna((float) (numero * this.valorPiscina / 2));
+                    System.out.println(this.duenho.getNombre() + " ha vendido " + numero + " piscina(s) en " + this.getNombreSinEspacio() + ", recibiendo " + (numero * this.valorPiscina / 2) + "€. En la propiedad queda(n) " + this.numeroPiscinas + " piscina(s).");
+                } else {
+                    if (this.numeroPiscinas > 0) {
+                        System.out.println("Solamente se puede(n) vender " + this.numeroPiscinas + " piscina(s) y se recibirían " + this.numeroPiscinas * this.valorPiscina / 2 + "€.");
+                    } else {
+                        System.out.println("En esta casilla no tienes piscinas construidas, por lo que no puedes venderlas.");
+                    }
+                }
+            } else {
+                System.out.println("No eres el dueño de esta casilla, por lo que no puedes vender piscinas en esta casilla!");
+            }
+        } else {
+            System.out.println("No eres el dueño de esta casilla, por lo que no puedes vender piscinas en esta casilla!");
+        }
+    }
+
+    public void venderPista(Jugador jugador, Taboleiro taboleiro, int numero){
+        if (this.duenho != null) {
+            if (jugador.getAvatar().getId().equals(this.duenho.getAvatar().getId())) {
+                if (this.numeroPistas >= numero) {
+                    this.numeroPistas = this.numeroPistas - numero;
+                    String id[] = new String[numero];
+                    for (int i = 0; i < numero; i++) {
+                        id[i] = this.idPistas.get(i);
+                    }
+                    for (int i = 0; i < numero; i++) {
+                        this.idPistas.remove(id[i]);
+                        jugador.eliminarEdificacion(id[i]);
+                    }
+                    this.duenho.sumarFortuna((float) (numero * this.valorPistaDeporte / 2));
+                    System.out.println(this.duenho.getNombre() + " ha vendido " + numero + " pista(s) en " + this.getNombreSinEspacio() + ", recibiendo " + (numero * this.valorPistaDeporte / 2) + "€. En la propiedad queda(n) " + this.numeroPistas + " pista(s).");
+                } else {
+                    if (this.numeroPistas > 0) {
+                        System.out.println("Solamente se puede(n) vender " + this.numeroPistas + " pista(s) y se recibirían " + this.numeroPistas * this.valorPistaDeporte / 2 + "€.");
+                    } else {
+                        System.out.println("En esta casilla no tienes pistas construidas, por lo que no puedes venderlas.");
+                    }
+                }
+            } else {
+                System.out.println("No eres el dueño de esta casilla, por lo que no puedes vender pistas en esta casilla!");
+            }
+        } else {
+            System.out.println("No eres el dueño de esta casilla, por lo que no puedes vender pistas en esta casilla!");
         }
     }
 

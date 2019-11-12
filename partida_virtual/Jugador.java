@@ -238,7 +238,7 @@ public class Jugador {
         }
     }
 
-    public void eliminarCasa(String id) {
+    public void eliminarEdificacion(String id) {
         if (id != null) {
             this.edificaciones.remove(id);
         }

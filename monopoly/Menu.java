@@ -363,32 +363,33 @@ public class Menu {
 
                 case "vender":
                     if (comando.length == 4) {
+                        int numero = Integer.parseInt(comando[3]);
                         switch (comando[1]) {
                             case "casa":
                             case "casas":
                                 if (this.taboleiro.getCasillas().containsKey(comando[2])){
-
+                                    this.taboleiro.getCasillas().get(comando[2]).venderCasa(this.jugadorActual, taboleiro, numero);
                                 }
                                 break;
 
                             case "hotel":
                             case "hoteles":
                                 if (this.taboleiro.getCasillas().containsKey(comando[2])){
-
+                                    this.taboleiro.getCasillas().get(comando[2]).venderHotel(this.jugadorActual, taboleiro, numero);
                                 }
                                 break;
 
                             case "piscina":
                             case "piscinas":
                                 if (this.taboleiro.getCasillas().containsKey(comando[2])){
-
+                                    this.taboleiro.getCasillas().get(comando[2]).venderPiscina(this.jugadorActual, taboleiro, numero);
                                 }
                                 break;
 
                             case "pista":
                             case "pistas":
                                 if (this.taboleiro.getCasillas().containsKey(comando[2])){
-
+                                    this.taboleiro.getCasillas().get(comando[2]).venderPista(this.jugadorActual, taboleiro, numero);
                                 }
                                 break;
 
@@ -401,7 +402,7 @@ public class Menu {
 
                 case "estadisticas":
                     if (comando.length == 1) {
-                        this.partida.estadisticas();
+                        this.partida.estadisticas(this.taboleiro);
                     } else if (comando.length == 2) {
                         if (this.partida.getJugadores().containsKey(comando[1])) {
                             this.partida.estadisticas_jugador(this.partida.getJugadores().get(comando[1]));
