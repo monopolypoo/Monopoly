@@ -147,14 +147,14 @@ public class Partida {
         return texto;
     }
 
-    public void estadisticas() {
+    public void estadisticas(Taboleiro taboleiro) {
         String texto;
         texto = "{\n\tCasilla más rentable: " + casillaMasRentable() +
                 "\n\tGrupo más rentable: " + grupoMasRentable() +
-                "\n\tCasilla más frecuentada: " +
-                "\n\tJugador más vueltas: " +
-                "\n\tJugador más veces dados: " +
-                "\n\tJugador en cabeza: " +
+                "\n\tCasilla más frecuentada: " + casillaFrecuentada(taboleiro) +
+                "\n\tJugador más vueltas: " + jugadorMasVueltas() +
+                "\n\tJugador más veces dados: " + jugadorMasDados() +
+                "\n\tJugador en cabeza: " + jugadorCabeza() +
                 "\n}";
         System.out.println(texto);
     }
@@ -168,6 +168,67 @@ public class Partida {
             }
         }
         System.out.println(texto);
+    }
+
+    public String casillaFrecuentada(Taboleiro taboleiro){
+        String texto = "";
+        String[] datos;
+        int veces = 0;
+
+        for (Casilla casilla : taboleiro.getCasillas().values()){
+            for(Jugador jugador : this.jugadores.values()){
+                if(casilla.getVecesCasilla().containsKey(jugador.getAvatar().getId())){
+                    datos = casilla.getVecesCasilla().get(jugador.getAvatar().getId());
+                    if(veces < Integer.parseInt(datos[1])){
+                        veces = Integer.parseInt(datos[1]);
+                        texto = jugador.getNombre();
+                    }
+                }
+            }
+        }
+        return texto;
+    }
+
+    public String jugadorCabeza(){
+        String texto = "";
+        float dinero = 0;
+
+        for(Jugador jugador : this.jugadores.values()){
+            if(dinero < jugador.getFortuna()){
+                dinero = jugador.getFortuna();
+                texto = jugador.getNombre();
+            }
+        }
+
+        return  texto;
+    }
+
+    public String jugadorMasDados(){
+        String texto = "";
+        int veces = 0;
+
+        for (Jugador jugador: this.jugadores.values()){
+            if(veces <= jugador.getVecesDados()){
+                veces = jugador.getVecesDados();
+                texto = jugador.getNombre();
+            }
+        }
+
+        return texto;
+    }
+
+    public String jugadorMasVueltas() {
+        String texto = "";
+        int veces = 0;
+
+        for (Jugador jugador : this.jugadores.values()) {
+            if (veces <= jugador.getVecesSalida()) {
+                veces = jugador.getVecesSalida();
+                texto = jugador.getNombre();
+            }
+        }
+
+        return texto;
     }
 
     public void listarComandos() {
