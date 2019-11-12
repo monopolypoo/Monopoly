@@ -69,21 +69,21 @@ public class Menu {
                 case "crear":
                     if (comando.length == 4) {
                         if (comando[1].equals("jugador")) {
-                            if (jugadores.size() < 6) {
+                            if (this.jugadores.size() < 6) {
                                 if (!partidaEmpezada) {
-                                    Jugador jugador = new Jugador(comando[2], comando[3], jugadores, taboleiro.getCasillaPosicion(0));
-                                    taboleiro.getCasillaPosicion(0).setAvatar(jugador.getAvatar());
+                                    Jugador jugador = new Jugador(comando[2], comando[3], this.jugadores, this.taboleiro.getCasillaPosicion(0));
+                                    this.taboleiro.getCasillaPosicion(0).setAvatar(jugador.getAvatar());
                                     System.out.println(jugador);
-                                    jugadores.add(jugador);
-                                    partida.anhadeJugador(jugador);
-                                    jugadorActual = jugadores.get(0);
+                                    this.jugadores.add(jugador);
+                                    this.partida.anhadeJugador(jugador);
+                                    this.jugadorActual = this.jugadores.get(0);
                                     this.sigueTurno = true;
                                     this.dadosLanzados = false;
 
                                     if (jugadores.size() >= 2) {
-                                        jugadorTurnoSiguiente = jugadores.get(1);
+                                        this.jugadorTurnoSiguiente = this.jugadores.get(1);
                                     } else {
-                                        jugadorTurnoSiguiente = jugadores.get(0);
+                                        this.jugadorTurnoSiguiente = this.jugadores.get(0);
                                     }
                                 } else {
                                     System.out.println("No puedes crear más jugadores ya que la partida ya está empezada!");
@@ -97,22 +97,22 @@ public class Menu {
                     break;
 
                 case "jugador":
-                    System.out.println(jugadorActual);
+                    System.out.println(this.jugadorActual);
                     break;
 
                 case "listar":
                     if (comando.length == 2) {
                         switch (comando[1]) {
                             case "jugadores":
-                                partida.listarJugadores();
+                                this.partida.listarJugadores();
                                 break;
 
                             case "avatares":
-                                partida.listarAvatares();
+                                this.partida.listarAvatares();
                                 break;
 
                             case "enventa":
-                                taboleiro.listarEnVenta();
+                                this.taboleiro.listarEnVenta();
                                 break;
 
                             default:
@@ -138,13 +138,13 @@ public class Menu {
                 case "lanzar":
                     if (comando.length == 2) {
                         if (comando[1].equals("dados")) {
-                            if (jugadores.size() > 0) {
+                            if (this.jugadores.size() > 0) {
                                 texto = "";
                                 if (!this.dadosLanzados) {
                                     if (!this.jugadorActual.getEstarCarcere()) {
-                                        dados.lanzarDados(jugadorActual, taboleiro, this);
+                                        this.dados.lanzarDados(this.jugadorActual, this.taboleiro, this);
                                         partidaEmpezada = true;
-                                        if (dados.getIguales()) {
+                                        if (this.dados.getIguales()) {
                                             this.dadosLanzados = false;
                                             this.sigueTurno = true;
                                             this.contadorDobles++;
@@ -157,26 +157,26 @@ public class Menu {
                                             this.contadorDobles = 0;
                                         }
                                         if (this.contadorDobles == 3) {
-                                            this.jugadorActual.irCarcere(taboleiro);
+                                            this.jugadorActual.irCarcere(this.taboleiro);
                                             this.dadosLanzados = true;
                                             this.sigueTurno = false;
                                             this.poderComprar = false;
                                             this.contadorDobles = 0;
                                             texto = "Sacastes tres dobles seguidos, por lo que tienes que ir a la cárcel!";
-                                            taboleiro.getCasillaPosicion(jugadorActual.getAvatar().getCasilla().getPosicion()).eliminarAvatar(jugadorActual.getAvatar().getId());
-                                            taboleiro.getCasillaPosicion(10).setAvatar(jugadorActual.getAvatar());
-                                            System.out.println(taboleiro);
-                                            System.out.println("El avatar " + jugadorActual.getAvatar().getId() + dados.textoLanzarDados(taboleiro) + texto);
+                                            this.taboleiro.getCasillaPosicion(this.jugadorActual.getAvatar().getCasilla().getPosicion()).eliminarAvatar(this.jugadorActual.getAvatar().getId());
+                                            this.taboleiro.getCasillaPosicion(10).setAvatar(this.jugadorActual.getAvatar());
+                                            System.out.println(this.taboleiro);
+                                            System.out.println("El avatar " + this.jugadorActual.getAvatar().getId() + this.dados.textoLanzarDados(this.taboleiro) + texto);
                                         } else {
                                             System.out.println(taboleiro);
-                                            System.out.println("El avatar " + jugadorActual.getAvatar().getId() + dados.textoLanzarDados(taboleiro) + texto);
-                                            this.jugadorActual.pagarAlquiler(this.jugadorActual.getAvatar().getCasilla(), dados.getDadoTotal(), taboleiro);
+                                            System.out.println("El avatar " + this.jugadorActual.getAvatar().getId() + this.dados.textoLanzarDados(this.taboleiro) + texto);
+                                            this.jugadorActual.pagarAlquiler(this.jugadorActual.getAvatar().getCasilla(), this.dados.getDadoTotal(), this.taboleiro);
                                             this.jugadorActual.pagarImpuestos(this.jugadorActual.getAvatar().getCasilla(), this.taboleiro);
                                             this.jugadorActual.cobrarParking(this.jugadorActual.getAvatar().getCasilla());
                                         }
                                     } else {
-                                        dados.lanzarLosDados();
-                                        if (dados.getIguales()) {
+                                        this.dados.lanzarLosDados();
+                                        if (this.dados.getIguales()) {
                                             this.jugadorActual.setContadorEstarCarcere(0);
                                             System.out.println("Sacastes dobles, puedes salír de la cárcel. Lanza los dados para continuar.");
                                             this.dadosLanzados = false;
@@ -260,20 +260,20 @@ public class Menu {
                     if (comando.length == 3) {
                         if (comando[1].equals("jugador")) {
                             if (partida.getJugadores().containsKey(comando[2]))
-                                System.out.println(partida.getJugadores().get(comando[2]));
+                                System.out.println(this.partida.getJugadores().get(comando[2]));
                             else
                                 System.out.println("Comando incorrecto. Jugador no encontrado. Para ver los comandos disponibles escriba: Ver Comandos");
                         } else if (comando[1].equals("avatar")) {
-                            if (partida.getAvatares().containsKey(comando[2])) {
-                                System.out.println(partida.getAvatares().get(comando[2])); //mirar en caso de que no este el avatar
+                            if (this.partida.getAvatares().containsKey(comando[2])) {
+                                System.out.println(this.partida.getAvatares().get(comando[2])); //mirar en caso de que no este el avatar
                             } else
                                 System.out.println("Comando incorrecto. Avatar no encontrado. Para ver los comandos disponibles escriba: Ver Comandos");
                         } else {
                             System.out.println("Comando incorrecto. Para ver los comandos disponibles escriba: Ver Comandos");
                         }
                     } else if (comando.length == 2) {
-                        if (taboleiro.getCasillas().containsKey(comando[1]))
-                            System.out.println(taboleiro.getCasillas().get(comando[1]));
+                        if (this.taboleiro.getCasillas().containsKey(comando[1]))
+                            System.out.println(this.taboleiro.getCasillas().get(comando[1]));
                         else
                             System.out.println("Comando incorrecto. El nombre de una casilla debe introducirse tal y como aparece en el tablero pero SIN espacios. \nPara ver todos los comandos disponibles escriba: Ver Comandos");
                     } else {
@@ -288,7 +288,7 @@ public class Menu {
                             if (!this.jugadorActual.getEstarCarcere()) {
                                 if (this.poderComprar) {
                                     this.jugadorActual.comprarCasilla(this.jugadorActual.getAvatar().getCasilla(), this.taboleiro);
-                                    taboleiro.setContadorVueltas(0);
+                                    this.taboleiro.setContadorVueltas(0);
                                 } else {
                                     System.out.println("Para comprar una casilla antes debe tirar los dados.");
                                 }
@@ -307,9 +307,9 @@ public class Menu {
                 case "ver":
                     if (comando.length == 2) {
                         if (comando[1].equals("tablero"))
-                            System.out.println(taboleiro);
+                            System.out.println(this.taboleiro);
                         else if (comando[1].toLowerCase().equals("comandos")) {
-                            partida.listarComandos();
+                            this.partida.listarComandos();
                         } else
                             System.out.println("Comando incorrecto. Para ver los comandos disponibles escriba: Ver Comandos");
                     } else
@@ -337,8 +337,8 @@ public class Menu {
 
                 case "hipotecar":
                     if (comando.length == 2) {
-                        if (taboleiro.getCasillas().containsKey(comando[1])) {
-                            taboleiro.getCasillas().get(comando[1]).hipotecarCasilla(this.jugadorActual, taboleiro);
+                        if (this.taboleiro.getCasillas().containsKey(comando[1])) {
+                            this.taboleiro.getCasillas().get(comando[1]).hipotecarCasilla(this.jugadorActual, this.taboleiro);
                         } else {
                             System.out.println("Comando incorrecto. El nombre de una casilla debe introducirse tal y como aparece en el tablero pero SIN espacios." +
                                     " \nPara ver todos los comandos disponibles escriba: Ver Comandos");
@@ -383,7 +383,7 @@ public class Menu {
     }
 
     public int numeroJugadores() {
-        return jugadores.size();
+        return this.jugadores.size();
     }
 
     public String[] leerComando() {
@@ -428,7 +428,7 @@ public class Menu {
 
     public Jugador getJugadorTurnoSiguiente(Jugador jugadorActual) {
         int i = 0;
-        int total = jugadores.size() - 1;
+        int total = this.jugadores.size() - 1;
         for (Jugador jug : this.jugadores) {
             if (jug.getNombre().equals(jugadorActual.getNombre())) {
                 if (i == total) {
