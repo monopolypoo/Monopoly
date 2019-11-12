@@ -361,6 +361,44 @@ public class Menu {
                     }
                     break;
 
+                case "vender":
+                    if (comando.length == 4) {
+                        switch (comando[1]) {
+                            case "casa":
+                            case "casas":
+                                if (this.taboleiro.getCasillas().containsKey(comando[2])){
+
+                                }
+                                break;
+
+                            case "hotel":
+                            case "hoteles":
+                                if (this.taboleiro.getCasillas().containsKey(comando[2])){
+
+                                }
+                                break;
+
+                            case "piscina":
+                            case "piscinas":
+                                if (this.taboleiro.getCasillas().containsKey(comando[2])){
+
+                                }
+                                break;
+
+                            case "pista":
+                            case "pistas":
+                                if (this.taboleiro.getCasillas().containsKey(comando[2])){
+
+                                }
+                                break;
+
+                            default:
+                                System.out.println("Comando incorrecto. Para ver los comandos disponibles escriba: Ver Comandos");
+                        }
+                    } else {
+                        System.out.println("Comando incorrecto. Para ver los comandos disponibles escriba: Ver Comandos");
+                    }
+
                 case "estadisticas":
                     if (comando.length == 1) {
                         this.partida.estadisticas();
