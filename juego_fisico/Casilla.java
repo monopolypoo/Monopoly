@@ -145,16 +145,16 @@ public class Casilla {
         String[] texto = new String[2];
         int aux;
 
-        if (this.vecesCasilla.containsKey(jugador.getNombre())) {
-            texto = this.vecesCasilla.get(jugador.getNombre());
+        if (this.vecesCasilla.containsKey(jugador.getAvatar().getId())) {
+            texto = this.vecesCasilla.get(jugador.getAvatar().getId());
             aux = Integer.parseInt(texto[1]);
             aux++;
             texto[1] = "" + aux;
-            this.vecesCasilla.replace(jugador.getNombre(), texto);
+            this.vecesCasilla.replace(jugador.getAvatar().getId(), texto);
         } else {
-            texto[0] = jugador.getNombre();
+            texto[0] = jugador.getAvatar().getId();
             texto[1] = "1";
-            this.vecesCasilla.put(jugador.getNombre(), texto);
+            this.vecesCasilla.put(jugador.getAvatar().getId(), texto);
         }
     }
 
@@ -282,14 +282,6 @@ public class Casilla {
 
     public HashMap<String, String[]> getVecesCasilla() {
         return this.vecesCasilla;
-    }
-
-    public String GetVecesCasilla() {
-        String texto;
-        for (String[] nombre : this.vecesCasilla.values()) {
-
-        }
-        return "";
     }
 
     public String getNombre() {
@@ -433,8 +425,8 @@ public class Casilla {
         if (this.duenho != null) {
             if (jugador.getAvatar().getId().equals(this.duenho.getAvatar().getId())) {
                 int aux;
-                if (this.getVecesCasilla().containsKey(jugador.getNombre())) {
-                    aux = Integer.parseInt(this.getVecesCasilla().get(jugador.getNombre())[1]);
+                if (this.getVecesCasilla().containsKey(jugador.getAvatar().getId())) {
+                    aux = Integer.parseInt(this.getVecesCasilla().get(jugador.getAvatar().getId())[1]);
                 } else {
                     aux = 0;
                 }
@@ -468,7 +460,7 @@ public class Casilla {
                     System.out.println("No tienes todas las casillas del grupo ni has caído dos veces en la casilla por lo que no puedes hacer esto!");
                 }
             } else {
-                System.out.println("NO eres el dueño de esta casilla, por lo que no puedes contruír en esta casilla!");
+                System.out.println("No eres el dueño de esta casilla, por lo que no puedes contruír en esta casilla!");
             }
         } else {
             System.out.println("No eres el dueño de esta casilla, por lo que no puedes construír en esta casilla!");
@@ -479,8 +471,8 @@ public class Casilla {
         if (this.duenho != null) {
             if (jugador.getAvatar().getId().equals(this.duenho.getAvatar().getId())) {
                 int aux;
-                if (this.getVecesCasilla().containsKey(jugador.getNombre())) {
-                    aux = Integer.parseInt(this.getVecesCasilla().get(jugador.getNombre())[1]);
+                if (this.getVecesCasilla().containsKey(jugador.getAvatar().getId())) {
+                    aux = Integer.parseInt(this.getVecesCasilla().get(jugador.getAvatar().getId())[1]);
                 } else {
                     aux = 0;
                 }
@@ -510,10 +502,10 @@ public class Casilla {
                     System.out.println("No tienes todas las casillas del grupo por lo que no puedes hacer esto!");
                 }
             } else {
-                System.out.println("NO eres el dueño de esta casilla, por lo que no puedes contruír en esta casilla!");
+                System.out.println("No eres el dueño de esta casilla, por lo que no puedes contruír en esta casilla!");
             }
         } else {
-            System.out.println("NO eres el dueño de esta casilla, por lo que no puedes construír en esta casilla!");
+            System.out.println("No eres el dueño de esta casilla, por lo que no puedes construír en esta casilla!");
         }
     }
 
@@ -521,8 +513,8 @@ public class Casilla {
         if (this.duenho != null) {
             if (jugador.getAvatar().getId().equals(this.duenho.getAvatar().getId())) {
                 int aux;
-                if (this.getVecesCasilla().containsKey(jugador.getNombre())) {
-                    aux = Integer.parseInt(this.getVecesCasilla().get(jugador.getNombre())[1]);
+                if (this.getVecesCasilla().containsKey(jugador.getAvatar().getId())) {
+                    aux = Integer.parseInt(this.getVecesCasilla().get(jugador.getAvatar().getId())[1]);
                 } else {
                     aux = 0;
                 }
@@ -549,10 +541,10 @@ public class Casilla {
                     System.out.println("No tienes todas las casillas del grupo por lo que no puedes hacer esto!");
                 }
             } else {
-                System.out.println("NO eres el dueño de esta casilla, por lo que no puedes contruír en esta casilla!");
+                System.out.println("No eres el dueño de esta casilla, por lo que no puedes contruír en esta casilla!");
             }
         } else {
-            System.out.println("NO eres el dueño de esta casilla, por lo que no puedes construír en esta casilla!");
+            System.out.println("No eres el dueño de esta casilla, por lo que no puedes construír en esta casilla!");
         }
     }
 
@@ -560,8 +552,8 @@ public class Casilla {
         if (this.duenho != null) {
             if (jugador.getAvatar().getId().equals(this.duenho.getAvatar().getId())) {
                 int aux;
-                if (this.getVecesCasilla().containsKey(jugador.getNombre())) {
-                    aux = Integer.parseInt(this.getVecesCasilla().get(jugador.getNombre())[1]);
+                if (this.getVecesCasilla().containsKey(jugador.getAvatar().getId())) {
+                    aux = Integer.parseInt(this.getVecesCasilla().get(jugador.getAvatar().getId())[1]);
                 } else {
                     aux = 0;
                 }
@@ -588,10 +580,32 @@ public class Casilla {
                     System.out.println("No tienes todas las casillas del grupo por lo que no puedes hacer esto!");
                 }
             } else {
-                System.out.println("NO eres el dueño de esta casilla, por lo que no puedes contruír en esta casilla!");
+                System.out.println("No eres el dueño de esta casilla, por lo que no puedes contruír en esta casilla!");
             }
         } else {
-            System.out.println("NO eres el dueño de esta casilla, por lo que no puedes construír en esta casilla!");
+            System.out.println("No eres el dueño de esta casilla, por lo que no puedes construír en esta casilla!");
+        }
+    }
+
+    public void venderCasa(Jugador jugador, Taboleiro taboleiro, int numero) {
+        if (this.duenho != null) {
+            if (jugador.getAvatar().getId().equals(this.duenho.getAvatar().getId())) {
+                if (this.numeroCasas >= numero) {
+                    this.numeroCasas = this.numeroCasas - numero;
+
+
+                } else {
+                    if (this.numeroCasas > 0) {
+                        System.out.println("Solamente se puede(n) vender " + this.numeroCasas + "casa(s) y se recibirían " + this.numeroCasas * this.valorCasa / 2 + "€.");
+                    } else {
+                        System.out.println("En esta casilla no tienes casas construidas, por lo que no puedes venderlas.");
+                    }
+                }
+            } else {
+                System.out.println("No eres el dueño de esta casilla, por lo que no puedes vender casas en esta casilla!");
+            }
+        } else {
+            System.out.println("No eres el dueño de esta casilla, por lo que no puedes vender casas en esta casilla!");
         }
     }
 
@@ -619,7 +633,7 @@ public class Casilla {
     public void hipotecarCasilla(Jugador jugador, Taboleiro taboleiro) {
         if (taboleiro.sePuedeComprar(this)) {
             if (this.duenho != null) {
-                if (this.duenho.getNombre().equals(jugador.getNombre())) {
+                if (this.duenho.getAvatar().getId().equals(jugador.getAvatar().getId())) {
                     if (!this.esHiportecado) {
                         if (!hayEdificios()) {
                             setEsHiportecado(true);
@@ -649,7 +663,7 @@ public class Casilla {
     public void deshipotecarCasilla(Jugador jugador, Taboleiro taboleiro) {
         if (taboleiro.sePuedeComprar(this)) {
             if (this.duenho == null) {
-                if (this.duenhoAnterior.getNombre().equals(jugador.getNombre())) {
+                if (this.duenhoAnterior.getAvatar().getId().equals(jugador.getAvatar().getId())) {
                     if (this.esHiportecado) {
                         if (jugador.getFortuna() >= this.valor / 2) {
                             setEsHiportecado(false);
