@@ -120,7 +120,7 @@ public class Casilla {
         this.esHiportecado = esHiportecado;
     }
 
-    public Jugador getDuenhoAnterior(){
+    public Jugador getDuenhoAnterior() {
         return this.duenhoAnterior;
     }
 
@@ -217,7 +217,7 @@ public class Casilla {
         double valor = 0;
         int aux = 0;
         aux = idCasas.size();
-        switch (aux){
+        switch (aux) {
             case 1:
                 valor = 5 * valorAlquiler;
                 break;
@@ -235,7 +235,7 @@ public class Casilla {
                 break;
         }
         aux = idHoteles.size();
-        switch (aux){
+        switch (aux) {
             case 1:
                 valor += 70 * valorAlquiler;
                 break;
@@ -249,7 +249,7 @@ public class Casilla {
                 break;
         }
         aux = idPiscinas.size();
-        switch (aux){
+        switch (aux) {
             case 1:
                 valor += 25 * valorAlquiler;
                 break;
@@ -263,7 +263,7 @@ public class Casilla {
                 break;
         }
         aux = idPistas.size();
-        switch (aux){
+        switch (aux) {
             case 1:
                 valor += 25 * valorAlquiler;
                 break;
@@ -373,36 +373,47 @@ public class Casilla {
     public ArrayList<String> getIdCasas() {
         return idCasas;
     }
+
     public ArrayList<String> getIdHoteles() {
         return idHoteles;
     }
+
     public ArrayList<String> getIdPiscinas() {
         return idPiscinas;
     }
+
     public ArrayList<String> getIdPistas() {
         return idPistas;
     }
+
     public void setIdCasas(ArrayList<String> idCasas) {
         this.idCasas = idCasas;
     }
+
     public void setIdHoteles(ArrayList<String> idHoteles) {
         this.idHoteles = idHoteles;
     }
+
     public void setIdPiscinas(ArrayList<String> idPiscinas) {
         this.idPiscinas = idPiscinas;
     }
+
     public void setIdPistas(ArrayList<String> idPistas) {
         this.idPistas = idPistas;
     }
+
     public void añadirIdCasas(String id) {
         this.idCasas.add(id);
     }
+
     public void añadirIdHoteles(String id) {
         this.idHoteles.add(id);
     }
+
     public void añadirIdPiscinas(String id) {
         this.idPiscinas.add(id);
     }
+
     public void añadirIdPistas(String id) {
         this.idPistas.add(id);
     }
@@ -584,7 +595,7 @@ public class Casilla {
         }
     }
 
-    public boolean hayEdificios(){
+    public boolean hayEdificios() {
         if (this.idCasas.size() > 0)
             return true;
         if (this.idHoteles.size() > 0)
@@ -596,47 +607,72 @@ public class Casilla {
         return false;
     }
 
-    public boolean hayAlgunaHipoteca(){
-        for (Casilla casilla : this.grupo.getCasillas()){
-            if (casilla.esHiportecado){
+    public boolean hayAlgunaHipoteca() {
+        for (Casilla casilla : this.grupo.getCasillas()) {
+            if (casilla.esHiportecado) {
                 return true;
             }
         }
         return false;
     }
 
-    public void hipotecarCasilla(Jugador jugador, Taboleiro taboleiro){
-        if (taboleiro.sePuedeComprar(this)){
-            if (this.duenho != null){
-                if (this.duenho.getNombre().equals(jugador.getNombre())){
-                    if (!this.esHiportecado){
-                        if (!hayEdificios()){
+    public void hipotecarCasilla(Jugador jugador, Taboleiro taboleiro) {
+        if (taboleiro.sePuedeComprar(this)) {
+            if (this.duenho != null) {
+                if (this.duenho.getNombre().equals(jugador.getNombre())) {
+                    if (!this.esHiportecado) {
+                        if (!hayEdificios()) {
                             setEsHiportecado(true);
                             jugador.eliminarPropiedad(this);
                             this.duenho = null;
                             this.duenhoAnterior = jugador;
                             jugador.sumarFortuna((float) this.valor / 2);
-                            System.out.println(jugador.getNombre() + " recibe " + this.valor/2 + "€ por la hipoteca de " + this.getNombreSinEspacio() +
-                                                ". No puede recibir alquileres ni edificar en el grupo " + this.grupo.getNumeroGrupo() +".");
-                        }
-                        else{
+                            System.out.println(jugador.getNombre() + " recibe " + this.valor / 2 + "€ por la hipoteca de " + this.getNombreSinEspacio() +
+                                    ". No puede recibir alquileres ni edificar en el grupo " + this.grupo.getNumeroGrupo() + ".");
+                        } else {
                             System.out.println(jugador.getNombre() + " no puede hipotecar " + this.getNombreSinEspacio() + ". No puedes hipotecar la casilla porque existen edificios en ella, antes de hipotecarla debes venderlos todos.");
                         }
-                    }
-                    else{
+                    } else {
                         System.out.println(jugador.getNombre() + " no puede hipotecar " + this.getNombreSinEspacio() + ". No puedes hipotecar esta casilla porque ya está hipotecada.");
                     }
-                }
-                else{
+                } else {
                     System.out.println(jugador.getNombre() + " no puede hipotecar " + this.getNombreSinEspacio() + ". No puedes hipotecar una casilla que no te pertenece.");
                 }
-            }
-            else{
+            } else {
                 System.out.println(jugador.getNombre() + " no puede hipotecar " + this.getNombreSinEspacio() + ". No se puede hipotecar una casilla que no tiene dueño.");
             }
-        }
-        else{
+        } else {
             System.out.println(jugador.getNombre() + " no puede hipotecar " + this.getNombreSinEspacio() + ". Esta casilla no se puede hipotecar, ya que tampoco puede ser comprada.");
+        }
+    }
+
+    public void deshipotecarCasilla(Jugador jugador, Taboleiro taboleiro) {
+        if (taboleiro.sePuedeComprar(this)) {
+            if (this.duenho == null) {
+                if (this.duenhoAnterior.getNombre().equals(jugador.getNombre())) {
+                    if (this.esHiportecado) {
+                        if (jugador.getFortuna() >= this.valor / 2) {
+                            setEsHiportecado(false);
+                            jugador.anhadirPropiedad(this);
+                            this.duenho = jugador;
+                            this.duenhoAnterior = null;
+                            jugador.restarFortuna((float) this.valor / 2);
+                            System.out.println(jugador.getNombre() + " paga " + this.valor / 2 + "€ por deshipotecar " + this.getNombreSinEspacio() +
+                                    ". Ahora puede recibir alquileres y edificar en el grupo " + this.grupo.getNumeroGrupo() + ".");
+                        } else {
+                            System.out.println(jugador.getNombre() + " no puede deshipotecar " + this.getNombreSinEspacio() + ". No puedes deshipotecar esta casilla porque no tienes suficiente dinero.");
+                        }
+                    } else {
+                        System.out.println(jugador.getNombre() + " no puede deshipotecar " + this.getNombreSinEspacio() + ". No puedes deshipotecar esta casilla porque no está hipotecada.");
+                    }
+                } else {
+                    System.out.println(jugador.getNombre() + " no puede deshipotecar " + this.getNombreSinEspacio() + ". No puedes deshipotecar esta casilla porque no era tuya antes de que fuese hipotecada.");
+                }
+            } else {
+                System.out.println(jugador.getNombre() + " no puede deshipotecar " + this.getNombreSinEspacio() + ". No puedes deshipotecar esta casilla porque no está hipotecada.");
+            }
+        } else {
+            System.out.println(jugador.getNombre() + " no puede deshipotecar " + this.getNombreSinEspacio() + ". Esta casilla no se puede hipotecar, ya que tampoco puede ser comprada.");
         }
     }
 

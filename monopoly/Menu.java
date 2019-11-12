@@ -348,6 +348,19 @@ public class Menu {
                     }
                     break;
 
+                case "deshipotecar":
+                    if (comando.length == 2) {
+                        if (this.taboleiro.getCasillas().containsKey(comando[1])) {
+                            this.taboleiro.getCasillas().get(comando[1]).deshipotecarCasilla(this.jugadorActual, this.taboleiro);
+                        } else {
+                            System.out.println("Comando incorrecto. El nombre de una casilla debe introducirse tal y como aparece en el tablero pero SIN espacios." +
+                                    " \nPara ver todos los comandos disponibles escriba: Ver Comandos");
+                        }
+                    } else {
+                        System.out.println("Comando incorrecto. Para ver los comandos disponibles escriba: Ver Comandos");
+                    }
+                    break;
+
                 case "estadisticas":
                     if (comando.length == 1) {
                         this.partida.estadisticas();
