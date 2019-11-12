@@ -21,6 +21,7 @@ public class Jugador {
     private float cobroAlquileres;
     private int vecesSalida;
     private float premiosInversionesBote;
+    private int vecesDados;
 
     public Jugador() {
         this.nombre = "banca";
@@ -37,6 +38,7 @@ public class Jugador {
         this.cobroAlquileres = 0;
         this.vecesSalida = 0;
         this.premiosInversionesBote = 0;
+        this.vecesDados = 0;
     }
 
     public Jugador(String nombre, String tipo_avatar, ArrayList<Jugador> jugadores, Casilla casilla) {
@@ -62,6 +64,7 @@ public class Jugador {
         this.cobroAlquileres = 0;
         this.vecesSalida = 0;
         this.premiosInversionesBote = 0;
+        this.vecesDados = 0;
     }
 
     public String getNombre() {
@@ -74,6 +77,14 @@ public class Jugador {
         } else {
             this.nombre = "jugador_random";
         }
+    }
+
+    public int getVecesDados() {
+        return vecesDados;
+    }
+
+    public void sumarVecesdados(){
+        this.vecesDados++;
     }
 
     public float getDineroInvertido() {
