@@ -72,28 +72,31 @@ public class Partida {
     }
 
     public void listarEdificios(Taboleiro taboleiro) {
-        String texto = "";
+        String texto = "Taboleiro non inicializado.";
         String[] aux;
         double coste = 0;
         Iterator<Jugador> jug_i = this.jugadores.values().iterator();
-        while (jug_i.hasNext()) {
-            Jugador jug = jug_i.next();
-            for (String id : jug.getEdificaciones()) {
-                aux = id.split("-");
-                if (aux[0].equals("casa")) {
-                    coste = taboleiro.getEdificaciones().get(id).getValorCasa();
-                } else if (aux[0].equals("hotel")) {
-                    coste = taboleiro.getEdificaciones().get(id).getValorHotel();
-                } else if (aux[0].equals("piscina")) {
-                    coste = taboleiro.getEdificaciones().get(id).getValorPiscina();
-                } else if (aux[0].equals("pista")) {
-                    coste = taboleiro.getEdificaciones().get(id).getValorPistaDeporte();
+
+        if (taboleiro != null) {
+            while (jug_i.hasNext()) {
+                Jugador jug = jug_i.next();
+                for (String id : jug.getEdificaciones()) {
+                    aux = id.split("-");
+                    if (aux[0].equals("casa")) {
+                        coste = taboleiro.getEdificaciones().get(id).getValorCasa();
+                    } else if (aux[0].equals("hotel")) {
+                        coste = taboleiro.getEdificaciones().get(id).getValorHotel();
+                    } else if (aux[0].equals("piscina")) {
+                        coste = taboleiro.getEdificaciones().get(id).getValorPiscina();
+                    } else if (aux[0].equals("pista")) {
+                        coste = taboleiro.getEdificaciones().get(id).getValorPistaDeporte();
+                    }
+                    texto += "{\n\tid: " + id + ",\n" +
+                            "\tpropietario: " + jug.getNombre() + ",\n" +
+                            "\tcasilla: " + taboleiro.getEdificaciones().get(id).getNombre() + ",\n" +
+                            "\tgrupo: " + taboleiro.getEdificaciones().get(id).getGrupo().getNumeroGrupo() + ",\n" +
+                            "\tcoste: " + coste + "\n}\n";
                 }
-                texto += "{\n\tid: " + id + ",\n" +
-                        "\tpropietario: " + jug.getNombre() + ",\n" +
-                        "\tcasilla: " + taboleiro.getEdificaciones().get(id).getNombre() + ",\n" +
-                        "\tgrupo: " + taboleiro.getEdificaciones().get(id).getGrupo().getNumeroGrupo() + ",\n" +
-                        "\tcoste: " + coste + "\n}\n";
             }
         }
         System.out.println(texto);
@@ -179,19 +182,21 @@ public class Partida {
     }
 
     public String casillaFrecuentada(Taboleiro taboleiro) {
-        String texto = "";
+        String texto = "Taboleiro non inicializado";
         String[] datos;
         int veces = 0;
 
-        for (Casilla casilla : taboleiro.getCasillas().values()) {
-            for (Jugador jugador : this.jugadores.values()) {
-                if (casilla.getVecesCasilla().containsKey(jugador.getAvatar().getId())) {
-                    datos = casilla.getVecesCasilla().get(jugador.getAvatar().getId());
-                    if (veces < Integer.parseInt(datos[1])) {
-                        veces = Integer.parseInt(datos[1]);
-                        texto = casilla.getNombreSinEspacio();
-                    } else if (veces == Integer.parseInt(datos[1])) {
-                        texto += casilla.getNombreSinEspacio();
+        if (taboleiro != null) {
+            for (Casilla casilla : taboleiro.getCasillas().values()) {
+                for (Jugador jugador : this.jugadores.values()) {
+                    if (casilla.getVecesCasilla().containsKey(jugador.getAvatar().getId())) {
+                        datos = casilla.getVecesCasilla().get(jugador.getAvatar().getId());
+                        if (veces < Integer.parseInt(datos[1])) {
+                            veces = Integer.parseInt(datos[1]);
+                            texto = casilla.getNombreSinEspacio();
+                        } else if (veces == Integer.parseInt(datos[1])) {
+                            texto += casilla.getNombreSinEspacio();
+                        }
                     }
                 }
             }
