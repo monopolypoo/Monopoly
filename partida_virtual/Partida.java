@@ -181,7 +181,7 @@ public class Partida {
                     datos = casilla.getVecesCasilla().get(jugador.getAvatar().getId());
                     if(veces < Integer.parseInt(datos[1])){
                         veces = Integer.parseInt(datos[1]);
-                        texto = jugador.getNombre();
+                        texto = casilla.getNombreSinEspacio();
                     }
                 }
             }
