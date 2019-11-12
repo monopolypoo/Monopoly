@@ -78,6 +78,7 @@ public class Dado {
             jugador.irCarcere(taboleiro);
             System.out.println("Caíste en la casilla Ir Cárcel, por lo que ahora estás en la cárcel.");
             taboleiro.getCasillaPosicion(10).setAvatar(jugador.getAvatar());
+            jugador.sumarVecesCarcel();
             taboleiro.setContadorVueltas(0);
         } else {
             this.posSiguiente = this.posSiguiente % 40;
@@ -98,7 +99,8 @@ public class Dado {
         String texto;
         int sumaDados = this.dado1 + this.dado2;
         texto = " avanza " + sumaDados + " posiciones, desde " + taboleiro.getCasillaPosicion(this.posActual).getNombreSinEspacio() +
-                " hasta " + taboleiro.getCasillaPosicion(this.posSiguiente).getNombreSinEspacio() + "."; // Falta pagaronse
+                " hasta " + taboleiro.getCasillaPosicion(this.posSiguiente).getNombreSinEspacio() + " pagáronse " +
+                + taboleiro.getCasillaPosicion(this.posSiguiente).getValorAlquiler() + "€."; // Falta pagaronse
         return texto;
     }
 }

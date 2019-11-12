@@ -358,7 +358,7 @@ public class Casilla {
     }
 
     public boolean pertence(Jugador jugador) {
-        return this.duenho.getAvatar().equals(jugador.getAvatar());
+        return this.duenho.getAvatar().getId().equals(jugador.getAvatar().getId());
     }
 
     public int getPosicion() {
