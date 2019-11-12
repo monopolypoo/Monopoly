@@ -22,6 +22,7 @@ public class Jugador {
     private int vecesSalida;
     private float premiosInversionesBote;
     private int vecesDados;
+    private int vecesCarcel;
 
     public Jugador() {
         this.nombre = "banca";
@@ -39,6 +40,7 @@ public class Jugador {
         this.vecesSalida = 0;
         this.premiosInversionesBote = 0;
         this.vecesDados = 0;
+        this.vecesCarcel = 0;
     }
 
     public Jugador(String nombre, String tipo_avatar, ArrayList<Jugador> jugadores, Casilla casilla) {
@@ -65,6 +67,7 @@ public class Jugador {
         this.vecesSalida = 0;
         this.premiosInversionesBote = 0;
         this.vecesDados = 0;
+        this.vecesCarcel = 0;
     }
 
     public String getNombre() {
@@ -83,7 +86,7 @@ public class Jugador {
         return vecesDados;
     }
 
-    public void sumarVecesdados(){
+    public void sumarVecesdados() {
         this.vecesDados++;
     }
 
@@ -95,6 +98,14 @@ public class Jugador {
         if (dineroInvertido > 0) {
             this.dineroInvertido += dineroInvertido;
         }
+    }
+
+    public int getVecesCarcel() {
+        return vecesCarcel;
+    }
+
+    public void sumarVecesCarcel() {
+        this.vecesCarcel++;
     }
 
     public float getPagoAlquileres() {
@@ -122,7 +133,7 @@ public class Jugador {
     }
 
     public void sumarTasasImpuestos(float tasasImpuestos) {
-        if (tasasImpuestos > 0){
+        if (tasasImpuestos > 0) {
             this.tasasImpuestos += tasasImpuestos;
         }
     }
@@ -131,7 +142,7 @@ public class Jugador {
         return vecesSalida;
     }
 
-    public void sumarVecesSalida(){
+    public void sumarVecesSalida() {
         this.vecesSalida++;
     }
 
@@ -139,8 +150,8 @@ public class Jugador {
         return premiosInversionesBote;
     }
 
-    public void sumarPremiosInversionesBote(float premiosInversionesBote){
-        if(premiosInversionesBote > 0){
+    public void sumarPremiosInversionesBote(float premiosInversionesBote) {
+        if (premiosInversionesBote > 0) {
             this.premiosInversionesBote += premiosInversionesBote;
         }
     }
@@ -193,6 +204,12 @@ public class Jugador {
         }
     }
 
+    public void eliminarEdificacion(String id) {
+        if (id != null) {
+            this.edificaciones.remove(id);
+        }
+    }
+
     public int getContadorEstarCarcere() {
         return this.contadorEstarCarcere;
     }
@@ -238,7 +255,7 @@ public class Jugador {
         }
     }
 
-    public void eliminarEdificacion(String id) {
+    public void eliminarCasa(String id) {
         if (id != null) {
             this.edificaciones.remove(id);
         }
@@ -248,7 +265,7 @@ public class Jugador {
         int contador;
         float deuda;
         if (casilla.getDuenho() != null) {
-            if (!casilla.getDuenho().getNombre().equals(this.getNombre())) {
+            if (!casilla.getDuenho().getAvatar().getId().equals(this.getAvatar().getId())) {
                 if (!casilla.hayAlgunaHipoteca()) {
                     if ((casilla.getPosicion() == 12) || (casilla.getPosicion() == 28)) {
                         if ((taboleiro.getCasillaPosicion(12).getDuenho() != null) && (taboleiro.getCasillaPosicion(28).getDuenho() != null) &&
@@ -256,6 +273,8 @@ public class Jugador {
                             deuda = (float) (10 * dadoTotal * (Valor.VUELTA / 200));
                             this.restarFortuna(deuda);
                             this.dineroGastado += deuda;
+                            this.sumarPagoAlquileres(deuda);
+                            casilla.getDuenho().sumarCobroAlquileres(deuda);
                             casilla.getDuenho().sumarFortuna(deuda);
                             System.out.println("Caiste en una casilla de servicios que pertenece al avatar " + casilla.getDuenho().getAvatar().getId()
                                     + ", por lo que se le pagó un alquiler de " + deuda + "€.");
@@ -296,8 +315,7 @@ public class Jugador {
                             System.out.println("No tienes dinero suficiente para pagar el alquiler, por lo que debes hipotecar tus propiedades o estarás en bancarrota.");
                         }
                     }
-                }
-                else{
+                } else {
                     System.out.println("No se paga alquiler por esta casilla porque existe alguna que está hipotecada en el grupo.");
                 }
             }
@@ -311,6 +329,7 @@ public class Jugador {
                     this.restarFortuna((float) casilla.getValor());
                     this.dineroGastado += casilla.getValor();
                     taboleiro.getCasillaPosicion(20).sumarValor((float) casilla.getValor());
+                    this.sumarTasasImpuestos((float) casilla.getValor());
                     System.out.println("Caíste en una casilla de impuestos, por lo que se realizó el pago de " + casilla.getValor() + "€.");
                 } else {
                     System.out.println("No tienes dinero suficiente para pagar el impuesto, por lo que debes hipotecar tus propiedades o estarás en bancarrota.");
@@ -323,6 +342,7 @@ public class Jugador {
         if (casilla.getPosicion() == 20) {
             this.sumarFortuna((float) casilla.getValor());
             casilla.setVecesCasilla(this);
+            this.sumarPremiosInversionesBote((float) casilla.getValor());
             System.out.println("Caíste en el Parking, por lo que cobras el total acumulado que es de: " + casilla.getValor() + "€.");
             casilla.SetValor(0);
         }
@@ -364,12 +384,10 @@ public class Jugador {
                         } else {
                             System.out.println("No tienes suficiente dinero para comprar esta casilla.");
                         }
-                    }
-                    else{
-                        if (this.getNombre().equals(casilla.getDuenhoAnterior())){
+                    } else {
+                        if (this.getNombre().equals(casilla.getDuenhoAnterior())) {
                             System.out.println("Esta casilla está hipotecada. Si quieres hacerte con ella debes deshipotecarla.");
-                        }
-                        else{
+                        } else {
                             System.out.println("Esta casilla está hipotecada. Para poder comprarla debes ser su dueño anterior.");
                         }
                     }
@@ -382,10 +400,10 @@ public class Jugador {
         }
     }
 
-    public void eliminarPropiedad(Casilla casilla){
-        if (this.propiedades.contains(casilla)){
+    public void eliminarPropiedad(Casilla casilla) {
+        if (this.propiedades.contains(casilla)) {
             this.propiedades.remove(casilla);
-        }else{
+        } else {
             System.out.println("No se le puede quitar a un jugador una propiedad que ya no le pertenecía.");
         }
     }

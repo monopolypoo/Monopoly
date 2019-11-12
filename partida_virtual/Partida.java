@@ -148,40 +148,50 @@ public class Partida {
     }
 
     public void estadisticas(Taboleiro taboleiro) {
-        String texto;
-        texto = "{\n\tCasilla más rentable: " + casillaMasRentable() +
-                "\n\tGrupo más rentable: " + grupoMasRentable() +
-                "\n\tCasilla más frecuentada: " + casillaFrecuentada(taboleiro) +
-                "\n\tJugador más vueltas: " + jugadorMasVueltas() +
-                "\n\tJugador más veces dados: " + jugadorMasDados() +
-                "\n\tJugador en cabeza: " + jugadorCabeza() +
-                "\n}";
+        String texto = "Taboleiro non inicializado.";
+        if (taboleiro != null) {
+            texto = "{\n\tCasilla más rentable: " + casillaMasRentable() +
+                    "\n\tGrupo más rentable: " + grupoMasRentable() +
+                    "\n\tCasilla más frecuentada: " + casillaFrecuentada(taboleiro) +
+                    "\n\tJugador más vueltas: " + jugadorMasVueltas() +
+                    "\n\tJugador más veces dados: " + jugadorMasDados() +
+                    "\n\tJugador en cabeza: " + jugadorCabeza() +
+                    "\n}";
+        }
         System.out.println(texto);
     }
 
     public void estadisticas_jugador(Jugador jugador) {
-        String texto = "";
+        String texto = "Jugador non encontrado.";
         if (jugador != null) {
             if (this.getJugadores().containsKey(jugador.getNombre())) {
                 texto = "{\n\tDinero invertido: " +
-                        "\n\tPago tasas impuestos: ";
+                        "\n\tPago tasas impuestos: " + jugador.getTasasImpuestos() +
+                        "\n\tPago de alquileres: " + jugador.getPagoAlquileres() +
+                        "\n\tCobro de alquileres: " + jugador.getCobroAlquileres() +
+                        "\n\tPasar por la casilla de salida: " + jugador.getVecesSalida() +
+                        "\n\tPremios, inversiones o bote: " + jugador.getPremiosInversionesBote() +
+                        "\n\tVeces en la cárcel: " + jugador.getVecesCarcel() +
+                        "\n}";
             }
         }
         System.out.println(texto);
     }
 
-    public String casillaFrecuentada(Taboleiro taboleiro){
+    public String casillaFrecuentada(Taboleiro taboleiro) {
         String texto = "";
         String[] datos;
         int veces = 0;
 
-        for (Casilla casilla : taboleiro.getCasillas().values()){
-            for(Jugador jugador : this.jugadores.values()){
-                if(casilla.getVecesCasilla().containsKey(jugador.getAvatar().getId())){
+        for (Casilla casilla : taboleiro.getCasillas().values()) {
+            for (Jugador jugador : this.jugadores.values()) {
+                if (casilla.getVecesCasilla().containsKey(jugador.getAvatar().getId())) {
                     datos = casilla.getVecesCasilla().get(jugador.getAvatar().getId());
-                    if(veces < Integer.parseInt(datos[1])){
+                    if (veces < Integer.parseInt(datos[1])) {
                         veces = Integer.parseInt(datos[1]);
                         texto = casilla.getNombreSinEspacio();
+                    } else if (veces == Integer.parseInt(datos[1])) {
+                        texto += casilla.getNombreSinEspacio();
                     }
                 }
             }
@@ -189,28 +199,32 @@ public class Partida {
         return texto;
     }
 
-    public String jugadorCabeza(){
+    public String jugadorCabeza() {
         String texto = "";
         float dinero = 0;
 
-        for(Jugador jugador : this.jugadores.values()){
-            if(dinero < jugador.getFortuna()){
+        for (Jugador jugador : this.jugadores.values()) {
+            if (dinero < jugador.getFortuna()) {
                 dinero = jugador.getFortuna();
                 texto = jugador.getNombre();
+            } else if (dinero == jugador.getFortuna()) {
+                texto += jugador.getNombre();
             }
         }
 
-        return  texto;
+        return texto;
     }
 
-    public String jugadorMasDados(){
+    public String jugadorMasDados() {
         String texto = "";
         int veces = 0;
 
-        for (Jugador jugador: this.jugadores.values()){
-            if(veces <= jugador.getVecesDados()){
+        for (Jugador jugador : this.jugadores.values()) {
+            if (veces < jugador.getVecesDados()) {
                 veces = jugador.getVecesDados();
                 texto = jugador.getNombre();
+            } else if (veces == jugador.getVecesDados()) {
+                texto += jugador.getNombre();
             }
         }
 
@@ -222,9 +236,11 @@ public class Partida {
         int veces = 0;
 
         for (Jugador jugador : this.jugadores.values()) {
-            if (veces <= jugador.getVecesSalida()) {
+            if (veces < jugador.getVecesSalida()) {
                 veces = jugador.getVecesSalida();
                 texto = jugador.getNombre();
+            } else if (veces == jugador.getVecesSalida()) {
+                texto += jugador.getNombre();
             }
         }
 
