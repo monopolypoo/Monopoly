@@ -10,12 +10,15 @@ public class Avatar {
     private String tipo;
     private Jugador jugador;
     private Casilla casilla;
+    private boolean modoAvanzado;
 
     public Avatar() {
         this.id = "banca";
+        this.modoAvanzado = false;
     }
 
     public Avatar(String tipo, Jugador jugador, ArrayList<Jugador> jugadores, Casilla casilla) {
+        this.modoAvanzado = false;
         tipo = tipo.toLowerCase();
         if (tipo.equals("sombrero") || tipo.equals("esfinge") || tipo.equals("coche") || tipo.equals("pelota"))
             this.tipo = tipo;
@@ -29,6 +32,14 @@ public class Avatar {
         this.jugador = jugador;
         this.generarId(jugadores);
         this.casilla = casilla;
+    }
+
+    public boolean getModoAvanzado() {
+        return modoAvanzado;
+    }
+
+    public void setModoAvanzado(boolean modoAvanzado) {
+        this.modoAvanzado = modoAvanzado;
     }
 
     private boolean idUnico(String id, ArrayList<Jugador> jugadores) {

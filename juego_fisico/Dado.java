@@ -15,14 +15,18 @@ public class Dado {
     private int dadoTotal;
 
     public Dado() {
-
+        this.dado1 = 0;
+        this.dado2 = 0;
+        this.iguales = false;
+        this.posActual = 0;
+        this.posSiguiente = 0;
+        this.dadoTotal = 0;
     }
     // NO se permite ponerle valor predeterminado a ningún campo del dado ya que sería trucar la "aletoriedad" de
     // los mismos
 
     // Tampoco se permite saber el valor de los dados por separado, no hay que saberlo, ni los campos calculados
     // de posActual y posSiguiente
-
 
     public void generarValorDados(Dado dado) throws InterruptedException {
         Random ale = new Random(System.currentTimeMillis()); //pone una semilla nueva de cada vez
@@ -63,30 +67,54 @@ public class Dado {
 
         this.posActual = jugador.getAvatar().getCasilla().getPosicion();
         taboleiro.getCasillaPosicion(this.posActual).eliminarAvatar(jugador.getAvatar().getId());
-        this.posSiguiente = this.posActual + this.dadoTotal;
-        if (this.posSiguiente > 39) {
-            jugador.sumarFortuna(Valor.VUELTA);
-            jugador.sumarVecesSalida();
-            taboleiro.getCasillaPosicion(0).setVecesCasilla(jugador);
-            System.out.println("Has pasado por la casilla de salida, cobras: " + Valor.VUELTA + "€.");
-            if (taboleiro.getCasillaPosicion(0).isSubirPrecio()) {
-                taboleiro.subirPrecios();
+
+        if (!jugador.getAvatar().getModoAvanzado()) {
+            this.posSiguiente = this.posActual + this.dadoTotal;
+            if (this.posSiguiente > 39) {
+                jugador.sumarFortuna(Valor.VUELTA);
+                jugador.sumarVecesSalida();
+                taboleiro.getCasillaPosicion(0).setVecesCasilla(jugador);
+                System.out.println("Has pasado por la casilla de salida, cobras: " + Valor.VUELTA + "€.");
+                if (taboleiro.getCasillaPosicion(0).isSubirPrecio()) {
+                    taboleiro.subirPrecios();
+                }
+                taboleiro.subirPreciosTotal(menu);
             }
-            taboleiro.subirPreciosTotal(menu);
-        }
-        if (this.posSiguiente == 30) {
-            jugador.irCarcere(taboleiro);
-            System.out.println("Caíste en la casilla Ir Cárcel, por lo que ahora estás en la cárcel.");
-            taboleiro.getCasillaPosicion(10).setAvatar(jugador.getAvatar());
-            jugador.sumarVecesCarcel();
-            taboleiro.setContadorVueltas(0);
-        } else {
-            this.posSiguiente = this.posSiguiente % 40;
-            casillaSiguiente = taboleiro.getCasillaPosicion(this.posSiguiente);
-            jugador.getAvatar().setCasilla(casillaSiguiente);
-            taboleiro.getCasillaPosicion(this.posSiguiente).setAvatar(jugador.getAvatar());
-            if (this.posSiguiente != 10 && this.posSiguiente != 20 && this.posSiguiente != 0) {
-                taboleiro.getCasillaPosicion(this.posSiguiente).setVecesCasilla(jugador);
+            if (this.posSiguiente == 30) {
+                jugador.irCarcere(taboleiro);
+                System.out.println("Caíste en la casilla Ir Cárcel, por lo que ahora estás en la cárcel.");
+                taboleiro.getCasillaPosicion(10).setAvatar(jugador.getAvatar());
+                jugador.sumarVecesCarcel();
+                taboleiro.setContadorVueltas(0);
+            } else {
+                this.posSiguiente = this.posSiguiente % 40;
+                casillaSiguiente = taboleiro.getCasillaPosicion(this.posSiguiente);
+                jugador.getAvatar().setCasilla(casillaSiguiente);
+                taboleiro.getCasillaPosicion(this.posSiguiente).setAvatar(jugador.getAvatar());
+                if (this.posSiguiente != 10 && this.posSiguiente != 20 && this.posSiguiente != 0) {
+                    taboleiro.getCasillaPosicion(this.posSiguiente).setVecesCasilla(jugador);
+                }
+            }
+        } else{
+            switch (jugador.getAvatar().getTipo()){
+                case "coche":
+                    modoCoche();
+                    break;
+
+                case "pelota":
+
+                    break;
+
+                case "esfinge":
+
+                    break;
+
+                case "sombrero":
+
+                    break;
+
+                default:
+                    System.out.println("ERROR. Se lanzarán los dados normal.");
             }
         }
     }
@@ -95,12 +123,16 @@ public class Dado {
         return this.iguales;
     }
 
+    public void modoCoche(){
+        
+    }
+
     public String textoLanzarDados(Taboleiro taboleiro) {
         String texto;
         int sumaDados = this.dado1 + this.dado2;
         texto = " avanza " + sumaDados + " posiciones, desde " + taboleiro.getCasillaPosicion(this.posActual).getNombreSinEspacio() +
                 " hasta " + taboleiro.getCasillaPosicion(this.posSiguiente).getNombreSinEspacio() + " pagáronse " +
-                + taboleiro.getCasillaPosicion(this.posSiguiente).getValorAlquiler() + "€."; // Falta pagaronse
+                +taboleiro.getCasillaPosicion(this.posSiguiente).getValorAlquiler() + "€."; // Falta pagaronse
         return texto;
     }
 }
