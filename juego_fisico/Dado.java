@@ -61,7 +61,6 @@ public class Dado {
 
     public void lanzarDados(Jugador jugador, Taboleiro taboleiro, Menu menu) throws InterruptedException {
 
-        Casilla casillaSiguiente;
         this.dadoTotal = lanzarLosDados();
         jugador.sumarVecesdados();
 
@@ -69,36 +68,11 @@ public class Dado {
         taboleiro.getCasillaPosicion(this.posActual).eliminarAvatar(jugador.getAvatar().getId());
 
         if (!jugador.getAvatar().getModoAvanzado()) {
-            this.posSiguiente = this.posActual + this.dadoTotal;
-            if (this.posSiguiente > 39) {
-                jugador.sumarFortuna(Valor.VUELTA);
-                jugador.sumarVecesSalida();
-                taboleiro.getCasillaPosicion(0).setVecesCasilla(jugador);
-                System.out.println("Has pasado por la casilla de salida, cobras: " + Valor.VUELTA + "€.");
-                if (taboleiro.getCasillaPosicion(0).isSubirPrecio()) {
-                    taboleiro.subirPrecios();
-                }
-                taboleiro.subirPreciosTotal(menu);
-            }
-            if (this.posSiguiente == 30) {
-                jugador.irCarcere(taboleiro);
-                System.out.println("Caíste en la casilla Ir Cárcel, por lo que ahora estás en la cárcel.");
-                taboleiro.getCasillaPosicion(10).setAvatar(jugador.getAvatar());
-                jugador.sumarVecesCarcel();
-                taboleiro.setContadorVueltas(0);
-            } else {
-                this.posSiguiente = this.posSiguiente % 40;
-                casillaSiguiente = taboleiro.getCasillaPosicion(this.posSiguiente);
-                jugador.getAvatar().setCasilla(casillaSiguiente);
-                taboleiro.getCasillaPosicion(this.posSiguiente).setAvatar(jugador.getAvatar());
-                if (this.posSiguiente != 10 && this.posSiguiente != 20 && this.posSiguiente != 0) {
-                    taboleiro.getCasillaPosicion(this.posSiguiente).setVecesCasilla(jugador);
-                }
-            }
-        } else{
-            switch (jugador.getAvatar().getTipo()){
+            modoNormal(jugador, taboleiro, menu);
+        } else {
+            switch (jugador.getAvatar().getTipo()) {
                 case "coche":
-                    modoCoche();
+                    modoCoche(jugador, taboleiro, menu);
                     break;
 
                 case "pelota":
@@ -123,8 +97,50 @@ public class Dado {
         return this.iguales;
     }
 
-    public void modoCoche(){
-        
+    public void modoCoche(Jugador jugador, Taboleiro taboleiro, Menu menu) {
+        if (jugador.getAvatar().getContadorCoche() < 3 && this.dadoTotal > 4) {
+            this.posSiguiente = this.posActual + this.dadoTotal;
+            modoNormal(jugador, taboleiro, menu);
+            jugador.getAvatar().sumarContadorCoche();
+        } else if (this.dadoTotal < 4) {
+            this.posSiguiente = this.posActual - this.dadoTotal;
+            if (this.posSiguiente < 0) {
+                this.posSiguiente += 39;
+            }
+            modoNormal(jugador, taboleiro, menu);
+            jugador.getAvatar().setContadorCoche(0);
+            jugador.getAvatar().setCompraCoche(false);
+            jugador.getAvatar().setPenalizacion(0);
+            jugador.getAvatar().setLanzarDadosCoche(false);
+        }
+    }
+
+    public void modoNormal(Jugador jugador, Taboleiro taboleiro, Menu menu) {
+        Casilla casillaSiguiente;
+        if (this.posSiguiente > 39) {
+            jugador.sumarFortuna(Valor.VUELTA);
+            jugador.sumarVecesSalida();
+            System.out.println("Has pasado por la casilla de salida, cobras: " + Valor.VUELTA + "€.");
+            if (taboleiro.getCasillaPosicion(0).isSubirPrecio()) {
+                taboleiro.subirPrecios();
+            }
+            taboleiro.subirPreciosTotal(menu);
+        }
+        if (this.posSiguiente == 30) {
+            jugador.irCarcere(taboleiro);
+            System.out.println("Caíste en la casilla Ir Cárcel, por lo que ahora estás en la cárcel.");
+            taboleiro.getCasillaPosicion(10).setAvatar(jugador.getAvatar());
+            jugador.sumarVecesCarcel();
+            taboleiro.setContadorVueltas(0);
+        } else {
+            this.posSiguiente = this.posSiguiente % 40;
+            casillaSiguiente = taboleiro.getCasillaPosicion(this.posSiguiente);
+            jugador.getAvatar().setCasilla(casillaSiguiente);
+            taboleiro.getCasillaPosicion(this.posSiguiente).setAvatar(jugador.getAvatar());
+            if (this.posSiguiente != 10 && this.posSiguiente != 20 && this.posSiguiente != 0) {
+                taboleiro.getCasillaPosicion(this.posSiguiente).setVecesCasilla(jugador);
+            }
+        }
     }
 
     public String textoLanzarDados(Taboleiro taboleiro) {
