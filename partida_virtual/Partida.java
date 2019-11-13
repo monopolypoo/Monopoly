@@ -78,6 +78,7 @@ public class Partida {
         Iterator<Jugador> jug_i = this.jugadores.values().iterator();
 
         if (taboleiro != null) {
+            texto = "";
             while (jug_i.hasNext()) {
                 Jugador jug = jug_i.next();
                 for (String id : jug.getEdificaciones()) {
@@ -168,7 +169,7 @@ public class Partida {
         String texto = "Jugador non encontrado.";
         if (jugador != null) {
             if (this.getJugadores().containsKey(jugador.getNombre())) {
-                texto = "{\n\tDinero invertido: " +
+                texto = "{\n\tDinero invertido: " + jugador.getDineroInvertido() +
                         "\n\tPago tasas impuestos: " + jugador.getTasasImpuestos() +
                         "\n\tPago de alquileres: " + jugador.getPagoAlquileres() +
                         "\n\tCobro de alquileres: " + jugador.getCobroAlquileres() +
