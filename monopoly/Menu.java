@@ -145,38 +145,43 @@ public class Menu {
                                 texto = "";
                                 if (!this.dadosLanzados) {
                                     if (!this.jugadorActual.getEstarCarcere()) {
-                                        this.dados.lanzarDados(this.jugadorActual, this.taboleiro, this);
-                                        partidaEmpezada = true;
-                                        if (this.dados.getIguales()) {
-                                            this.dadosLanzados = false;
-                                            this.sigueTurno = true;
-                                            this.contadorDobles++;
-                                            this.poderComprar = true;
-                                            texto = " Sacastes dobles! Llevas: " + this.contadorDobles + " veces.";
+                                        if (this.jugadorActual.getAvatar().isLanzarDados()) {
+                                            this.dados.lanzarDados(this.jugadorActual, this.taboleiro, this);
+                                            partidaEmpezada = true;
+                                            if (this.dados.getIguales()) {
+                                                this.dadosLanzados = false;
+                                                this.sigueTurno = true;
+                                                this.contadorDobles++;
+                                                this.poderComprar = true;
+                                                texto = " Sacastes dobles! Llevas: " + this.contadorDobles + " veces.";
+                                            } else {
+                                                this.dadosLanzados = true;
+                                                this.sigueTurno = false;
+                                                this.poderComprar = true;
+                                                this.contadorDobles = 0;
+                                            }
+                                            if (this.contadorDobles == 3) {
+                                                this.jugadorActual.irCarcere(this.taboleiro);
+                                                this.dadosLanzados = true;
+                                                this.sigueTurno = false;
+                                                this.poderComprar = false;
+                                                this.contadorDobles = 0;
+                                                texto = "Sacastes tres dobles seguidos, por lo que tienes que ir a la cárcel!";
+                                                this.taboleiro.getCasillaPosicion(this.jugadorActual.getAvatar().getCasilla().getPosicion()).eliminarAvatar(this.jugadorActual.getAvatar().getId());
+                                                this.taboleiro.getCasillaPosicion(10).setAvatar(this.jugadorActual.getAvatar());
+                                                System.out.println(this.taboleiro);
+                                                System.out.println("El avatar " + this.jugadorActual.getAvatar().getId() + this.dados.textoLanzarDados(this.taboleiro) + texto);
+                                            } else {
+                                                System.out.println(taboleiro);
+                                                System.out.println("El avatar " + this.jugadorActual.getAvatar().getId() + this.dados.textoLanzarDados(this.taboleiro) + texto);
+                                                this.jugadorActual.pagarAlquiler(this.jugadorActual.getAvatar().getCasilla(), this.dados.getDadoTotal(), this.taboleiro);
+                                                this.jugadorActual.pagarImpuestos(this.jugadorActual.getAvatar().getCasilla(), this.taboleiro);
+                                                this.jugadorActual.cobrarParking(this.jugadorActual.getAvatar().getCasilla());
+                                            }
                                         } else {
-                                            this.dadosLanzados = true;
-                                            this.sigueTurno = false;
-                                            this.poderComprar = true;
-                                            this.contadorDobles = 0;
+                                            System.out.println("Estás en modo avanzado de Coche y no puedes lanzar los dados en este turno.");
                                         }
-                                        if (this.contadorDobles == 3) {
-                                            this.jugadorActual.irCarcere(this.taboleiro);
-                                            this.dadosLanzados = true;
-                                            this.sigueTurno = false;
-                                            this.poderComprar = false;
-                                            this.contadorDobles = 0;
-                                            texto = "Sacastes tres dobles seguidos, por lo que tienes que ir a la cárcel!";
-                                            this.taboleiro.getCasillaPosicion(this.jugadorActual.getAvatar().getCasilla().getPosicion()).eliminarAvatar(this.jugadorActual.getAvatar().getId());
-                                            this.taboleiro.getCasillaPosicion(10).setAvatar(this.jugadorActual.getAvatar());
-                                            System.out.println(this.taboleiro);
-                                            System.out.println("El avatar " + this.jugadorActual.getAvatar().getId() + this.dados.textoLanzarDados(this.taboleiro) + texto);
-                                        } else {
-                                            System.out.println(taboleiro);
-                                            System.out.println("El avatar " + this.jugadorActual.getAvatar().getId() + this.dados.textoLanzarDados(this.taboleiro) + texto);
-                                            this.jugadorActual.pagarAlquiler(this.jugadorActual.getAvatar().getCasilla(), this.dados.getDadoTotal(), this.taboleiro);
-                                            this.jugadorActual.pagarImpuestos(this.jugadorActual.getAvatar().getCasilla(), this.taboleiro);
-                                            this.jugadorActual.cobrarParking(this.jugadorActual.getAvatar().getCasilla());
-                                        }
+
                                     } else {
                                         this.dados.lanzarLosDados();
                                         if (this.dados.getIguales()) {
@@ -221,6 +226,14 @@ public class Menu {
                     if (comando.length == 2) {
                         if (comando[1].equals("turno")) {
                             if (!this.sigueTurno) {
+                                this.jugadorActual.getAvatar().setCompraCoche(false);
+                                if (!this.jugadorActual.getAvatar().isLanzarDados()) {
+                                    this.jugadorActual.getAvatar().sumarPenalizacion();
+                                    if (this.jugadorActual.getAvatar().getPenalizacion() == 2) {
+                                        this.jugadorActual.getAvatar().setPenalizacion(0);
+                                        this.jugadorActual.getAvatar().setLanzarDadosCoche(true);
+                                    }
+                                }
                                 calcularJugadores();
                                 this.dadosLanzados = false;
                                 this.sigueTurno = true;
@@ -289,6 +302,11 @@ public class Menu {
                     if (comando.length == 2) {
                         if (comando[1].equals(this.jugadorActual.getAvatar().getCasilla().getNombreSinEspacios())) {
                             if (!this.jugadorActual.getEstarCarcere()) {
+                                if (this.getJugadorActual().getAvatar().getModoAvanzado() && !this.jugadorActual.getAvatar().isCompraCoche() && this.poderComprar) {
+                                    this.jugadorActual.comprarCasilla(this.jugadorActual.getAvatar().getCasilla(), this.taboleiro);
+                                    this.taboleiro.setContadorVueltas(0);
+                                    this.jugadorActual.getAvatar().setCompraCoche(true);
+                                }
                                 if (this.poderComprar) {
                                     this.jugadorActual.comprarCasilla(this.jugadorActual.getAvatar().getCasilla(), this.taboleiro);
                                     this.taboleiro.setContadorVueltas(0);
@@ -416,6 +434,15 @@ public class Menu {
                     }
                     break;
 
+                case "cambiar":
+                    if (comando.length == 2) {
+                        if (!this.jugadorActual.getAvatar().getModoAvanzado())
+                            this.jugadorActual.getAvatar().setModoAvanzado(true);
+                        else
+                            this.jugadorActual.getAvatar().setModoAvanzado(false);
+                    }
+                    break;
+
                 case "abandonar":
                     System.out.println("Abandonando partida...");
                     seguir = false;
@@ -496,6 +523,18 @@ public class Menu {
             i++;
         }
         return null;
+    }
+
+    public void setDadosLanzados(boolean dadosLanzados) {
+        this.dadosLanzados = dadosLanzados;
+    }
+
+    public void setSigueTurno(boolean sigueTurno) {
+        this.sigueTurno = sigueTurno;
+    }
+
+    public Jugador getJugadorActual() {
+        return jugadorActual;
     }
 
     public void calcularJugadores() {
