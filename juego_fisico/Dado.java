@@ -76,7 +76,7 @@ public class Dado {
                     break;
 
                 case "pelota":
-
+					modoPelota(jugador, taboleiro, menu);
                     break;
 
                 case "esfinge":
@@ -139,6 +139,55 @@ public class Dado {
             taboleiro.getCasillaPosicion(this.posSiguiente).setAvatar(jugador.getAvatar());
             if (this.posSiguiente != 10 && this.posSiguiente != 20 && this.posSiguiente != 0) {
                 taboleiro.getCasillaPosicion(this.posSiguiente).setVecesCasilla(jugador);
+            }
+        }
+    }
+
+    public int sumarImpar(int vez, int num) {
+        if (vez == 0) {
+            return 5;
+        } else {
+            return num + 2;
+        }
+    }
+
+    public int restarImpar(int num) {
+        if (num == 4) {
+            return 3;
+        } else {
+            return num;
+        }
+    }
+
+    public void modoPelota(Jugador jugador, Taboleiro taboleiro, Menu menu) {
+        int num = 0, vez = 0;
+
+        if (this.dadoTotal > 4) {
+            while (true) {
+                num = sumarImpar(vez, num);
+                this.posSiguiente = this.posActual + num;
+                modoNormal(jugador, taboleiro, menu);
+                if ((this.posSiguiente == 30) || (num >= this.dadoTotal)) {
+                    return;
+                }
+                if ((num + 1) == this.dadoTotal){
+                    this.posSiguiente = this.posSiguiente + 1;
+                    modoNormal(jugador, taboleiro, menu);
+                }
+                vez++;
+            }
+        } else {
+            num = this.dadoTotal;
+            while (true) {
+                num = restarImpar(num);
+                this.posSiguiente = this.posActual - num;
+                if (this.posSiguiente < 0){
+                    this.posSiguiente = 40 + this.posSiguiente;
+                }
+                modoNormal(jugador, taboleiro, menu);
+                if ((this.posSiguiente == 30) || (num >= this.dadoTotal)) {
+                    return;
+                }
             }
         }
     }
