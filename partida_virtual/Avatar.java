@@ -1,6 +1,8 @@
 package partida_virtual;
 
 import juego_fisico.Casilla;
+import juego_fisico.Taboleiro;
+import monopoly.Menu;
 
 import java.util.ArrayList;
 import java.util.Random;
@@ -11,10 +13,15 @@ public class Avatar {
     private Jugador jugador;
     private Casilla casilla;
     private boolean modoAvanzado;
+    private boolean lanzarDadosCoche;
+    private boolean compraCoche;
+    private int contadorCoche;
+    private int penalizacion;
 
     public Avatar() {
         this.id = "banca";
         this.modoAvanzado = false;
+        this.lanzarDadosCoche = false;
     }
 
     public Avatar(String tipo, Jugador jugador, ArrayList<Jugador> jugadores, Casilla casilla) {
@@ -34,12 +41,73 @@ public class Avatar {
         this.casilla = casilla;
     }
 
+    public int getPenalizacion() {
+        return penalizacion;
+    }
+
+    public void sumarPenalizacion() {
+        ++this.penalizacion;
+    }
+
+    public void setPenalizacion(int penalizacion) {
+        if (penalizacion == 0)
+            this.penalizacion = penalizacion;
+    }
+
+    public int getContadorCoche() {
+        return contadorCoche;
+    }
+
+    public void sumarContadorCoche(){
+        ++this.contadorCoche;
+    }
+
+    public void setContadorCoche(int contadorCoche){
+        if (contadorCoche == 0){
+            this.contadorCoche = 0;
+        }
+    }
+
+    public boolean isCompraCoche() {
+        return compraCoche;
+    }
+
+    public void setCompraCoche(boolean compraCoche) {
+        this.compraCoche = compraCoche;
+    }
+
     public boolean getModoAvanzado() {
         return modoAvanzado;
     }
 
     public void setModoAvanzado(boolean modoAvanzado) {
         this.modoAvanzado = modoAvanzado;
+    }
+
+    public boolean isLanzarDados() {
+        return lanzarDadosCoche;
+    }
+
+    public void setLanzarDadosCoche(boolean lanzarDadosCoche) {
+        this.lanzarDadosCoche = lanzarDadosCoche;
+    }
+
+    public void sumarLanzardados(Menu menu) {
+        if (this.contadorCoche < 2) {
+            menu.calcularJugadores();
+            menu.setDadosLanzados(false);
+            menu.setSigueTurno(true);
+            System.out.println("El jugador actual es " + menu.getJugadorActual().getNombre() + ".");
+
+            if (menu.getJugadorActual().getEstarCarcere()) {
+                System.out.println("Estás en la cárcel, por lo que debes tirar los dados para obtener dobles.");
+            }
+            ++this.contadorCoche;
+        } else {
+            this.lanzarDadosCoche = false;
+            this.contadorCoche = 0;
+        }
+
     }
 
     private boolean idUnico(String id, ArrayList<Jugador> jugadores) {
