@@ -15,6 +15,7 @@ public class Avatar {
     private boolean modoAvanzado;
     private boolean lanzarDadosCoche;
     private boolean compraCoche;
+    private boolean isSubirPenalizacion;
     private int contadorCoche;
     private int penalizacion;
 
@@ -39,6 +40,7 @@ public class Avatar {
         this.jugador = jugador;
         this.generarId(jugadores);
         this.casilla = casilla;
+        this.penalizacion = 5; // valor mayor que 2
     }
 
     public int getPenalizacion() {
@@ -68,6 +70,14 @@ public class Avatar {
         }
     }
 
+    public boolean isSubirPenalizacion() {
+        return isSubirPenalizacion;
+    }
+
+    public void setSubirPenalizacion(boolean subirPenalizacion) {
+        this.isSubirPenalizacion = subirPenalizacion;
+    }
+
     public boolean isCompraCoche() {
         return compraCoche;
     }
@@ -93,21 +103,22 @@ public class Avatar {
     }
 
     public void sumarLanzardados(Menu menu) {
-        if (this.contadorCoche < 2) {
-            menu.calcularJugadores();
+        if (this.contadorCoche < 3 && this.lanzarDadosCoche) {
             menu.setDadosLanzados(false);
             menu.setSigueTurno(true);
-            System.out.println("El jugador actual es " + menu.getJugadorActual().getNombre() + ".");
+            System.out.println("El jugador " + menu.getJugadorActual().getNombre() + " mantiene el turno.");
 
             if (menu.getJugadorActual().getEstarCarcere()) {
                 System.out.println("Estás en la cárcel, por lo que debes tirar los dados para obtener dobles.");
             }
-            ++this.contadorCoche;
+            this.sumarContadorCoche();
         } else {
+            System.out.println("Ya tiraste los dados el número máximo en tu modo avanzado");
+            menu.setDadosLanzados(true);
+            menu.setSigueTurno(false);
             this.lanzarDadosCoche = false;
             this.contadorCoche = 0;
         }
-
     }
 
     private boolean idUnico(String id, ArrayList<Jugador> jugadores) {
