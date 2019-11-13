@@ -4,6 +4,7 @@ package partida_virtual;
 import juego_fisico.Casilla;
 import juego_fisico.Grupo;
 import juego_fisico.Taboleiro;
+import monopoly.Valor;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -174,7 +175,7 @@ public class Partida {
                         "\n\tPago tasas impuestos: " + jugador.getTasasImpuestos() +
                         "\n\tPago de alquileres: " + jugador.getPagoAlquileres() +
                         "\n\tCobro de alquileres: " + jugador.getCobroAlquileres() +
-                        "\n\tPasar por la casilla de salida: " + jugador.getVecesSalida() +
+                        "\n\tPasar por la casilla de salida: " + jugador.getVecesSalida() * Valor.VUELTA +
                         "\n\tPremios, inversiones o bote: " + jugador.getPremiosInversionesBote() +
                         "\n\tVeces en la cárcel: " + jugador.getVecesCarcel() +
                         "\n}";
@@ -189,6 +190,7 @@ public class Partida {
         int veces = 0;
 
         if (taboleiro != null) {
+            texto = "";
             for (Casilla casilla : taboleiro.getCasillas().values()) {
                 for (Jugador jugador : this.jugadores.values()) {
                     if (casilla.getVecesCasilla().containsKey(jugador.getAvatar().getId())) {
