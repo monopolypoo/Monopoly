@@ -448,6 +448,8 @@ public class Casilla {
                             id = taboleiro.idCasa(this);
                             jugador.añadirEdificacion(id);
                             this.idCasas.add(id);
+                            jugador.sumarDineroInvertido((float) this.getValorCasa());
+                            jugador.sumarPremiosInversionesBote((float) this.getValorCasa());
                             System.out.println("El avatar " + this.duenho.getAvatar().getId() + " ha construído una casa en la casilla " + this.getNombreSinEspacio() + " por un valor de: " + this.valorCasa +
                                     "\nLa fortuna actual del jugador es de: " + this.duenho.getFortuna());
                         } else {
@@ -495,6 +497,8 @@ public class Casilla {
                             String id = taboleiro.idHotel(this);
                             jugador.añadirEdificacion(id);
                             this.idHoteles.add(id);
+                            jugador.sumarPremiosInversionesBote((float) this.getValorHotel());
+                            jugador.sumarDineroInvertido((float) this.getValorHotel());
                             eliminarCasas(jugador, taboleiro);
                             System.out.println("El avatar " + this.duenho.getAvatar().getId() + " ha construído un hotel en la casilla " + this.getNombreSinEspacio() + " por un valor de: " + this.valorHotel +
                                     "\nLa fortuna actual del jugador es de: " + this.duenho.getFortuna());
@@ -535,6 +539,8 @@ public class Casilla {
                             this.grupo.setNumeroPiscinas(this.grupo.getNumeroPiscinas() + 1);
                             String id = taboleiro.idPiscina(this);
                             jugador.añadirEdificacion(id);
+                            jugador.sumarDineroInvertido((float) this.getValorPiscina());
+                            jugador.sumarPremiosInversionesBote((float) this.getValorPiscina());
                             this.idPiscinas.add(id);
                             System.out.println("El avatar " + this.duenho.getAvatar().getId() + " ha construído una piscina en la casilla " + this.getNombreSinEspacio() + " por un valor de: " + this.valorPiscina +
                                     "\nLa fortuna actual del jugador es de: " + this.duenho.getFortuna());
@@ -575,6 +581,8 @@ public class Casilla {
                             this.grupo.setNumeroPistas(this.grupo.getNumeroPistas() + 1);
                             String id = taboleiro.idPista(this);
                             jugador.añadirEdificacion(id);
+                            jugador.sumarPremiosInversionesBote((float) this.getValorPistaDeporte());
+                            jugador.sumarDineroInvertido((float) this.getValorPistaDeporte());
                             this.idPistas.add(id);
                             System.out.println("El avatar " + this.duenho.getAvatar().getId() + " ha construído una pista de deporte en la casilla " + this.getNombreSinEspacio() + " por un valor de: " + this.valorPistaDeporte +
                                     "\nLa fortuna actual del jugador es de: " + this.duenho.getFortuna());
@@ -627,7 +635,7 @@ public class Casilla {
         }
     }
 
-    public void venderHotel(Jugador jugador, Taboleiro taboleiro, int numero){
+    public void venderHotel(Jugador jugador, Taboleiro taboleiro, int numero) {
         if (this.duenho != null) {
             if (jugador.getAvatar().getId().equals(this.duenho.getAvatar().getId())) {
                 if (this.numeroHoteles >= numero) {
@@ -657,7 +665,7 @@ public class Casilla {
         }
     }
 
-    public void venderPiscina(Jugador jugador, Taboleiro taboleiro, int numero){
+    public void venderPiscina(Jugador jugador, Taboleiro taboleiro, int numero) {
         if (this.duenho != null) {
             if (jugador.getAvatar().getId().equals(this.duenho.getAvatar().getId())) {
                 if (this.numeroPiscinas >= numero) {
@@ -687,7 +695,7 @@ public class Casilla {
         }
     }
 
-    public void venderPista(Jugador jugador, Taboleiro taboleiro, int numero){
+    public void venderPista(Jugador jugador, Taboleiro taboleiro, int numero) {
         if (this.duenho != null) {
             if (jugador.getAvatar().getId().equals(this.duenho.getAvatar().getId())) {
                 if (this.numeroPistas >= numero) {
