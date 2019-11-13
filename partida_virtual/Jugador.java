@@ -377,6 +377,8 @@ public class Jugador {
                             this.dineroGastado += casilla.getValor();
                             casilla.setDuenho(this);
                             this.propiedades.add(casilla);
+                            this.sumarDineroInvertido((float) casilla.getValor());
+                            this.sumarPremiosInversionesBote((float) casilla.getValor());
                             System.out.println("El jugador " + this.nombre + " compra la casilla " + casilla.getNombreSinEspacio()
                                     + " por " + casilla.getValor() + "€. Su fortuna actual es: " + this.fortuna + "€.");
                             taboleiro.getCasillasEnVenta().remove(casilla);
