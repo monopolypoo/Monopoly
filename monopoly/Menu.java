@@ -114,6 +114,9 @@ public class Menu {
                             case "enventa":
                                 this.taboleiro.listarEnVenta();
                                 break;
+                            case "edificios":
+                                this.partida.listarEdificios(this.taboleiro);
+                                break;
 
                             default:
                                 System.out.println("Comando incorrecto. Para ver los comandos disponibles escriba: Ver Comandos");
@@ -367,28 +370,28 @@ public class Menu {
                         switch (comando[1]) {
                             case "casa":
                             case "casas":
-                                if (this.taboleiro.getCasillas().containsKey(comando[2])){
+                                if (this.taboleiro.getCasillas().containsKey(comando[2])) {
                                     this.taboleiro.getCasillas().get(comando[2]).venderCasa(this.jugadorActual, taboleiro, numero);
                                 }
                                 break;
 
                             case "hotel":
                             case "hoteles":
-                                if (this.taboleiro.getCasillas().containsKey(comando[2])){
+                                if (this.taboleiro.getCasillas().containsKey(comando[2])) {
                                     this.taboleiro.getCasillas().get(comando[2]).venderHotel(this.jugadorActual, taboleiro, numero);
                                 }
                                 break;
 
                             case "piscina":
                             case "piscinas":
-                                if (this.taboleiro.getCasillas().containsKey(comando[2])){
+                                if (this.taboleiro.getCasillas().containsKey(comando[2])) {
                                     this.taboleiro.getCasillas().get(comando[2]).venderPiscina(this.jugadorActual, taboleiro, numero);
                                 }
                                 break;
 
                             case "pista":
                             case "pistas":
-                                if (this.taboleiro.getCasillas().containsKey(comando[2])){
+                                if (this.taboleiro.getCasillas().containsKey(comando[2])) {
                                     this.taboleiro.getCasillas().get(comando[2]).venderPista(this.jugadorActual, taboleiro, numero);
                                 }
                                 break;
