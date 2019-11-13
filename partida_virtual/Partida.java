@@ -46,9 +46,10 @@ public class Partida {
     }
 
     public void anhadeJugador(Jugador jugador) {
-        if (jugador != null)
+        if (jugador != null) {
             this.jugadores.put(jugador.getNombre(), jugador);
-        else {
+            this.avatares.put(jugador.getAvatar().getId(), jugador.getAvatar());
+        } else {
             jugador = new Jugador();
             if (!jugador.getAvatar().getId().equals("banca"))
                 this.avatares.put(jugador.getAvatar().getId(), jugador.getAvatar());
