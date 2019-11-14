@@ -22,6 +22,7 @@ public class Menu {
     private boolean poderComprar;
     private boolean esLeerArchivo = false;
     private int contadorDobles;
+    private Carta carta;
 
     public Menu() throws InterruptedException {
         boolean seguir = true;
@@ -32,6 +33,7 @@ public class Menu {
         this.sigueTurno = false;
         this.contadorDobles = 0;
         this.dadosLanzados = false;
+        this.carta = new Carta();
         boolean partidaEmpezada = false;
         boolean combinado = false;
         String[] comando, comando2;
