@@ -68,6 +68,7 @@ public class Dado {
         taboleiro.getCasillaPosicion(this.posActual).eliminarAvatar(jugador.getAvatar().getId());
 
         if (!jugador.getAvatar().getModoAvanzado()) {
+            this.posSiguiente = this.posActual + this.dadoTotal;
             modoNormal(jugador, taboleiro, menu);
         } else {
             switch (jugador.getAvatar().getTipo()) {
@@ -76,6 +77,7 @@ public class Dado {
                     break;
 
                 case "pelota":
+                    this.posSiguiente = this.posActual + this.dadoTotal;
 					modoPelota(jugador, taboleiro, menu);
                     break;
 
@@ -98,20 +100,24 @@ public class Dado {
     }
 
     public void modoCoche(Jugador jugador, Taboleiro taboleiro, Menu menu) {
-        if (jugador.getAvatar().getContadorCoche() < 3 && this.dadoTotal > 4) {
+        if (jugador.getAvatar().getContadorCoche() <= 3 && this.dadoTotal > 4) {
+            jugador.getAvatar().setModoCoche(true);
             this.posSiguiente = this.posActual + this.dadoTotal;
             modoNormal(jugador, taboleiro, menu);
-            jugador.getAvatar().sumarContadorCoche();
-        } else if (this.dadoTotal < 4) {
+            jugador.getAvatar().setLanzarDadosCoche(true);
+        } else if (this.dadoTotal <= 4) {
+            jugador.getAvatar().setModoCoche(false);
             this.posSiguiente = this.posActual - this.dadoTotal;
             if (this.posSiguiente < 0) {
                 this.posSiguiente += 39;
             }
             modoNormal(jugador, taboleiro, menu);
+            jugador.getAvatar().setSubirPenalizacion(true);
             jugador.getAvatar().setContadorCoche(0);
             jugador.getAvatar().setCompraCoche(false);
             jugador.getAvatar().setPenalizacion(0);
             jugador.getAvatar().setLanzarDadosCoche(false);
+            menu.setDadosLanzados(true);
         }
     }
 
@@ -196,8 +202,7 @@ public class Dado {
         String texto;
         int sumaDados = this.dado1 + this.dado2;
         texto = " avanza " + sumaDados + " posiciones, desde " + taboleiro.getCasillaPosicion(this.posActual).getNombreSinEspacio() +
-                " hasta " + taboleiro.getCasillaPosicion(this.posSiguiente).getNombreSinEspacio() + " pagáronse " +
-                +taboleiro.getCasillaPosicion(this.posSiguiente).getValorAlquiler() + "€."; // Falta pagaronse
+                " hasta " + taboleiro.getCasillaPosicion(this.posSiguiente).getNombreSinEspacio() + ".";
         return texto;
     }
 }
