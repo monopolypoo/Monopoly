@@ -1,32 +1,34 @@
 package partida_virtual;
 
 import java.util.ArrayList;
+import java.util.Random;
 
 public class Carta {
     private ArrayList<Carta> cartasSuerte;
     private ArrayList<Carta> cartasComunidad;
     private int tipo;
-    private String clase;
 
-    public Carta(int num, String cartas) {
+    public Carta() {
+        this.cartasSuerte = new ArrayList<>();
+        this.cartasComunidad = new ArrayList<>();
+        this.iniciarCartas("suerte");
+        this.iniciarCartas("cajaDeComunidad");
+    }
+
+    private Carta(int num, String cartas) {
         if (cartas != null) {
-            this.cartasSuerte = new ArrayList<>();
-            this.cartasComunidad = new ArrayList<>();
-            this.clase = null;
             if (cartas.equals("suerte")) {
-                this.clase = cartas;
                 if (num >= 1 && num <= 14)
                     this.tipo = num;
                 else
                     this.tipo = 0;
-                this.iniciarCartas(this.clase);
+                this.iniciarCartas(cartas);
             } else if (cartas.equals("cajaDeComunidad")) {
-                this.clase = cartas;
                 if (num >= 1 && num <= 10) {
                     this.tipo = num;
                 } else
                     this.tipo = 0;
-                this.iniciarCartas(this.clase);
+                this.iniciarCartas(cartas);
             }
         }
     }
@@ -62,8 +64,8 @@ public class Carta {
             this.cartasSuerte.add(cartaSuerte12);
             this.cartasSuerte.add(cartaSuerte13);
             this.cartasSuerte.add(cartaSuerte14);
-            
-        } else if(tipo.equals("cajaDeComunidad")){
+
+        } else if (tipo.equals("cajaDeComunidad")) {
             Carta cartaComunidad1 = new Carta(1, "cajaDeComunidad");
             Carta cartaComunidad2 = new Carta(2, "cajaDeComunidad");
             Carta cartaComunidad3 = new Carta(3, "cajaDeComunidad");
@@ -85,9 +87,46 @@ public class Carta {
             this.cartasComunidad.add(cartaComunidad8);
             this.cartasComunidad.add(cartaComunidad9);
             this.cartasComunidad.add(cartaComunidad10);
+        }
+    }
 
+    public ArrayList<Carta> getCartasComunidad() {
+        return cartasComunidad;
+    }
+
+    public ArrayList<Carta> getCartasSuerte() {
+        return cartasSuerte;
+    }
+
+    public int getTipo() {
+        return tipo;
+    }
+
+    public void lanzarCartaSuerte() {
+        int numero;
+        Carta cartita;
+
+        numero = (int) (Math.random() * 14 + 1);
+        if (numero >= 1 && numero <= 14) {
+            cartita = this.cartasSuerte.get(numero - 1);
+
+            // Según el tipo que es, pues, es único para cada una
+            switch (cartita.tipo) {
+                case 1:
+                    break;
+                case 2:
+                    break;
+                case 3:
+                    break;
+                case 4:
+                    break;
+                case 5:
+                    break;
+                case 6:
+                    break;
+                default:
+            }
         }
     }
 
 }
-
