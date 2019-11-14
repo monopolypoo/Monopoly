@@ -1,5 +1,8 @@
 package partida_virtual;
 
+import juego_fisico.Taboleiro;
+import monopoly.Menu;
+
 import java.util.ArrayList;
 import java.util.Random;
 
@@ -11,8 +14,8 @@ public class Carta {
     public Carta() {
         this.cartasSuerte = new ArrayList<>();
         this.cartasComunidad = new ArrayList<>();
-        this.iniciarCartas("suerte");
-        this.iniciarCartas("cajaDeComunidad");
+        //this.iniciarCartas("suerte");
+        //this.iniciarCartas("cajaDeComunidad");
     }
 
     private Carta(int num, String cartas) {
@@ -22,19 +25,20 @@ public class Carta {
                     this.tipo = num;
                 else
                     this.tipo = 0;
-                this.iniciarCartas(cartas);
+                //this.iniciarCartas(cartas);
             } else if (cartas.equals("cajaDeComunidad")) {
                 if (num >= 1 && num <= 10) {
                     this.tipo = num;
                 } else
                     this.tipo = 0;
-                this.iniciarCartas(cartas);
+                //this.iniciarCartas(cartas);
             }
         }
     }
 
     private void iniciarCartas(String tipo) {
         if (tipo.equals("suerte")) {
+            // No se pueden crear así!!!!
             Carta cartaSuerte1 = new Carta(1, "suerte");
             Carta cartaSuerte2 = new Carta(2, "suerte");
             Carta cartaSuerte3 = new Carta(3, "suerte");
@@ -102,7 +106,7 @@ public class Carta {
         return tipo;
     }
 
-    public void lanzarCartaSuerte() {
+    public void lanzarCartaSuerte(Jugador jugador, Taboleiro taboleiro, Menu menu) {
         int numero;
         Carta cartita;
 
@@ -113,6 +117,8 @@ public class Carta {
             // Según el tipo que es, pues, es único para cada una
             switch (cartita.tipo) {
                 case 1:
+                    System.out.println("Vas al aeropuerto y coges un avión. Si pasas por la casilla de Salida cobras 2 Millones €.");
+                    cartaSuerte_1(jugador, taboleiro, menu);
                     break;
                 case 2:
                     break;
@@ -124,9 +130,19 @@ public class Carta {
                     break;
                 case 6:
                     break;
+                case 7:
+                    break;
                 default:
             }
         }
     }
 
+    private void cartaSuerte_1(Jugador jugador, Taboleiro taboleiro, Menu menu) {
+        taboleiro.getCasillaPosicion(jugador.getAvatar().getCasilla().getPosicion()).eliminarAvatar(jugador.getAvatar().getId());
+        jugador.getAvatar().setCasilla(taboleiro.getCasillaPosicion(25));
+        System.out.println(taboleiro);
+        System.out.println("Te encuentras en el aeropuerto, ahora vas a coger un avion e irás hasta dónde te lleve.");
+    }
+
 }
+
