@@ -1,8 +1,7 @@
 package juego_fisico;
 
-import monopoly.Valor;
-import partida_virtual.Avatar;
-import partida_virtual.Jugador;
+import monopoly.*;
+import partida_virtual.*;
 
 import java.util.ArrayList;
 import java.util.HashMap;

@@ -2,6 +2,7 @@ package partida_virtual;
 
 import juego_fisico.Taboleiro;
 import monopoly.Menu;
+import monopoly.Valor;
 
 import java.util.ArrayList;
 import java.util.Random;
@@ -146,7 +147,16 @@ public class Carta {
     **   NO COMPROBAMOS SI SE LE PASAN NULLS YA QUE LO HACEMOS EN LAS FUNCIONES QUE LOS LLAMAN   **
     **********************************************************************************************/
 
-    private void cartaSuerte_1(Jugador jugador, Taboleiro taboleiro) {
+    private void cartaSuerte_1(Jugador jugador, Taboleiro taboleiro, Menu menu) {
+        if (jugador.getAvatar().getCasilla().getPosicion() >= 25){
+            jugador.sumarFortuna(Valor.VUELTA);
+            jugador.sumarVecesSalida();
+            System.out.println("Has pasado por la casilla de salida, cobras: " + Valor.VUELTA + "€.");
+            if (taboleiro.getCasillaPosicion(0).isSubirPrecio()) {
+                taboleiro.subirPrecios();
+            }
+            taboleiro.subirPreciosTotal(menu);
+        }
         taboleiro.getCasillaPosicion(jugador.getAvatar().getCasilla().getPosicion()).eliminarAvatar(jugador.getAvatar().getId());
         taboleiro.getCasillaPosicion(25).setAvatar(jugador.getAvatar());
         System.out.println("Te encuentras en el aeropuerto, ahora vas a coger un avion e irás hasta dónde te lleve.");
@@ -159,24 +169,24 @@ public class Carta {
     }
 
     private void cartasSuerte_3(Jugador jugador) {
-        jugador.sumarFortuna(500000);
-        jugador.sumarPremiosInversionesBote(500000);
+        jugador.sumarFortuna((float) Valor.VUELTA / 8);
+        jugador.sumarPremiosInversionesBote((float) Valor.VUELTA / 8);
         System.out.println("Acabas de vender un viaje a Física en una subasta por internet por un precio de 500000€.");
     }
 
-    private void cartasSuerte_4(Jugador jugador, Taboleiro taboleiro) {
-        String texto;
-        texto = "Vas directo a 'Filología', ";
-        if (jugador.getAvatar().getCasilla().getPosicion() < 23) {
-            texto += "por lo que te mueves directamente a ella.";
-        } else if (jugador.getAvatar().getCasilla().getPosicion() > 23) {
-            texto += "pese a pasar por la casilla de Salida, no se te sube la bonificación.";
-        } else {
-            texto += "no te mueves, ya que estás ya en la casilla.";
+    private void cartasSuerte_4(Jugador jugador, Taboleiro taboleiro, Menu menu) {
+        if (jugador.getAvatar().getCasilla().getPosicion() >= 23){
+            jugador.sumarFortuna(Valor.VUELTA);
+            jugador.sumarVecesSalida();
+            System.out.println("Has pasado por la casilla de salida, cobras: " + Valor.VUELTA + "€.");
+            if (taboleiro.getCasillaPosicion(0).isSubirPrecio()) {
+                taboleiro.subirPrecios();
+            }
+            taboleiro.subirPreciosTotal(menu);
         }
         taboleiro.getCasillaPosicion(jugador.getAvatar().getCasilla().getPosicion()).eliminarAvatar(jugador.getAvatar().getId());
         taboleiro.getCasillaPosicion(23).setAvatar(jugador.getAvatar());
-        System.out.println(texto);
+        System.out.println("Has avanzado hasta Filología.");
     }
 
     private void cartasSuerte_5(Jugador jugador, Taboleiro taboleiro) {
@@ -189,19 +199,37 @@ public class Carta {
     }
 
     private void cartasSuerte_6(Jugador jugador) {
-        jugador.sumarFortuna(1000000);
-        jugador.sumarPremiosInversionesBote(1000000);
-        System.out.println("¡Has ganado el bote de la lotería! Recibes 1000000€");
+        jugador.sumarFortuna((float) Valor.VUELTA / 2);
+        jugador.sumarPremiosInversionesBote((float) Valor.VUELTA / 2);
+        System.out.println("¡Has ganado el bote de la lotería! Recibes: " + Valor.VUELTA / 2 + "€.");
     }
 
     private void cartasSuerte_7(Jugador jugador){
-        if (jugador.getFortuna() < 1500000){
+        if (jugador.getFortuna() < Valor.VUELTA){
             System.out.println("Dinero insuficiente para pagar la matrícula del colegio privado. Debes vender edificios " +
                     "o hipotecar propiedades.");
         } else {
-            jugador.restarFortuna(1500000);
-            jugador.sumarTasasImpuestos(1500000);
-            System.out.println("Acabas de pagar 1500000€ por la matrícula del colegio privado.");
+            jugador.restarFortuna(Valor.VUELTA);
+            jugador.sumarTasasImpuestos(Valor.VUELTA);
+            System.out.println("Acabas de pagar " + Valor.VUELTA + "€ por la matrícula del colegio privado.");
+        }
+    }
+
+    private void cartasSuerte_8(Jugador jugador){
+        String[] partes= new String[2];
+        float contador = 0;
+        for (String id : jugador.getEdificaciones()){
+            partes = id.split("-");
+            switch (partes[0]){
+                case "casa":
+                    break;
+                case "hotel":
+                    break;
+                case "piscina":
+                    break;
+                case "pista":
+                    break;
+            }
         }
     }
 

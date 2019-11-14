@@ -1,10 +1,8 @@
 
 package partida_virtual;
 
-import juego_fisico.Casilla;
-import juego_fisico.Grupo;
-import juego_fisico.Taboleiro;
-import monopoly.Valor;
+import juego_fisico.*;
+import monopoly.*;
 
 import java.util.ArrayList;
 import java.util.HashMap;

@@ -13,6 +13,9 @@ public class Dado {
     private int posActual;
     private int posSiguiente;
     private int dadoTotal;
+    private int vecesPelota;
+    private int numeroPelota;
+    private boolean seguirPelota;
 
     public Dado() {
         this.dado1 = 0;
@@ -21,6 +24,13 @@ public class Dado {
         this.posActual = 0;
         this.posSiguiente = 0;
         this.dadoTotal = 0;
+        this.vecesPelota = 0;
+        this.numeroPelota = 0;
+        this.seguirPelota = false;
+    }
+
+    public Dado(Dado dado) throws InterruptedException {
+        dado.generarValorDados(dado);
     }
     // NO se permite ponerle valor predeterminado a ningún campo del dado ya que sería trucar la "aletoriedad" de
     // los mismos
@@ -42,8 +52,28 @@ public class Dado {
         return this.dadoTotal;
     }
 
-    public Dado(Dado dado) throws InterruptedException {
-        dado.generarValorDados(dado);
+    public int getVecesPelota() {
+        return vecesPelota;
+    }
+
+    public void setVecesPelota(int vecesPelota) {
+        this.vecesPelota = vecesPelota;
+    }
+
+    public int getNumeroPelota() {
+        return numeroPelota;
+    }
+
+    public void setNumeroPelota(int numeroPelota) {
+        this.numeroPelota = numeroPelota;
+    }
+
+    public boolean isSeguirPelota() {
+        return seguirPelota;
+    }
+
+    public void setSeguirPelota(boolean seguirPelota) {
+        this.seguirPelota = seguirPelota;
     }
 
     public int lanzarLosDados() throws InterruptedException {
@@ -78,7 +108,7 @@ public class Dado {
 
                 case "pelota":
                     this.posSiguiente = this.posActual + this.dadoTotal;
-					modoPelota(jugador, taboleiro, menu);
+                    modoPelota(jugador, taboleiro, menu);
                     break;
 
                 case "esfinge":
@@ -157,44 +187,70 @@ public class Dado {
         }
     }
 
-    public int restarImpar(int num) {
-        if (num == 4) {
-            return 3;
-        } else {
-            return num;
-        }
-    }
-
     public void modoPelota(Jugador jugador, Taboleiro taboleiro, Menu menu) {
-        int num = 0, vez = 0;
-
+        this.seguirPelota = true;
         if (this.dadoTotal > 4) {
-            while (true) {
-                num = sumarImpar(vez, num);
-                this.posSiguiente = this.posActual + num;
+            /* //MIRAR ESTO TODO
+            if ((this.numeroPelota + 1) == this.dadoTotal) {
+                this.posSiguiente = this.posSiguiente + 1;
+                this.posActual = jugador.getAvatar().getCasilla().getPosicion();
+                taboleiro.getCasillaPosicion(this.posActual).eliminarAvatar(jugador.getAvatar().getId());
                 modoNormal(jugador, taboleiro, menu);
-                if ((this.posSiguiente == 30) || (num >= this.dadoTotal)) {
-                    return;
-                }
-                if ((num + 1) == this.dadoTotal){
-                    this.posSiguiente = this.posSiguiente + 1;
-                    modoNormal(jugador, taboleiro, menu);
-                }
-                vez++;
+                this.seguirPelota = false;
+                this.numeroPelota = 0;
+                this.vecesPelota = 0;
+                return;
+            } else if ((this.numeroPelota + 2) == this.dadoTotal) {
+                this.posSiguiente = this.posSiguiente + 2;
+                this.posActual = jugador.getAvatar().getCasilla().getPosicion();
+                taboleiro.getCasillaPosicion(this.posActual).eliminarAvatar(jugador.getAvatar().getId());
+                modoNormal(jugador, taboleiro, menu);
+                this.seguirPelota = false;
+                this.numeroPelota = 0;
+                this.vecesPelota = 0;
+                return;
+            } else {
+                this.numeroPelota = sumarImpar(this.vecesPelota, this.numeroPelota);
+                this.posSiguiente = this.posActual + this.numeroPelota;
+                this.posActual = jugador.getAvatar().getCasilla().getPosicion();
+                taboleiro.getCasillaPosicion(this.posActual).eliminarAvatar(jugador.getAvatar().getId());
+                modoNormal(jugador, taboleiro, menu);
             }
+
+            if ((this.posSiguiente == 30) || (this.numeroPelota >= this.dadoTotal)) {
+                this.seguirPelota = false;
+                this.numeroPelota = 0;
+                this.vecesPelota = 0;
+                return;
+            }
+            this.vecesPelota++;
+
+             */
+
         } else {
-            num = this.dadoTotal;
-            while (true) {
-                num = restarImpar(num);
-                this.posSiguiente = this.posActual - num;
-                if (this.posSiguiente < 0){
-                    this.posSiguiente = 40 + this.posSiguiente;
+            if (this.vecesPelota == 0) {
+                if (this.dadoTotal == 4){
+                    this.posSiguiente = this.posActual - 3;
+                    this.vecesPelota++;
                 }
-                modoNormal(jugador, taboleiro, menu);
-                if ((this.posSiguiente == 30) || (num >= this.dadoTotal)) {
-                    return;
+                else{
+                    this.posSiguiente = this.posActual - this.dadoTotal;
+                    this.seguirPelota = false;
+                    this.numeroPelota = 0;
+                    this.vecesPelota = 0;
                 }
+            } else{
+                this.posSiguiente = this.posActual - 1;
+                this.seguirPelota = false;
+                this.numeroPelota = 0;
+                this.vecesPelota = 0;
             }
+            if (this.posSiguiente < 0) {
+                this.posSiguiente = 40 + this.posSiguiente;
+            }
+            this.posActual = jugador.getAvatar().getCasilla().getPosicion();
+            taboleiro.getCasillaPosicion(this.posActual).eliminarAvatar(jugador.getAvatar().getId());
+            modoNormal(jugador, taboleiro, menu);
         }
     }
 
@@ -203,6 +259,7 @@ public class Dado {
         int sumaDados = this.dado1 + this.dado2;
         texto = " avanza " + sumaDados + " posiciones, desde " + taboleiro.getCasillaPosicion(this.posActual).getNombreSinEspacio() +
                 " hasta " + taboleiro.getCasillaPosicion(this.posSiguiente).getNombreSinEspacio() + ".";
+
         return texto;
     }
 }

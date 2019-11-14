@@ -2,7 +2,7 @@
 package partida_virtual;
 
 import juego_fisico.*;
-import monopoly.Valor;
+import monopoly.*;
 
 import java.util.ArrayList;
 

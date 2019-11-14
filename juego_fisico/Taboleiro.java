@@ -1,10 +1,7 @@
 package juego_fisico;
 
-import juego_fisico.Grupo;
-import monopoly.Menu;
-import monopoly.Valor;
-import partida_virtual.Jugador;
-import partida_virtual.Partida;
+import partida_virtual.*;
+import monopoly.*;
 
 import java.util.ArrayList;
 import java.util.HashMap;
