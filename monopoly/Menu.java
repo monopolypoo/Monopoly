@@ -585,4 +585,8 @@ public class Menu {
         }
     }
 
+    public Partida getPartida(){
+        return this.partida;
+    }
+
 }
