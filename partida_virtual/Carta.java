@@ -109,7 +109,7 @@ public class Carta {
                 // Según el tipo que es, pues, es único para cada una
                 switch (cartita.tipo) {
                     case 1:
-                        cartaSuerte_1(jugador, taboleiro);
+                        cartaSuerte_1(jugador, taboleiro, menu);
                         break;
                     case 2:
                         cartasSuerte_2(jugador, taboleiro);
@@ -118,7 +118,7 @@ public class Carta {
                         cartasSuerte_3(jugador);
                         break;
                     case 4:
-                        cartasSuerte_4(jugador, taboleiro);
+                        cartasSuerte_4(jugador, taboleiro, menu);
                         break;
                     case 5:
                         cartasSuerte_5(jugador, taboleiro);
@@ -130,9 +130,25 @@ public class Carta {
                         cartasSuerte_7(jugador);
                         break;
                     case 8:
+                        cartasSuerte_8(jugador); // acabarla
                         break;
                     case 9:
+                        cartasSuerte_9(jugador, taboleiro, menu);
                         break;
+                    case 10:
+                        cartasSuerte_10(jugador, menu);
+                        break;
+                    case 11:
+                        cartasSuerte_11(jugador, taboleiro);
+                        break;
+                    case 12:
+                        cartasSuerte_12(jugador, taboleiro);
+                        break;
+                    case 13:
+                        cartasSuerte_13(jugador);
+                        break;
+                    case 14:
+                        cartasSuerte_14(jugador, taboleiro);
                     default:
                 }
             } else {
@@ -144,11 +160,11 @@ public class Carta {
     }
 
     /**********************************************************************************************
-    **   NO COMPROBAMOS SI SE LE PASAN NULLS YA QUE LO HACEMOS EN LAS FUNCIONES QUE LOS LLAMAN   **
-    **********************************************************************************************/
+     **   NO COMPROBAMOS SI SE LE PASAN NULLS YA QUE LO HACEMOS EN LAS FUNCIONES QUE LOS LLAMAN   **
+     **********************************************************************************************/
 
     private void cartaSuerte_1(Jugador jugador, Taboleiro taboleiro, Menu menu) {
-        if (jugador.getAvatar().getCasilla().getPosicion() >= 25){
+        if (jugador.getAvatar().getCasilla().getPosicion() >= 25) {
             jugador.sumarFortuna(Valor.VUELTA);
             jugador.sumarVecesSalida();
             System.out.println("Has pasado por la casilla de salida, cobras: " + Valor.VUELTA + "€.");
@@ -175,7 +191,7 @@ public class Carta {
     }
 
     private void cartasSuerte_4(Jugador jugador, Taboleiro taboleiro, Menu menu) {
-        if (jugador.getAvatar().getCasilla().getPosicion() >= 23){
+        if (jugador.getAvatar().getCasilla().getPosicion() >= 23) {
             jugador.sumarFortuna(Valor.VUELTA);
             jugador.sumarVecesSalida();
             System.out.println("Has pasado por la casilla de salida, cobras: " + Valor.VUELTA + "€.");
@@ -204,8 +220,8 @@ public class Carta {
         System.out.println("¡Has ganado el bote de la lotería! Recibes: " + Valor.VUELTA / 2 + "€.");
     }
 
-    private void cartasSuerte_7(Jugador jugador){
-        if (jugador.getFortuna() < Valor.VUELTA){
+    private void cartasSuerte_7(Jugador jugador) {
+        if (jugador.getFortuna() < Valor.VUELTA) {
             System.out.println("Dinero insuficiente para pagar la matrícula del colegio privado. Debes vender edificios " +
                     "o hipotecar propiedades.");
         } else {
@@ -215,12 +231,12 @@ public class Carta {
         }
     }
 
-    private void cartasSuerte_8(Jugador jugador){
-        String[] partes= new String[2];
+    private void cartasSuerte_8(Jugador jugador) {
+        String[] partes = new String[2];
         float contador = 0;
-        for (String id : jugador.getEdificaciones()){
+        for (String id : jugador.getEdificaciones()) {
             partes = id.split("-");
-            switch (partes[0]){
+            switch (partes[0]) {
                 case "casa":
                     break;
                 case "hotel":
@@ -231,6 +247,88 @@ public class Carta {
                     break;
             }
         }
+    }
+
+    private void cartasSuerte_9(Jugador jugador, Taboleiro taboleiro, Menu menu) {
+        if (jugador.getAvatar().getCasilla().getPosicion() >= 13) {
+            jugador.sumarFortuna(Valor.VUELTA);
+            jugador.sumarVecesSalida();
+            System.out.println("Has pasado por la casilla de salida, cobras: " + Valor.VUELTA + "€.");
+            if (taboleiro.getCasillaPosicion(0).isSubirPrecio()) {
+                taboleiro.subirPrecios();
+            }
+            taboleiro.subirPreciosTotal(menu);
+        }
+        taboleiro.getCasillaPosicion(jugador.getAvatar().getCasilla().getPosicion()).eliminarAvatar(jugador.getAvatar().getId());
+        taboleiro.getCasillaPosicion(13).setAvatar(jugador.getAvatar());
+        System.out.println("Has avanzado hasta Turismo.");
+    }
+
+    private void cartasSuerte_10(Jugador jugador, Menu menu) {
+        float dineroApagar = Valor.VUELTA * menu.getPartida().getJugadores().size() - 1;
+
+        if (jugador.getFortuna() < dineroApagar) {
+            System.out.println("Dinero insuficiente para pagarle a los " + (menu.getPartida().getJugadores().size() - 1) +
+                    " la cantidad de: " + dineroApagar + ". Debes vender edificios o hipotecar propiedades.");
+        } else {
+            for (Jugador aPagar : menu.getPartida().getJugadores().values()) {
+                if (!aPagar.getAvatar().getId().equals(jugador.getAvatar().getId())) {
+                    aPagar.sumarFortuna(Valor.VUELTA);
+                    System.out.println("Dinero pagado al jugador: " + aPagar.getNombre());
+                }
+            }
+            jugador.restarFortuna(dineroApagar);
+            jugador.sumarTasasImpuestos(dineroApagar);
+            System.out.println("Acabas de pagarle " + Valor.VUELTA + " a los otros " + (menu.getPartida().getJugadores().size() - 1)
+                    + " ya que te han elegido presidente de la junta directiva!");
+        }
+
+    }
+
+    private void cartasSuerte_11(Jugador jugador, Taboleiro taboleiro) {
+        int pos = jugador.getAvatar().getCasilla().getPosicion();
+
+        taboleiro.getCasillaPosicion(pos).eliminarAvatar(jugador.getAvatar().getId());
+        if (pos < 3) {
+            pos += 40;
+        }
+        pos -= 3;
+        taboleiro.getCasillaPosicion(pos).setAvatar(jugador.getAvatar());
+        System.out.println("A esta hora hay demasiado tráfico, por lo que tienes que retroceder 3 casillas!");
+    }
+
+    private void cartasSuerte_12(Jugador jugador, Taboleiro taboleiro) {
+        if (jugador.getFortuna() < ((float) Valor.VUELTA / 4)) {
+            System.out.println("Dinero insuficiente para pagar la multa de tráfico por usar el teléfono. Debes vender " +
+                    "edificios o hipotecar propiedades.");
+        } else {
+            taboleiro.getCasillaPosicion(20).sumarValor((float) Valor.VUELTA / 4);
+            jugador.restarFortuna((float) Valor.VUELTA / 4);
+            jugador.sumarTasasImpuestos((float) Valor.VUELTA / 4);
+            System.out.println("No se puede usar el móvil mientras se conduce, recuérdalo par la próxima vez. Pagas una " +
+                    "multa de " + Valor.VUELTA / 4 + "€.");
+        }
+    }
+
+    private void cartasSuerte_13(Jugador jugador) {
+        System.out.println("Como beneficio por tus acciones recibes la cantidad de: 150000€.");
+        jugador.sumarFortuna(150000);
+        jugador.sumarPremiosInversionesBote(150000);
+    }
+
+    private void cartasSuerte_14(Jugador jugador, Taboleiro taboleiro) {
+        int pos = jugador.getAvatar().getCasilla().getPosicion();
+        taboleiro.getCasillaPosicion(pos).eliminarAvatar(jugador.getAvatar().getId());
+        if (pos < 10) {
+            taboleiro.getCasillaPosicion(5).setAvatar(jugador.getAvatar());
+        } else if (pos < 20) {
+            taboleiro.getCasillaPosicion(15).setAvatar(jugador.getAvatar());
+        } else if (pos < 30) {
+            taboleiro.getCasillaPosicion(25).setAvatar(jugador.getAvatar());
+        } else {
+            taboleiro.getCasillaPosicion(35).setAvatar(jugador.getAvatar());
+        }
+        jugador.pagarAlquiler(jugador.getAvatar().getCasilla(), 0, taboleiro); // poner que tiene que pagar el doble
     }
 
 }
