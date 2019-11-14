@@ -75,7 +75,6 @@ public class Carta {
                     this.tipo = num;
                 else
                     this.tipo = 0;
-                //this.iniciarCartas(cartas);
             } else if (cartas.equals("cajaDeComunidad")) {
                 if (num >= 1 && num <= 10) {
                     this.tipo = num;
@@ -197,7 +196,8 @@ public class Carta {
 
     private void cartasSuerte_7(Jugador jugador){
         if (jugador.getFortuna() < 1500000){
-            System.out.println("Dinero insuficiente para pagar la matrícula del colegio privado.");
+            System.out.println("Dinero insuficiente para pagar la matrícula del colegio privado. Debes vender edificios " +
+                    "o hipotecar propiedades.");
         } else {
             jugador.restarFortuna(1500000);
             jugador.sumarTasasImpuestos(1500000);
