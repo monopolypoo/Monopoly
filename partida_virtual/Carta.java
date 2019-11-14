@@ -14,8 +14,58 @@ public class Carta {
     public Carta() {
         this.cartasSuerte = new ArrayList<>();
         this.cartasComunidad = new ArrayList<>();
-        //this.iniciarCartas("suerte");
-        //this.iniciarCartas("cajaDeComunidad");
+
+        Carta cartaSuerte1 = new Carta(1, "suerte");
+        Carta cartaSuerte2 = new Carta(2, "suerte");
+        Carta cartaSuerte3 = new Carta(3, "suerte");
+        Carta cartaSuerte4 = new Carta(4, "suerte");
+        Carta cartaSuerte5 = new Carta(5, "suerte");
+        Carta cartaSuerte6 = new Carta(6, "suerte");
+        Carta cartaSuerte7 = new Carta(7, "suerte");
+        Carta cartaSuerte8 = new Carta(8, "suerte");
+        Carta cartaSuerte9 = new Carta(9, "suerte");
+        Carta cartaSuerte10 = new Carta(10, "suerte");
+        Carta cartaSuerte11 = new Carta(11, "suerte");
+        Carta cartaSuerte12 = new Carta(12, "suerte");
+        Carta cartaSuerte13 = new Carta(13, "suerte");
+        Carta cartaSuerte14 = new Carta(14, "suerte");
+
+        this.cartasSuerte.add(cartaSuerte1);
+        this.cartasSuerte.add(cartaSuerte2);
+        this.cartasSuerte.add(cartaSuerte3);
+        this.cartasSuerte.add(cartaSuerte4);
+        this.cartasSuerte.add(cartaSuerte5);
+        this.cartasSuerte.add(cartaSuerte6);
+        this.cartasSuerte.add(cartaSuerte7);
+        this.cartasSuerte.add(cartaSuerte8);
+        this.cartasSuerte.add(cartaSuerte9);
+        this.cartasSuerte.add(cartaSuerte10);
+        this.cartasSuerte.add(cartaSuerte11);
+        this.cartasSuerte.add(cartaSuerte12);
+        this.cartasSuerte.add(cartaSuerte13);
+        this.cartasSuerte.add(cartaSuerte14);
+
+        Carta cartaComunidad1 = new Carta(1, "cajaDeComunidad");
+        Carta cartaComunidad2 = new Carta(2, "cajaDeComunidad");
+        Carta cartaComunidad3 = new Carta(3, "cajaDeComunidad");
+        Carta cartaComunidad4 = new Carta(4, "cajaDeComunidad");
+        Carta cartaComunidad5 = new Carta(5, "cajaDeComunidad");
+        Carta cartaComunidad6 = new Carta(6, "cajaDeComunidad");
+        Carta cartaComunidad7 = new Carta(7, "cajaDeComunidad");
+        Carta cartaComunidad8 = new Carta(8, "cajaDeComunidad");
+        Carta cartaComunidad9 = new Carta(9, "cajaDeComunidad");
+        Carta cartaComunidad10 = new Carta(10, "cajaDeComunidad");
+
+        this.cartasComunidad.add(cartaComunidad1);
+        this.cartasComunidad.add(cartaComunidad2);
+        this.cartasComunidad.add(cartaComunidad3);
+        this.cartasComunidad.add(cartaComunidad4);
+        this.cartasComunidad.add(cartaComunidad5);
+        this.cartasComunidad.add(cartaComunidad6);
+        this.cartasComunidad.add(cartaComunidad7);
+        this.cartasComunidad.add(cartaComunidad8);
+        this.cartasComunidad.add(cartaComunidad9);
+        this.cartasComunidad.add(cartaComunidad10);
     }
 
     private Carta(int num, String cartas) {
@@ -31,66 +81,7 @@ public class Carta {
                     this.tipo = num;
                 } else
                     this.tipo = 0;
-                //this.iniciarCartas(cartas);
             }
-        }
-    }
-
-    private void iniciarCartas(String tipo) {
-        if (tipo.equals("suerte")) {
-            // No se pueden crear así!!!!
-            Carta cartaSuerte1 = new Carta(1, "suerte");
-            Carta cartaSuerte2 = new Carta(2, "suerte");
-            Carta cartaSuerte3 = new Carta(3, "suerte");
-            Carta cartaSuerte4 = new Carta(4, "suerte");
-            Carta cartaSuerte5 = new Carta(5, "suerte");
-            Carta cartaSuerte6 = new Carta(6, "suerte");
-            Carta cartaSuerte7 = new Carta(7, "suerte");
-            Carta cartaSuerte8 = new Carta(8, "suerte");
-            Carta cartaSuerte9 = new Carta(9, "suerte");
-            Carta cartaSuerte10 = new Carta(10, "suerte");
-            Carta cartaSuerte11 = new Carta(11, "suerte");
-            Carta cartaSuerte12 = new Carta(12, "suerte");
-            Carta cartaSuerte13 = new Carta(13, "suerte");
-            Carta cartaSuerte14 = new Carta(14, "suerte");
-
-            this.cartasSuerte.add(cartaSuerte1);
-            this.cartasSuerte.add(cartaSuerte2);
-            this.cartasSuerte.add(cartaSuerte3);
-            this.cartasSuerte.add(cartaSuerte4);
-            this.cartasSuerte.add(cartaSuerte5);
-            this.cartasSuerte.add(cartaSuerte6);
-            this.cartasSuerte.add(cartaSuerte7);
-            this.cartasSuerte.add(cartaSuerte8);
-            this.cartasSuerte.add(cartaSuerte9);
-            this.cartasSuerte.add(cartaSuerte10);
-            this.cartasSuerte.add(cartaSuerte11);
-            this.cartasSuerte.add(cartaSuerte12);
-            this.cartasSuerte.add(cartaSuerte13);
-            this.cartasSuerte.add(cartaSuerte14);
-
-        } else if (tipo.equals("cajaDeComunidad")) {
-            Carta cartaComunidad1 = new Carta(1, "cajaDeComunidad");
-            Carta cartaComunidad2 = new Carta(2, "cajaDeComunidad");
-            Carta cartaComunidad3 = new Carta(3, "cajaDeComunidad");
-            Carta cartaComunidad4 = new Carta(4, "cajaDeComunidad");
-            Carta cartaComunidad5 = new Carta(5, "cajaDeComunidad");
-            Carta cartaComunidad6 = new Carta(6, "cajaDeComunidad");
-            Carta cartaComunidad7 = new Carta(7, "cajaDeComunidad");
-            Carta cartaComunidad8 = new Carta(8, "cajaDeComunidad");
-            Carta cartaComunidad9 = new Carta(9, "cajaDeComunidad");
-            Carta cartaComunidad10 = new Carta(10, "cajaDeComunidad");
-
-            this.cartasComunidad.add(cartaComunidad1);
-            this.cartasComunidad.add(cartaComunidad2);
-            this.cartasComunidad.add(cartaComunidad3);
-            this.cartasComunidad.add(cartaComunidad4);
-            this.cartasComunidad.add(cartaComunidad5);
-            this.cartasComunidad.add(cartaComunidad6);
-            this.cartasComunidad.add(cartaComunidad7);
-            this.cartasComunidad.add(cartaComunidad8);
-            this.cartasComunidad.add(cartaComunidad9);
-            this.cartasComunidad.add(cartaComunidad10);
         }
     }
 
@@ -110,38 +101,108 @@ public class Carta {
         int numero;
         Carta cartita;
 
-        numero = (int) (Math.random() * 14 + 1);
-        if (numero >= 1 && numero <= 14) {
-            cartita = this.cartasSuerte.get(numero - 1);
+        if (jugador != null && taboleiro != null && menu != null) {
+            numero = (int) (Math.random() * 14 + 1);
+            if (numero >= 1 && numero <= 14) {
+                cartita = this.cartasSuerte.get(numero - 1);
 
-            // Según el tipo que es, pues, es único para cada una
-            switch (cartita.tipo) {
-                case 1:
-                    System.out.println("Vas al aeropuerto y coges un avión. Si pasas por la casilla de Salida cobras 2 Millones €.");
-                    cartaSuerte_1(jugador, taboleiro, menu);
-                    break;
-                case 2:
-                    break;
-                case 3:
-                    break;
-                case 4:
-                    break;
-                case 5:
-                    break;
-                case 6:
-                    break;
-                case 7:
-                    break;
-                default:
+                // Según el tipo que es, pues, es único para cada una
+                switch (cartita.tipo) {
+                    case 1:
+                        cartaSuerte_1(jugador, taboleiro);
+                        break;
+                    case 2:
+                        cartasSuerte_2(jugador, taboleiro);
+                        break;
+                    case 3:
+                        cartasSuerte_3(jugador);
+                        break;
+                    case 4:
+                        cartasSuerte_4(jugador, taboleiro);
+                        break;
+                    case 5:
+                        cartasSuerte_5(jugador, taboleiro);
+                        break;
+                    case 6:
+                        cartasSuerte_6(jugador);
+                        break;
+                    case 7:
+                        cartasSuerte_7(jugador);
+                        break;
+                    case 8:
+                        break;
+                    case 9:
+                        break;
+                    default:
+                }
+            } else {
+                System.out.println("Error al escoger la carta!");
             }
+        } else {
+            System.out.println("El jugador, el tablero o el menú no se encuentran inicializados!");
         }
     }
 
-    private void cartaSuerte_1(Jugador jugador, Taboleiro taboleiro, Menu menu) {
+    /**********************************************************************************************
+    **   NO COMPROBAMOS SI SE LE PASAN NULLS YA QUE LO HACEMOS EN LAS FUNCIONES QUE LOS LLAMAN   **
+    **********************************************************************************************/
+
+    private void cartaSuerte_1(Jugador jugador, Taboleiro taboleiro) {
         taboleiro.getCasillaPosicion(jugador.getAvatar().getCasilla().getPosicion()).eliminarAvatar(jugador.getAvatar().getId());
-        jugador.getAvatar().setCasilla(taboleiro.getCasillaPosicion(25));
-        System.out.println(taboleiro);
+        taboleiro.getCasillaPosicion(25).setAvatar(jugador.getAvatar());
         System.out.println("Te encuentras en el aeropuerto, ahora vas a coger un avion e irás hasta dónde te lleve.");
+    }
+
+    private void cartasSuerte_2(Jugador jugador, Taboleiro taboleiro) {
+        taboleiro.getCasillaPosicion(jugador.getAvatar().getCasilla().getPosicion()).eliminarAvatar(jugador.getAvatar().getId());
+        taboleiro.getCasillaPosicion(39).setAvatar(jugador.getAvatar());
+        System.out.println("Te tocó un viaje hasta la casilla 'ETSE'.");
+    }
+
+    private void cartasSuerte_3(Jugador jugador) {
+        jugador.sumarFortuna(500000);
+        jugador.sumarPremiosInversionesBote(500000);
+        System.out.println("Acabas de vender un viaje a Física en una subasta por internet por un precio de 500000€.");
+    }
+
+    private void cartasSuerte_4(Jugador jugador, Taboleiro taboleiro) {
+        String texto;
+        texto = "Vas directo a 'Filología', ";
+        if (jugador.getAvatar().getCasilla().getPosicion() < 23) {
+            texto += "por lo que te mueves directamente a ella.";
+        } else if (jugador.getAvatar().getCasilla().getPosicion() > 23) {
+            texto += "pese a pasar por la casilla de Salida, no se te sube la bonificación.";
+        } else {
+            texto += "no te mueves, ya que estás ya en la casilla.";
+        }
+        taboleiro.getCasillaPosicion(jugador.getAvatar().getCasilla().getPosicion()).eliminarAvatar(jugador.getAvatar().getId());
+        taboleiro.getCasillaPosicion(23).setAvatar(jugador.getAvatar());
+        System.out.println(texto);
+    }
+
+    private void cartasSuerte_5(Jugador jugador, Taboleiro taboleiro) {
+        taboleiro.getCasillaPosicion(jugador.getAvatar().getCasilla().getPosicion()).eliminarAvatar(jugador.getAvatar().getId());
+        taboleiro.getCasillaPosicion(10).setAvatar(jugador.getAvatar());
+        jugador.irCarcere(taboleiro);
+        jugador.sumarVecesCarcel();
+        taboleiro.setContadorVueltas(0);
+        System.out.println("Los acreedores te persiguen por impago, Te vas directamente a la cárcel.");
+    }
+
+    private void cartasSuerte_6(Jugador jugador) {
+        jugador.sumarFortuna(1000000);
+        jugador.sumarPremiosInversionesBote(1000000);
+        System.out.println("¡Has ganado el bote de la lotería! Recibes 1000000€");
+    }
+
+    private void cartasSuerte_7(Jugador jugador){
+        if (jugador.getFortuna() < 1500000){
+            System.out.println("Dinero insuficiente para pagar la matrícula del colegio privado.");
+        } else {
+            jugador.restarFortuna(1500000);
+            jugador.sumarTasasImpuestos(1500000);
+            System.out.println("Acabas de pagar 1500000€ por la matrícula del colegio privado.");
+        }
     }
 
 }
