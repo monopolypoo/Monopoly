@@ -13,6 +13,7 @@ public class Avatar {
     private Jugador jugador;
     private Casilla casilla;
     private boolean modoAvanzado;
+    private boolean modoCoche;
     private boolean lanzarDadosCoche;
     private boolean compraCoche;
     private boolean isSubirPenalizacion;
@@ -23,6 +24,7 @@ public class Avatar {
         this.id = "banca";
         this.modoAvanzado = false;
         this.lanzarDadosCoche = false;
+        this.modoCoche = false;
     }
 
     public Avatar(String tipo, Jugador jugador, ArrayList<Jugador> jugadores, Casilla casilla) {
@@ -41,6 +43,15 @@ public class Avatar {
         this.generarId(jugadores);
         this.casilla = casilla;
         this.penalizacion = 5; // valor mayor que 2
+        this.modoCoche = false;
+    }
+
+    public void setModoCoche(boolean modoCoche) {
+        this.modoCoche = modoCoche;
+    }
+
+    public boolean isModoCoche() {
+        return modoCoche;
     }
 
     public int getPenalizacion() {
