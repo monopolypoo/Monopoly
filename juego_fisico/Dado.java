@@ -103,10 +103,12 @@ public class Dado {
         } else {
             switch (jugador.getAvatar().getTipo()) {
                 case "coche":
+                    //añadir descripcion de lo que va a pasar
                     modoCoche(jugador, taboleiro, menu);
                     break;
 
                 case "pelota":
+                    //añadir descripcion de lo que va a pasar
                     this.posSiguiente = this.posActual + this.dadoTotal;
                     modoPelota(jugador, taboleiro, menu);
                     break;
@@ -176,56 +178,49 @@ public class Dado {
             if (this.posSiguiente != 10 && this.posSiguiente != 20 && this.posSiguiente != 0) {
                 taboleiro.getCasillaPosicion(this.posSiguiente).setVecesCasilla(jugador);
             }
+
+            //AÑADIR AQUI LO DE LAS CARTAS DE SUERTE Y CAJA DE COMUNIDAD!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+
         }
     }
 
-    public int sumarImpar(int vez, int num) {
+    public int sumarImpar(int vez) {
         if (vez == 0) {
             return 5;
         } else {
-            return num + 2;
+            return 2;
         }
     }
 
     public void modoPelota(Jugador jugador, Taboleiro taboleiro, Menu menu) {
         this.seguirPelota = true;
         if (this.dadoTotal > 4) {
-            /* //MIRAR ESTO TODO
+
             if ((this.numeroPelota + 1) == this.dadoTotal) {
-                this.posSiguiente = this.posSiguiente + 1;
+                System.out.println("Estás aqui 1");
                 this.posActual = jugador.getAvatar().getCasilla().getPosicion();
+                this.posSiguiente = this.posActual + 1;
                 taboleiro.getCasillaPosicion(this.posActual).eliminarAvatar(jugador.getAvatar().getId());
                 modoNormal(jugador, taboleiro, menu);
                 this.seguirPelota = false;
                 this.numeroPelota = 0;
                 this.vecesPelota = 0;
                 return;
-            } else if ((this.numeroPelota + 2) == this.dadoTotal) {
-                this.posSiguiente = this.posSiguiente + 2;
-                this.posActual = jugador.getAvatar().getCasilla().getPosicion();
-                taboleiro.getCasillaPosicion(this.posActual).eliminarAvatar(jugador.getAvatar().getId());
-                modoNormal(jugador, taboleiro, menu);
+            } else if (this.numeroPelota >= this.dadoTotal) {
+                System.out.println("Las acciones del modo avanzado de pelota ya han terminado, no puedes lanzar más y debes acabar turno.");
                 this.seguirPelota = false;
                 this.numeroPelota = 0;
                 this.vecesPelota = 0;
                 return;
             } else {
-                this.numeroPelota = sumarImpar(this.vecesPelota, this.numeroPelota);
-                this.posSiguiente = this.posActual + this.numeroPelota;
+                System.out.println("estas aqui 2");
+                this.numeroPelota = sumarImpar(this.vecesPelota);
                 this.posActual = jugador.getAvatar().getCasilla().getPosicion();
+                this.posSiguiente = this.posActual + this.numeroPelota;
                 taboleiro.getCasillaPosicion(this.posActual).eliminarAvatar(jugador.getAvatar().getId());
                 modoNormal(jugador, taboleiro, menu);
+                this.vecesPelota++;
             }
-
-            if ((this.posSiguiente == 30) || (this.numeroPelota >= this.dadoTotal)) {
-                this.seguirPelota = false;
-                this.numeroPelota = 0;
-                this.vecesPelota = 0;
-                return;
-            }
-            this.vecesPelota++;
-
-             */
 
         } else {
             if (this.vecesPelota == 0) {

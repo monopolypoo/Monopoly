@@ -154,7 +154,7 @@ public class Menu {
                                                 if (this.dados.isSeguirPelota()) {
                                                     this.sigueTurno = true;
                                                     this.dadosLanzados = false;
-                                                    this.jugadorActual.pagarAlquiler(this.jugadorActual.getAvatar().getCasilla(), this.dados.getDadoTotal(), this.taboleiro);
+                                                    this.jugadorActual.pagarAlquiler(this.jugadorActual.getAvatar().getCasilla(), this.dados.getDadoTotal(), this.taboleiro, 1);
                                                     this.jugadorActual.pagarImpuestos(this.jugadorActual.getAvatar().getCasilla(), this.taboleiro);
                                                     this.jugadorActual.cobrarParking(this.jugadorActual.getAvatar().getCasilla());
                                                     System.out.println(this.taboleiro);
@@ -186,7 +186,7 @@ public class Menu {
                                                     } else {
                                                         System.out.println(taboleiro);
                                                         System.out.println("El avatar " + this.jugadorActual.getAvatar().getId() + this.dados.textoLanzarDados(this.taboleiro) + texto);
-                                                        this.jugadorActual.pagarAlquiler(this.jugadorActual.getAvatar().getCasilla(), this.dados.getDadoTotal(), this.taboleiro);
+                                                        this.jugadorActual.pagarAlquiler(this.jugadorActual.getAvatar().getCasilla(), this.dados.getDadoTotal(), this.taboleiro, 1);
                                                         this.jugadorActual.pagarImpuestos(this.jugadorActual.getAvatar().getCasilla(), this.taboleiro);
                                                         this.jugadorActual.cobrarParking(this.jugadorActual.getAvatar().getCasilla());
                                                     }
@@ -226,7 +226,7 @@ public class Menu {
                                         }
                                     } else {
                                         this.dados.modoPelota(this.jugadorActual, this.taboleiro, this);
-                                        this.jugadorActual.pagarAlquiler(this.jugadorActual.getAvatar().getCasilla(), this.dados.getDadoTotal(), this.taboleiro);
+                                        this.jugadorActual.pagarAlquiler(this.jugadorActual.getAvatar().getCasilla(), this.dados.getDadoTotal(), this.taboleiro, 1);
                                         this.jugadorActual.pagarImpuestos(this.jugadorActual.getAvatar().getCasilla(), this.taboleiro);
                                         this.jugadorActual.cobrarParking(this.jugadorActual.getAvatar().getCasilla());
                                         System.out.println(this.taboleiro);
