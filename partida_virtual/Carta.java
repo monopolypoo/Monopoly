@@ -160,7 +160,7 @@ public class Carta {
         }
     }
 
-    /**********************************************************************************************
+    /***********************************************************************************************
      **   NO COMPROBAMOS SI SE LE PASAN NULLS YA QUE LO HACEMOS EN LAS FUNCIONES QUE LOS LLAMAN   **
      **********************************************************************************************/
 
@@ -263,12 +263,12 @@ public class Carta {
         }
 
         System.out.println("Tienes " + casas + " casas, " + hoteles + " hoteles, " + piscinas + "piscinas y " + pistas + "pistas. Por lo que tienes que pagar " + contador + "€.");
-        if (jugador.getFortuna() >= contador){
+        if (jugador.getFortuna() >= contador) {
             jugador.restarFortuna(contador);
             jugador.setDineroGastado(jugador.getDineroGastado() + contador);
             jugador.sumarTasasImpuestos(contador);
             System.out.println("Pago efectuado.");
-        } else{
+        } else {
             System.out.println("No tienes dinero suficiente para pagar los impuestos por edificios. Debes vender edificios " +
                     "o hipotecar propiedades.");
         }
@@ -357,31 +357,83 @@ public class Carta {
         } else if (pos < 25) {
             taboleiro.getCasillaPosicion(25).setAvatar(jugador.getAvatar());
             jugador.getAvatar().setCasilla(taboleiro.getCasillaPosicion(25));
-        } else if (pos < 35){
+        } else if (pos < 35) {
             taboleiro.getCasillaPosicion(35).setAvatar(jugador.getAvatar());
             jugador.getAvatar().setCasilla(taboleiro.getCasillaPosicion(35));
-        } else{
+        } else {
             taboleiro.getCasillaPosicion(5).setAvatar(jugador.getAvatar());
             jugador.getAvatar().setCasilla(taboleiro.getCasillaPosicion(5));
         }
-        if (jugador.getAvatar().getCasilla().getDuenho() == null){
+        if (jugador.getAvatar().getCasilla().getDuenho() == null) {
             String[] respuesta;
             System.out.print("Esta casilla no tiene dueño, desea comprarla (si/no)?: ");
             respuesta = menu.leerComando();
             if (respuesta[0].toLowerCase().equals("si")) {
                 jugador.comprarCasilla(jugador.getAvatar().getCasilla(), taboleiro);
-            } else{
+            } else {
                 System.out.println("De acuerdo, no se comprará.");
             }
-        } else{
+        } else {
             if (!jugador.getAvatar().getCasilla().getDuenho().getAvatar().getId().equals(jugador.getAvatar().getId())) {
                 System.out.println("Por elegir esta carta de suerte y caer en una casilla que ya tiene dueño, debes pagar el doble del alquiler.");
                 jugador.pagarAlquiler(jugador.getAvatar().getCasilla(), 0, taboleiro, 2);
-            } else{
+            } else {
                 System.out.println("Has caído en una casilla que ya es tuya, por lo que no ocurre nada.");
             }
         }
     }
 
-}
+    public void lanzarCartaComunidad(Jugador jugador, Taboleiro taboleiro, Menu menu) {
+        int numero;
+        Carta cartita;
 
+        if (jugador != null && taboleiro != null && menu != null) {
+            numero = (int) (Math.random() * 10 + 1);
+            if (numero >= 1 && numero <= 10) {
+                cartita = this.cartasComunidad.get(numero - 1);
+
+                switch (cartita.tipo) {
+                    case 1:
+                        cartasComunidad_1(jugador, taboleiro);
+                        break;
+                    case 2:
+                        cartasComunidad_2(jugador, taboleiro);
+                        break;
+                }
+            } else {
+                System.out.println("Error al escoger la carta!");
+            }
+        } else {
+            System.out.println("El jugador, el tablero o el menú no se encuentran inicializados!");
+        }
+    }
+
+
+    /***********************************************************************************************
+     **   NO COMPROBAMOS SI SE LE PASAN NULLS YA QUE LO HACEMOS EN LAS FUNCIONES QUE LOS LLAMAN   **
+     **********************************************************************************************/
+
+    private void cartasComunidad_1(Jugador jugador, Taboleiro taboleiro) {
+        if (jugador.getFortuna() < ((float) Valor.VUELTA)) {
+            System.out.println("Dinero insuficiente para pagar el fin de semana en el balneario Acuña de 5 estrellas. Debes vender " +
+                    "edificios o hipotecar propiedades.");
+        } else {
+            taboleiro.getCasillaPosicion(20).sumarValor((float) Valor.VUELTA);
+            jugador.restarFortuna((float) Valor.VUELTA);
+            jugador.sumarTasasImpuestos((float) Valor.VUELTA);
+            System.out.println("Acabas de pagar " + Valor.VUELTA + "€ por un fin de semana en el balneario Acuña de 5 estrellas.");
+        }
+    }
+
+    private void cartasComunidad_2(Jugador jugador, Taboleiro taboleiro){
+        int pos = jugador.getAvatar().getCasilla().getPosicion();
+        taboleiro.getCasillaPosicion(pos).eliminarAvatar(jugador.getAvatar().getId());
+
+        jugador.irCarcere(taboleiro);
+        System.out.println("Te investigan por fraude de identidad por lo que ahora estás en la cárcel.");
+        taboleiro.getCasillaPosicion(10).setAvatar(jugador.getAvatar());
+        jugador.sumarVecesCarcel();
+        taboleiro.setContadorVueltas(0);
+    }
+
+}
