@@ -253,7 +253,7 @@ public class Carta {
 
     private void cartasSuerte_8(Jugador jugador) {
         this.texto = "El aumento del impuesto sobre bienes inmuebles afecta a todas tus propiedades. Paga " + Valor.VUELTA / 2 + "€ por casa, " +
-                    Valor.VUELTA * 2 + "€ por hotel, " + Valor.VUELTA + "€ por piscina y " + Valor.VUELTA * 3 + "€ por pista de deporte.";
+                Valor.VUELTA * 2 + "€ por hotel, " + Valor.VUELTA + "€ por piscina y " + Valor.VUELTA * 3 + "€ por pista de deporte.";
         String[] partes;
         float contador = 0;
         int casas = 0, hoteles = 0, piscinas = 0, pistas = 0;
@@ -433,6 +433,14 @@ public class Carta {
                     case 7:
                         cartasComunidad_7(jugador, taboleiro);
                         break;
+                    case 8:
+                        cartasComunidad_8(jugador, menu);
+                        break;
+                    case 9:
+                        cartasComunidad_9(jugador);
+                        break;
+                    case 10:
+                        cartasComunidad_10(jugador, taboleiro, menu);
                     default:
                         System.out.println("Error al escoger la carta!");
                         break;
@@ -504,10 +512,51 @@ public class Carta {
         jugador.sumarPremiosInversionesBote(Valor.PRECIO_GRUPO5);
     }
 
-    private void  cartasComunidad_7(Jugador jugador, Taboleiro taboleiro){
+    private void cartasComunidad_7(Jugador jugador, Taboleiro taboleiro) {
+        this.texto = "Retrocedes hasta 'FIC' para comprar programadores anticuados.";
         int pos = jugador.getAvatar().getCasilla().getPosicion();
         taboleiro.getCasillaPosicion(pos).eliminarAvatar(jugador.getAvatar().getId());
+        taboleiro.getCasillaPosicion(19).setAvatar(jugador.getAvatar());
+        jugador.getAvatar().setCasilla(taboleiro.getCasillaPosicion(19));
+    }
 
-        // acabar
+    private void cartasComunidad_8(Jugador jugador, Menu menu) {
+        Partida partida = menu.getPartida();
+        int jugadores = partida.getJugadores().size() - 1;
+        this.texto = "Alquilas una villa en la 'ETSE' durante una semana, le pagas a cada uno de los jugadores " +
+                Valor.VUELTA / 2 + "€.";
+        if (jugador.getFortuna() < ((float) Valor.VUELTA / 2) * jugadores) {
+            this.texto += "\nDinero insuficiente para pagar el viaje de tus amigos a Química. Debes vender " +
+                    "edificios o hipotecar propiedades.";
+        } else {
+            jugador.restarFortuna(((float) Valor.VUELTA / 2) * jugadores);
+            for (Jugador jugador1 : partida.getJugadores().values()) {
+                jugador1.sumarFortuna((float) Valor.VUELTA / 2);
+                jugador1.sumarPremiosInversionesBote((float) Valor.VUELTA / 2);
+            }
+        }
+    }
+
+    private void cartasComunidad_9(Jugador jugador) {
+        this.texto = "Recibes " + Valor.VUELTA + "€ por el alquiler de tu jet privado.";
+        jugador.sumarFortuna(Valor.VUELTA);
+        jugador.sumarPremiosInversionesBote(Valor.VUELTA);
+    }
+
+    private void cartasComunidad_10(Jugador jugador, Taboleiro taboleiro, Menu menu) {
+        this.texto = "Ve a la 'Ing. Caminos' a disfrutar de sus demostraciones de extracción de minerales." +
+                " Si pasas por la casilla de Salida, cobra " + Valor.VUELTA + "€.";
+        if (jugador.getAvatar().getCasilla().getPosicion() >= 18) {
+            jugador.sumarFortuna(Valor.VUELTA);
+            jugador.sumarVecesSalida();
+            this.texto += "\nHas pasado por la casilla de salida, cobras: " + Valor.VUELTA + "€.";
+            if (taboleiro.getCasillaPosicion(0).isSubirPrecio()) {
+                taboleiro.subirPrecios();
+            }
+            taboleiro.subirPreciosTotal(menu);
+        }
+        taboleiro.getCasillaPosicion(jugador.getAvatar().getCasilla().getPosicion()).eliminarAvatar(jugador.getAvatar().getId());
+        taboleiro.getCasillaPosicion(18).setAvatar(jugador.getAvatar());
+        jugador.getAvatar().setCasilla(taboleiro.getCasillaPosicion(18));
     }
 }
