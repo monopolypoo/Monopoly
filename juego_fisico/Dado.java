@@ -150,6 +150,8 @@ public class Dado {
             jugador.getAvatar().setPenalizacion(0);
             jugador.getAvatar().setLanzarDadosCoche(false);
             menu.setDadosLanzados(true);
+            System.out.println("Acabas de obtener un valor en los dados igual o inferior a 4, por lo que tu turno se " +
+                    "acaba y sufres la penalización de estar dos turnos sin poder lanzar dados.");
         }
     }
 

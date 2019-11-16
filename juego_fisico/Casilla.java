@@ -805,6 +805,51 @@ public class Casilla {
         }
     }
 
+    public String getIdsEdificaciones() {
+        String texto = "";
+        String aux;
+        if (hayEdificios()) {
+            if(idCasas.size() > 0){
+                texto += "C-";
+                while (idCasas.iterator().hasNext()){
+                    aux = idCasas.iterator().next().split("-")[1];
+                    texto += aux;
+                }
+            }
+            if (idHoteles.size() > 0){
+                texto += " H-";
+                while (idHoteles.iterator().hasNext()){
+                    aux = idHoteles.iterator().next().split("-")[1];
+                    texto += aux;
+                }
+            }
+            if (idPiscinas.size() > 0){
+                texto += " P-";
+                while (idPiscinas.iterator().hasNext()){
+                    aux = idPiscinas.iterator().next().split("-")[1];
+                    texto += aux;
+                }
+            }
+            if(idPistas.size() > 0){
+                texto += " PD-";
+                while(idPistas.iterator().hasNext()){
+                    aux = idPistas.iterator().next().split("-")[1];
+                    texto += aux;
+                }
+            }
+            int nLetras = texto.length();
+            if(nLetras < 18){
+                for (int i = nLetras; i < 18; ++i){
+                    texto += " ";
+                }
+            }
+        } else {
+            texto += "                  ";
+        }
+
+        return texto;
+    }
+
     @Override
     public int hashCode() {
         return super.hashCode();
@@ -830,7 +875,7 @@ public class Casilla {
             texto = "{\n\tbote: " + this.valor + ",\n\tjugadores: " + texto + "\n}";
         } else if (this.posicion == 4 || this.posicion == 38) {
             texto = "{\n\ttipo: " + this.tipo + ",\n\tapagar: " + this.valor + ",\n}";
-        }else if(this.posicion == 0){
+        } else if (this.posicion == 0) {
             texto = "{\n\ttipo: especial,\n\tvalor a cobrar al pasar: " + Valor.VUELTA + ",\n}";
         } else {
             String banca, edificaciones = "[ ]";

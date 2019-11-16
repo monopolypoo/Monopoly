@@ -476,7 +476,8 @@ public class Taboleiro {
     public void listarEnVenta() {
         String texto = "";
         for (Casilla cas : this.casillasEnVenta) {
-            texto += "{\n\tNombre: " + cas.getNombreSinEspacio() + "\n\tTipo: " + cas.getTipo() + "\n\tmonopoly.Valor: " + cas.getValor() + "\n}\n";
+            texto += "{\n\tNombre: " + cas.getNombreSinEspacio() + "\n\tTipo: " + cas.getTipo() + "\n\tmonopoly.Valor: " +
+                    cas.getValor() + "\n}\n";
         }
         System.out.println(texto);
     }
@@ -488,26 +489,29 @@ public class Taboleiro {
             return true;
     }
 
-    public void eliminarCasa(String id){
-        if (this.edificaciones.containsKey(id)){
+    public void eliminarCasa(String id) {
+        if (this.edificaciones.containsKey(id)) {
             this.edificaciones.remove(id);
             this.idCasas.remove(id);
         }
     }
-    public void eliminarHotel(String id){
-        if (this.edificaciones.containsKey(id)){
+
+    public void eliminarHotel(String id) {
+        if (this.edificaciones.containsKey(id)) {
             this.edificaciones.remove(id);
             this.idHoteles.remove(id);
         }
     }
-    public void eliminarPiscina(String id){
-        if (this.edificaciones.containsKey(id)){
+
+    public void eliminarPiscina(String id) {
+        if (this.edificaciones.containsKey(id)) {
             this.edificaciones.remove(id);
             this.idPiscinas.remove(id);
         }
     }
-    public void eliminarPista(String id){
-        if (this.edificaciones.containsKey(id)){
+
+    public void eliminarPista(String id) {
+        if (this.edificaciones.containsKey(id)) {
             this.edificaciones.remove(id);
             this.idPistas.remove(id);
         }
@@ -520,7 +524,7 @@ public class Taboleiro {
         if (this.idCasas == null) {
             this.idCasas = new ArrayList<>();
         }
-        if(this.edificaciones == null){
+        if (this.edificaciones == null) {
             this.edificaciones = new HashMap<>();
         }
         if (this.idCasas.size() == 0) {
@@ -543,7 +547,7 @@ public class Taboleiro {
         if (this.idHoteles == null) {
             this.idHoteles = new ArrayList<>();
         }
-        if(this.edificaciones == null){
+        if (this.edificaciones == null) {
             this.edificaciones = new HashMap<>();
         }
         if (this.idHoteles.size() == 0) {
@@ -566,7 +570,7 @@ public class Taboleiro {
         if (this.idPiscinas == null) {
             this.idPiscinas = new ArrayList<>();
         }
-        if(this.edificaciones == null){
+        if (this.edificaciones == null) {
             this.edificaciones = new HashMap<>();
         }
         if (this.idPiscinas.size() == 0) {
@@ -589,7 +593,7 @@ public class Taboleiro {
         if (this.idPistas == null) {
             this.idPistas = new ArrayList<>();
         }
-        if(this.edificaciones == null){
+        if (this.edificaciones == null) {
             this.edificaciones = new HashMap<>();
         }
         if (this.idPistas.size() == 0) {
@@ -611,6 +615,9 @@ public class Taboleiro {
         String BLANCO = Valor.WHITE;
         String textoAvataresNorte = "";
         String textoAvataresSur = "";
+        String textoPropiedadesNorte = "";
+        String textoPropiedadesSur = "";
+        String textoProps;
 
         String textoTope = BLANCO + "┌";
         for (int i = 0; i < 10; i++) {
@@ -653,7 +660,8 @@ public class Taboleiro {
         String textoNorte = "";
         String textoSur = "";
         String textoOesteLeste = "";
-        for (int i = 0; i < ladoNorte.getCasillas().size(); i++) {
+        int nCasillas = ladoNorte.getCasillas().size();
+        for (int i = 0; i < nCasillas; i++) {
             textoNorte += BLANCO + "│" + ladoNorte.getCasillas().get(i).getColorGrupo() + ladoNorte.getCasillas().get(i).getNombre();
             textoAvataresNorte += BLANCO + "│";
             textoAvataresSur += BLANCO + "│";
@@ -664,6 +672,9 @@ public class Taboleiro {
                     textoAvataresNorte += " ";
                 }
             }
+            textoPropiedadesNorte += BLANCO + "│" + ladoNorte.getCasillas().get(i).getIdsEdificaciones();
+            textoPropiedadesSur += BLANCO + "│" + ladoSur.getCasillas().get(i).getIdsEdificaciones();
+
             if (ladoSur.getCasillas().get(i).haiAvatar()) {
                 textoAvataresSur += ladoSur.getCasillas().get(i).getIds();
             } else {
@@ -673,6 +684,7 @@ public class Taboleiro {
             }
             textoSur += BLANCO + "│" + ladoSur.getCasillas().get(i).getColorGrupo() + ladoSur.getCasillas().get(i).getNombre();
             if (i < 9) {
+                textoProps = BLANCO + "│" + ladoOeste.getCasillas().get(i).getIdsEdificaciones() + textoEspaciado + ladoLeste.getCasillas().get(i).getIdsEdificaciones() + BLANCO + "│\n";
                 textoOesteLeste += BLANCO + "│" + ladoOeste.getCasillas().get(i).getColorGrupo() +
                         ladoOeste.getCasillas().get(i).getNombre() + textoEspaciado + ladoLeste.getCasillas().get(i).getColorGrupo() +
                         ladoLeste.getCasillas().get(i).getNombre() + BLANCO + "│\n│";
@@ -691,16 +703,16 @@ public class Taboleiro {
                         textoOesteLeste += " ";
                     }
                 }
-                textoOesteLeste += BLANCO + "│\n";
+                textoOesteLeste += BLANCO + "│\n" + textoProps;//│" + ladoLeste.getCasillas().get(i).getIdsEdificaciones();
+
             }
             if (i < 8)
                 textoOesteLeste += BLANCO + textoTopeEspaciado;
         }
-        String texto = BLANCO + textoTope + textoNorte + BLANCO + "│\n" + textoAvataresNorte + "│\n" + textoTopeMedioArriba + textoOesteLeste + textoTopeMedioAbajo + textoSur + BLANCO + "│\n" + textoAvataresSur + "│\n" + textoTopeAbajo;
+        String texto = BLANCO + textoTope + textoNorte + BLANCO + "│\n" + textoAvataresNorte + "│\n" +
+                textoPropiedadesNorte + BLANCO + "│\n" + textoTopeMedioArriba +
+                textoOesteLeste + textoTopeMedioAbajo + textoSur + BLANCO + "│\n" + textoAvataresSur + "│\n" +
+                textoPropiedadesSur + BLANCO + "│\n" + textoTopeAbajo;
         return texto;
     }
 }
-
-
-
-
