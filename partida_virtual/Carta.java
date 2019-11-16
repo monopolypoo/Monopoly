@@ -253,7 +253,7 @@ public class Carta {
 
     private void cartasSuerte_8(Jugador jugador) {
         this.texto = "El aumento del impuesto sobre bienes inmuebles afecta a todas tus propiedades. Paga " + Valor.VUELTA / 2 + "€ por casa, " +
-                Valor.VUELTA * 2 + "€ por hotel, " + Valor.VUELTA + "€ por piscina y " + Valor.VUELTA * 3 + "€ por pista de deporte.";
+                    Valor.VUELTA * 2 + "€ por hotel, " + Valor.VUELTA + "€ por piscina y " + Valor.VUELTA * 3 + "€ por pista de deporte.";
         String[] partes;
         float contador = 0;
         int casas = 0, hoteles = 0, piscinas = 0, pistas = 0;
@@ -441,6 +441,7 @@ public class Carta {
                         break;
                     case 10:
                         cartasComunidad_10(jugador, taboleiro, menu);
+                        break;
                     default:
                         System.out.println("Error al escoger la carta!");
                         break;
@@ -512,7 +513,7 @@ public class Carta {
         jugador.sumarPremiosInversionesBote(Valor.PRECIO_GRUPO5);
     }
 
-    private void cartasComunidad_7(Jugador jugador, Taboleiro taboleiro) {
+    private void  cartasComunidad_7(Jugador jugador, Taboleiro taboleiro){
         this.texto = "Retrocedes hasta 'FIC' para comprar programadores anticuados.";
         int pos = jugador.getAvatar().getCasilla().getPosicion();
         taboleiro.getCasillaPosicion(pos).eliminarAvatar(jugador.getAvatar().getId());
@@ -536,7 +537,6 @@ public class Carta {
             }
         }
     }
-
     private void cartasComunidad_9(Jugador jugador) {
         this.texto = "Recibes " + Valor.VUELTA + "€ por el alquiler de tu jet privado.";
         jugador.sumarFortuna(Valor.VUELTA);
