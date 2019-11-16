@@ -146,94 +146,74 @@ public class Menu {
                             if (this.jugadores.size() > 0) {
                                 texto = "";
                                 if (!this.dadosLanzados) {
-                                    if (!this.dados.isSeguirPelota()) {
-                                        if (this.jugadorActual.getAvatar().getPenalizacion() > 2) {
-                                            if (!this.jugadorActual.getEstarCarcere()) {
-                                                this.dados.lanzarDados(this.jugadorActual, this.taboleiro, this);
-                                                partidaEmpezada = true;
-                                                if (this.dados.isSeguirPelota()) {
-                                                    this.sigueTurno = true;
-                                                    this.dadosLanzados = false;
+                                    if (this.jugadorActual.getAvatar().getPenalizacion() > 2) {
+                                        if (!this.jugadorActual.getEstarCarcere()) {
+                                            this.dados.lanzarDados(this.jugadorActual, this.taboleiro, this);
+                                            partidaEmpezada = true;
+                                            if (this.dados.getIguales()) {
+                                                this.dadosLanzados = false;
+                                                this.sigueTurno = true;
+                                                this.contadorDobles++;
+                                                this.poderComprar = true;
+                                                texto = " Sacastes dobles! Llevas: " + this.contadorDobles + " veces.";
+                                            } else {
+                                                this.dadosLanzados = true;
+                                                this.sigueTurno = false;
+                                                this.poderComprar = true;
+                                                this.contadorDobles = 0;
+                                            }
+                                            if (this.contadorDobles == 3) {
+                                                this.jugadorActual.irCarcere(this.taboleiro);
+                                                this.dadosLanzados = true;
+                                                this.sigueTurno = false;
+                                                this.poderComprar = false;
+                                                this.contadorDobles = 0;
+                                                texto = "Sacastes tres dobles seguidos, por lo que tienes que ir a la cárcel!";
+                                                this.taboleiro.getCasillaPosicion(this.jugadorActual.getAvatar().getCasilla().getPosicion()).eliminarAvatar(this.jugadorActual.getAvatar().getId());
+                                                this.taboleiro.getCasillaPosicion(10).setAvatar(this.jugadorActual.getAvatar());
+                                                System.out.println(this.taboleiro);
+                                                System.out.println("El avatar " + this.jugadorActual.getAvatar().getId() + this.dados.textoLanzarDados(this.taboleiro, this.jugadorActual) + texto);
+                                            } else {
+                                                if (!this.jugadorActual.getAvatar().getModoAvanzado()) {
+                                                    System.out.println(taboleiro);
+                                                    System.out.println(Valor.RESET + "El avatar " + this.jugadorActual.getAvatar().getId() + this.dados.textoLanzarDados(this.taboleiro, this.jugadorActual) + texto);
                                                     this.jugadorActual.pagarAlquiler(this.jugadorActual.getAvatar().getCasilla(), this.dados.getDadoTotal(), this.taboleiro, 1);
                                                     this.jugadorActual.pagarImpuestos(this.jugadorActual.getAvatar().getCasilla(), this.taboleiro);
                                                     this.jugadorActual.cobrarParking(this.jugadorActual.getAvatar().getCasilla());
-                                                    System.out.println(this.taboleiro);
-                                                    System.out.println("Te ha tocado un: " + this.dados.getDadoTotal());
-                                                } else {
-                                                    if (this.dados.getIguales()) {
-                                                        this.dadosLanzados = false;
-                                                        this.sigueTurno = true;
-                                                        this.contadorDobles++;
-                                                        this.poderComprar = true;
-                                                        texto = " Sacastes dobles! Llevas: " + this.contadorDobles + " veces.";
-                                                    } else {
-                                                        this.dadosLanzados = true;
-                                                        this.sigueTurno = false;
-                                                        this.poderComprar = true;
-                                                        this.contadorDobles = 0;
-                                                    }
-                                                    if (this.contadorDobles == 3) {
-                                                        this.jugadorActual.irCarcere(this.taboleiro);
-                                                        this.dadosLanzados = true;
-                                                        this.sigueTurno = false;
-                                                        this.poderComprar = false;
-                                                        this.contadorDobles = 0;
-                                                        texto = "Sacastes tres dobles seguidos, por lo que tienes que ir a la cárcel!";
-                                                        this.taboleiro.getCasillaPosicion(this.jugadorActual.getAvatar().getCasilla().getPosicion()).eliminarAvatar(this.jugadorActual.getAvatar().getId());
-                                                        this.taboleiro.getCasillaPosicion(10).setAvatar(this.jugadorActual.getAvatar());
-                                                        System.out.println(this.taboleiro);
-                                                        System.out.println("El avatar " + this.jugadorActual.getAvatar().getId() + this.dados.textoLanzarDados(this.taboleiro) + texto);
-                                                    } else {
-                                                        System.out.println(taboleiro);
-                                                        System.out.println("El avatar " + this.jugadorActual.getAvatar().getId() + this.dados.textoLanzarDados(this.taboleiro) + texto);
-                                                        this.jugadorActual.pagarAlquiler(this.jugadorActual.getAvatar().getCasilla(), this.dados.getDadoTotal(), this.taboleiro, 1);
-                                                        this.jugadorActual.pagarImpuestos(this.jugadorActual.getAvatar().getCasilla(), this.taboleiro);
-                                                        this.jugadorActual.cobrarParking(this.jugadorActual.getAvatar().getCasilla());
-                                                    }
+                                                } else{
+                                                    System.out.println(taboleiro);
+                                                    System.out.println(Valor.RESET + "El avatar " + this.jugadorActual.getAvatar().getId() + this.dados.textoLanzarDados(this.taboleiro, this.jugadorActual) + texto);
                                                 }
+                                            }
+                                        } else {
+                                            this.dados.lanzarLosDados();
+                                            if (this.dados.getIguales()) {
+                                                this.jugadorActual.setContadorEstarCarcere(0);
+                                                System.out.println("Sacastes dobles, puedes salír de la cárcel. Lanza los dados para continuar.");
+                                                this.dadosLanzados = false;
+                                                this.sigueTurno = true;
                                             } else {
-                                                this.dados.lanzarLosDados();
-                                                if (this.dados.getIguales()) {
-                                                    this.jugadorActual.setContadorEstarCarcere(0);
-                                                    System.out.println("Sacastes dobles, puedes salír de la cárcel. Lanza los dados para continuar.");
-                                                    this.dadosLanzados = false;
-                                                    this.sigueTurno = true;
-                                                } else {
-                                                    this.jugadorActual.setContadorEstarCarcere(1);
-                                                    System.out.println("No sacastes dobles, llevas " + this.jugadorActual.getContadorEstarCarcere() + " intentos.");
-                                                    this.dadosLanzados = true;
-                                                    this.sigueTurno = false;
-                                                    if (this.jugadorActual.getContadorEstarCarcere() >= 3) {
-                                                        System.out.println("Ya llevas 3 intentos, por lo que debes pagar para salír.");
-                                                        if (this.jugadorActual.getFortuna() >= Valor.SAIR_CARCERE) {
-                                                            this.jugadorActual.restarFortuna(Valor.SAIR_CARCERE);
-                                                            this.taboleiro.getCasillaPosicion(20).sumarValor(Valor.SAIR_CARCERE);
-                                                            this.jugadorActual.setContadorEstarCarcere(0);
-                                                            System.out.println("Pago efectuado. Ya podrás tirar en el seguiente turno.");
-                                                        } else {
-                                                            System.out.println("No tienes suficiente dinero para salír de la cárcel, por lo que estás en bancarrota.");
-                                                        }
+                                                this.jugadorActual.setContadorEstarCarcere(1);
+                                                System.out.println("No sacastes dobles, llevas " + this.jugadorActual.getContadorEstarCarcere() + " intentos.");
+                                                this.dadosLanzados = true;
+                                                this.sigueTurno = false;
+                                                if (this.jugadorActual.getContadorEstarCarcere() >= 3) {
+                                                    System.out.println("Ya llevas 3 intentos, por lo que debes pagar para salír.");
+                                                    if (this.jugadorActual.getFortuna() >= Valor.SAIR_CARCERE) {
+                                                        this.jugadorActual.restarFortuna(Valor.SAIR_CARCERE);
+                                                        this.taboleiro.getCasillaPosicion(20).sumarValor(Valor.SAIR_CARCERE);
+                                                        this.jugadorActual.setContadorEstarCarcere(0);
+                                                        System.out.println("Pago efectuado. Ya podrás tirar en el seguiente turno.");
+                                                    } else {
+                                                        System.out.println("No tienes suficiente dinero para salír de la cárcel, por lo que estás en bancarrota.");
                                                     }
                                                 }
                                             }
-                                            //if (this.jugadorActual.getAvatar().isModoCoche()) {
-                                            //    this.jugadorActual.getAvatar().sumarLanzardados(this);
-                                            //}
-                                        } else {
-                                            System.out.println("Estás penalizado, debes acabar turno y pasarle el turno al siguiente jugador.");
-                                            this.dadosLanzados = true;
-                                            this.sigueTurno = false;
                                         }
                                     } else {
-                                        this.dados.modoPelota(this.jugadorActual, this.taboleiro, this);
-                                        this.jugadorActual.pagarAlquiler(this.jugadorActual.getAvatar().getCasilla(), this.dados.getDadoTotal(), this.taboleiro, 1);
-                                        this.jugadorActual.pagarImpuestos(this.jugadorActual.getAvatar().getCasilla(), this.taboleiro);
-                                        this.jugadorActual.cobrarParking(this.jugadorActual.getAvatar().getCasilla());
-                                        System.out.println(this.taboleiro);
-                                        if (!this.dados.isSeguirPelota()){
-                                            this.sigueTurno = false;
-                                            this.dadosLanzados = true;
-                                        }
+                                        System.out.println("Estás penalizado, debes acabar turno y pasarle el turno al siguiente jugador.");
+                                        this.dadosLanzados = true;
+                                        this.sigueTurno = false;
                                     }
                                 } else {
                                     System.out.println("Ya tiraste los dados! Para poder tirarlos el siguinte jugador antes debes acabar turno!");
@@ -585,8 +565,15 @@ public class Menu {
         }
     }
 
-    public Partida getPartida(){
+    public Partida getPartida() {
         return this.partida;
     }
 
+    public int getContadorDobles(){
+        return this.contadorDobles;
+    }
+
+    public void setContadorDobles(int contadorDobles) {
+        this.contadorDobles = contadorDobles;
+    }
 }

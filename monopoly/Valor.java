@@ -17,6 +17,7 @@ public class Valor {
     public final static int SAIR_CARCERE = 75000;
 
 
+    public final static String RESET = "\u001B[0m";    // RESET
     public final static String BLACK = "\033[0;30m";   // BLACK
     public final static String RED = "\033[0;31m";     // RED
     public final static String GREEN = "\033[0;32m";   // GREEN

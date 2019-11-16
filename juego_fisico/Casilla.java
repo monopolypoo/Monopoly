@@ -875,7 +875,7 @@ public class Casilla {
             texto = "{\n\tbote: " + this.valor + ",\n\tjugadores: " + texto + "\n}";
         } else if (this.posicion == 4 || this.posicion == 38) {
             texto = "{\n\ttipo: " + this.tipo + ",\n\tapagar: " + this.valor + ",\n}";
-        } else if (this.posicion == 0) {
+        }else if(this.posicion == 0){
             texto = "{\n\ttipo: especial,\n\tvalor a cobrar al pasar: " + Valor.VUELTA + ",\n}";
         } else {
             String banca, edificaciones = "[ ]";

@@ -197,46 +197,101 @@ public class Dado {
     public void modoPelota(Jugador jugador, Taboleiro taboleiro, Menu menu) {
         this.seguirPelota = true;
         if (this.dadoTotal > 4) {
-
-            if ((this.numeroPelota + 1) == this.dadoTotal) {
-                System.out.println("Estás aqui 1");
-                this.posActual = jugador.getAvatar().getCasilla().getPosicion();
-                this.posSiguiente = this.posActual + 1;
-                taboleiro.getCasillaPosicion(this.posActual).eliminarAvatar(jugador.getAvatar().getId());
-                modoNormal(jugador, taboleiro, menu);
-                this.seguirPelota = false;
-                this.numeroPelota = 0;
-                this.vecesPelota = 0;
-                return;
-            } else if (this.numeroPelota >= this.dadoTotal) {
-                System.out.println("Las acciones del modo avanzado de pelota ya han terminado, no puedes lanzar más y debes acabar turno.");
-                this.seguirPelota = false;
-                this.numeroPelota = 0;
-                this.vecesPelota = 0;
-                return;
-            } else {
-                System.out.println("estas aqui 2");
-                this.numeroPelota = sumarImpar(this.vecesPelota);
-                this.posActual = jugador.getAvatar().getCasilla().getPosicion();
-                this.posSiguiente = this.posActual + this.numeroPelota;
-                taboleiro.getCasillaPosicion(this.posActual).eliminarAvatar(jugador.getAvatar().getId());
-                modoNormal(jugador, taboleiro, menu);
-                this.vecesPelota++;
+            String[] comando;
+            String casillaAnterior;
+            int contador = 0;
+            if (this.iguales){
+                System.out.println("Has sacado dobles, cuando termines con el modo avanzado de pelota, tendrás que volver a tirar los dados.");
+            } else{
+                menu.setContadorDobles(0);
+            }
+            while (this.seguirPelota) {
+                if (contador >= this.dadoTotal) {
+                    this.seguirPelota = false;
+                    this.numeroPelota = 0;
+                    this.vecesPelota = 0;
+                    System.out.println(Valor.RESET + "El modo avanzado de pelota ha finalizado.");
+                } else if ((contador + 1) == this.dadoTotal) {
+                    this.posActual = jugador.getAvatar().getCasilla().getPosicion();
+                    casillaAnterior = jugador.getAvatar().getCasilla().getNombreSinEspacio();
+                    this.posSiguiente = this.posActual + 1;
+                    contador++;
+                    taboleiro.getCasillaPosicion(this.posActual).eliminarAvatar(jugador.getAvatar().getId());
+                    modoNormal(jugador, taboleiro, menu);
+                    this.seguirPelota = false;
+                    this.numeroPelota = 0;
+                    this.vecesPelota = 0;
+                    System.out.println(taboleiro);
+                    System.out.println(Valor.RESET + "En los dados te ha tocado un " + this.dadoTotal + ", y por estar en el modo avanzado de pelota, avanzas 1 posición, desde "
+                            + casillaAnterior + " hasta " + jugador.getAvatar().getCasilla().getNombreSinEspacio() + ".");
+                    jugador.pagarAlquiler(jugador.getAvatar().getCasilla(), this.dadoTotal, taboleiro, 1);
+                    jugador.pagarImpuestos(jugador.getAvatar().getCasilla(), taboleiro);
+                    jugador.cobrarParking(jugador.getAvatar().getCasilla());
+                    if (taboleiro.sePuedeComprar(jugador.getAvatar().getCasilla()) && (jugador.getAvatar().getCasilla().getDuenho() == null)) {
+                        System.out.print(Valor.RESET + "Estás en la casilla " + jugador.getAvatar().getCasilla().getNombreSinEspacio() + " y se puede comprar, desea comprarla (si/no)? ");
+                        comando = menu.leerComando();
+                        if (comando[0].toLowerCase().equals("si")) {
+                            jugador.comprarCasilla(jugador.getAvatar().getCasilla(), taboleiro);
+                            System.out.println("Pulse enter para continuar con el modo pelota.");
+                            menu.leerComando();
+                        } else {
+                            System.out.println("De acuerdo, no se comprará.");
+                        }
+                    }
+                    System.out.println(Valor.RESET + "El modo avanzado de pelota ha finalizado.");
+                } else {
+                    this.numeroPelota = sumarImpar(this.vecesPelota);
+                    contador += this.numeroPelota;
+                    this.posActual = jugador.getAvatar().getCasilla().getPosicion();
+                    casillaAnterior = jugador.getAvatar().getCasilla().getNombreSinEspacio();
+                    this.posSiguiente = this.posActual + this.numeroPelota;
+                    taboleiro.getCasillaPosicion(this.posActual).eliminarAvatar(jugador.getAvatar().getId());
+                    modoNormal(jugador, taboleiro, menu);
+                    this.vecesPelota++;
+                    System.out.println(taboleiro);
+                    System.out.println(Valor.RESET + "En los dados te ha tocado un " + this.dadoTotal + ", y por estar en el modo avanzado de pelota, avanzas "
+                            + this.numeroPelota + " posiciones, desde " + casillaAnterior + " hasta " + jugador.getAvatar().getCasilla().getNombreSinEspacio() + ".");
+                    jugador.pagarAlquiler(jugador.getAvatar().getCasilla(), this.dadoTotal, taboleiro, 1);
+                    jugador.pagarImpuestos(jugador.getAvatar().getCasilla(), taboleiro);
+                    jugador.cobrarParking(jugador.getAvatar().getCasilla());
+                }
+                if (jugador.getEstarCarcere()) {
+                    this.seguirPelota = false;
+                    this.numeroPelota = 0;
+                    this.vecesPelota = 0;
+                    System.out.println(Valor.RESET + "Caíste en la casilla Ir Cárcel, por lo que ahora estás en la cárcel.");
+                    System.out.println("El modo avanzado de pelota ha finalizado.");
+                }
+                if (this.seguirPelota) {
+                    if (taboleiro.sePuedeComprar(jugador.getAvatar().getCasilla()) && (jugador.getAvatar().getCasilla().getDuenho() == null)) {
+                        System.out.print(Valor.RESET + "Estás en la casilla " + jugador.getAvatar().getCasilla().getNombreSinEspacio() + " y se puede comprar, desea comprarla (si/no)? ");
+                        comando = menu.leerComando();
+                        if (comando[0].toLowerCase().equals("si")) {
+                            jugador.comprarCasilla(jugador.getAvatar().getCasilla(), taboleiro);
+                            System.out.println("Pulse enter para continuar con el modo pelota.");
+                            menu.leerComando();
+                        } else {
+                            System.out.println("De acuerdo, no se comprará.");
+                        }
+                    } else {
+                        System.out.println("Pulse enter para continuar con el modo pelota.");
+                        menu.leerComando();
+                    }
+                }
             }
 
         } else {
             if (this.vecesPelota == 0) {
-                if (this.dadoTotal == 4){
+                if (this.dadoTotal == 4) {
                     this.posSiguiente = this.posActual - 3;
                     this.vecesPelota++;
-                }
-                else{
+                } else {
                     this.posSiguiente = this.posActual - this.dadoTotal;
                     this.seguirPelota = false;
                     this.numeroPelota = 0;
                     this.vecesPelota = 0;
                 }
-            } else{
+            } else {
                 this.posSiguiente = this.posActual - 1;
                 this.seguirPelota = false;
                 this.numeroPelota = 0;
@@ -251,11 +306,16 @@ public class Dado {
         }
     }
 
-    public String textoLanzarDados(Taboleiro taboleiro) {
+    public String textoLanzarDados(Taboleiro taboleiro, Jugador jugador) {
         String texto;
         int sumaDados = this.dado1 + this.dado2;
-        texto = " avanza " + sumaDados + " posiciones, desde " + taboleiro.getCasillaPosicion(this.posActual).getNombreSinEspacio() +
-                " hasta " + taboleiro.getCasillaPosicion(this.posSiguiente).getNombreSinEspacio() + ".";
+        if (jugador.getAvatar().getModoAvanzado()){
+            texto = " retrocede " + sumaDados + " posiciones, desde " + taboleiro.getCasillaPosicion(this.posActual).getNombreSinEspacio() +
+                    " hasta " + taboleiro.getCasillaPosicion(this.posSiguiente).getNombreSinEspacio() + ".";
+        } else {
+            texto = " avanza " + sumaDados + " posiciones, desde " + taboleiro.getCasillaPosicion(this.posActual).getNombreSinEspacio() +
+                    " hasta " + taboleiro.getCasillaPosicion(this.posSiguiente).getNombreSinEspacio() + ".";
+        }
 
         return texto;
     }

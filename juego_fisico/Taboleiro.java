@@ -476,7 +476,7 @@ public class Taboleiro {
     public void listarEnVenta() {
         String texto = "";
         for (Casilla cas : this.casillasEnVenta) {
-            texto += "{\n\tNombre: " + cas.getNombreSinEspacio() + "\n\tTipo: " + cas.getTipo() + "\n\tmonopoly.Valor: " +
+            texto += "{\n\tNombre: " + cas.getNombreSinEspacio() + "\n\tTipo: " + cas.getTipo() + "\n\tValor: " +
                     cas.getValor() + "\n}\n";
         }
         System.out.println(texto);
