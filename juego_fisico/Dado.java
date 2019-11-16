@@ -319,8 +319,9 @@ public class Dado {
         }
     }
 
-    public String textoLanzarDados(Taboleiro taboleiro, Jugador jugador) {
+    public String textoLanzarDados(Taboleiro taboleiro, Jugador jugador, Menu menu) {
         String texto;
+        String[] comando;
         int sumaDados = this.dado1 + this.dado2;
         if (jugador.getAvatar().getModoAvanzado() && jugador.getAvatar().getTipo().equals("coche") && sumaDados <= 4) {
             texto = " retrocede " + sumaDados + " posiciones, desde " + taboleiro.getCasillaPosicion(this.posActual).getNombreSinEspacio() +
@@ -330,7 +331,9 @@ public class Dado {
                     " hasta " + taboleiro.getCasillaPosicion(this.posSiguiente).getNombreSinEspacio() + ". ";
         }
         if ((taboleiro.getCarta().getTexto() != null) && (!taboleiro.getCarta().getTexto().equals(""))){
-            texto += taboleiro.getCarta().getTexto();
+            texto += "\n" + jugador.getNombre() + ", elige una carta: ";
+            menu.leerComando();
+            texto += "Acción: " + taboleiro.getCarta().getTexto();
         }
 
         return texto;
