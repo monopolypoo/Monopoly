@@ -23,11 +23,13 @@ public class Taboleiro {
     private ArrayList<String> idPiscinas;
     private ArrayList<String> idPistas;
     private HashMap<String, Casilla> edificaciones;
+    private Carta carta;
 
 
     public Taboleiro(Partida partida) {
         this.sePuedeSubirPrecio = false;
         this.contadorVueltas = 0;
+        this.carta = new Carta();
 
         // Casillas UDC Ferrol (SUR)
         Casilla saida = new Casilla(" Salida           ", "especial", 0);
@@ -427,6 +429,10 @@ public class Taboleiro {
 
     public HashMap<String, Casilla> getEdificaciones() {
         return edificaciones;
+    }
+
+    public Carta getCarta() {
+        return carta;
     }
 
     public void subirPreciosTotal(Menu menu) {

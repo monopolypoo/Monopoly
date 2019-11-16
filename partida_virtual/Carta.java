@@ -12,10 +12,12 @@ public class Carta {
     private ArrayList<Carta> cartasSuerte;
     private ArrayList<Carta> cartasComunidad;
     private int tipo;
+    private String texto;
 
     public Carta() {
         this.cartasSuerte = new ArrayList<>();
         this.cartasComunidad = new ArrayList<>();
+        this.texto = null;
 
         Carta cartaSuerte1 = new Carta(1, "suerte");
         Carta cartaSuerte2 = new Carta(2, "suerte");
@@ -160,15 +162,24 @@ public class Carta {
         }
     }
 
+    public String getTexto() {
+        return texto;
+    }
+
+    public void setTexto(String texto) {
+        this.texto = texto;
+    }
+
     /***********************************************************************************************
      **   NO COMPROBAMOS SI SE LE PASAN NULLS YA QUE LO HACEMOS EN LAS FUNCIONES QUE LOS LLAMAN   **
      **********************************************************************************************/
 
     private void cartaSuerte_1(Jugador jugador, Taboleiro taboleiro, Menu menu) {
+        this.texto = "Ve al Aeropuerto y coge un avión. Si pasas por la casilla de Salida, cobra " + Valor.VUELTA + "€. ";
         if (jugador.getAvatar().getCasilla().getPosicion() >= 25) {
             jugador.sumarFortuna(Valor.VUELTA);
             jugador.sumarVecesSalida();
-            System.out.println("Has pasado por la casilla de salida, cobras: " + Valor.VUELTA + "€.");
+            this.texto += "\nHas pasado por la casilla de salida, cobras: " + Valor.VUELTA + "€.";
             if (taboleiro.getCasillaPosicion(0).isSubirPrecio()) {
                 taboleiro.subirPrecios();
             }
@@ -177,7 +188,6 @@ public class Carta {
         taboleiro.getCasillaPosicion(jugador.getAvatar().getCasilla().getPosicion()).eliminarAvatar(jugador.getAvatar().getId());
         taboleiro.getCasillaPosicion(25).setAvatar(jugador.getAvatar());
         jugador.getAvatar().setCasilla(taboleiro.getCasillaPosicion(25));
-        System.out.println("Te encuentras en el aeropuerto, ahora vas a coger un avion e irás hasta dónde te lleve.");
     }
 
     private void cartasSuerte_2(Jugador jugador, Taboleiro taboleiro) {

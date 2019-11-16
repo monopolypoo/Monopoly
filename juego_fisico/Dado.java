@@ -16,6 +16,7 @@ public class Dado {
     private int vecesPelota;
     private int numeroPelota;
     private boolean seguirPelota;
+    private String texto;
 
     public Dado() {
         this.dado1 = 0;
@@ -27,6 +28,7 @@ public class Dado {
         this.vecesPelota = 0;
         this.numeroPelota = 0;
         this.seguirPelota = false;
+        this.texto = "";
     }
 
     public Dado(Dado dado) throws InterruptedException {
@@ -150,8 +152,8 @@ public class Dado {
             jugador.getAvatar().setPenalizacion(0);
             jugador.getAvatar().setLanzarDadosCoche(false);
             menu.setDadosLanzados(true);
-            System.out.println("Acabas de obtener un valor en los dados igual o inferior a 4, por lo que tu turno se " +
-                    "acaba y sufres la penalización de estar dos turnos sin poder lanzar dados.");
+            this.texto = "\nAcabas de obtener un valor en los dados igual o inferior a 4, por lo que tu turno se " +
+                    "acaba y sufres la penalización de estar dos turnos sin poder lanzar dados.";
         }
     }
 
@@ -281,40 +283,54 @@ public class Dado {
             }
 
         } else {
-            if (this.vecesPelota == 0) {
-                if (this.dadoTotal == 4) {
-                    this.posSiguiente = this.posActual - 3;
-                    this.vecesPelota++;
+            int num = 0;
+            String casillaAnterior;
+            while(this.seguirPelota) {
+                if (this.vecesPelota == 0) {
+                    if (this.dadoTotal == 4) {
+                        this.posSiguiente = this.posActual - 3;
+                        this.vecesPelota++;
+                        num = 0;
+                    } else {
+                        this.posSiguiente = this.posActual - this.dadoTotal;
+                        this.seguirPelota = false;
+                        this.numeroPelota = 0;
+                        this.vecesPelota = 0;
+                        num = this.dadoTotal;
+                    }
                 } else {
-                    this.posSiguiente = this.posActual - this.dadoTotal;
+                    this.posSiguiente = this.posActual - 1;
                     this.seguirPelota = false;
                     this.numeroPelota = 0;
                     this.vecesPelota = 0;
+                    num = 1;
                 }
-            } else {
-                this.posSiguiente = this.posActual - 1;
-                this.seguirPelota = false;
-                this.numeroPelota = 0;
-                this.vecesPelota = 0;
+                if (this.posSiguiente < 0) {
+                    this.posSiguiente = 40 + this.posSiguiente;
+                }
+                this.posActual = jugador.getAvatar().getCasilla().getPosicion();
+                casillaAnterior = jugador.getAvatar().getCasilla().getNombreSinEspacio();
+                taboleiro.getCasillaPosicion(this.posActual).eliminarAvatar(jugador.getAvatar().getId());
+                modoNormal(jugador, taboleiro, menu);
+                System.out.println(taboleiro);
+                System.out.println(Valor.RESET + "En los dados te ha tocado un " + this.dadoTotal + ", y por estar en el modo avanzado de pelota, retrocedes "
+                        + num + " posiciones, desde " + casillaAnterior + " hasta " + jugador.getAvatar().getCasilla().getNombreSinEspacio() + ".");
             }
-            if (this.posSiguiente < 0) {
-                this.posSiguiente = 40 + this.posSiguiente;
-            }
-            this.posActual = jugador.getAvatar().getCasilla().getPosicion();
-            taboleiro.getCasillaPosicion(this.posActual).eliminarAvatar(jugador.getAvatar().getId());
-            modoNormal(jugador, taboleiro, menu);
         }
     }
 
-   public String textoLanzarDados(Taboleiro taboleiro, Jugador jugador) {
+    public String textoLanzarDados(Taboleiro taboleiro, Jugador jugador) {
         String texto;
         int sumaDados = this.dado1 + this.dado2;
         if (jugador.getAvatar().getModoAvanzado() && jugador.getAvatar().getTipo().equals("coche") && sumaDados <= 4) {
             texto = " retrocede " + sumaDados + " posiciones, desde " + taboleiro.getCasillaPosicion(this.posActual).getNombreSinEspacio() +
-                    " hasta " + taboleiro.getCasillaPosicion(this.posSiguiente).getNombreSinEspacio() + ".";
+                    " hasta " + taboleiro.getCasillaPosicion(this.posSiguiente).getNombreSinEspacio() + ". " + this.texto;
         } else {
             texto = " avanza " + sumaDados + " posiciones, desde " + taboleiro.getCasillaPosicion(this.posActual).getNombreSinEspacio() +
-                    " hasta " + taboleiro.getCasillaPosicion(this.posSiguiente).getNombreSinEspacio() + ".";
+                    " hasta " + taboleiro.getCasillaPosicion(this.posSiguiente).getNombreSinEspacio() + ". ";
+        }
+        if ((taboleiro.getCarta().getTexto() != null) && (!taboleiro.getCarta().getTexto().equals(""))){
+            texto += taboleiro.getCarta().getTexto();
         }
 
         return texto;
