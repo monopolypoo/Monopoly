@@ -306,10 +306,10 @@ public class Dado {
         }
     }
 
-    public String textoLanzarDados(Taboleiro taboleiro, Jugador jugador) {
+   public String textoLanzarDados(Taboleiro taboleiro, Jugador jugador) {
         String texto;
         int sumaDados = this.dado1 + this.dado2;
-        if (jugador.getAvatar().getModoAvanzado()){
+        if (jugador.getAvatar().getModoAvanzado() && jugador.getAvatar().getTipo().equals("coche") && sumaDados <= 4) {
             texto = " retrocede " + sumaDados + " posiciones, desde " + taboleiro.getCasillaPosicion(this.posActual).getNombreSinEspacio() +
                     " hasta " + taboleiro.getCasillaPosicion(this.posSiguiente).getNombreSinEspacio() + ".";
         } else {
