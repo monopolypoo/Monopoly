@@ -703,7 +703,7 @@ public class Taboleiro {
                         textoOesteLeste += " ";
                     }
                 }
-                textoOesteLeste += BLANCO + "│\n" + textoProps;//│" + ladoLeste.getCasillas().get(i).getIdsEdificaciones();
+                textoOesteLeste += BLANCO + "│\n" + textoProps;
 
             }
             if (i < 8)
