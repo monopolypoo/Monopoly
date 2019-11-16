@@ -262,7 +262,8 @@ public class Carta {
             }
         }
 
-        System.out.println("Tienes " + casas + " casas, " + hoteles + " hoteles, " + piscinas + "piscinas y " + pistas + "pistas. Por lo que tienes que pagar " + contador + "€.");
+        System.out.println("Tienes " + casas + " casas, " + hoteles + " hoteles, " + piscinas + "piscinas y " + pistas +
+                "pistas. Por lo que tienes que pagar " + contador + "€.");
         if (jugador.getFortuna() >= contador) {
             jugador.restarFortuna(contador);
             jugador.setDineroGastado(jugador.getDineroGastado() + contador);
@@ -399,6 +400,21 @@ public class Carta {
                     case 2:
                         cartasComunidad_2(jugador, taboleiro);
                         break;
+                    case 3:
+                        cartasComunidad_3(jugador, taboleiro);
+                        break;
+                    case 4:
+                        cartasComunidad_4(jugador);
+                        break;
+                    case 5:
+                        cartasComunidad_5(jugador);
+                        break;
+                    case 6:
+                        cartasComunidad_6(jugador);
+                        break;
+                    case 7:
+                        cartasComunidad_7(jugador, taboleiro);
+                        break;
                 }
             } else {
                 System.out.println("Error al escoger la carta!");
@@ -420,12 +436,11 @@ public class Carta {
         } else {
             taboleiro.getCasillaPosicion(20).sumarValor((float) Valor.VUELTA);
             jugador.restarFortuna((float) Valor.VUELTA);
-            jugador.sumarTasasImpuestos((float) Valor.VUELTA);
             System.out.println("Acabas de pagar " + Valor.VUELTA + "€ por un fin de semana en el balneario Acuña de 5 estrellas.");
         }
     }
 
-    private void cartasComunidad_2(Jugador jugador, Taboleiro taboleiro){
+    private void cartasComunidad_2(Jugador jugador, Taboleiro taboleiro) {
         int pos = jugador.getAvatar().getCasilla().getPosicion();
         taboleiro.getCasillaPosicion(pos).eliminarAvatar(jugador.getAvatar().getId());
 
@@ -436,4 +451,45 @@ public class Carta {
         taboleiro.setContadorVueltas(0);
     }
 
+    private void cartasComunidad_3(Jugador jugador, Taboleiro taboleiro) {
+        int pos = jugador.getAvatar().getCasilla().getPosicion();
+        taboleiro.getCasillaPosicion(pos).eliminarAvatar(jugador.getAvatar().getId());
+
+        taboleiro.getCasillaPosicion(0).setAvatar(jugador.getAvatar());
+        jugador.sumarVecesSalida();
+        jugador.sumarFortuna(Valor.VUELTA);
+
+        System.out.println("Te colocas en la casilla de 'Salida', por lo que cobras el precio de la vuelta, ganas " +
+                Valor.VUELTA + "€.");
+    }
+
+    private void cartasComunidad_4(Jugador jugador) {
+        jugador.sumarFortuna((float) Valor.VUELTA * 2);
+        jugador.sumarPremiosInversionesBote((float) Valor.VUELTA * 2);
+        System.out.println("Tu compañía telefónica 'ETSEfónica' obtuvo beneficios por valor de " + Valor.VUELTA * 2 +
+                "€, por lo que se suman a tu cuenta.");
+    }
+
+    private void cartasComunidad_5(Jugador jugador) {
+        if (jugador.getFortuna() < ((float) Valor.VUELTA)) {
+            System.out.println("Dinero insuficiente para pagar el viaje de tus amigos a 'Química' Debes vender " +
+                    "edificios o hipotecar propiedades.");
+        } else {
+            jugador.restarFortuna((float) Valor.VUELTA);
+            System.out.println("Acabas de pagar " + Valor.VUELTA + "€ por un viaje con tus amigos a 'Química'.");
+        }
+    }
+
+    private void cartasComunidad_6(Jugador jugador) {
+        jugador.sumarFortuna(Valor.PRECIO_GRUPO5);
+        jugador.sumarPremiosInversionesBote(Valor.PRECIO_GRUPO5);
+        System.out.println("Hacienda te devuelve " + Valor.PRECIO_GRUPO5 + "€.");
+    }
+
+    private void  cartasComunidad_7(Jugador jugador, Taboleiro taboleiro){
+        int pos = jugador.getAvatar().getCasilla().getPosicion();
+        taboleiro.getCasillaPosicion(pos).eliminarAvatar(jugador.getAvatar().getId());
+
+        // acabar
+    }
 }
