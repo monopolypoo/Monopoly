@@ -183,8 +183,11 @@ public class Dado {
                 taboleiro.getCasillaPosicion(this.posSiguiente).setVecesCasilla(jugador);
             }
 
-            //AÑADIR AQUI LO DE LAS CARTAS DE SUERTE Y CAJA DE COMUNIDAD!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-
+            if ((this.posSiguiente == 7) || (this.posSiguiente == 22) || (this.posSiguiente == 36)){
+                taboleiro.getCarta().lanzarCartaSuerte(jugador, taboleiro, menu);
+            } else if ((this.posSiguiente == 2) || (this.posSiguiente == 17) || (this.posSiguiente == 33)){
+                taboleiro.getCarta().lanzarCartaComunidad(jugador, taboleiro, menu);
+            }
         }
     }
 
@@ -226,6 +229,7 @@ public class Dado {
                     System.out.println(taboleiro);
                     System.out.println(Valor.RESET + "En los dados te ha tocado un " + this.dadoTotal + ", y por estar en el modo avanzado de pelota, avanzas 1 posición, desde "
                             + casillaAnterior + " hasta " + jugador.getAvatar().getCasilla().getNombreSinEspacio() + ".");
+                    System.out.print(textoAuxLanzarDados(taboleiro, jugador, menu, ""));
                     jugador.pagarAlquiler(jugador.getAvatar().getCasilla(), this.dadoTotal, taboleiro, 1);
                     jugador.pagarImpuestos(jugador.getAvatar().getCasilla(), taboleiro);
                     jugador.cobrarParking(jugador.getAvatar().getCasilla());
@@ -253,6 +257,7 @@ public class Dado {
                     System.out.println(taboleiro);
                     System.out.println(Valor.RESET + "En los dados te ha tocado un " + this.dadoTotal + ", y por estar en el modo avanzado de pelota, avanzas "
                             + this.numeroPelota + " posiciones, desde " + casillaAnterior + " hasta " + jugador.getAvatar().getCasilla().getNombreSinEspacio() + ".");
+                    System.out.print(textoAuxLanzarDados(taboleiro, jugador, menu, ""));
                     jugador.pagarAlquiler(jugador.getAvatar().getCasilla(), this.dadoTotal, taboleiro, 1);
                     jugador.pagarImpuestos(jugador.getAvatar().getCasilla(), taboleiro);
                     jugador.cobrarParking(jugador.getAvatar().getCasilla());
@@ -319,22 +324,36 @@ public class Dado {
         }
     }
 
+    public String textoAuxLanzarDados(Taboleiro taboleiro, Jugador jugador, Menu menu, String texto){
+        if ((taboleiro.getCarta().getTexto() != null) && (!taboleiro.getCarta().getTexto().equals(""))){
+            if ((this.posSiguiente == 7) || (this.posSiguiente == 22) || (this.posSiguiente == 36)){
+                texto += "\n" + jugador.getNombre() + ", elige una carta de suerte (1-13): ";
+            } else if ((this.posSiguiente == 2) || (this.posSiguiente == 17) || (this.posSiguiente == 33)){
+                texto += "\n" + jugador.getNombre() + ", elige una carta de caja de comunidad (1-10): ";
+            }
+            System.out.print(texto);
+            menu.leerComando();
+            texto = "Acción: " + taboleiro.getCarta().getTexto() + "\n";
+        }
+        return texto;
+    }
+
     public String textoLanzarDados(Taboleiro taboleiro, Jugador jugador, Menu menu) {
-        String texto;
-        String[] comando;
+        String texto = taboleiro + "\n";
         int sumaDados = this.dado1 + this.dado2;
+        if ((this.posSiguiente == 7) || (this.posSiguiente == 22) || (this.posSiguiente == 36)){
+            texto = "";
+        } else if ((this.posSiguiente == 2) || (this.posSiguiente == 17) || (this.posSiguiente == 33)){
+            texto = "";
+        }
         if (jugador.getAvatar().getModoAvanzado() && jugador.getAvatar().getTipo().equals("coche") && sumaDados <= 4) {
-            texto = " retrocede " + sumaDados + " posiciones, desde " + taboleiro.getCasillaPosicion(this.posActual).getNombreSinEspacio() +
+            texto += Valor.RESET + "El avatar " + menu.getJugadorActual().getAvatar().getId() + " retrocede " + sumaDados + " posiciones, desde " + taboleiro.getCasillaPosicion(this.posActual).getNombreSinEspacio() +
                     " hasta " + taboleiro.getCasillaPosicion(this.posSiguiente).getNombreSinEspacio() + ". " + this.texto;
         } else {
-            texto = " avanza " + sumaDados + " posiciones, desde " + taboleiro.getCasillaPosicion(this.posActual).getNombreSinEspacio() +
+            texto += Valor.RESET + "El avatar " + menu.getJugadorActual().getAvatar().getId() + " avanza " + sumaDados + " posiciones, desde " + taboleiro.getCasillaPosicion(this.posActual).getNombreSinEspacio() +
                     " hasta " + taboleiro.getCasillaPosicion(this.posSiguiente).getNombreSinEspacio() + ". ";
         }
-        if ((taboleiro.getCarta().getTexto() != null) && (!taboleiro.getCarta().getTexto().equals(""))){
-            texto += "\n" + jugador.getNombre() + ", elige una carta: ";
-            menu.leerComando();
-            texto += "Acción: " + taboleiro.getCarta().getTexto();
-        }
+        texto = textoAuxLanzarDados(taboleiro, jugador, menu, texto);
 
         return texto;
     }

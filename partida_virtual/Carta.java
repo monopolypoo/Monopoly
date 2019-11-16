@@ -310,7 +310,7 @@ public class Carta {
 
     private void cartasSuerte_10(Jugador jugador, Menu menu) {
         this.texto = "Has sido elegido presidente de la junta directiva. Paga a cada jugador " + Valor.VUELTA + "€";
-        float dineroApagar = Valor.VUELTA * menu.getPartida().getJugadores().size() - 1;
+        float dineroApagar = Valor.VUELTA * (menu.getPartida().getJugadores().size() - 1);
 
         if (jugador.getFortuna() < dineroApagar) {
             this.texto += "\nDinero insuficiente para pagarle a los " + (menu.getPartida().getJugadores().size() - 1) +

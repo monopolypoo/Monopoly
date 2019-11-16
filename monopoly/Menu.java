@@ -169,12 +169,12 @@ public class Menu {
                                                 texto = "Sacastes tres dobles seguidos, por lo que tienes que ir a la cárcel!";
                                                 this.taboleiro.getCasillaPosicion(this.jugadorActual.getAvatar().getCasilla().getPosicion()).eliminarAvatar(this.jugadorActual.getAvatar().getId());
                                                 this.taboleiro.getCasillaPosicion(10).setAvatar(this.jugadorActual.getAvatar());
-                                                System.out.println(this.taboleiro);
-                                                System.out.println("El avatar " + this.jugadorActual.getAvatar().getId() + this.dados.textoLanzarDados(this.taboleiro, this.jugadorActual, this) + texto);
+                                                //System.out.println(this.taboleiro);
+                                                System.out.println(this.dados.textoLanzarDados(this.taboleiro, this.jugadorActual, this) + texto);
                                             } else {
                                                 if ((!this.jugadorActual.getAvatar().getModoAvanzado()) || (this.jugadorActual.getAvatar().getModoAvanzado() && (this.jugadorActual.getAvatar().getTipo().equals("coche")))) {
-                                                    System.out.println(taboleiro);
-                                                    System.out.println(Valor.RESET + "El avatar " + this.jugadorActual.getAvatar().getId() + this.dados.textoLanzarDados(this.taboleiro, this.jugadorActual, this) + texto);
+                                                    //System.out.println(taboleiro);
+                                                    System.out.println(this.dados.textoLanzarDados(this.taboleiro, this.jugadorActual, this) + texto);
                                                     this.jugadorActual.pagarAlquiler(this.jugadorActual.getAvatar().getCasilla(), this.dados.getDadoTotal(), this.taboleiro, 1);
                                                     this.jugadorActual.pagarImpuestos(this.jugadorActual.getAvatar().getCasilla(), this.taboleiro);
                                                     this.jugadorActual.cobrarParking(this.jugadorActual.getAvatar().getCasilla());
