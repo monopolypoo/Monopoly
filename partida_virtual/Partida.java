@@ -272,6 +272,20 @@ public class Partida {
                 "\t\tListar enventa ──> Muestra por pantalla todas las casillas disponibles para la compra.\n" +
                 "\t\tJugador ──> Muestra por pantalla la información del jugador que dispone del turno.\n" +
                 "\t\tCrear jugador nombre avatar ──> Crea al jugador que poniéndole como nombre: <nombre> y como avatar: <avatar>. Los avatares disponibles son: Coche, Esfinge, Sombrero, Pelota.\n" +
+                "\t\tComprar casilla ──> Compra la casilla en la que se encuentra el jugador tras haber lanzado los dados.\n" +
+                "\t\tEdificar casa ──> En una casilla en propiedad si has caído dos veces en la misma o posees todo el grupo se te permite edificar hasta 4 casas por casilla.\n" +
+                "\t\tEdificar hotel ──> En una casilla con cuatro casas se te permite intercabiarlas por un hotel.\n" +
+                "\t\tEdificar piscina ──> En una casilla con un hotel y dos casas como mínimo se te permite edificar una piscina.\n" +
+                "\t\tEdificar pista ──> En una casilla con dos hotel se te permite edificar una pista de deportes.\n" +
+                "\t\tHipotecar casilla ──> En caso de necesitar dinero puedes hipotecar casillas en propiedad.\n" +
+                "\t\tDeshipotecar casilla ──> En caso de querer volver a disponer de una casilla hipotecada puedes deshipotecarla.\n" +
+                "\t\tVender casa ──> En caso de necesitar dinero puedes vender las casas de la casilla en la que te encuentras.\n" +
+                "\t\tVender hotel ──> En caso de necesitar dinero puedes vender los hoteles de la casilla en la que te encuentras.\n" +
+                "\t\tVender piscina ──> En caso de necesitar dinero puedes vender las piscinas de la casilla en la que te encuentras.\n" +
+                "\t\tVender pista ──> En caso de necesitar dinero puedes vender las pistas de deporte de la casilla en la que te encuentras.\n" +
+                "\t\tEstadisticas ──> Se muestran las estadísticas de la partida en curso.\n" +
+                "\t\tEstadisticas jugador ──> Se muestran las estadísticas del jugador introducido.\n" +
+                "\t\tCambiar modo ──> Se cambia el modo del que se lanzan los dados según el tipo de jugador que sea.\n" +
                 "}";
         System.out.println(comandos);
     }
