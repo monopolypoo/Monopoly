@@ -207,6 +207,8 @@ public class Menu {
                                         }
                                         if (this.jugadorActual.getAvatar().isModoCoche()) {
                                             this.jugadorActual.getAvatar().sumarLanzardados(this);
+                                            if (this.jugadorActual.getAvatar().isCompraCoche())
+                                                this.poderComprar = false;
                                         }
                                     } else {
                                         System.out.println("Estás penalizado, debes acabar turno y pasarle el turno al siguiente jugador.");
@@ -240,12 +242,13 @@ public class Menu {
                                         this.jugadorActual.getAvatar().setSubirPenalizacion(false);
                                     }
                                 }
+                                this.poderComprar = true;
                                 calcularJugadores();
                                 this.dadosLanzados = false;
                                 this.sigueTurno = true;
-                                if (this.jugadorActual.getAvatar().getModoAvanzado()){
+                                if (this.jugadorActual.getAvatar().getModoAvanzado()) {
                                     System.out.println("El jugador actual es " + this.jugadorActual.getNombre() + " y está en modo avanzado de " + this.jugadorActual.getAvatar().getTipo() + ".");
-                                } else{
+                                } else {
                                     System.out.println("El jugador actual es " + this.jugadorActual.getNombre() + " y está en modo normal.");
                                 }
 
@@ -319,10 +322,12 @@ public class Menu {
                                     this.jugadorActual.comprarCasilla(this.jugadorActual.getAvatar().getCasilla(), this.taboleiro);
                                     this.taboleiro.setContadorVueltas(0);
                                     this.jugadorActual.getAvatar().setCompraCoche(true);
-                                }
-                                else if (this.poderComprar) {
+                                    this.poderComprar = false;
+                                } else if (this.poderComprar) {
                                     this.jugadorActual.comprarCasilla(this.jugadorActual.getAvatar().getCasilla(), this.taboleiro);
                                     this.taboleiro.setContadorVueltas(0);
+                                } else if (this.jugadorActual.getAvatar().isCompraCoche()) {
+                                    System.out.println("Ya has comprado en este turno, por lo que no puedes volver a comprar en este turno.");
                                 } else {
                                     System.out.println("Para comprar una casilla antes debe tirar los dados.");
                                 }
