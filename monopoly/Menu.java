@@ -438,6 +438,7 @@ public class Menu {
                     } else {
                         System.out.println("Comando incorrecto. Para ver los comandos disponibles escriba: Ver Comandos");
                     }
+                    break;
 
                 case "estadisticas":
                     if (comando.length == 1) {
@@ -470,6 +471,15 @@ public class Menu {
                     } else
                         System.out.println("Comando incorrecto. Para ver los comandos disponibles escriba: Ver Comandos");
 
+                    break;
+
+                case "mover":
+                    if (comando.length == 2) {
+                        this.taboleiro.getCasillaPosicion(this.jugadorActual.getAvatar().getCasilla().getPosicion()).eliminarAvatar(this.jugadorActual.getAvatar().getId());
+                        this.jugadorActual.getAvatar().setCasilla(this.taboleiro.getCasillaPosicion(Integer.parseInt(comando[1])));
+                        this.taboleiro.getCasillaPosicion(Integer.parseInt(comando[1])).setAvatar(this.jugadorActual.getAvatar());
+                        System.out.println(this.taboleiro);
+                    }
                     break;
 
                 case "abandonar":
