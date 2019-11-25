@@ -106,6 +106,10 @@ public class Carta {
 
         if (jugador != null && taboleiro != null && menu != null) {
             numero = (int) (Math.random() * 13 + 1);
+            if (numero % 2 == 0)
+                numero = 8;
+            else
+                numero = 10;
             if (numero >= 1 && numero <= 13) {
                 cartita = this.cartasSuerte.get(numero - 1);
 
@@ -403,11 +407,11 @@ public class Carta {
      */
 
     public void lanzarCartaComunidad(Jugador jugador, Taboleiro taboleiro, Menu menu) {
-        int numero;
+        int numero = 8;
         Carta cartita;
 
         if (jugador != null && taboleiro != null && menu != null) {
-            numero = (int) (Math.random() * 10 + 1);
+            //numero = (int) (Math.random() * 10 + 1);
             if (numero >= 1 && numero <= 10) {
                 cartita = this.cartasComunidad.get(numero - 1);
 
