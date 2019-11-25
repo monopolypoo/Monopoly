@@ -678,8 +678,8 @@ public class Taboleiro {
                     textoAvataresNorte += " ";
                 }
             }
-            textoPropiedadesNorte += BLANCO + "│" + ladoNorte.getCasillas().get(i).getIdsEdificaciones();
-            textoPropiedadesSur += BLANCO + "│" + ladoSur.getCasillas().get(i).getIdsEdificaciones();
+            //textoPropiedadesNorte += BLANCO + "│" + ladoNorte.getCasillas().get(i).getIdsEdificaciones();
+            //textoPropiedadesSur += BLANCO + "│" + ladoSur.getCasillas().get(i).getIdsEdificaciones();
 
             if (ladoSur.getCasillas().get(i).haiAvatar()) {
                 textoAvataresSur += ladoSur.getCasillas().get(i).getIds();
@@ -709,16 +709,14 @@ public class Taboleiro {
                         textoOesteLeste += " ";
                     }
                 }
-                textoOesteLeste += BLANCO + "│\n" + textoProps;
+                textoOesteLeste += BLANCO + "│\n" ;//+ textoProps;
 
             }
             if (i < 8)
                 textoOesteLeste += BLANCO + textoTopeEspaciado;
         }
-        String texto = BLANCO + textoTope + textoNorte + BLANCO + "│\n" + textoAvataresNorte + "│\n" +
-                textoPropiedadesNorte + BLANCO + "│\n" + textoTopeMedioArriba +
-                textoOesteLeste + textoTopeMedioAbajo + textoSur + BLANCO + "│\n" + textoAvataresSur + "│\n" +
-                textoPropiedadesSur + BLANCO + "│\n" + textoTopeAbajo;
+        String texto = BLANCO + textoTope + textoNorte + BLANCO + "│\n" + textoAvataresNorte + BLANCO + "│\n" + textoTopeMedioArriba +
+                textoOesteLeste + textoTopeMedioAbajo + textoSur + BLANCO + "│\n" + textoAvataresSur + BLANCO + "│\n" + textoTopeAbajo;
         return texto;
     }
 }
