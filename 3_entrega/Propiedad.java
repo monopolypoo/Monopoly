@@ -1,21 +1,27 @@
 public abstract class Propiedad extends Casilla {
     private double valor;
+    private double alquiler;
     private Jugador duenho;
     private Jugador duenhoAnterior;
     private boolean esHipotecado;
 
     public Propiedad() {
+        super();
         this.valor = 0;
+        this.alquiler = 0;
         this.duenho = null;
         this.duenhoAnterior = null;
         this.esHipotecado = false;
     }
 
-    public Propiedad(double valor) {
+    public Propiedad(String nombre, int posicion, double valor) {
+        super(nombre, posicion);
         if (valor >= 0) {
             this.valor = valor;
+            this.alquiler = 0.1 * this.valor;
         } else {
             this.valor = 0;
+            this.alquiler = 0;
         }
         this.duenho = null;
         this.duenhoAnterior = null;
@@ -32,6 +38,14 @@ public abstract class Propiedad extends Casilla {
         }
     }
 
+    public double getAlquiler(){
+        return this.alquiler;
+    }
+
+    public void setAlquiler(double alquiler){
+        this.alquiler = alquiler;
+    }
+
     public Jugador getDuenho() {
         return this.duenho;
     }
@@ -46,7 +60,7 @@ public abstract class Propiedad extends Casilla {
         return this.duenhoAnterior;
     }
 
-    public void setDuenho(Jugador duenhoAnterior) {
+    public void setDuenhoAnterior(Jugador duenhoAnterior) {
         if (duenhoAnterior != null) {
             this.duenhoAnterior = duenhoAnterior;
         }
@@ -92,8 +106,10 @@ public abstract class Propiedad extends Casilla {
     }
 
     public boolean perteneceAJugador(Jugador jugador){
-        if (jugador.equals(this.duenho)){
-            return true;
+        if (jugador != null) {
+            if (jugador.equals(this.duenho)) {
+                return true;
+            }
         }
         return false;
     }
@@ -110,7 +126,19 @@ public abstract class Propiedad extends Casilla {
         return true;
     }
 
-    public abstract double getAlquiler();
+    public int cuantasCasillasTiene(){
+        int contador = 0;
+        if (this.getDuenho() != null) {
+            for (Casilla cas : super.getGrupo().getCasillas()) {
+                if (this.getDuenho().equals(((Servicio) cas).getDuenho())) {
+                    contador++;
+                }
+            }
+        }
+        return contador;
+    }
+
+    public abstract double getValorAlquiler();
 
     public abstract String toString();
 

@@ -13,6 +13,10 @@ public class Grupo {
     public Grupo() {
     }
 
+    /*********************************************************************************************************
+     ********** MODIFICAR LOS CONSTRUCTORES DE GRUPO Y TENER CUIDADO CON SETVALOR()!!!!!!!!!! ****************
+     *********************************************************************************************************/
+
     public Grupo(ArrayList<Casilla> casillas, int numeroGrupo, String color, String lado, double valor) {
         this.casillas = casillas;
         if (numeroGrupo >= 0) {
