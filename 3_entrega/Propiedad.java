@@ -98,6 +98,18 @@ public abstract class Propiedad extends Casilla {
         return false;
     }
 
+    public boolean tenerTodasCasillas() {
+        Propiedad propiedad;
+        if (this.duenho == null)
+            return false;
+        for (Casilla casilla : super.getGrupo().getCasillas()) {
+            propiedad = (Propiedad) casilla;
+            if (!this.duenho.equals(propiedad.getDuenho()))
+                return false;
+        }
+        return true;
+    }
+
     public abstract double getAlquiler();
 
     public abstract String toString();
