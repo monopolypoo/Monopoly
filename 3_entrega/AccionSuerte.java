@@ -1,4 +1,4 @@
-public final class AccionSuerte extends Casilla {
+public final class AccionSuerte extends Accion {
 
 
     public AccionSuerte(String nombre, int posicion, String colorGrupo) {

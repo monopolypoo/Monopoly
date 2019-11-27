@@ -1,4 +1,4 @@
-public final class AccionCajaComunidad extends Casilla {
+public final class AccionCajaComunidad extends Accion {
 
 
     public AccionCajaComunidad(String nombre, int posicion, String colorGrupo) {
