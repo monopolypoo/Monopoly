@@ -1,8 +1,7 @@
 import java.util.ArrayList;
-import java.util.Objects;
 
 public class Grupo {
-    private int numeroGrupo = 0;
+    private int numeroGrupo;
     private ArrayList<Casilla> casillas;
     private double valor;
     private String color;
@@ -188,30 +187,14 @@ public class Grupo {
             this.casillas.add(casilla);
     }
 
-    public boolean tenerTodasCasillas() {
-        Jugador jugadorActual, jugadorAnterior = null;
-        for (Casilla cas : casillas) {
-            if (cas.getDuenho() != null) {
-                jugadorActual = cas.getDuenho();
-                if (jugadorAnterior != null) {
-                    if (!jugadorAnterior.getAvatar().getId().equals(jugadorActual.getAvatar().getId())) {
-                        return false;
-                    }
-                }
-                jugadorAnterior = jugadorActual;
-            } else {
-                return false;
-            }
-        }
-        return true;
-    }
-
     public int cuantasCasillasTiene(Jugador jugador) {
         int contador = 0;
         if (jugador != null) {
             for (Casilla cas : casillas) {
-                if (cas.getDuenho().getAvatar().getId().equals(jugador.getAvatar().getId())) {
-                    contador++;
+                if (cas.getDuenho() != null) {
+                    if (cas.getDuenho().getAvatar().getId().equals(jugador.getAvatar().getId())) {
+                        contador++;
+                    }
                 }
             }
         }

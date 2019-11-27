@@ -1,5 +1,3 @@
-import java.util.ArrayList;
-import java.util.GregorianCalendar;
 import java.util.HashMap;
 
 public abstract class Casilla {
@@ -8,24 +6,33 @@ public abstract class Casilla {
     private String colorGrupo;
     private HashMap<String, String[]> vecesCasilla;
     private HashMap<String, Avatar> avatares;
+    private Grupo grupo;
 
-    public Casilla() {
+    public Casilla(){
         this.nombre = null;
         this.posicion = 0;
         this.colorGrupo = null;
         this.vecesCasilla = new HashMap<>();
-        this.avatares = new HashMap<String, Avatar>();
+        this.avatares = new HashMap<>();
+        this.grupo = null;
     }
 
-    public Casilla(String nombre, int posicion, String colorGrupo) {
-        if (nombre != null)
-            this.nombre = nombre;
-        if (posicion >= 0 && posicion <= 39)
-            this.posicion = posicion;
-        if (colorGrupo != null)
-            this.colorGrupo = colorGrupo;
+    public Casilla(String nombre, int posicion){
+        this.nombre = nombre;
+        this.posicion = posicion;
+        this.colorGrupo = null;
         this.vecesCasilla = new HashMap<>();
-        this.avatares = new HashMap<String, Avatar>();
+        this.avatares = new HashMap<>();
+        this.grupo = null;
+    }
+
+    public Casilla(String nombre, int posicion, String colorGrupo){
+        this.nombre = nombre;
+        this.posicion = posicion;
+        this.colorGrupo = colorGrupo;
+        this.vecesCasilla = new HashMap<>();
+        this.avatares = new HashMap<>();
+        this.grupo = null;
     }
 
     public String getNombre() {
@@ -33,8 +40,7 @@ public abstract class Casilla {
     }
 
     public void setNombre(String nombre) {
-        if (nombre != null)
-            this.nombre = nombre;
+        this.nombre = nombre;
     }
 
     public int getPosicion() {
@@ -42,8 +48,7 @@ public abstract class Casilla {
     }
 
     public void setPosicion(int posicion) {
-        if (posicion >= 0 && posicion <= 39)
-            this.posicion = posicion;
+        this.posicion = posicion;
     }
 
     public String getColorGrupo() {
@@ -51,8 +56,7 @@ public abstract class Casilla {
     }
 
     public void setColorGrupo(String colorGrupo) {
-        if (colorGrupo != null)
-            this.colorGrupo = colorGrupo;
+        this.colorGrupo = colorGrupo;
     }
 
     public HashMap<String, String[]> getVecesCasilla() {
@@ -60,8 +64,7 @@ public abstract class Casilla {
     }
 
     public void setVecesCasilla(HashMap<String, String[]> vecesCasilla) {
-        if (vecesCasilla != null)
-            this.vecesCasilla = vecesCasilla;
+        this.vecesCasilla = vecesCasilla;
     }
 
     public HashMap<String, Avatar> getAvatares() {
@@ -69,23 +72,75 @@ public abstract class Casilla {
     }
 
     public void setAvatares(HashMap<String, Avatar> avatares) {
-        if (avatares != null)
-            this.avatares = avatares;
+        this.avatares = avatares;
     }
 
-    public boolean estaAvatar() {
+    public Grupo getGrupo() {
+        return grupo;
+    }
+
+    public void setGrupo(Grupo grupo) {
+        this.grupo = grupo;
+    }
+
+    public boolean haiAvatar() {
         return this.avatares.size() != 0;
     }
 
-    public int frecuenciaVisita(String id) {
-        if (id != null)
-            if (this.vecesCasilla.containsKey(id)) {
-                return Integer.parseInt(this.vecesCasilla.get(id)[1]);
-            }
-
-        return 0;
+    public void eliminarAvatar(String id) {
+        this.avatares.remove(id);
     }
 
-    @Override
+    public String getIds() {
+        String texto = " &";
+        int tam, i = 1;
+        tam = this.avatares.size();
+
+        for (Avatar avatar : this.avatares.values()) {
+            texto += avatar.getId();
+            if (tam != i) {
+                texto += ",";
+            }
+            i++;
+        }
+        for (int j = 0; j < 18 - (tam * 2 + 1); j++) {
+            texto += " ";
+        }
+
+        return texto;
+    }
+
+    public String getNombreSinEspacio() {
+        String[] nom;
+        nom = nombre.split(" ");
+        if (nom.length == 2) {
+            return nom[0] + " " + nom[1];
+        } else if (nom.length == 3) {
+            return nom[0] + " " + nom[1] + " " + nom[2];
+        } else if (nom.length == 4) {
+            return nom[0] + " " + nom[1] + " " + nom[2] + " " + nom[3];
+        } else if (nom.length == 5) {
+            return nom[0] + " " + nom[1] + " " + nom[2] + " " + nom[3] + " " + nom[4];
+        } else {
+            return nom[0];
+        }
+    }
+
+    public String getNombreSinEspacios() {
+        String[] nom;
+        nom = nombre.split(" ");
+        if (nom.length == 2) {
+            return nom[0] + nom[1];
+        } else if (nom.length == 3) {
+            return nom[0] + nom[1] + nom[2];
+        } else if (nom.length == 4) {
+            return nom[0] + nom[1] + nom[2] + nom[3];
+        } else if (nom.length == 5) {
+            return nom[0] + nom[1] + nom[2] + nom[3] + nom[4];
+        } else {
+            return nom[0];
+        }
+    }
+
     public abstract String toString();
 }
