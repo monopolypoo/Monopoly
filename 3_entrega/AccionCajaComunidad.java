@@ -1,6 +1,5 @@
 public final class AccionCajaComunidad extends Accion {
 
-
     public AccionCajaComunidad(String nombre, int posicion, String colorGrupo) {
         super(nombre, posicion, colorGrupo);
         if (posicion != 2 && posicion != 17 && posicion != 33)

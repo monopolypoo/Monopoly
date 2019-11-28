@@ -22,7 +22,7 @@ public class Jugador {
         this.nombre = "banca";
         this.fortuna = 1000000000;
         this.dineroGastado = 0;
-        this.avatar = new Avatar();
+        this.avatar = new Coche();
         this.propiedades = new ArrayList<>(); //tambien se le pueden poner inicialmente todas las propiedades a la banca
         this.edificaciones = new ArrayList<>();
         this.estarCarcere = false;
@@ -45,11 +45,6 @@ public class Jugador {
         }
         this.fortuna = Valor.DINERO_INICIAL;
         this.dineroGastado = 0;
-        if (tipo_avatar != null && jugadores != null && casilla != null) {
-            this.avatar = new Avatar(tipo_avatar, this, jugadores, casilla);
-        } else {
-            this.avatar = new Avatar();
-        }
         this.propiedades = new ArrayList<>();
         this.edificaciones = new ArrayList<>();
         this.estarCarcere = false;
@@ -62,6 +57,27 @@ public class Jugador {
         this.premiosInversionesBote = 0;
         this.vecesDados = 0;
         this.vecesCarcel = 0;
+        if (tipo_avatar != null) {
+            switch (tipo_avatar.toLowerCase()) {
+                case "coche":
+                    this.avatar = new Coche(this, jugadores, casilla);
+                    break;
+                case "pelota":
+                    this.avatar = new Pelota(this, jugadores, casilla);
+                    break;
+                case "esfinge":
+                    this.avatar = new Esfinge(this, jugadores, casilla);
+                    break;
+                case "sombrero":
+                    this.avatar = new Sombrero(this, jugadores, casilla);
+                    break;
+                default:
+                    this.avatar = new Coche(this, jugadores, casilla);
+                    break;
+            }
+        } else{
+            this.avatar = new Coche(this, jugadores, casilla);
+        }
     }
 
     public String getNombre() {
@@ -152,7 +168,7 @@ public class Jugador {
 
     public Avatar getAvatar() {
         if (this.avatar == null) {
-            this.avatar = new Avatar();
+            this.avatar = new Coche(); //coche porque es el que usamos por defecto
         }
         return this.avatar;
     }

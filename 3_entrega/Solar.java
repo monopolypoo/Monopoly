@@ -46,14 +46,33 @@ public final class Solar extends Propiedad {
         this.numeroPistas = 0;
     }
 
-    /**
-     * MODIFICAAAAAAAAAAAAAAAR
-     */
+    public void edificar(Jugador jugador, Taboleiro taboleiro, String tipo){
+        String id;
+        switch (tipo){
+            case "casa":
+                id = taboleiro.idCasa(this); /* MODIFICAR ESTAS COSAS PARA QUE SE LE PASE UN SOLAR Y NO UNA CASILLA!!!!!  */
+                break;
+            case "hotel":
+                id = taboleiro.idHotel(this);
+                break;
+            case "piscina":
+                id = taboleiro.idPiscina(this);
+                break;
+            case "pista":
+                id = taboleiro.idPista(this);
+                break;
+            default:
+                System.out.println("ERROR, tipo de edificio erróneo.");
+                break;
+        }
+    }
+
+
     @Override
     public double getValorAlquiler() {
         double valor = 0;
         int aux = 0;
-        aux = this.casas.size();
+        aux = casas.size();
         switch (aux) {
             case 1:
                 valor = 5 * super.getAlquiler();
@@ -71,7 +90,7 @@ public final class Solar extends Propiedad {
                 valor = super.getAlquiler();
                 break;
         }
-        aux = this.hoteles.size();
+        aux = hoteles.size();
         switch (aux) {
             case 1:
                 valor += 70 * super.getAlquiler();
@@ -85,15 +104,7 @@ public final class Solar extends Propiedad {
             default:
                 break;
         }
-        valor = getValor(valor, this.piscinas);
-        valor = getValor(valor, this.pistas);
-
-        return valor;
-    }
-
-    private double getValor(double valor, ArrayList<String> idPistas) {
-        int aux;
-        aux = idPistas.size();
+        aux = piscinas.size();
         switch (aux) {
             case 1:
                 valor += 25 * super.getAlquiler();
@@ -107,6 +118,21 @@ public final class Solar extends Propiedad {
             default:
                 break;
         }
+        aux = pistas.size();
+        switch (aux) {
+            case 1:
+                valor += 25 * super.getAlquiler();
+                break;
+            case 2:
+                valor += 50 * super.getAlquiler();
+                break;
+            case 3:
+                valor += 75 * super.getAlquiler();
+                break;
+            default:
+                break;
+        }
+
         return valor;
     }
 

@@ -68,7 +68,7 @@ public final class Especial extends Casilla {
             texto += "]";
             texto = "{\n\tbote: " + this.valor + ",\n\tjugadores: " + texto + "\n}";
         } else{
-            texto = "Esta casilla no es de tipo especial.\n"
+            texto = "Esta casilla no es de tipo especial.\n";
         }
         return texto;
     }
