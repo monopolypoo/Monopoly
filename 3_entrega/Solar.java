@@ -5,10 +5,10 @@ public final class Solar extends Propiedad {
     private double valorPiscina;
     private double valorPistaDeporte;
     private double valorHotel;
-    private ArrayList<String> idCasas;
-    private ArrayList<String> idHoteles;
-    private ArrayList<String> idPiscinas;
-    private ArrayList<String> idPistas;
+    private ArrayList<Casa> casas;
+    private ArrayList<Hotel> hoteles;
+    private ArrayList<Piscina> piscinas;
+    private ArrayList<Pista> pistas;
     private int numeroCasas;
     private int numeroHoteles;
     private int numeroPiscinas;
@@ -20,10 +20,10 @@ public final class Solar extends Propiedad {
         this.valorPiscina = 0;
         this.valorPistaDeporte = 0;
         this.valorHotel = 0;
-        this.idCasas = new ArrayList<>();
-        this.idHoteles = new ArrayList<>();
-        this.idPiscinas = new ArrayList<>();
-        this.idPistas = new ArrayList<>();
+        this.casas = new ArrayList<>();
+        this.hoteles = new ArrayList<>();
+        this.piscinas = new ArrayList<>();
+        this.pistas = new ArrayList<>();
         this.numeroCasas = 0;
         this.numeroHoteles = 0;
         this.numeroPiscinas = 0;
@@ -36,10 +36,10 @@ public final class Solar extends Propiedad {
         this.valorPiscina = 0.4 * super.getValor();
         this.valorPistaDeporte = 1.25 * super.getValor();
         this.valorHotel = this.valorCasa;
-        this.idCasas = new ArrayList<>();
-        this.idHoteles = new ArrayList<>();
-        this.idPiscinas = new ArrayList<>();
-        this.idPistas = new ArrayList<>();
+        this.casas = new ArrayList<>();
+        this.hoteles = new ArrayList<>();
+        this.piscinas = new ArrayList<>();
+        this.pistas = new ArrayList<>();
         this.numeroCasas = 0;
         this.numeroHoteles = 0;
         this.numeroPiscinas = 0;
@@ -53,7 +53,7 @@ public final class Solar extends Propiedad {
     public double getValorAlquiler() {
         double valor = 0;
         int aux = 0;
-        aux = idCasas.size();
+        aux = this.casas.size();
         switch (aux) {
             case 1:
                 valor = 5 * super.getAlquiler();
@@ -71,7 +71,7 @@ public final class Solar extends Propiedad {
                 valor = super.getAlquiler();
                 break;
         }
-        aux = idHoteles.size();
+        aux = this.hoteles.size();
         switch (aux) {
             case 1:
                 valor += 70 * super.getAlquiler();
@@ -85,20 +85,14 @@ public final class Solar extends Propiedad {
             default:
                 break;
         }
-        aux = idPiscinas.size();
-        switch (aux) {
-            case 1:
-                valor += 25 * super.getAlquiler();
-                break;
-            case 2:
-                valor += 50 * super.getAlquiler();
-                break;
-            case 3:
-                valor += 75 * super.getAlquiler();
-                break;
-            default:
-                break;
-        }
+        valor = getValor(valor, this.piscinas);
+        valor = getValor(valor, this.pistas);
+
+        return valor;
+    }
+
+    private double getValor(double valor, ArrayList<String> idPistas) {
+        int aux;
         aux = idPistas.size();
         switch (aux) {
             case 1:
@@ -113,7 +107,6 @@ public final class Solar extends Propiedad {
             default:
                 break;
         }
-
         return valor;
     }
 
