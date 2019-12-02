@@ -1,13 +1,13 @@
 import java.util.ArrayList;
 
-public final class Coche extends Avatar{
+public final class Coche extends Avatar {
     private boolean lanzarDadosCoche;
     private boolean compraCoche;
     private boolean isSubirPenalizacion;
     private int contadorCoche;
     private int penalizacion;
 
-    public Coche(){
+    public Coche() {
         super();
         this.lanzarDadosCoche = false;
         this.compraCoche = false;
@@ -16,7 +16,7 @@ public final class Coche extends Avatar{
         this.penalizacion = 0;
     }
 
-    public Coche(Jugador jugador, ArrayList<Jugador> jugadores, Casilla casilla){
+    public Coche(Jugador jugador, ArrayList<Jugador> jugadores, Casilla casilla) {
         super(jugador, jugadores, casilla);
         this.penalizacion = 5; // valor mayor que 2
         this.lanzarDadosCoche = false;
@@ -53,12 +53,12 @@ public final class Coche extends Avatar{
         return contadorCoche;
     }
 
-    public void sumarContadorCoche(){
+    public void sumarContadorCoche() {
         ++this.contadorCoche;
     }
 
-    public void setContadorCoche(int contadorCoche){
-        if (contadorCoche == 0){
+    public void setContadorCoche(int contadorCoche) {
+        if (contadorCoche == 0) {
             this.contadorCoche = 0;
         }
     }
@@ -95,18 +95,36 @@ public final class Coche extends Avatar{
         }
     }
 
-    public void moverEnBasico(){
-
-    }
-    public void moverEnAvanzado(){
-
+    @Override
+    public void moverEnAvanzado(Taboleiro taboleiro, Menu menu, Dado dado) {
+        int posSiguiente, posActual = this.getCasilla().getPosicion();
+        if (this.contadorCoche <= 3 && dado.getDadoTotal() > 4) {
+            posSiguiente = posActual + dado.getDadoTotal();
+            moverEnBasico(taboleiro, menu, posSiguiente);
+            this.getJugador().getAvatar().setLanzarDadosCoche(true);
+        } else if (dado.getDadoTotal() <= 4) {
+            this.getJugador().getAvatar().setModoCoche(false);
+            posSiguiente = posActual - dado.getDadoTotal();
+            if (posSiguiente < 0) {
+                posSiguiente += 39;
+            }
+            moverEnBasico(taboleiro, menu, posSiguiente);
+            this.setSubirPenalizacion(true);
+            this.setContadorCoche(0);
+            this.setCompraCoche(false);
+            this.setPenalizacion(0);
+            this.setLanzarDadosCoche(false);
+            menu.setDadosLanzados(true);
+            super.setTextoAvanzado("\nAcabas de obtener un valor en los dados igual o inferior a 4, por lo que tu turno se " +
+                    "acaba y sufres la penalización de estar dos turnos sin poder lanzar dados.");
+        }
     }
 
     @Override
     public String toString() {
         String texto = "{\n" +
                 "\tid: " + super.getId() + "\n" +
-                "\ttipo: coche"  + "\n" +
+                "\ttipo: coche" + "\n" +
                 "\tcasilla: " + super.getCasilla().getNombre() + "\n" +
                 "\tjugador: " + super.getJugador().getNombre() + "\n}";
 

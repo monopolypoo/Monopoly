@@ -6,12 +6,14 @@ public abstract class Avatar {
     private Jugador jugador;
     private Casilla casilla;
     private boolean modoAvanzado;
+    private String textoAvanzado;
 
     public Avatar() {
         this.id = "banca";
         this.jugador = new Jugador();
         this.casilla = null;
         this.modoAvanzado = false;
+        this.textoAvanzado = null;
     }
 
     public Avatar(Jugador jugador, ArrayList<Jugador> jugadores, Casilla casilla) {
@@ -31,6 +33,7 @@ public abstract class Avatar {
             this.id = "banca";
         }
         this.modoAvanzado = false;
+        this.textoAvanzado = null;
     }
 
     public String getId() {
@@ -59,6 +62,15 @@ public abstract class Avatar {
         this.modoAvanzado = modoAvanzado;
     }
 
+    public String getTextoAvanzado() {
+        return textoAvanzado;
+    }
+
+    public void setTextoAvanzado(String textoAvanzado) {
+        if (textoAvanzado != null)
+            this.textoAvanzado = textoAvanzado;
+    }
+
     private boolean idUnico(String id, ArrayList<Jugador> jugadores) {
         for (Jugador jug : jugadores) {
             if (jug.getAvatar().id.equals(id))
@@ -79,8 +91,58 @@ public abstract class Avatar {
         this.id = idAux;
     }
 
-    public abstract void moverEnBasico();
-    public abstract void moverEnAvanzado();
+    public void mover(Taboleiro taboleiro, Menu menu) throws InterruptedException {
+        int posActual, posSiguiente;
+        Dado dado = new Dado();
+        dado.lanzarLosDados();
+        this.jugador.sumarVecesdados();
+
+        posActual = this.jugador.getAvatar().getCasilla().getPosicion();
+        taboleiro.getCasillaPosicion(posActual).eliminarAvatar(this.jugador.getAvatar().getId());
+
+        if (this.modoAvanzado)
+            this.moverEnAvanzado(taboleiro, menu, dado);
+        else {
+            posSiguiente = posActual + dado.getDadoTotal();
+            this.moverEnBasico(taboleiro, menu, posSiguiente);
+        }
+    }
+
+    public void moverEnBasico(Taboleiro taboleiro, Menu menu, int posSiguiente) {
+        Casilla casillaSiguiente;
+        if (posSiguiente > 39) {
+            this.jugador.sumarFortuna(Valor.VUELTA);
+            this.jugador.sumarVecesSalida();
+            System.out.println("Has pasado por la casilla de salida, cobras: " + Valor.VUELTA + "€.");
+            if (taboleiro.getCasillaPosicion(0).isSubirPrecio()) {
+                taboleiro.subirPrecios();
+            }
+            taboleiro.subirPreciosTotal(menu);
+        }
+        if (posSiguiente == 30) {
+            this.jugador.irCarcere(taboleiro);
+            System.out.println("Caíste en la casilla Ir Cárcel, por lo que ahora estás en la cárcel.");
+            taboleiro.getCasillaPosicion(10).setAvatar(jugador.getAvatar());
+            this.jugador.sumarVecesCarcel();
+            taboleiro.setContadorVueltas(0);
+        } else {
+            posSiguiente = posSiguiente % 40;
+            casillaSiguiente = taboleiro.getCasillaPosicion(posSiguiente);
+            this.jugador.getAvatar().setCasilla(casillaSiguiente);
+            taboleiro.getCasillaPosicion(posSiguiente).setAvatar(this.jugador.getAvatar());
+            if (posSiguiente != 10 && posSiguiente != 20 && posSiguiente != 0) {
+                taboleiro.getCasillaPosicion(posSiguiente).setVecesCasilla(this.jugador);
+            }
+
+            if ((posSiguiente == 7) || (posSiguiente == 22) || (posSiguiente == 36)) {
+                taboleiro.getCarta().lanzarCartaSuerte(this.jugador, taboleiro, menu);
+            } else if ((posSiguiente == 2) || (posSiguiente == 17) || (posSiguiente == 33)) {
+                taboleiro.getCarta().lanzarCartaComunidad(jugador, taboleiro, menu);
+            }
+        }
+    }
+
+    public abstract void moverEnAvanzado(Taboleiro taboleiro, Menu menu, Dado dado);
 
     @Override
     public abstract String toString();
