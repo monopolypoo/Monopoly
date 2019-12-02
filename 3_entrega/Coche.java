@@ -101,9 +101,8 @@ public final class Coche extends Avatar {
         if (this.contadorCoche <= 3 && dado.getDadoTotal() > 4) {
             posSiguiente = posActual + dado.getDadoTotal();
             moverEnBasico(taboleiro, menu, posSiguiente);
-            this.getJugador().getAvatar().setLanzarDadosCoche(true);
+            this.setLanzarDadosCoche(true);
         } else if (dado.getDadoTotal() <= 4) {
-            this.getJugador().getAvatar().setModoCoche(false);
             posSiguiente = posActual - dado.getDadoTotal();
             if (posSiguiente < 0) {
                 posSiguiente += 39;
