@@ -167,7 +167,9 @@ public abstract class Casilla {
     public Avatar getAvatarCasilla(String id) {
         if (id != null)
             return this.avatares.get(id);
+        return null;
     }
 
+    @Override
     public abstract String toString();
 }

@@ -3,7 +3,6 @@ import java.util.ArrayList;
 public class Grupo {
     private int numeroGrupo;
     private ArrayList<Casilla> casillas;
-    private double valor;
     private String color;
     private String lado;
     private int numeroHoteles;
@@ -16,6 +15,20 @@ public class Grupo {
     /*********************************************************************************************************
      ********** MODIFICAR LOS CONSTRUCTORES DE GRUPO Y TENER CUIDADO CON SETVALOR()!!!!!!!!!! ****************
      *********************************************************************************************************/
+
+    public Grupo(ArrayList<Casilla> casillas, int numeroGrupo, String color, String lado) {
+        this.casillas = casillas;
+        if (numeroGrupo >= 0) {
+            this.numeroGrupo = numeroGrupo;
+        }
+        setColor(color);
+        if (lado.equals("norte") || lado.equals("sur") || lado.equals("este") || lado.equals("oeste")) {
+            this.lado = lado;
+        }
+        this.numeroHoteles = 0;
+        this.nmeroPistas = 0;
+        this.numeroPiscinas = 0;
+    }
 
     public Grupo(ArrayList<Casilla> casillas, int numeroGrupo, String color, String lado, double valor) {
         this.casillas = casillas;
@@ -32,6 +45,7 @@ public class Grupo {
         this.numeroPiscinas = 0;
     }
 
+    /*
     public Grupo(ArrayList<Casilla> casillas, int numeroGrupo, String color, String lado) {
         this.casillas = casillas;
         if (numeroGrupo >= 0) {
@@ -47,6 +61,7 @@ public class Grupo {
         this.nmeroPistas = 0;
         this.numeroPiscinas = 0;
     }
+     */
 
     public Grupo(ArrayList<Casilla> casillas, int numeroGrupo, double valor, String color) {
         this.casillas = casillas;

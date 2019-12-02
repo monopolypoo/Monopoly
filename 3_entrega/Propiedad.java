@@ -138,6 +138,16 @@ public abstract class Propiedad extends Casilla {
         return contador;
     }
 
+    public boolean hayAlgunaHipoteca() {
+        for (Casilla casilla : super.getGrupo().getCasillas()) {
+            Propiedad propiedad = (Propiedad) casilla;
+            if (propiedad.isEsHipotecado()) {
+                return true;
+            }
+        }
+        return false;
+    }
+
     public abstract double getValorAlquiler();
 
     public abstract String toString();

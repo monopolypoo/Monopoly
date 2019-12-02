@@ -78,7 +78,7 @@ public class Taboleiro {
         ArrayList<Casilla> casillasGrupo1 = new ArrayList<>();
         casillasGrupo1.add(solar1);
         casillasGrupo1.add(solar2);
-        Grupo grupo1 = new Grupo(casillasGrupo1, 1, Valor.BLUE, "sur", Valor.PRECIO_GRUPO1);
+        Grupo grupo1 = new Grupo(casillasGrupo1, 1, Valor.BLUE, "sur");
         grupo1.SetGrupo();
         partida.añadirGrupo(grupo1);
 
@@ -86,7 +86,7 @@ public class Taboleiro {
         casillasGrupo2.add(solar3);
         casillasGrupo2.add(solar4);
         casillasGrupo2.add(solar5);
-        Grupo grupo2 = new Grupo(casillasGrupo2, 2, Valor.YELLOW, "sur", Valor.PRECIO_GRUPO2);
+        Grupo grupo2 = new Grupo(casillasGrupo2, 2, Valor.YELLOW, "sur");
         grupo2.SetGrupo();
         partida.añadirGrupo(grupo2);
 
@@ -94,7 +94,7 @@ public class Taboleiro {
         casillasGrupo3.add(solar6);
         casillasGrupo3.add(solar7);
         casillasGrupo3.add(solar8);
-        Grupo grupo3 = new Grupo(casillasGrupo3, 3, Valor.PURPLE, "oeste", Valor.PRECIO_GRUPO3);
+        Grupo grupo3 = new Grupo(casillasGrupo3, 3, Valor.PURPLE, "oeste");
         grupo3.SetGrupo();
         partida.añadirGrupo(grupo3);
 

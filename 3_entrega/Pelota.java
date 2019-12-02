@@ -43,9 +43,6 @@ public final class Pelota extends Avatar{
         this.seguirPelota = seguirPelota;
     }
 
-    public void moverEnBasico(){
-
-    }
     public void moverEnAvanzado(){
 
     }

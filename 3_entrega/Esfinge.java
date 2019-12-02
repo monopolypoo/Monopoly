@@ -10,9 +10,6 @@ public final class Esfinge extends Avatar{
         super(jugador, jugadores, casilla);
     }
 
-    public void moverEnBasico(){
-
-    }
     public void moverEnAvanzado(){
 
     }
