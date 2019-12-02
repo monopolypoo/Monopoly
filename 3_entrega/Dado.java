@@ -77,11 +77,7 @@ public class Dado {
         this.dado1 = (int) Math.floor(Math.random() * 6 + 1);
         Thread.sleep(50);
         this.dado2 = (int) Math.floor(Math.random() * 6 + 1);
-        if (this.dado2 == this.dado1) {
-            this.iguales = true;
-        } else {
-            this.iguales = false;
-        }
+        this.iguales = this.dado2 == this.dado1;
         return this.dado1 + this.dado2;
     }
 
@@ -93,97 +89,13 @@ public class Dado {
         this.posActual = jugador.getAvatar().getCasilla().getPosicion();
         taboleiro.getCasillaPosicion(this.posActual).eliminarAvatar(jugador.getAvatar().getId());
 
-        if (!jugador.getAvatar().getModoAvanzado()) {
-            this.posSiguiente = this.posActual + this.dadoTotal;
-            modoNormal(jugador, taboleiro, menu);
-        } else {
-            switch (jugador.getAvatar().getTipo()) {
-                case "coche":
-                    //añadir descripcion de lo que va a pasar
-                    modoCoche(jugador, taboleiro, menu);
-                    break;
-
-                case "pelota":
-                    //añadir descripcion de lo que va a pasar
-                    this.posSiguiente = this.posActual + this.dadoTotal;
-                    modoPelota(jugador, taboleiro, menu);
-                    break;
-
-                case "esfinge":
-
-                    break;
-
-                case "sombrero":
-
-                    break;
-
-                default:
-                    System.out.println("ERROR. Se lanzarán los dados normal.");
-            }
-        }
+        jugador.getAvatar().mover(taboleiro, menu);
     }
 
     public boolean getIguales() {
         return this.iguales;
     }
 
-    public void modoCoche(Jugador jugador, Taboleiro taboleiro, Menu menu) {
-        if (jugador.getAvatar().getContadorCoche() <= 3 && this.dadoTotal > 4) {
-            jugador.getAvatar().setModoCoche(true);
-            this.posSiguiente = this.posActual + this.dadoTotal;
-            modoNormal(jugador, taboleiro, menu);
-            jugador.getAvatar().setLanzarDadosCoche(true);
-        } else if (this.dadoTotal <= 4) {
-            jugador.getAvatar().setModoCoche(false);
-            this.posSiguiente = this.posActual - this.dadoTotal;
-            if (this.posSiguiente < 0) {
-                this.posSiguiente += 39;
-            }
-            modoNormal(jugador, taboleiro, menu);
-            jugador.getAvatar().setSubirPenalizacion(true);
-            jugador.getAvatar().setContadorCoche(0);
-            jugador.getAvatar().setCompraCoche(false);
-            jugador.getAvatar().setPenalizacion(0);
-            jugador.getAvatar().setLanzarDadosCoche(false);
-            menu.setDadosLanzados(true);
-            this.texto = "\nAcabas de obtener un valor en los dados igual o inferior a 4, por lo que tu turno se " +
-                    "acaba y sufres la penalización de estar dos turnos sin poder lanzar dados.";
-        }
-    }
-
-    public void modoNormal(Jugador jugador, Taboleiro taboleiro, Menu menu) {
-        Casilla casillaSiguiente;
-        if (this.posSiguiente > 39) {
-            jugador.sumarFortuna(Valor.VUELTA);
-            jugador.sumarVecesSalida();
-            System.out.println("Has pasado por la casilla de salida, cobras: " + Valor.VUELTA + "€.");
-            if (taboleiro.getCasillaPosicion(0).isSubirPrecio()) {
-                taboleiro.subirPrecios();
-            }
-            taboleiro.subirPreciosTotal(menu);
-        }
-        if (this.posSiguiente == 30) {
-            jugador.irCarcere(taboleiro);
-            System.out.println("Caíste en la casilla Ir Cárcel, por lo que ahora estás en la cárcel.");
-            taboleiro.getCasillaPosicion(10).setAvatar(jugador.getAvatar());
-            jugador.sumarVecesCarcel();
-            taboleiro.setContadorVueltas(0);
-        } else {
-            this.posSiguiente = this.posSiguiente % 40;
-            casillaSiguiente = taboleiro.getCasillaPosicion(this.posSiguiente);
-            jugador.getAvatar().setCasilla(casillaSiguiente);
-            taboleiro.getCasillaPosicion(this.posSiguiente).setAvatar(jugador.getAvatar());
-            if (this.posSiguiente != 10 && this.posSiguiente != 20 && this.posSiguiente != 0) {
-                taboleiro.getCasillaPosicion(this.posSiguiente).setVecesCasilla(jugador);
-            }
-
-            if ((this.posSiguiente == 7) || (this.posSiguiente == 22) || (this.posSiguiente == 36)){
-                taboleiro.getCarta().lanzarCartaSuerte(jugador, taboleiro, menu);
-            } else if ((this.posSiguiente == 2) || (this.posSiguiente == 17) || (this.posSiguiente == 33)){
-                taboleiro.getCarta().lanzarCartaComunidad(jugador, taboleiro, menu);
-            }
-        }
-    }
 
     public int sumarImpar(int vez) {
         if (vez == 0) {
@@ -246,7 +158,7 @@ public class Dado {
                     casillaAnterior = jugador.getAvatar().getCasilla().getNombreSinEspacio();
                     this.posSiguiente = this.posActual + this.numeroPelota;
                     taboleiro.getCasillaPosicion(this.posActual).eliminarAvatar(jugador.getAvatar().getId());
-                    modoNormal(jugador, taboleiro, menu);
+                    jugador.getAvatar().moverEnBasico(taboleiro, menu, this.posSiguiente);
                     this.vecesPelota++;
                     System.out.println(taboleiro);
                     System.out.println(Valor.RESET + "En los dados te ha tocado un " + this.dadoTotal + ", y por estar en el modo avanzado de pelota, avanzas "

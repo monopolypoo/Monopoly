@@ -43,7 +43,8 @@ public final class Pelota extends Avatar{
         this.seguirPelota = seguirPelota;
     }
 
-    public void moverEnAvanzado(){
+    @Override
+    public void moverEnAvanzado(Taboleiro taboleiro, Menu menu, Dado dado) {
 
     }
 
