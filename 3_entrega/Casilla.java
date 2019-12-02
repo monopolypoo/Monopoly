@@ -8,7 +8,7 @@ public abstract class Casilla {
     private HashMap<String, Avatar> avatares;
     private Grupo grupo;
 
-    public Casilla(){
+    public Casilla() {
         this.nombre = null;
         this.posicion = 0;
         this.colorGrupo = null;
@@ -17,7 +17,7 @@ public abstract class Casilla {
         this.grupo = null;
     }
 
-    public Casilla(String nombre, int posicion){
+    public Casilla(String nombre, int posicion) {
         this.nombre = nombre;
         this.posicion = posicion;
         this.colorGrupo = null;
@@ -26,7 +26,7 @@ public abstract class Casilla {
         this.grupo = null;
     }
 
-    public Casilla(String nombre, int posicion, String colorGrupo){
+    public Casilla(String nombre, int posicion, String colorGrupo) {
         this.nombre = nombre;
         this.posicion = posicion;
         this.colorGrupo = colorGrupo;
@@ -63,8 +63,25 @@ public abstract class Casilla {
         return vecesCasilla;
     }
 
-    public void setVecesCasilla(HashMap<String, String[]> vecesCasilla) {
+    /*public void setVecesCasilla(HashMap<String, String[]> vecesCasilla) {
         this.vecesCasilla = vecesCasilla;
+    }*/
+
+    public void setVecesCasilla(Jugador jugador) {
+        String[] texto = new String[2];
+        int aux;
+        if (jugador != null)
+            if (this.vecesCasilla.containsKey(jugador.getAvatar().getId())) {
+                texto = this.vecesCasilla.get(jugador.getAvatar().getId());
+                aux = Integer.parseInt(texto[1]);
+                aux++;
+                texto[1] = "" + aux;
+                this.vecesCasilla.replace(jugador.getAvatar().getId(), texto);
+            } else {
+                texto[0] = jugador.getAvatar().getId();
+                texto[1] = "1";
+                this.vecesCasilla.put(jugador.getAvatar().getId(), texto);
+            }
     }
 
     public HashMap<String, Avatar> getAvatares() {
@@ -140,6 +157,16 @@ public abstract class Casilla {
         } else {
             return nom[0];
         }
+    }
+
+    public void setAvatar(Avatar avatar) {
+        if (avatar != null)
+            this.avatares.put(avatar.getId(), avatar);
+    }
+
+    public Avatar getAvatarCasilla(String id) {
+        if (id != null)
+            return this.avatares.get(id);
     }
 
     public abstract String toString();
