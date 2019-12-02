@@ -6,7 +6,7 @@ public class Jugador {
     private float dineroGastado;
     private Avatar avatar;
     private ArrayList<Casilla> propiedades;
-    private ArrayList<String> edificaciones;
+    private ArrayList<Edificio> edificaciones;
     private boolean estarCarcere;
     private int contadorEstarCarcere;
     private float dineroInvertido;
@@ -214,12 +214,6 @@ public class Jugador {
         }
     }
 
-    public void eliminarEdificacion(String id) {
-        if (id != null) {
-            this.edificaciones.remove(id);
-        }
-    }
-
     public int getContadorEstarCarcere() {
         return this.contadorEstarCarcere;
     }
@@ -255,19 +249,19 @@ public class Jugador {
     }
 
 
-    public ArrayList<String> getEdificaciones() {
+    public ArrayList<Edificio> getEdificaciones() {
         return this.edificaciones;
     }
 
-    public void añadirEdificacion(String edificio) {
+    public void añadirEdificacion(Edificio edificio) {
         if (edificio != null) {
             this.edificaciones.add(edificio);
         }
     }
 
-    public void eliminarCasa(String id) {
-        if (id != null) {
-            this.edificaciones.remove(id);
+    public void eliminarEdificacion(Edificio edificio) {
+        if (edificio != null) {
+            this.edificaciones.remove(edificio);
         }
     }
 
@@ -435,8 +429,8 @@ public class Jugador {
                 prop = "[ ]";
             if ((tam = this.edificaciones.size()) != 0) {
                 i = 0;
-                for (String id : this.edificaciones) {
-                    edif += id;
+                for (Edificio edificio : this.edificaciones) {
+                    edif += edificio.getId();
                     if (i != tam) {
                         edif += ", ";
                     }

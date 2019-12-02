@@ -17,7 +17,7 @@ public class Taboleiro {
     private ArrayList<String> idHoteles;
     private ArrayList<String> idPiscinas;
     private ArrayList<String> idPistas;
-    private HashMap<String, Casilla> edificaciones;
+    private HashMap<String, Solar> edificaciones;
     private Carta carta;
 
 
@@ -422,7 +422,7 @@ public class Taboleiro {
         this.contadorVueltas = contadorVueltas;
     }
 
-    public HashMap<String, Casilla> getEdificaciones() {
+    public HashMap<String, Solar> getEdificaciones() {
         return edificaciones;
     }
 
@@ -518,7 +518,7 @@ public class Taboleiro {
         }
     }
 
-    public String idCasa(Casilla casilla) {
+    public String idCasa(Solar solar) {
         String id;
         String[] aux;
         int numero;
@@ -537,11 +537,11 @@ public class Taboleiro {
             id = "casa-" + numero;
         }
         this.idCasas.add(id);
-        this.edificaciones.put(id, casilla);
+        this.edificaciones.put(id, solar);
         return id;
     }
 
-    public String idHotel(Casilla casilla) {
+    public String idHotel(Solar solar) {
         String id;
         String[] aux;
         int numero;
@@ -560,11 +560,11 @@ public class Taboleiro {
             id = "hotel-" + numero;
         }
         this.idHoteles.add(id);
-        this.edificaciones.put(id, casilla);
+        this.edificaciones.put(id, solar);
         return id;
     }
 
-    public String idPiscina(Casilla casilla) {
+    public String idPiscina(Solar solar) {
         String id;
         String[] aux;
         int numero;
@@ -583,11 +583,11 @@ public class Taboleiro {
             id = "piscina-" + numero;
         }
         this.idPiscinas.add(id);
-        this.edificaciones.put(id, casilla);
+        this.edificaciones.put(id, solar);
         return id;
     }
 
-    public String idPista(Casilla casilla) {
+    public String idPista(Solar solar) {
         String id;
         String[] aux;
         int numero;
@@ -606,7 +606,7 @@ public class Taboleiro {
             id = "pista-" + numero;
         }
         this.idPistas.add(id);
-        this.edificaciones.put(id, casilla);
+        this.edificaciones.put(id, solar);
         return id;
     }
 
