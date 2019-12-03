@@ -143,7 +143,7 @@ public class Dado {
         } else if ((this.posSiguiente == 2) || (this.posSiguiente == 17) || (this.posSiguiente == 33)) {
             texto = "";
         }
-        if (jugador.getAvatar().isModoAvanzado() && (jugador.getAvatar() instanceof Coche) && sumaDados <= 4) {
+        if (jugador.getAvatar().isModoAvanzado() && jugador.getAvatar() instanceof Coche && sumaDados <= 4) {
             texto += Valor.RESET + "El avatar " + menu.getJugadorActual().getAvatar().getId() + " retrocede " + sumaDados +
                     " posiciones, desde " + taboleiro.getCasillaPosicion(this.posActual).getNombreSinEspacio() +
                     " hasta " + taboleiro.getCasillaPosicion(this.posSiguiente).getNombreSinEspacio() + ". " + this.texto;

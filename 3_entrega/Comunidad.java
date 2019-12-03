@@ -17,7 +17,7 @@ public final class Comunidad extends Carta {
             super.anhadirTexto("\nDinero insuficiente para pagar el fin de semana en el balneario de 5 estrellas. Debes vender " +
                     "edificios o hipotecar propiedades.");
         } else {
-            taboleiro.getCasillaPosicion(20).sumarValor((float) Valor.VUELTA);
+            ((Especial)taboleiro.getCasillaPosicion(20)).sumarBote((float) Valor.VUELTA);
             jugador.restarFortuna((float) Valor.VUELTA);
         }
     }
@@ -75,8 +75,8 @@ public final class Comunidad extends Carta {
     }
 
     private void cartasComunidad_8(Jugador jugador, Menu menu) {
-        Partida partida = menu.getPartida();
-        int jugadores = partida.getJugadores().size() - 1;
+        Juego juego = menu.getJuego();
+        int jugadores = juego.getJugadores().size() - 1;
         super.setTexto("Alquilas una villa en la 'ETSE' durante una semana, le pagas a cada uno de los jugadores " +
                 Valor.VUELTA / 2 + "€.");
         if (jugador.getFortuna() < ((float) Valor.VUELTA / 2) * jugadores) {
@@ -84,7 +84,7 @@ public final class Comunidad extends Carta {
                     "edificios o hipotecar propiedades.");
         } else {
             jugador.restarFortuna(((float) Valor.VUELTA / 2) * jugadores);
-            for (Jugador jugador1 : partida.getJugadores().values()) {
+            for (Jugador jugador1 : juego.getJugadores()) {
                 jugador1.sumarFortuna((float) Valor.VUELTA / 2);
                 jugador1.sumarPremiosInversionesBote((float) Valor.VUELTA / 2);
             }
@@ -107,7 +107,7 @@ public final class Comunidad extends Carta {
             if (taboleiro.getCasillaPosicion(0).isSubirPrecio()) {
                 taboleiro.subirPrecios();
             }
-            taboleiro.subirPreciosTotal(menu);
+            taboleiro.subirPreciosTotal(menu.getJuego());
         }
         taboleiro.getCasillaPosicion(jugador.getAvatar().getCasilla().getPosicion()).eliminarAvatar(jugador.getAvatar().getId());
         taboleiro.getCasillaPosicion(18).setAvatar(jugador.getAvatar());

@@ -20,6 +20,11 @@ public final class Esfinge extends Avatar{
     }
 
     @Override
+    public void moverEnAvanzado(Taboleiro taboleiro, Menu menu, Dado dado) {
+
+    }
+
+    @Override
     public String toString() {
         String texto = "{\n" +
                 "\tid: " + super.getId() + "\n" +
