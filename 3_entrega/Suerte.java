@@ -1,77 +1,10 @@
+import java.util.ArrayList;
+
 public final class Suerte extends Carta {
 
-    public Suerte(){
+    public Suerte() {
         super();
     }
-
-    public void lanzarCartaSuerte(Jugador jugador, Taboleiro taboleiro, Menu menu) {
-        int numero;
-        Carta cartita;
-
-        if (jugador != null && taboleiro != null && menu != null) {
-            numero = (int) (Math.random() * 13 + 1);
-            if (numero >= 1 && numero <= 13) {
-                cartita = this.cartasSuerte.get(numero - 1);
-
-                // Según el tipo que es, pues, es único para cada una
-                switch (cartita.getTipo()) {
-                    case 1:
-                        cartaSuerte_1(jugador, taboleiro, menu);
-                        break;
-                    case 2:
-                        cartasSuerte_2(jugador, taboleiro);
-                        break;
-                    case 3:
-                        cartasSuerte_3(jugador);
-                        break;
-                    case 4:
-                        cartasSuerte_4(jugador, taboleiro, menu);
-                        break;
-                    case 5:
-                        cartasSuerte_5(jugador, taboleiro);
-                        break;
-                    case 6:
-                        cartasSuerte_6(jugador);
-                        break;
-                    case 7:
-                        cartasSuerte_7(jugador, taboleiro);
-                        break;
-                    case 8:
-                        cartasSuerte_8(jugador);
-                        break;
-                    case 9:
-                        cartasSuerte_9(jugador, taboleiro, menu);
-                        break;
-                    case 10:
-                        cartasSuerte_10(jugador, menu);
-                        break;
-                    case 11:
-                        cartasSuerte_11(jugador, taboleiro);
-                        break;
-                    case 12:
-                        cartasSuerte_12(jugador, taboleiro);
-                        break;
-                    case 13:
-                        cartasSuerte_13(jugador);
-                        break;
-                    /*
-                    case 14:
-                        cartasSuerte_14(jugador, taboleiro, menu);
-                        break;
-                     */
-                    default:
-                        System.out.println("Error al escoger la carta!");
-                        break;
-                }
-            } else {
-                System.out.println("Error al escoger la carta!");
-            }
-        } else {
-            System.out.println("El jugador, el tablero o el menú no se encuentran inicializados!");
-        }
-    }
-
-
 
     /***********************************************************************************************
      **   NO COMPROBAMOS SI SE LE PASAN NULLS YA QUE LO HACEMOS EN LAS FUNCIONES QUE LOS LLAMAN   **
@@ -253,6 +186,7 @@ public final class Suerte extends Carta {
         jugador.sumarPremiosInversionesBote((float) Valor.VUELTA / 4);
     }
 
+
     /*
     private void cartasSuerte_14(Jugador jugador, Taboleiro taboleiro, Menu menu) {
         int pos = jugador.getAvatar().getCasilla().getPosicion();
@@ -293,4 +227,83 @@ public final class Suerte extends Carta {
     }
 
      */
+
+    @Override
+    public int barajar(int escogida) {
+        int numero;
+        ArrayList<Integer> cartas = new ArrayList<>();
+
+        while (cartas.size() < 14) {
+            numero = (int) (Math.random() * 13 + 1);
+            if (!estaNumero(numero, cartas))
+                cartas.add(numero);
+        }
+        return cartas.get(escogida);
+    }
+
+    @Override
+    public void accion(Jugador jugador, Taboleiro taboleiro, Menu menu, int escogida) {
+        int numero;
+
+        if (jugador != null && taboleiro != null && menu != null) {
+            numero = barajar(escogida);
+            if (numero >= 1 && numero <= 13) {
+
+                // Según el tipo que es, pues, es único para cada una
+                switch (numero) {
+                    case 1:
+                        cartaSuerte_1(jugador, taboleiro, menu);
+                        break;
+                    case 2:
+                        cartasSuerte_2(jugador, taboleiro);
+                        break;
+                    case 3:
+                        cartasSuerte_3(jugador);
+                        break;
+                    case 4:
+                        cartasSuerte_4(jugador, taboleiro, menu);
+                        break;
+                    case 5:
+                        cartasSuerte_5(jugador, taboleiro);
+                        break;
+                    case 6:
+                        cartasSuerte_6(jugador);
+                        break;
+                    case 7:
+                        cartasSuerte_7(jugador, taboleiro);
+                        break;
+                    case 8:
+                        cartasSuerte_8(jugador);
+                        break;
+                    case 9:
+                        cartasSuerte_9(jugador, taboleiro, menu);
+                        break;
+                    case 10:
+                        cartasSuerte_10(jugador, menu);
+                        break;
+                    case 11:
+                        cartasSuerte_11(jugador, taboleiro);
+                        break;
+                    case 12:
+                        cartasSuerte_12(jugador, taboleiro);
+                        break;
+                    case 13:
+                        cartasSuerte_13(jugador);
+                        break;
+                    /*
+                    case 14:
+                        cartasSuerte_14(jugador, taboleiro, menu);
+                        break;
+                     */
+                    default:
+                        System.out.println("Error al escoger la carta!");
+                        break;
+                }
+            } else {
+                System.out.println("Error al escoger la carta!");
+            }
+        } else {
+            System.out.println("El jugador, el tablero o el menú no se encuentran inicializados!");
+        }
+    }
 }
