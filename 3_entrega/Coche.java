@@ -95,6 +95,17 @@ public final class Coche extends Avatar {
         }
     }
 
+    public void resetCoche(Menu menu) {
+        ((Coche) menu.getJugadorActual().getAvatar()).setCompraCoche(false);
+        if (((Coche) menu.getJugadorActual().getAvatar()).isSubirPenalizacion()) {
+            ((Coche) menu.getJugadorActual().getAvatar()).sumarPenalizacion();
+            if (((Coche) menu.getJugadorActual().getAvatar()).getPenalizacion() == 3) {
+                ((Coche) menu.getJugadorActual().getAvatar()).setLanzarDadosCoche(true);
+                ((Coche) menu.getJugadorActual().getAvatar()).setSubirPenalizacion(false);
+            }
+        }
+    }
+
     @Override
     public String getTipo() {
         return "coche";
