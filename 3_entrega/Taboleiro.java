@@ -16,13 +16,11 @@ public class Taboleiro {
     private ArrayList<String> idPiscinas;
     private ArrayList<String> idPistas;
     private HashMap<String, Solar> edificaciones;
-    private Carta carta;
 
 
     public Taboleiro(Juego juego) {
         this.sePuedeSubirPrecio = false;
         this.contadorVueltas = 0;
-        this.carta = new Carta();
 
         // Casillas UDC Ferrol (SUR)
         Especial saida = new Especial(" Salida           ", 0);
@@ -372,13 +370,9 @@ public class Taboleiro {
         return edificaciones;
     }
 
-    public Carta getCarta() {
-        return carta;
-    }
-
     public void subirPreciosTotal(Juego juego) {
         this.contadorVueltas++;
-        if (this.contadorVueltas == 4 * juego.getTodosjugadores().size()) {
+        if (this.contadorVueltas == 4 * juego.getJugadores().size()) {
             this.sePuedeSubirPrecio = true;
         }
     }
