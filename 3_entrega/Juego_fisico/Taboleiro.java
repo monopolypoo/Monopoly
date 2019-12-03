@@ -244,7 +244,7 @@ public class Taboleiro {
         this.casillas.put("Imp.Militar", imp1);
         this.casillas.put("Pto.Ferrol", trans1);
         this.casillas.put("Podología", solar3);
-        this.casillas.put("Carta.Suerte", sorte1);
+        this.casillas.put("Suerte", sorte1);
         this.casillas.put("Humanidades", solar4);
         this.casillas.put("Documentación", solar5);
 

@@ -186,12 +186,12 @@ public class Grupo {
 
         if (this.casillas.size() != 0) {
             for (Casilla casilla : this.casillas) {
-                texto += "\n{\n\tCasilla.Casilla.Propiedad: " + casilla.getNombreSinEspacio();
+                texto += "\n{\n\tPropiedad: " + casilla.getNombreSinEspacio();
                 if (casilla instanceof Solar) {
                     texto += ",\n\tCasas: " + ((Solar) casilla).getCasas().toString() +
                             ",\n\tHoteles: " + ((Solar) casilla).getHoteles().toString() +
                             ",\n\tPiscinas: " + ((Solar) casilla).getPiscinas().toString() +
-                            ",\n\tEdificio.Pista: " + ((Solar) casilla).getPistas().toString();
+                            ",\n\tPista: " + ((Solar) casilla).getPistas().toString();
                     casas += 4 - ((Solar) casilla).getCasas().size();
                     hoteles -= ((Solar) casilla).getHoteles().size();
                     pistas -= ((Solar) casilla).getPistas().size();
