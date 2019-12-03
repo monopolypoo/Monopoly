@@ -423,7 +423,7 @@ public class Jugador {
                 edif = "[ ]";
             texto = "{\n" +
                     "\tNombre: " + this.nombre +
-                    "\n\tJugador.Jugador.Avatar: " + this.avatar.getId() +
+                    "\n\tAvatar: " + this.avatar.getId() +
                     "\n\tFortuna: " + this.fortuna +
                     "\n\tGastos: " + this.dineroGastado +
                     "\n\tPropiedades: " + prop +
