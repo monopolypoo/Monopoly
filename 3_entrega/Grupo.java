@@ -30,44 +30,9 @@ public class Grupo {
         this.numeroPiscinas = 0;
     }
 
-    public Grupo(ArrayList<Casilla> casillas, int numeroGrupo, String color, String lado, double valor) {
-        this.casillas = casillas;
-        if (numeroGrupo >= 0) {
-            this.numeroGrupo = numeroGrupo;
-        }
-        setColor(color);
-        if (lado.equals("norte") || lado.equals("sur") || lado.equals("este") || lado.equals("oeste")) {
-            this.lado = lado;
-        }
-        setValor(valor);
-        this.numeroHoteles = 0;
-        this.nmeroPistas = 0;
-        this.numeroPiscinas = 0;
-    }
-
-    /*
-    public Grupo(ArrayList<Casilla> casillas, int numeroGrupo, String color, String lado) {
-        this.casillas = casillas;
-        if (numeroGrupo >= 0) {
-            this.numeroGrupo = numeroGrupo;
-            this.valor = 100000 * Math.pow(1.3, this.numeroGrupo - 1);
-            setValor(valor);
-        }
-        if (lado.equals("norte") || lado.equals("sur") || lado.equals("este") || lado.equals("oeste")) {
-            this.lado = lado;
-        }
-        setColor(color);
-        this.numeroHoteles = 0;
-        this.nmeroPistas = 0;
-        this.numeroPiscinas = 0;
-    }
-     */
-
-    public Grupo(ArrayList<Casilla> casillas, int numeroGrupo, double valor, String color) {
+    public Grupo(int numeroGrupo, ArrayList<Casilla> casillas, String color) {
         this.casillas = casillas;
         this.numeroGrupo = numeroGrupo;
-        this.valor = valor;
-        setValor(valor);
         this.lado = null;
         setColor(color);
         this.numeroHoteles = 0;

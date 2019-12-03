@@ -9,8 +9,6 @@ public class Taboleiro {
     private Grupo ladoSur;
     private HashMap<String, Casilla> casillas;
     private HashMap<Integer, Casilla> casillasPosicion;
-    private ArrayList<Casilla> casillasNoEnVenta;
-    private ArrayList<Casilla> casillasEnVenta;
     private boolean sePuedeSubirPrecio;
     private int contadorVueltas;
     private ArrayList<String> idCasas;
@@ -21,7 +19,7 @@ public class Taboleiro {
     private Carta carta;
 
 
-    public Taboleiro(Partida partida) {
+    public Taboleiro(Juego juego) {
         this.sePuedeSubirPrecio = false;
         this.contadorVueltas = 0;
         this.carta = new Carta();
@@ -80,7 +78,7 @@ public class Taboleiro {
         casillasGrupo1.add(solar2);
         Grupo grupo1 = new Grupo(casillasGrupo1, 1, Valor.BLUE, "sur");
         grupo1.SetGrupo();
-        partida.añadirGrupo(grupo1);
+        juego.añadirGrupo(grupo1);
 
         ArrayList<Casilla> casillasGrupo2 = new ArrayList<>();
         casillasGrupo2.add(solar3);
@@ -88,7 +86,7 @@ public class Taboleiro {
         casillasGrupo2.add(solar5);
         Grupo grupo2 = new Grupo(casillasGrupo2, 2, Valor.YELLOW, "sur");
         grupo2.SetGrupo();
-        partida.añadirGrupo(grupo2);
+        juego.añadirGrupo(grupo2);
 
         ArrayList<Casilla> casillasGrupo3 = new ArrayList<>();
         casillasGrupo3.add(solar6);
@@ -96,78 +94,78 @@ public class Taboleiro {
         casillasGrupo3.add(solar8);
         Grupo grupo3 = new Grupo(casillasGrupo3, 3, Valor.PURPLE, "oeste");
         grupo3.SetGrupo();
-        partida.añadirGrupo(grupo3);
+        juego.añadirGrupo(grupo3);
 
         ArrayList<Casilla> casillasGrupo4 = new ArrayList<>();
         casillasGrupo4.add(solar9);
         casillasGrupo4.add(solar10);
         casillasGrupo4.add(solar11);
-        Grupo grupo4 = new Grupo(casillasGrupo4, 4, Valor.YELLOW_BRIGHT, "oeste", Valor.PRECIO_GRUPO4);
+        Grupo grupo4 = new Grupo(casillasGrupo4, 4, Valor.YELLOW_BRIGHT, "oeste");
         grupo4.SetGrupo();
-        partida.añadirGrupo(grupo4);
+        juego.añadirGrupo(grupo4);
 
         ArrayList<Casilla> casillasGrupo5 = new ArrayList<>();
         casillasGrupo5.add(solar12);
         casillasGrupo5.add(solar13);
         casillasGrupo5.add(solar14);
-        Grupo grupo5 = new Grupo(casillasGrupo5, 5, Valor.GREEN, "norte", Valor.PRECIO_GRUPO5);
+        Grupo grupo5 = new Grupo(casillasGrupo5, 5, Valor.GREEN, "norte");
         grupo5.SetGrupo();
-        partida.añadirGrupo(grupo5);
+        juego.añadirGrupo(grupo5);
 
         ArrayList<Casilla> casillasGrupo6 = new ArrayList<>();
         casillasGrupo6.add(solar15);
         casillasGrupo6.add(solar16);
         casillasGrupo6.add(solar17);
-        Grupo grupo6 = new Grupo(casillasGrupo6, 6, Valor.RED, "norte", Valor.PRECIO_GRUPO6);
+        Grupo grupo6 = new Grupo(casillasGrupo6, 6, Valor.RED, "norte");
         grupo6.SetGrupo();
-        partida.añadirGrupo(grupo6);
+        juego.añadirGrupo(grupo6);
 
         ArrayList<Casilla> casillasGrupo7 = new ArrayList<>();
         casillasGrupo7.add(solar18);
         casillasGrupo7.add(solar19);
         casillasGrupo7.add(solar20);
-        Grupo grupo7 = new Grupo(casillasGrupo7, 7, Valor.GREEN_BRIGHT, "leste", Valor.PRECIO_GRUPO7);
+        Grupo grupo7 = new Grupo(casillasGrupo7, 7, Valor.GREEN_BRIGHT, "leste");
         grupo7.SetGrupo();
-        partida.añadirGrupo(grupo7);
+        juego.añadirGrupo(grupo7);
 
         ArrayList<Casilla> casillasGrupo8 = new ArrayList<>();
         casillasGrupo8.add(solar21);
         casillasGrupo8.add(solar22);
-        Grupo grupo8 = new Grupo(casillasGrupo8, 8, Valor.CYAN, "leste", Valor.PRECIO_GRUPO8);
+        Grupo grupo8 = new Grupo(casillasGrupo8, 8, Valor.CYAN, "leste");
         grupo8.SetGrupo();
-        partida.añadirGrupo(grupo8);
+        juego.añadirGrupo(grupo8);
 
         ArrayList<Casilla> casillasEspeciales = new ArrayList<>();
         casillasEspeciales.add(saida);
         casillasEspeciales.add(carcere);
         casillasEspeciales.add(parking);
         casillasEspeciales.add(irCarcere);
-        Grupo grupo9 = new Grupo(casillasEspeciales, 9, 0, Valor.BLACK_BRIGHT);
+        Grupo grupo9 = new Grupo(casillasEspeciales, Valor.BLACK_BRIGHT, 9);
         grupo9.SetGrupo();
-        partida.añadirGrupo(grupo9);
+        juego.añadirGrupo(grupo9);
 
         ArrayList<Casilla> casillasTransportes = new ArrayList<>();
         casillasTransportes.add(trans1);
         casillasTransportes.add(trans2);
         casillasTransportes.add(trans3);
         casillasTransportes.add(trans4);
-        Grupo grupo10 = new Grupo(casillasTransportes, 10, Valor.VUELTA, Valor.BLACK_BOLD_BRIGHT);
+        Grupo grupo10 = new Grupo(casillasTransportes, Valor.BLACK_BOLD_BRIGHT, 10);
         grupo10.SetGrupo();
-        partida.añadirGrupo(grupo10);
+        juego.añadirGrupo(grupo10);
 
         ArrayList<Casilla> casillasServicios = new ArrayList<>();
         casillasServicios.add(serv1);
         casillasServicios.add(serv2);
-        Grupo grupo11 = new Grupo(casillasServicios, 11, 0.75 * Valor.VUELTA, Valor.CYAN_BRIGHT);
+        Grupo grupo11 = new Grupo(casillasServicios, Valor.CYAN_BRIGHT, 11);
         grupo11.SetGrupo();
-        partida.añadirGrupo(grupo11);
+        juego.añadirGrupo(grupo11);
 
         ArrayList<Casilla> casillasImpuestos = new ArrayList<>();
         casillasImpuestos.add(imp1);
         casillasImpuestos.add(imp2);
         Grupo grupo12 = new Grupo(casillasImpuestos, Valor.RED, 12);
         grupo12.SetGrupo();
-        partida.añadirGrupo(grupo12);
+        juego.añadirGrupo(grupo12);
 
         ArrayList<Casilla> casillasCaixasSortes = new ArrayList<>();
         casillasCaixasSortes.add(caixa1);
@@ -176,9 +174,9 @@ public class Taboleiro {
         casillasCaixasSortes.add(sorte1);
         casillasCaixasSortes.add(sorte2);
         casillasCaixasSortes.add(sorte3);
-        Grupo grupo13 = new Grupo(casillasCaixasSortes, 13, 0, Valor.BLACK_BOLD);
+        Grupo grupo13 = new Grupo(casillasCaixasSortes, Valor.BLACK_BOLD, 13);
         grupo13.SetGrupo();
-        partida.añadirGrupo(grupo13);
+        juego.añadirGrupo(grupo13);
 
 
         //hacemos los grupos de los lados
@@ -324,50 +322,6 @@ public class Taboleiro {
         this.casillasPosicion.put(38, imp2);
         this.casillasPosicion.put(39, solar22);
 
-        this.casillasNoEnVenta = new ArrayList<>();
-        this.casillasNoEnVenta.add(sorte1);
-        this.casillasNoEnVenta.add(sorte2);
-        this.casillasNoEnVenta.add(sorte3);
-        this.casillasNoEnVenta.add(caixa1);
-        this.casillasNoEnVenta.add(caixa2);
-        this.casillasNoEnVenta.add(caixa3);
-        this.casillasNoEnVenta.add(saida);
-        this.casillasNoEnVenta.add(carcere);
-        this.casillasNoEnVenta.add(parking);
-        this.casillasNoEnVenta.add(irCarcere);
-        this.casillasNoEnVenta.add(imp1);
-        this.casillasNoEnVenta.add(imp2);
-
-        this.casillasEnVenta = new ArrayList<>();
-        this.casillasEnVenta.add(solar1);
-        this.casillasEnVenta.add(solar2);
-        this.casillasEnVenta.add(trans1);
-        this.casillasEnVenta.add(solar3);
-        this.casillasEnVenta.add(solar4);
-        this.casillasEnVenta.add(solar5);
-        this.casillasEnVenta.add(solar6);
-        this.casillasEnVenta.add(serv1);
-        this.casillasEnVenta.add(solar7);
-        this.casillasEnVenta.add(solar8);
-        this.casillasEnVenta.add(trans2);
-        this.casillasEnVenta.add(solar9);
-        this.casillasEnVenta.add(solar10);
-        this.casillasEnVenta.add(solar11);
-        this.casillasEnVenta.add(solar12);
-        this.casillasEnVenta.add(solar13);
-        this.casillasEnVenta.add(solar14);
-        this.casillasEnVenta.add(trans3);
-        this.casillasEnVenta.add(solar15);
-        this.casillasEnVenta.add(solar16);
-        this.casillasEnVenta.add(serv2);
-        this.casillasEnVenta.add(solar17);
-        this.casillasEnVenta.add(solar18);
-        this.casillasEnVenta.add(solar19);
-        this.casillasEnVenta.add(solar20);
-        this.casillasEnVenta.add(trans4);
-        this.casillasEnVenta.add(solar21);
-        this.casillasEnVenta.add(solar22);
-
     }
 
     public Grupo getLadoNorte() {
@@ -410,14 +364,6 @@ public class Taboleiro {
         this.ladoSur = lado;
     }
 
-    public ArrayList<Casilla> getCasillasNoEnVenta() {
-        return casillasNoEnVenta;
-    }
-
-    public ArrayList<Casilla> getCasillasEnVenta() {
-        return casillasEnVenta;
-    }
-
     public void setContadorVueltas(int contadorVueltas) {
         this.contadorVueltas = contadorVueltas;
     }
@@ -430,9 +376,9 @@ public class Taboleiro {
         return carta;
     }
 
-    public void subirPreciosTotal(Menu menu) {
+    public void subirPreciosTotal(Juego juego) {
         this.contadorVueltas++;
-        if (this.contadorVueltas == 4 * menu.numeroJugadores()) {
+        if (this.contadorVueltas == 4 * juego.getTodosjugadores().size()) {
             this.sePuedeSubirPrecio = true;
         }
     }
@@ -476,18 +422,31 @@ public class Taboleiro {
 
     public void listarEnVenta() {
         String texto = "";
-        for (Casilla cas : this.casillasEnVenta) {
-            texto += "{\n\tNombre: " + cas.getNombreSinEspacio() + "\n\tTipo: " + cas.getTipo() + "\n\tValor: " +
-                    cas.getValor() + "\n}\n";
+        Propiedad propiedad;
+        for (Casilla casilla : this.casillas.values()) {
+            if (casilla instanceof Propiedad) {
+                propiedad = (Propiedad) casilla;
+                if (propiedad.getDuenho() == null) {
+                    texto += "{\n\tNombre: " + propiedad.getNombreSinEspacio() + "\n\tTipo: ";
+                    if (propiedad instanceof Solar) {
+                        texto += "solar";
+                    } else if (propiedad instanceof Transportes) {
+                        texto += "transporte";
+                    } else if (propiedad instanceof Servicio) {
+                        texto += "servicio";
+                    }
+                    texto += "\n\tValor: " + propiedad.getValor() + "\n}\n";
+                }
+            }
         }
         System.out.println(texto);
     }
 
     public boolean sePuedeComprar(Casilla casilla) {
-        if (this.casillasNoEnVenta.contains(casilla)) {
-            return false;
-        } else
+        if ((casilla instanceof Propiedad) && (((Propiedad) casilla).getDuenho() == null)) {
             return true;
+        } else
+            return false;
     }
 
     public void eliminarCasa(String id) {
