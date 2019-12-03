@@ -19,7 +19,7 @@ public final class Suerte extends Carta {
             if (taboleiro.getCasillaPosicion(0).isSubirPrecio()) {
                 taboleiro.subirPrecios();
             }
-            taboleiro.subirPreciosTotal(menu);
+            taboleiro.subirPreciosTotal(menu.getJuego());
         }
         taboleiro.getCasillaPosicion(jugador.getAvatar().getCasilla().getPosicion()).eliminarAvatar(jugador.getAvatar().getId());
         taboleiro.getCasillaPosicion(25).setAvatar(jugador.getAvatar());
@@ -48,7 +48,7 @@ public final class Suerte extends Carta {
             if (taboleiro.getCasillaPosicion(0).isSubirPrecio()) {
                 taboleiro.subirPrecios();
             }
-            taboleiro.subirPreciosTotal(menu);
+            taboleiro.subirPreciosTotal(menu.getJuego());
         }
         taboleiro.getCasillaPosicion(jugador.getAvatar().getCasilla().getPosicion()).eliminarAvatar(jugador.getAvatar().getId());
         taboleiro.getCasillaPosicion(23).setAvatar(jugador.getAvatar());
@@ -104,7 +104,7 @@ public final class Suerte extends Carta {
         super.setTexto("El aumento del impuesto sobre bienes inmuebles afecta a todas tus propiedades. Paga " + Valor.VUELTA / 2 + "€ por casa, " +
                 Valor.VUELTA * 2 + "€ por hotel, " + Valor.VUELTA + "€ por piscina y " + Valor.VUELTA * 3 + "€ por pista de deporte." +
                 "\nTienes " + casas + " casas, " + hoteles + " hoteles, " + piscinas + "piscinas y " + pistas +
-                "pistas. Por lo que tienes que pagar " + contador + "€.";
+                "pistas. Por lo que tienes que pagar " + contador + "€.");
         if (jugador.getFortuna() >= contador) {
             jugador.restarFortuna(contador);
             jugador.setDineroGastado(jugador.getDineroGastado() + contador);
@@ -126,7 +126,7 @@ public final class Suerte extends Carta {
             if (taboleiro.getCasillaPosicion(0).isSubirPrecio()) {
                 taboleiro.subirPrecios();
             }
-            taboleiro.subirPreciosTotal(menu);
+            taboleiro.subirPreciosTotal(menu.getJuego());
         }
         taboleiro.getCasillaPosicion(jugador.getAvatar().getCasilla().getPosicion()).eliminarAvatar(jugador.getAvatar().getId());
         taboleiro.getCasillaPosicion(13).setAvatar(jugador.getAvatar());
@@ -135,20 +135,20 @@ public final class Suerte extends Carta {
 
     private void cartasSuerte_10(Jugador jugador, Menu menu) {
         super.setTexto("Has sido elegido presidente de la junta directiva. Paga a cada jugador " + Valor.VUELTA + "€");
-        float dineroApagar = Valor.VUELTA * (menu.getPartida().getJugadores().size() - 1);
+        float dineroApagar = Valor.VUELTA * (menu.getJuego().getJugadores().size() - 1);
 
         if (jugador.getFortuna() < dineroApagar) {
-            super.anhadirTexto("\nDinero insuficiente para pagarle a los " + (menu.getPartida().getJugadores().size() - 1) +
+            super.anhadirTexto("\nDinero insuficiente para pagarle a los " + (menu.getJuego().getJugadores().size() - 1) +
                     " jugadores la cantidad de: " + dineroApagar + ". Debes vender edificios o hipotecar propiedades.");
         } else {
-            for (Jugador aPagar : menu.getPartida().getJugadores().values()) {
+            for (Jugador aPagar : menu.getJuego().getJugadores()) {
                 if (!aPagar.getAvatar().getId().equals(jugador.getAvatar().getId())) {
                     aPagar.sumarFortuna(Valor.VUELTA);
                 }
             }
             jugador.restarFortuna(dineroApagar);
             jugador.sumarTasasImpuestos(dineroApagar);
-            super.anhadirTexto("\nAcabas de pagar un total de  " + dineroApagar + " a los otros " + (menu.getPartida().getJugadores().size() - 1)
+            super.anhadirTexto("\nAcabas de pagar un total de  " + dineroApagar + " a los otros " + (menu.getJuego().getJugadores().size() - 1)
                     + " jugadores.");
         }
 
@@ -174,7 +174,7 @@ public final class Suerte extends Carta {
             super.anhadirTexto("\nDinero insuficiente para pagar la multa de tráfico por usar el teléfono. Debes vender " +
                     "edificios o hipotecar propiedades.");
         } else {
-            taboleiro.getCasillaPosicion(20).sumarValor((float) Valor.VUELTA / 4);
+            ((Especial) taboleiro.getCasillaPosicion(20)).sumarBote((float) Valor.VUELTA / 4);
             jugador.restarFortuna((float) Valor.VUELTA / 4);
             jugador.sumarTasasImpuestos((float) Valor.VUELTA / 4);
         }

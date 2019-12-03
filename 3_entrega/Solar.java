@@ -314,6 +314,155 @@ public final class Solar extends Propiedad {
         }
     }
 
+    public void venderEdificio(String tipo, Jugador jugador, Taboleiro taboleiro, int numero){
+        if ((tipo != null) && (jugador != null) && (taboleiro != null) && (numero > 0)){
+            switch (tipo.toLowerCase()){
+                case "casa":
+                case "casas":
+                    venderCasa(jugador, taboleiro, numero);
+                    break;
+                case "hotel":
+                case "hoteles":
+                    venderHotel(jugador, taboleiro, numero);
+                    break;
+                case "piscina":
+                case "piscinas":
+                    venderPiscina(jugador, taboleiro, numero);
+                    break;
+                case "pista":
+                case "pistas":
+                    venderPista(jugador, taboleiro, numero);
+                    break;
+                default:
+                    System.out.println("Comando incorrecto. Para ver los comandos disponibles escriba: Ver Comandos");
+            }
+        } else System.out.println("Se ha producido un error.");
+    }
+
+    public void venderCasa(Jugador jugador, Taboleiro taboleiro, int numero) {
+        if (super.getDuenho() != null) {
+            if (jugador.equals(super.getDuenho())) {
+                if (this.numeroCasas >= numero) {
+                    this.numeroCasas = this.numeroCasas - numero;
+                    ArrayList<Casa> cas = new ArrayList<>();
+                    for (int i = 0; i < numero; i++) {
+                        cas.add(this.casas.get(i));
+                    }
+                    for (int i = 0; i < numero; i++) {
+                        this.casas.remove(cas.get(i));
+                        jugador.eliminarEdificacion(cas.get(i));
+                        taboleiro.eliminarCasa(cas.get(i).getId());
+                    }
+                    super.getDuenho().sumarFortuna((float) (numero * this.valorCasa / 2));
+                    System.out.println(super.getDuenho().getNombre() + " ha vendido " + numero + " casa(s) en " + this.getNombreSinEspacio() + ", recibiendo " + (numero * this.valorCasa / 2) + "€. En la propiedad queda(n) " + this.numeroCasas + " casa(s).");
+                } else {
+                    if (this.numeroCasas > 0) {
+                        System.out.println("Solamente se puede(n) vender " + this.numeroCasas + " casa(s) y se recibirían " + this.numeroCasas * this.valorCasa / 2 + "€.");
+                    } else {
+                        System.out.println("En esta casilla no tienes casas construidas, por lo que no puedes venderlas.");
+                    }
+                }
+            } else {
+                System.out.println("No eres el dueño de esta casilla, por lo que no puedes vender casas en esta casilla!");
+            }
+        } else {
+            System.out.println("No eres el dueño de esta casilla, por lo que no puedes vender casas en esta casilla!");
+        }
+    }
+
+    public void venderHotel(Jugador jugador, Taboleiro taboleiro, int numero) {
+        if (super.getDuenho() != null) {
+            if (jugador.equals(super.getDuenho())) {
+                if (this.numeroHoteles >= numero) {
+                    this.numeroHoteles = this.numeroHoteles - numero;
+                    ArrayList<Hotel> hot = new ArrayList<>();
+                    for (int i = 0; i < numero; i++) {
+                        hot.add(this.hoteles.get(i));
+                    }
+                    for (int i = 0; i < numero; i++) {
+                        this.hoteles.remove(hot.get(i));
+                        jugador.eliminarEdificacion(hot.get(i));
+                        taboleiro.eliminarHotel(hot.get(i).getId());
+                    }
+                    super.getDuenho().sumarFortuna((float) (numero * this.valorHotel / 2));
+                    System.out.println(super.getDuenho().getNombre() + " ha vendido " + numero + " hotel(es) en " + this.getNombreSinEspacio() + ", recibiendo " + (numero * this.valorHotel / 2) + "€. En la propiedad queda(n) " + this.numeroHoteles + " hotel(es).");
+                } else {
+                    if (this.numeroHoteles > 0) {
+                        System.out.println("Solamente se puede(n) vender " + this.numeroHoteles + " hotel(es) y se recibirían " + this.numeroHoteles * this.valorHotel / 2 + "€.");
+                    } else {
+                        System.out.println("En esta casilla no tienes hoteles construidos, por lo que no puedes venderlos.");
+                    }
+                }
+            } else {
+                System.out.println("No eres el dueño de esta casilla, por lo que no puedes vender hoteles en esta casilla!");
+            }
+        } else {
+            System.out.println("No eres el dueño de esta casilla, por lo que no puedes vender hoteles en esta casilla!");
+        }
+    }
+
+    public void venderPiscina(Jugador jugador, Taboleiro taboleiro, int numero) {
+        if (super.getDuenho() != null) {
+            if (jugador.equals(super.getDuenho())) {
+                if (this.numeroPiscinas >= numero) {
+                    this.numeroPiscinas = this.numeroPiscinas - numero;
+                    ArrayList<Piscina> pis = new ArrayList<>();
+                    for (int i = 0; i < numero; i++) {
+                        pis.add(this.piscinas.get(i));
+                    }
+                    for (int i = 0; i < numero; i++) {
+                        this.piscinas.remove(pis.get(i));
+                        jugador.eliminarEdificacion(pis.get(i));
+                        taboleiro.eliminarPiscina(pis.get(i).getId());
+                    }
+                    super.getDuenho().sumarFortuna((float) (numero * this.valorPiscina / 2));
+                    System.out.println(super.getDuenho().getNombre() + " ha vendido " + numero + " piscina(s) en " + this.getNombreSinEspacio() + ", recibiendo " + (numero * this.valorPiscina / 2) + "€. En la propiedad queda(n) " + this.numeroPiscinas + " piscina(s).");
+                } else {
+                    if (this.numeroPiscinas > 0) {
+                        System.out.println("Solamente se puede(n) vender " + this.numeroPiscinas + " piscina(s) y se recibirían " + this.numeroPiscinas * this.valorPiscina / 2 + "€.");
+                    } else {
+                        System.out.println("En esta casilla no tienes piscinas construidas, por lo que no puedes venderlas.");
+                    }
+                }
+            } else {
+                System.out.println("No eres el dueño de esta casilla, por lo que no puedes vender piscinas en esta casilla!");
+            }
+        } else {
+            System.out.println("No eres el dueño de esta casilla, por lo que no puedes vender piscinas en esta casilla!");
+        }
+    }
+
+    public void venderPista(Jugador jugador, Taboleiro taboleiro, int numero) {
+        if (super.getDuenho() != null) {
+            if (jugador.equals(super.getDuenho())) {
+                if (this.numeroPistas >= numero) {
+                    this.numeroPistas = this.numeroPistas - numero;
+                    ArrayList<Pista> pist = new ArrayList<>();
+                    for (int i = 0; i < numero; i++) {
+                        pist.add(this.pistas.get(i));
+                    }
+                    for (int i = 0; i < numero; i++) {
+                        this.pistas.remove(pist.get(i));
+                        jugador.eliminarEdificacion(pist.get(i));
+                        taboleiro.eliminarPista(pist.get(i).getId());
+                    }
+                    super.getDuenho().sumarFortuna((float) (numero * this.valorPistaDeporte / 2));
+                    System.out.println(super.getDuenho().getNombre() + " ha vendido " + numero + " pista(s) en " + this.getNombreSinEspacio() + ", recibiendo " + (numero * this.valorPistaDeporte / 2) + "€. En la propiedad queda(n) " + this.numeroPistas + " pista(s).");
+                } else {
+                    if (this.numeroPistas > 0) {
+                        System.out.println("Solamente se puede(n) vender " + this.numeroPistas + " pista(s) y se recibirían " + this.numeroPistas * this.valorPistaDeporte / 2 + "€.");
+                    } else {
+                        System.out.println("En esta casilla no tienes pistas construidas, por lo que no puedes venderlas.");
+                    }
+                }
+            } else {
+                System.out.println("No eres el dueño de esta casilla, por lo que no puedes vender pistas en esta casilla!");
+            }
+        } else {
+            System.out.println("No eres el dueño de esta casilla, por lo que no puedes vender pistas en esta casilla!");
+        }
+    }
+
 
     public double getValorAlquiler() {
         double valor = 0;

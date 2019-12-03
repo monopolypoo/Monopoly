@@ -5,21 +5,19 @@ import java.util.Iterator;
 public class Juego {
     private Dado dado;
     private Taboleiro taboleiro;
-    private ArrayList<Jugador> todosJugadores;
-    private HashMap<String, Jugador> jugadores;
+    private ArrayList<Jugador> jugadores;
     private HashMap<String, Avatar> avatares;
     private ArrayList<Grupo> grupos;
 
     public Juego() {
         this.dado = new Dado();
         this.taboleiro = new Taboleiro(this);
-        this.todosJugadores = new ArrayList<>();
-        this.jugadores = new HashMap<>();
+        this.jugadores = new ArrayList<>();
         this.avatares = new HashMap<>();
         this.grupos = new ArrayList<>();
     }
 
-    public Dado getDado(){
+    public Dado getDado() {
         return this.dado;
     }
 
@@ -29,21 +27,14 @@ public class Juego {
 
     //Los setters de dado y de taboleiro no los añadimos porque no queremos que se pueda hacer esa acción
 
-    public ArrayList<Jugador> getTodosjugadores() {
-        return this.todosJugadores;
-    }
-
-    public void setTodosjugadores(ArrayList<Jugador> todosjugadores) {
-        this.todosJugadores = todosjugadores;
-    }
-
-    public HashMap<String, Jugador> getJugadores() {
+    public ArrayList<Jugador> getJugadores() {
         return this.jugadores;
     }
 
-    public void setJugadores(HashMap<String, Jugador> jugadores) {
-        if (jugadores != null)
+    public void setJugadores(ArrayList<Jugador> jugadores) {
+        if (jugadores != null) {
             this.jugadores = jugadores;
+        }
     }
 
     public HashMap<String, Avatar> getAvatares() {
@@ -52,8 +43,7 @@ public class Juego {
 
     public void anhadeJugador(Jugador jugador) {
         if (jugador != null) {
-            this.todosJugadores.add(jugador);
-            this.jugadores.put(jugador.getNombre(), jugador);
+            this.jugadores.add(jugador);
             this.avatares.put(jugador.getAvatar().getId(), jugador.getAvatar());
         } else {
             jugador = new Jugador();
@@ -63,9 +53,7 @@ public class Juego {
     }
 
     public void listarJugadores() {
-        Iterator<Jugador> jug_i = this.jugadores.values().iterator();
-        while (jug_i.hasNext()) {
-            Jugador jug = jug_i.next();
+        for (Jugador jug : this.jugadores){
             System.out.println(jug.toString());
         }
     }
@@ -83,7 +71,7 @@ public class Juego {
         String[] aux;
         String id;
         double coste = 0;
-        Iterator<Jugador> jug_i = this.jugadores.values().iterator();
+        Iterator<Jugador> jug_i = this.jugadores.iterator();
 
         if (taboleiro != null) {
             texto = "";
@@ -134,7 +122,7 @@ public class Juego {
 
         for (Grupo grupo : this.grupos) {
             for (Casilla casilla : grupo.getCasillas()) {
-                if (casilla instanceof Propiedad){
+                if (casilla instanceof Propiedad) {
                     propiedad = (Propiedad) casilla;
                     if (precio <= propiedad.getValorAlquiler()) {
                         precio = propiedad.getValorAlquiler();
@@ -153,7 +141,7 @@ public class Juego {
 
         for (Grupo grupo : this.grupos) {
             for (Casilla casilla : grupo.getCasillas()) {
-                if (casilla instanceof Propiedad){
+                if (casilla instanceof Propiedad) {
                     propiedad = (Propiedad) casilla;
                     precio += propiedad.getValorAlquiler();
                 }
@@ -185,7 +173,7 @@ public class Juego {
     public void estadisticas_jugador(Jugador jugador) {
         String texto = "Jugador non encontrado.";
         if (jugador != null) {
-            if (this.getJugadores().containsKey(jugador.getNombre())) {
+            if (this.jugadores.contains(jugador)) {
                 texto = "{\n\tDinero invertido: " + jugador.getDineroInvertido() +
                         "\n\tPago tasas impuestos: " + jugador.getTasasImpuestos() +
                         "\n\tPago de alquileres: " + jugador.getPagoAlquileres() +
@@ -207,7 +195,7 @@ public class Juego {
         if (taboleiro != null) {
             texto = "";
             for (Casilla casilla : taboleiro.getCasillas().values()) {
-                for (Jugador jugador : this.jugadores.values()) {
+                for (Jugador jugador : this.jugadores) {
                     if (casilla.getVecesCasilla().containsKey(jugador.getAvatar().getId())) {
                         datos = casilla.getVecesCasilla().get(jugador.getAvatar().getId());
                         if (veces < Integer.parseInt(datos[1])) {
@@ -227,7 +215,7 @@ public class Juego {
         String texto = "";
         float dinero = 0;
 
-        for (Jugador jugador : this.jugadores.values()) {
+        for (Jugador jugador : this.jugadores) {
             if (dinero < jugador.getFortuna()) {
                 dinero = jugador.getFortuna();
                 texto = jugador.getNombre();
@@ -243,7 +231,7 @@ public class Juego {
         String texto = "";
         int veces = 0;
 
-        for (Jugador jugador : this.jugadores.values()) {
+        for (Jugador jugador : this.jugadores) {
             if (veces < jugador.getVecesDados()) {
                 veces = jugador.getVecesDados();
                 texto = jugador.getNombre();
@@ -259,7 +247,7 @@ public class Juego {
         String texto = "";
         int veces = 0;
 
-        for (Jugador jugador : this.jugadores.values()) {
+        for (Jugador jugador : this.jugadores) {
             if (veces < jugador.getVecesSalida()) {
                 veces = jugador.getVecesSalida();
                 texto = jugador.getNombre();
@@ -269,6 +257,15 @@ public class Juego {
         }
 
         return texto;
+    }
+
+    public Jugador estaJugadorNombre(String nombre){
+        for (Jugador jugador : this.jugadores){
+            if (jugador.getNombre().equals(nombre)){
+                return jugador;
+            }
+        }
+        return null;
     }
 
     public void listarComandos() {

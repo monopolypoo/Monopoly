@@ -119,7 +119,7 @@ public abstract class Avatar {
             if (taboleiro.getCasillaPosicion(0).isSubirPrecio()) {
                 taboleiro.subirPrecios();
             }
-            taboleiro.subirPreciosTotal(menu);
+            taboleiro.subirPreciosTotal(menu.getJuego());
         }
         if (posSiguiente == 30) {
             this.jugador.irCarcere(taboleiro);

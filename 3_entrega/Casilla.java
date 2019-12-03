@@ -108,6 +108,14 @@ public abstract class Casilla {
         this.avatares.remove(id);
     }
 
+    public boolean isSubirPrecio() {
+        for (String[] cadena : this.vecesCasilla.values()) {
+            if (Integer.parseInt(cadena[1]) < 4)
+                return false;
+        }
+        return true;
+    }
+
     public String getIds() {
         String texto = " &";
         int tam, i = 1;

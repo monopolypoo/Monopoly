@@ -76,10 +76,6 @@ public class Grupo {
         return lado;
     }
 
-    public double getValor() {
-        return valor;
-    }
-
     public int getNumeroPistas() {
         return nmeroPistas;
     }
@@ -143,19 +139,9 @@ public class Grupo {
         }
     }
 
-    public void setValor(double valor) {
-        if (valor > 0) {
-            for (Casilla casilla : casillas) {
-                casilla.SetValor(valor);
-            }
-        }
-    }
-
     public void SetGrupo() {
-        if (this != null) {
-            for (Casilla casilla : casillas) {
-                casilla.setGrupo(this);
-            }
+        for (Casilla casilla : casillas) {
+            casilla.setGrupo(this);
         }
     }
 
@@ -174,10 +160,13 @@ public class Grupo {
     public int cuantasCasillasTiene(Jugador jugador) {
         int contador = 0;
         if (jugador != null) {
-            for (Casilla cas : casillas) {
-                if (cas.getDuenho() != null) {
-                    if (cas.getDuenho().getAvatar().getId().equals(jugador.getAvatar().getId())) {
-                        contador++;
+            for (Casilla cas : this.casillas) {
+                if (cas instanceof Propiedad) {
+                    Propiedad prop = ((Propiedad) cas);
+                    if (prop.getDuenho() != null) {
+                        if (prop.getDuenho().equals(jugador)) {
+                            contador++;
+                        }
                     }
                 }
             }
@@ -192,36 +181,40 @@ public class Grupo {
 
         if (this.casillas.size() != 0) {
             for (Casilla casilla : this.casillas) {
-                texto += "\n{\n\tPropiedad: " + casilla.getNombreSinEspacio() +
-                        ",\n\tCasas: " + casilla.getIdCasas().toString() +
-                        ",\n\tHoteles: " + casilla.getIdHoteles().toString() +
-                        ",\n\tPiscinas: " + casilla.getIdPiscinas().toString() +
-                        ",\n\tPista: " + casilla.getIdPistas().toString() +
-                        ",\n\tAlquiler: " + casilla.getValorAlquiler() + ",\n}\n";
-                casas += 4 - casilla.getIdCasas().size();
-                hoteles -= casilla.getIdHoteles().size();
-                pistas -= casilla.getIdPistas().size();
-                piscinas -= casilla.getIdPiscinas().size();
+                texto += "\n{\n\tPropiedad: " + casilla.getNombreSinEspacio();
+                if (casilla instanceof Solar) {
+                    texto += ",\n\tCasas: " + ((Solar) casilla).getCasas().toString() +
+                            ",\n\tHoteles: " + ((Solar) casilla).getHoteles().toString() +
+                            ",\n\tPiscinas: " + ((Solar) casilla).getPiscinas().toString() +
+                            ",\n\tPista: " + ((Solar) casilla).getPistas().toString();
+                    casas += 4 - ((Solar) casilla).getCasas().size();
+                    hoteles -= ((Solar) casilla).getHoteles().size();
+                    pistas -= ((Solar) casilla).getPistas().size();
+                    piscinas -= ((Solar) casilla).getPiscinas().size();
+                }
+                texto += ",\n\tAlquiler: " + ((Solar) casilla).getValorAlquiler() + ",\n}\n";
             }
-            if (casas != 0) {
-                texto += "Se pueden edificar " + casas + " casas más. ";
-            } else {
-                texto += "No se pueden edificar más casas. ";
-            }
-            if (hoteles != 0) {
-                texto += "Se pueden edificar " + hoteles + " hoteles más. \n";
-            } else {
-                texto += "No se pueden edificar más hoteles. \n";
-            }
-            if (pistas != 0) {
-                texto += "Se pueden edificar " + pistas + " pistas de deporte más. ";
-            } else {
-                texto += "No se pueden edificar más pistas de deporte. ";
-            }
-            if (piscinas != 0) {
-                texto += "Se pueden edificar " + piscinas + " piscinas más. ";
-            } else {
-                texto += "No se pueden edificar más piscinas. ";
+            if (this.casillas.get(0) instanceof Solar) {
+                if (casas != 0) {
+                    texto += "Se pueden edificar " + casas + " casas más. ";
+                } else {
+                    texto += "No se pueden edificar más casas. ";
+                }
+                if (hoteles != 0) {
+                    texto += "Se pueden edificar " + hoteles + " hoteles más. \n";
+                } else {
+                    texto += "No se pueden edificar más hoteles. \n";
+                }
+                if (pistas != 0) {
+                    texto += "Se pueden edificar " + pistas + " pistas de deporte más. ";
+                } else {
+                    texto += "No se pueden edificar más pistas de deporte. ";
+                }
+                if (piscinas != 0) {
+                    texto += "Se pueden edificar " + piscinas + " piscinas más. ";
+                } else {
+                    texto += "No se pueden edificar más piscinas. ";
+                }
             }
         }
 

@@ -214,6 +214,17 @@ public abstract class Propiedad extends Casilla {
 
     }
 
+    public boolean hayAlgunaHipoteca() {
+        for (Casilla casilla: super.getGrupo().getCasillas()) {
+            if (casilla instanceof Propiedad){
+                if (((Propiedad) casilla).isEsHipotecado()){
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
+
     public abstract double getValorAlquiler();
 
     public abstract String toString();
