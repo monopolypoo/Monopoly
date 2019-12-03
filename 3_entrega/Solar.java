@@ -196,6 +196,18 @@ public final class Solar extends Propiedad {
         }
     }
 
+    public boolean hayEdificios() {
+        if (this.casas.size() > 0)
+            return true;
+        if (this.hoteles.size() > 0)
+            return true;
+        if (this.pistas.size() > 0)
+            return true;
+        if (this.piscinas.size() > 0)
+            return true;
+        return false;
+    }
+
     private void construirEdificio(String edificio, Jugador jugador, Taboleiro taboleiro, String id) {
         if (super.getDuenho() != null) {
             if (super.getDuenho().equals(jugador)) {

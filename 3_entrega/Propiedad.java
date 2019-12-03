@@ -38,11 +38,11 @@ public abstract class Propiedad extends Casilla {
         }
     }
 
-    public double getAlquiler(){
+    public double getAlquiler() {
         return this.alquiler;
     }
 
-    public void setAlquiler(double alquiler){
+    public void setAlquiler(double alquiler) {
         this.alquiler = alquiler;
     }
 
@@ -105,7 +105,7 @@ public abstract class Propiedad extends Casilla {
         }
     }
 
-    public boolean perteneceAJugador(Jugador jugador){
+    public boolean perteneceAJugador(Jugador jugador) {
         if (jugador != null) {
             if (jugador.equals(this.duenho)) {
                 return true;
@@ -126,7 +126,7 @@ public abstract class Propiedad extends Casilla {
         return true;
     }
 
-    public int cuantasCasillasTiene(){
+    public int cuantasCasillasTiene() {
         int contador = 0;
         if (this.getDuenho() != null) {
             for (Casilla cas : super.getGrupo().getCasillas()) {
@@ -136,6 +136,82 @@ public abstract class Propiedad extends Casilla {
             }
         }
         return contador;
+    }
+
+    public void hipotecarCasilla(Jugador jugador, Taboleiro taboleiro) {
+        if (taboleiro.sePuedeComprar(this)) {
+            if (this.duenho != null) {
+                if (this.duenho.getAvatar().getId().equals(jugador.getAvatar().getId())) {
+                    if (!this.esHipotecado) {
+                        if (this instanceof Solar)
+                            if (!((Solar) this).hayEdificios()) {
+                                this.esHipotecado = true;
+                                jugador.eliminarPropiedad(this);
+                                this.duenho = null;
+                                this.duenhoAnterior = jugador;
+                                jugador.sumarFortuna((float) this.valor / 2);
+                                System.out.println(jugador.getNombre() + " recibe " + this.valor / 2 + "€ por la hipoteca de " + this.getNombreSinEspacio() +
+                                        ". No puede recibir alquileres ni edificar en el grupo " + super.getGrupo().getNumeroGrupo() + ".");
+                            } else {
+                                System.out.println(jugador.getNombre() + " no puede hipotecar " + this.getNombreSinEspacio()
+                                        + ". No puedes hipotecar la casilla porque existen edificios en ella, antes de hipotecarla debes venderlos todos.");
+                            }
+                    } else {
+                        System.out.println(jugador.getNombre() + " no puede hipotecar " + this.getNombreSinEspacio()
+                                + ". No puedes hipotecar esta casilla porque ya está hipotecada.");
+                    }
+                } else {
+                    System.out.println(jugador.getNombre() + " no puede hipotecar " + this.getNombreSinEspacio() +
+                            ". No puedes hipotecar una casilla que no te pertenece.");
+                }
+            } else {
+                System.out.println(jugador.getNombre() + " no puede hipotecar " + this.getNombreSinEspacio() +
+                        ". No se puede hipotecar una casilla que no tiene dueño.");
+            }
+        } else {
+            System.out.println(jugador.getNombre() + " no puede hipotecar " + this.getNombreSinEspacio() +
+                    ". Esta casilla no se puede hipotecar, ya que tampoco puede ser comprada.");
+        }
+    }
+
+    public void deshipotecarCasilla(Jugador jugador, Taboleiro taboleiro) {
+        if (taboleiro.sePuedeComprar(this)) {
+            if (this.duenhoAnterior != null) {
+                if (this.duenho == null) {
+                    if (this.duenhoAnterior.getAvatar().getId().equals(jugador.getAvatar().getId())) {
+                        if (this.esHipotecado) {
+                            if (jugador.getFortuna() >= this.valor / 2) {
+                                this.esHipotecado = false;
+                                jugador.anhadirPropiedad(this);
+                                this.duenho = jugador;
+                                this.duenhoAnterior = null;
+                                jugador.restarFortuna((float) this.valor / 2);
+                                System.out.println(jugador.getNombre() + " paga " + this.valor / 2 + "€ por deshipotecar " + this.getNombreSinEspacio() +
+                                        ". Ahora puede recibir alquileres y edificar en el grupo " + super.getGrupo().getNumeroGrupo() + ".");
+                            } else {
+                                System.out.println(jugador.getNombre() + " no puede deshipotecar " + this.getNombreSinEspacio()
+                                        + ". No puedes deshipotecar esta casilla porque no tienes suficiente dinero.");
+                            }
+                        } else {
+                            System.out.println(jugador.getNombre() + " no puede deshipotecar " + this.getNombreSinEspacio()
+                                    + ". No puedes deshipotecar esta casilla porque no está hipotecada.");
+                        }
+                    } else {
+                        System.out.println(jugador.getNombre() + " no puede deshipotecar " + this.getNombreSinEspacio() +
+                                ". No puedes deshipotecar esta casilla porque no era tuya antes de que fuese hipotecada.");
+                    }
+                } else {
+                    System.out.println(jugador.getNombre() + " no puede deshipotecar " + this.getNombreSinEspacio() +
+                            ". No puedes deshipotecar esta casilla porque no está hipotecada.");
+                }
+            } else
+                System.out.println(jugador.getNombre() + " no puede deshipotecar " + this.getNombreSinEspacio() +
+                        ". No puedes deshipotecar esta casilla porque no está hipotecada.");
+        } else {
+            System.out.println(jugador.getNombre() + " no puede deshipotecar " + this.getNombreSinEspacio() +
+                    ". Esta casilla no se puede hipotecar, ya que tampoco puede ser comprada.");
+        }
+
     }
 
     public abstract double getValorAlquiler();
