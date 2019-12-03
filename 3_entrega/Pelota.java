@@ -44,6 +44,11 @@ public final class Pelota extends Avatar{
     }
 
     @Override
+    public String getTipo() {
+        return "pelota";
+    }
+
+    @Override
     public void moverEnAvanzado(Taboleiro taboleiro, Menu menu, Dado dado) {
 
     }

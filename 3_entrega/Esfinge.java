@@ -15,6 +15,11 @@ public final class Esfinge extends Avatar{
     }
 
     @Override
+    public String getTipo() {
+        return "esfinge";
+    }
+
+    @Override
     public String toString() {
         String texto = "{\n" +
                 "\tid: " + super.getId() + "\n" +

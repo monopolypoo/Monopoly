@@ -15,6 +15,11 @@ public final class Sombrero extends Avatar{
     }
 
     @Override
+    public String getTipo() {
+        return "sombrero";
+    }
+
+    @Override
     public String toString() {
         String texto = "{\n" +
                 "\tid: " + super.getId() + "\n" +
