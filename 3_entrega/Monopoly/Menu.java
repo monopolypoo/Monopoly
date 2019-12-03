@@ -17,6 +17,7 @@ public class Menu {
     private boolean dadosLanzados;
     private boolean poderComprar;
     private boolean esLeerArchivo;
+    private boolean partidaEmpezada;
     private int contadorDobles;
 
     public Menu() throws InterruptedException {
@@ -25,8 +26,8 @@ public class Menu {
         this.contadorDobles = 0;
         this.dadosLanzados = false;
         this.esLeerArchivo = false;
+        this.partidaEmpezada = false;
         boolean seguir = true;
-        boolean partidaEmpezada = false;
         boolean combinado = false;
         String[] comando, comando2;
         String texto;
@@ -137,77 +138,8 @@ public class Menu {
                             if (this.juego.getJugadores().size() > 0) {
                                 texto = "";
                                 if (!this.dadosLanzados) {
-                                    if (!((this.jugadorActual.getAvatar() instanceof Coche) && (((Coche) this.jugadorActual.getAvatar()).getPenalizacion() <= 2))) {
-                                        if (!this.jugadorActual.getEstarCarcere()) {
-                                            this.juego.getDado().lanzarDados(this.jugadorActual, this.juego.getTaboleiro(), this);
-                                            partidaEmpezada = true;
-                                            if (this.juego.getDado().getIguales()) {
-                                                this.dadosLanzados = false;
-                                                this.sigueTurno = true;
-                                                this.contadorDobles++;
-                                                this.poderComprar = true;
-                                                texto = " Sacastes dobles! Llevas: " + this.contadorDobles + " veces.";
-                                            } else {
-                                                this.dadosLanzados = true;
-                                                this.sigueTurno = false;
-                                                this.poderComprar = true;
-                                                this.contadorDobles = 0;
-                                            }
-                                            if (this.contadorDobles == 3) {
-                                                this.jugadorActual.irCarcere(this.juego.getTaboleiro());
-                                                this.dadosLanzados = true;
-                                                this.sigueTurno = false;
-                                                this.poderComprar = false;
-                                                this.contadorDobles = 0;
-                                                texto = "Sacastes tres dobles seguidos, por lo que tienes que ir a la cárcel!";
-                                                this.juego.getTaboleiro().getCasillaPosicion(this.jugadorActual.getAvatar().getCasilla().getPosicion()).eliminarAvatar(this.jugadorActual.getAvatar().getId());
-                                                this.juego.getTaboleiro().getCasillaPosicion(10).setAvatar(this.jugadorActual.getAvatar());
-                                                //System.out.println(this.taboleiro);
-                                                System.out.println(this.juego.getDado().textoLanzarDados(this.juego.getTaboleiro(), this.jugadorActual, this) + texto);
-                                            } else {
-                                                if ((!this.jugadorActual.getAvatar().isModoAvanzado()) || (this.jugadorActual.getAvatar().isModoAvanzado() && (this.jugadorActual.getAvatar() instanceof Coche))) {
-                                                    //System.out.println(taboleiro);
-                                                    System.out.println(this.juego.getDado().textoLanzarDados(this.juego.getTaboleiro(), this.jugadorActual, this) + texto);
-                                                    this.jugadorActual.pagarAlquiler(this.jugadorActual.getAvatar().getCasilla(), this.juego.getDado().getDadoTotal());
-                                                    this.jugadorActual.pagarImpuestos(this.jugadorActual.getAvatar().getCasilla(), this.juego.getTaboleiro());
-                                                    this.jugadorActual.cobrarParking(this.jugadorActual.getAvatar().getCasilla());
-                                                }
-                                            }
-                                        } else {
-                                            this.juego.getDado().lanzarLosDados();
-                                            if (this.juego.getDado().getIguales()) {
-                                                this.jugadorActual.setContadorEstarCarcere(0);
-                                                System.out.println("Sacastes dobles, puedes salír de la cárcel. Lanza los dados para continuar.");
-                                                this.dadosLanzados = false;
-                                                this.sigueTurno = true;
-                                            } else {
-                                                this.jugadorActual.setContadorEstarCarcere(1);
-                                                System.out.println("No sacastes dobles, llevas " + this.jugadorActual.getContadorEstarCarcere() + " intentos.");
-                                                this.dadosLanzados = true;
-                                                this.sigueTurno = false;
-                                                if (this.jugadorActual.getContadorEstarCarcere() >= 3) {
-                                                    System.out.println("Ya llevas 3 intentos, por lo que debes pagar para salír.");
-                                                    if (this.jugadorActual.getFortuna() >= Valor.SALIR_CARCEL) {
-                                                        this.jugadorActual.restarFortuna(Valor.SALIR_CARCEL);
-                                                        ((Especial) this.juego.getTaboleiro().getCasillaPosicion(20)).sumarBote(Valor.SALIR_CARCEL);
-                                                        this.jugadorActual.setContadorEstarCarcere(0);
-                                                        System.out.println("Pago efectuado. Ya podrás tirar en el seguiente turno.");
-                                                    } else {
-                                                        System.out.println("No tienes suficiente dinero para salír de la cárcel, por lo que estás en bancarrota.");
-                                                    }
-                                                }
-                                            }
-                                        }
-                                        if ((this.jugadorActual.getAvatar() instanceof Coche) && (this.jugadorActual.getAvatar().isModoAvanzado())){
-                                            ((Coche) this.jugadorActual.getAvatar()).sumarLanzardados(this);
-                                            if (((Coche) this.jugadorActual.getAvatar()).isCompraCoche())
-                                                this.poderComprar = false;
-                                        }
-                                    } else {
-                                        System.out.println("Estás penalizado, debes acabar turno y pasarle el turno al siguiente jugador.");
-                                        this.dadosLanzados = true;
-                                        this.sigueTurno = false;
-                                    }
+
+
                                 } else {
                                     System.out.println("Ya tiraste los dados! Para poder tirarlos el siguinte jugador antes debes acabar turno!");
                                 }
@@ -495,6 +427,18 @@ public class Menu {
 
     public int numeroJugadores() {
         return this.juego.getJugadores().size();
+    }
+
+    public boolean isPartidaEmpezada() {
+        return partidaEmpezada;
+    }
+
+    public void setPartidaEmpezada(boolean partidaEmpezada) {
+        this.partidaEmpezada = partidaEmpezada;
+    }
+
+    public void setPoderComprar(boolean poderComprar) {
+        this.poderComprar = poderComprar;
     }
 
     public String[] leerComando() {
