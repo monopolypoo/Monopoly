@@ -87,7 +87,7 @@ public abstract class Propiedad extends Casilla {
                         jugador.sumarPremiosInversionesBote((float) this.valor);
                         System.out.println("El jugador " + jugador.getNombre() + " compra la casilla " + super.getNombre()
                                 + " por " + this.valor + "€. Su fortuna actual es: " + jugador.getFortuna() + "€.");
-                        taboleiro.getCasillasEnVenta().remove(this);
+                        //taboleiro.getCasillasEnVenta().remove(this);
                         taboleiro.setContadorVueltas(0);
                     } else {
                         System.out.println("No tienes suficiente dinero para comprar esta casilla.");
