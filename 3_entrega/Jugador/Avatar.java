@@ -99,17 +99,15 @@ public abstract class Avatar {
 
     public void mover(Taboleiro taboleiro, Menu menu) throws InterruptedException {
         int posActual, posSiguiente;
-        Dado dado = new Dado();
-        dado.lanzarLosDados();
         this.jugador.sumarVecesdados();
 
         posActual = this.jugador.getAvatar().getCasilla().getPosicion();
         taboleiro.getCasillaPosicion(posActual).eliminarAvatar(this.jugador.getAvatar().getId());
 
         if (this.modoAvanzado)
-            this.moverEnAvanzado(taboleiro, menu, dado);
+            this.moverEnAvanzado(taboleiro, menu, menu.getJuego().getDado());
         else {
-            posSiguiente = posActual + dado.getDadoTotal();
+            posSiguiente = posActual + menu.getJuego().getDado().getDadoTotal();
             this.moverEnBasico(taboleiro, menu, posSiguiente);
         }
     }
@@ -143,15 +141,20 @@ public abstract class Avatar {
             }
 
             if (casillaSiguiente instanceof AccionSuerte) {
+                System.out.print(jugador.getNombre() + ", elige una carta de suerte (1-13): ");
                 leer = menu.leerComando();                /*** Aquí va una excepción ****/
                 escogida = Integer.parseInt(leer[0]);
                 ((AccionSuerte) casillaSiguiente).getCarta().accion(this.jugador, taboleiro, menu, escogida);
-            } else if(casillaSiguiente instanceof AccionCajaComunidad){
+                System.out.println("Acción: " + ((AccionSuerte) taboleiro.getCasillaPosicion(posSiguiente)).getCarta().getTexto());
+            } else if (casillaSiguiente instanceof AccionCajaComunidad) {
+                System.out.print(jugador.getNombre() + ", elige una carta de caja de comunidad (1-10): ");
                 leer = menu.leerComando();                /*** Aquí va una excepción ****/
                 escogida = Integer.parseInt(leer[0]);
                 ((AccionCajaComunidad) casillaSiguiente).getCarta().accion(this.jugador, taboleiro, menu, escogida);
+                System.out.println("Acción: " + ((AccionCajaComunidad) taboleiro.getCasillaPosicion(posSiguiente)).getCarta().getTexto());
             }
         }
+        menu.getJuego().getDado().setPosSiguiente(posSiguiente);
     }
 
     public abstract String getTipo();

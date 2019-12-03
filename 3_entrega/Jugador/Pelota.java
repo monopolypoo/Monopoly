@@ -93,7 +93,6 @@ public final class Pelota extends Avatar {
                     System.out.println(taboleiro);
                     System.out.println(Valor.RESET + "En los dados te ha tocado un " + menu.getJuego().getDado().getDadoTotal() + ", y por estar en el modo avanzado de pelota, avanzas 1 posición, desde "
                             + casillaAnterior + " hasta " + super.getCasilla().getNombreSinEspacio() + ".");
-                    System.out.print(menu.getJuego().getDado().textoAuxLanzarDados(taboleiro, super.getJugador(), menu, ""));
                     super.getJugador().pagarAlquiler(super.getCasilla(), menu.getJuego().getDado().getDadoTotal());
                     super.getJugador().pagarImpuestos(super.getCasilla(), taboleiro);
                     super.getJugador().cobrarParking(super.getCasilla());
@@ -121,7 +120,6 @@ public final class Pelota extends Avatar {
                     System.out.println(taboleiro);
                     System.out.println(Valor.RESET + "En los dados te ha tocado un " + menu.getJuego().getDado().getDadoTotal() + ", y por estar en el modo avanzado de pelota, avanzas "
                             + this.numeroPelota + " posiciones, desde " + casillaAnterior + " hasta " + super.getCasilla().getNombreSinEspacio() + ".");
-                    System.out.print(menu.getJuego().getDado().textoAuxLanzarDados(taboleiro, super.getJugador(), menu, ""));
                     super.getJugador().pagarAlquiler(super.getCasilla(), menu.getJuego().getDado().getDadoTotal());
                     super.getJugador().pagarImpuestos(super.getCasilla(), taboleiro);
                     super.getJugador().cobrarParking(super.getCasilla());

@@ -136,10 +136,8 @@ public class Menu {
                     if (comando.length == 2) {
                         if (comando[1].equals("dados")) {
                             if (this.juego.getJugadores().size() > 0) {
-                                texto = "";
                                 if (!this.dadosLanzados) {
-
-
+                                    this.juego.getDado().lanzarDadosAux(this);
                                 } else {
                                     System.out.println("Ya tiraste los dados! Para poder tirarlos el siguinte jugador antes debes acabar turno!");
                                 }
