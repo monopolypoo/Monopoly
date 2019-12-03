@@ -36,12 +36,12 @@ public class Taboleiro {
 
         // Casillas UDC Coruña (OESTE)
         Especial carcere = new Especial(" Cárcel           ", 10);
-        Solar solar6 = new Solar(" Fisioterapia      ", 11, Valor.PRECIO_GRUPO3);
+        Solar solar6 = new Solar(" Fisioterapia     ", 11, Valor.PRECIO_GRUPO3);
         Servicio serv1 = new Servicio(" Serv. Teleco     ", 12, 0.75 * Valor.VUELTA);
-        Solar solar7 = new Solar(" Turismo           ", 13, Valor.PRECIO_GRUPO3);
-        Solar solar8 = new Solar(" Náutica           ", 14, Valor.PRECIO_GRUPO3);
+        Solar solar7 = new Solar(" Turismo          ", 13, Valor.PRECIO_GRUPO3);
+        Solar solar8 = new Solar(" Náutica          ", 14, Valor.PRECIO_GRUPO3);
         Transportes trans2 = new Transportes(" Base Esp. Coruña ", 15, Valor.VUELTA);
-        Solar solar9 = new Solar(" Arquitectura      ", 16, Valor.PRECIO_GRUPO4);
+        Solar solar9 = new Solar(" Arquitectura     ", 16, Valor.PRECIO_GRUPO4);
         AccionCajaComunidad caixa2 = new AccionCajaComunidad(" Caja Comunidad   ", 17, Valor.BLACK_BOLD);
         Solar solar10 = new Solar(" Ing. Caminos     ", 18, Valor.PRECIO_GRUPO4);
         Solar solar11 = new Solar(" FIC              ", 19, Valor.PRECIO_GRUPO4);
