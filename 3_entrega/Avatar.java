@@ -148,6 +148,8 @@ public abstract class Avatar {
         }
     }
 
+    public abstract String getTipo();
+
     public abstract void moverEnAvanzado(Taboleiro taboleiro, Menu menu, Dado dado);
 
     @Override

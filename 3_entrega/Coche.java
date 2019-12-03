@@ -96,6 +96,11 @@ public final class Coche extends Avatar {
     }
 
     @Override
+    public String getTipo() {
+        return "coche";
+    }
+
+    @Override
     public void moverEnAvanzado(Taboleiro taboleiro, Menu menu, Dado dado) {
         int posSiguiente, posActual = this.getCasilla().getPosicion();
         if (this.contadorCoche <= 3 && dado.getDadoTotal() > 4) {
