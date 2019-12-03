@@ -196,7 +196,7 @@ public final class Suerte extends Carta {
 
 
     /*
-    private void cartasSuerte_14(Jugador.Jugador jugador, Juego_fisico.Taboleiro taboleiro, Monopoly.Menu menu) {
+    private void cartasSuerte_14(Jugador jugador, Taboleiro taboleiro, Menu menu) {
         int pos = jugador.getAvatar().getCasilla().getPosicion();
         taboleiro.getCasillaPosicion(pos).eliminarAvatar(jugador.getAvatar().getId());
         if (pos < 5) {

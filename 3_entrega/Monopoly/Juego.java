@@ -74,7 +74,7 @@ public class Juego {
     }
 
     public void listarEdificios(Taboleiro taboleiro) {
-        String texto = "Juego_fisico.Taboleiro non inicializado.";
+        String texto = "Taboleiro non inicializado.";
         String[] aux;
         String id;
         double coste = 0;
@@ -164,21 +164,21 @@ public class Juego {
     }
 
     public void estadisticas(Taboleiro taboleiro) {
-        String texto = "Juego_fisico.Taboleiro non inicializado.";
+        String texto = "Taboleiro non inicializado.";
         if (taboleiro != null) {
             texto = "{\n\tCasilla.Casilla más rentable: " + casillaMasRentable() +
-                    "\n\tJuego_fisico.Grupo más rentable: " + grupoMasRentable() +
+                    "\n\tGrupo más rentable: " + grupoMasRentable() +
                     "\n\tCasilla.Casilla más frecuentada: " + casillaFrecuentada(taboleiro) +
-                    "\n\tJugador.Jugador más vueltas: " + jugadorMasVueltas() +
-                    "\n\tJugador.Jugador más veces dados: " + jugadorMasDados() +
-                    "\n\tJugador.Jugador en cabeza: " + jugadorCabeza() +
+                    "\n\tJugador más vueltas: " + jugadorMasVueltas() +
+                    "\n\tJugador más veces dados: " + jugadorMasDados() +
+                    "\n\tJugador en cabeza: " + jugadorCabeza() +
                     "\n}";
         }
         System.out.println(texto);
     }
 
     public void estadisticas_jugador(Jugador jugador) {
-        String texto = "Jugador.Jugador non encontrado.";
+        String texto = "Jugador non encontrado.";
         if (jugador != null) {
             if (this.jugadores.contains(jugador)) {
                 texto = "{\n\tDinero invertido: " + jugador.getDineroInvertido() +
@@ -195,7 +195,7 @@ public class Juego {
     }
 
     public String casillaFrecuentada(Taboleiro taboleiro) {
-        String texto = "Juego_fisico.Taboleiro non inicializado";
+        String texto = "Taboleiro non inicializado";
         String[] datos;
         int veces = 0;
 
@@ -291,8 +291,8 @@ public class Juego {
                 "\t\tListar jugadores ──> Muestra por pantalla el nombre y los atributos de todos los jugadores que están en la partida.\n" +
                 "\t\tListar avatares ──> Muestra por pantalla el id y los atributos de todos los avatares que están en la partida.\n" +
                 "\t\tListar enventa ──> Muestra por pantalla todas las casillas disponibles para la compra.\n" +
-                "\t\tJugador.Jugador ──> Muestra por pantalla la información del jugador que dispone del turno.\n" +
-                "\t\tCrear jugador nombre avatar ──> Crea al jugador que poniéndole como nombre: <nombre> y como avatar: <avatar>. Los avatares disponibles son: Jugador.Jugador.Coche, Jugador.Esfinge, Jugador.Sombrero, Jugador.Pelota.\n" +
+                "\t\tJugador ──> Muestra por pantalla la información del jugador que dispone del turno.\n" +
+                "\t\tCrear jugador nombre avatar ──> Crea al jugador que poniéndole como nombre: <nombre> y como avatar: <avatar>. Los avatares disponibles son: Coche, Esfinge, Sombrero, Pelota.\n" +
                 "\t\tComprar casilla ──> Compra la casilla en la que se encuentra el jugador tras haber lanzado los dados.\n" +
                 "\t\tEdificar casa ──> En una casilla en propiedad si has caído dos veces en la misma o posees todo el grupo se te permite edificar hasta 4 casas por casilla.\n" +
                 "\t\tEdificar hotel ──> En una casilla con cuatro casas se te permite intercabiarlas por un hotel.\n" +

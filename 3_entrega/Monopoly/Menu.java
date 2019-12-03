@@ -137,7 +137,7 @@ public class Menu {
                             if (this.juego.getJugadores().size() > 0) {
                                 texto = "";
                                 if (!this.dadosLanzados) {
-                                    if (!((this.jugadorActual.getAvatar() instanceof Coche) && (((Coche) this.jugadorActual.getAvatar()).getPenalizacion() < 2))) {
+                                    if (!((this.jugadorActual.getAvatar() instanceof Coche) && (((Coche) this.jugadorActual.getAvatar()).getPenalizacion() <= 2))) {
                                         if (!this.jugadorActual.getEstarCarcere()) {
                                             this.juego.getDado().lanzarDados(this.jugadorActual, this.juego.getTaboleiro(), this);
                                             partidaEmpezada = true;
@@ -284,12 +284,12 @@ public class Menu {
                             if (jug != null) {
                                 System.out.println(jug);
                             } else
-                                System.out.println("Comando incorrecto. Jugador.Jugador no encontrado. Para ver los comandos disponibles escriba: Ver Comandos");
+                                System.out.println("Comando incorrecto. Jugador no encontrado. Para ver los comandos disponibles escriba: Ver Comandos");
                         } else if (comando[1].equals("avatar")) {
                             if (this.juego.getAvatares().containsKey(comando[2])) {
                                 System.out.println(this.juego.getAvatares().get(comando[2])); //mirar en caso de que no este el avatar
                             } else
-                                System.out.println("Comando incorrecto. Jugador.Jugador.Avatar no encontrado. Para ver los comandos disponibles escriba: Ver Comandos");
+                                System.out.println("Comando incorrecto. Avatar no encontrado. Para ver los comandos disponibles escriba: Ver Comandos");
                         } else {
                             System.out.println("Comando incorrecto. Para ver los comandos disponibles escriba: Ver Comandos");
                         }
@@ -435,7 +435,7 @@ public class Menu {
                         if (jug != null) {
                             this.juego.estadisticas_jugador(jug);
                         } else
-                            System.out.println("Comando incorrecto. Jugador.Jugador no encontrado. Para ver los comandos disponibles escriba: Ver Comandos");
+                            System.out.println("Comando incorrecto. Jugador no encontrado. Para ver los comandos disponibles escriba: Ver Comandos");
                     } else {
                         System.out.println("Comando incorrecto. Para ver los comandos disponibles escriba: Ver Comandos");
                     }
