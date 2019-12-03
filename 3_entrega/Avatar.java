@@ -110,6 +110,8 @@ public abstract class Avatar {
 
     public void moverEnBasico(Taboleiro taboleiro, Menu menu, int posSiguiente) {
         Casilla casillaSiguiente;
+        int escogida;
+        String[] leer;
         if (posSiguiente > 39) {
             this.jugador.sumarFortuna(Valor.VUELTA);
             this.jugador.sumarVecesSalida();
@@ -134,10 +136,14 @@ public abstract class Avatar {
                 taboleiro.getCasillaPosicion(posSiguiente).setVecesCasilla(this.jugador);
             }
 
-            if ((posSiguiente == 7) || (posSiguiente == 22) || (posSiguiente == 36)) {
-                taboleiro.getCarta().lanzarCartaSuerte(this.jugador, taboleiro, menu);
-            } else if ((posSiguiente == 2) || (posSiguiente == 17) || (posSiguiente == 33)) {
-                taboleiro.getCarta().lanzarCartaComunidad(jugador, taboleiro, menu);
+            if (casillaSiguiente instanceof AccionSuerte) {
+                leer = menu.leerComando();                /*** Aquí va una excepción ****/
+                escogida = Integer.parseInt(leer[0]);
+                ((AccionSuerte) casillaSiguiente).getCarta().accion(this.jugador, taboleiro, menu, escogida);
+            } else if(casillaSiguiente instanceof AccionCajaComunidad){
+                leer = menu.leerComando();                /*** Aquí va una excepción ****/
+                escogida = Integer.parseInt(leer[0]);
+                ((AccionCajaComunidad) casillaSiguiente).getCarta().accion(this.jugador, taboleiro, menu, escogida);
             }
         }
     }
