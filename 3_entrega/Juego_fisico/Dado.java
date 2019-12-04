@@ -1,6 +1,8 @@
 package Juego_fisico;
 
 import Casilla.*;
+import ExcepcionesNull.ExcepcionesNull;
+import ExcepcionesPartida.ExcepcionesDinero;
 import Jugador.*;
 import Monopoly.*;
 
@@ -88,7 +90,7 @@ public class Dado {
         return this.dado1 + this.dado2;
     }
 
-    public void lanzarDados(Jugador jugador, Taboleiro taboleiro, Menu menu) throws InterruptedException {
+    public void lanzarDados(Jugador jugador, Taboleiro taboleiro, Menu menu) throws InterruptedException, ExcepcionesDinero, ExcepcionesNull {
 
         this.dadoTotal = lanzarLosDados();
         jugador.sumarVecesdados();
@@ -141,7 +143,7 @@ public class Dado {
         return texto;
     }
 
-    public void lanzarDadosAux(Menu menu) throws InterruptedException {
+    public void lanzarDadosAux(Menu menu) throws InterruptedException, ExcepcionesDinero, ExcepcionesNull {
         String texto = "";
         if (!((menu.getJugadorActual().getAvatar() instanceof Coche) && (((Coche) menu.getJugadorActual().getAvatar()).getPenalizacion() <= 2))) {
             if (!menu.getJugadorActual().getEstarCarcere()) {
@@ -197,14 +199,10 @@ public class Dado {
                     menu.setSigueTurno(false);
                     if (menu.getJugadorActual().getContadorEstarCarcere() >= 3) {
                         System.out.println("Ya llevas 3 intentos, por lo que debes pagar para salír.");
-                        if (menu.getJugadorActual().getFortuna() >= Valor.SALIR_CARCEL) {
-                            menu.getJugadorActual().restarFortuna(Valor.SALIR_CARCEL);
-                            ((Especial) menu.getJuego().getTaboleiro().getCasillaPosicion(20)).sumarBote(Valor.SALIR_CARCEL);
-                            menu.getJugadorActual().setContadorEstarCarcere(0);
-                            System.out.println("Pago efectuado. Ya podrás tirar en el seguiente turno.");
-                        } else {
-                            System.out.println("No tienes suficiente dinero para salír de la cárcel, por lo que estás en bancarrota.");
-                        }
+                        menu.getJugadorActual().restarFortuna(Valor.SALIR_CARCEL);
+                        ((Especial) menu.getJuego().getTaboleiro().getCasillaPosicion(20)).sumarBote(Valor.SALIR_CARCEL);
+                        menu.getJugadorActual().setContadorEstarCarcere(0);
+                        System.out.println("Pago efectuado. Ya podrás tirar en el seguiente turno.");
                     }
                 }
             }
