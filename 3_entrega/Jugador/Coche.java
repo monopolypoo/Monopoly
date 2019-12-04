@@ -1,6 +1,9 @@
 package Jugador;
 
 import Casilla.*;
+import ExcepcionesNull.ExcepcionesNull;
+import ExcepcionesNumericas.ExcepcionesNumericas;
+import ExcepcionesPartida.ExcepcionesDinero;
 import Juego_fisico.*;
 import Monopoly.*;
 
@@ -118,7 +121,7 @@ public final class Coche extends Avatar {
     }
 
     @Override
-    public void moverEnAvanzado(Taboleiro taboleiro, Menu menu, Dado dado) {
+    public void moverEnAvanzado(Taboleiro taboleiro, Menu menu, Dado dado) throws ExcepcionesDinero, ExcepcionesNull, ExcepcionesNumericas {
         int posSiguiente, posActual = this.getCasilla().getPosicion();
         if (this.contadorCoche <= 3 && dado.getDadoTotal() > 4) {
             posSiguiente = posActual + dado.getDadoTotal();

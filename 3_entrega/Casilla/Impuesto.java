@@ -22,6 +22,7 @@ public final class Impuesto extends Casilla {
 
     //No se crea el setter de valor porque no vamos a querer que se modifique en ningún momento.
 
+    @Override
     public String toString() {
         String texto = "";
         if (super.getPosicion() == 4 || super.getPosicion() == 38) {

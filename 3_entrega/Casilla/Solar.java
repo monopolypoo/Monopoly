@@ -1,6 +1,9 @@
 package Casilla;
 
 import Edificio.*;
+import ExcepcionesNull.*;
+import ExcepcionesNumericas.ExcepcionesNumericas;
+import ExcepcionesPartida.*;
 import Juego_fisico.*;
 import Jugador.*;
 
@@ -165,7 +168,7 @@ public final class Solar extends Propiedad {
         this.numeroPistas = numero;
     }
 
-    public void edificar(String tipo, Jugador jugador, Taboleiro taboleiro) {
+    public void edificar(String tipo, Jugador jugador, Taboleiro taboleiro) throws ExcepcionesEdificios, ExcepcionesDinero, ExcepcionesDuenho, ExcepcionesNumericas {
         String id;
         switch (tipo) {
             case "casa":
@@ -185,8 +188,7 @@ public final class Solar extends Propiedad {
                 this.construirEdificio(tipo, jugador, taboleiro, id);
                 break;
             default:
-                System.out.println("ERROR, tipo de edificio erróneo.");
-                break;
+                throw new ExcepcionesEdificios("ERROR, tipo de edificio erróneo.");
         }
     }
 
@@ -214,12 +216,16 @@ public final class Solar extends Propiedad {
         return false;
     }
 
-    private void construirEdificio(String edificio, Jugador jugador, Taboleiro taboleiro, String id) {
+    private void construirEdificio(String edificio, Jugador jugador, Taboleiro taboleiro, String id) throws ExcepcionesDinero, ExcepcionesEdificios, ExcepcionesDuenho, ExcepcionesNumericas {
         if (super.getDuenho() != null) {
             if (super.getDuenho().equals(jugador)) {
                 int aux;
                 if (super.getVecesCasilla().containsKey(jugador.getAvatar().getId())) {
-                    aux = Integer.parseInt(super.getVecesCasilla().get(jugador.getAvatar().getId())[1]);
+                    try {
+                        aux = Integer.parseInt(super.getVecesCasilla().get(jugador.getAvatar().getId())[1]);
+                    } catch (NumberFormatException exc){
+                        throw new ExcepcionesNumericas("Error pasando el string a entero.");
+                    }
                 } else {
                     aux = 0;
                 }
@@ -227,102 +233,81 @@ public final class Solar extends Propiedad {
                 if (super.tenerTodasCasillas() || aux >= 2) {
                     switch (edificio) {
                         case "casa":
-                            if (jugador.getFortuna() >= this.valorCasa) {
-                                if (this.numeroCasas < 4) {
-                                    new Casa(this.valorCasa, id, this);
-                                    System.out.println("El avatar " + super.getDuenho().getAvatar().getId() +
-                                            " ha construído una casa en la casilla " + super.getNombreSinEspacio() +
-                                            " por un valor de: " + this.valorCasa +
-                                            "\nLa fortuna actual del jugador es de: " + super.getDuenho().getFortuna());
-                                } else {
-                                    System.out.print("Ya hay 4 casas construídas! Quiere construír un hotel? [si/no] ");
-
-                                    /* Intentar hacer esto con la interface de comando!!!!!!!!!!!!!!*/
-
-                                    String comando;
-                                    Scanner leer = new Scanner(System.in);
-                                    comando = leer.nextLine();
-                                    if (comando.toLowerCase().equals("si")) {
-                                        construirEdificio("hotel", jugador, taboleiro, id);
-                                    } else {
-                                        System.out.println("De acuerdo. No se hará ninguna acción.");
-                                    }
-                                }
+                            if (this.numeroCasas < 4) {
+                                new Casa(this.valorCasa, id, this);
+                                System.out.println("El avatar " + super.getDuenho().getAvatar().getId() +
+                                        " ha construído una casa en la casilla " + super.getNombreSinEspacio() +
+                                        " por un valor de: " + this.valorCasa +
+                                        "\nLa fortuna actual del jugador es de: " + super.getDuenho().getFortuna());
                             } else {
-                                System.out.println("No tienes suficiente dinero para construir una casa.");
+                                System.out.print("Ya hay 4 casas construídas! Quiere construír un hotel? [si/no] ");
+
+                                /* Intentar hacer esto con la interface de comando!!!!!!!!!!!!!!*/
+
+                                String comando;
+                                Scanner leer = new Scanner(System.in);
+                                comando = leer.nextLine();
+                                if (comando.toLowerCase().equals("si")) {
+                                    construirEdificio("hotel", jugador, taboleiro, id);
+                                } else {
+                                    System.out.println("De acuerdo. No se hará ninguna acción.");
+                                }
                             }
                             break;
 
                         case "hotel":
-                            if (jugador.getFortuna() >= this.valorHotel) {
-                                if (this.numeroCasas == 4 && (super.getGrupo().getNumeroHoteles() < super.getGrupo().getNumeroSolares())) {
-                                    new Hotel(this.valorHotel, id, this);
-                                    this.eliminarCasas(jugador, taboleiro);
-                                    System.out.println("El avatar " + super.getDuenho().getAvatar().getId() +
-                                            " ha construído un hotel en la casilla " + super.getNombreSinEspacio() +
-                                            " por un valor de: " + this.valorHotel +
-                                            "\nLa fortuna actual del jugador es de: " + super.getDuenho().getFortuna());
-                                } else if (super.getGrupo().getNumeroHoteles() >= super.getGrupo().getNumeroSolares()) {
-                                    System.out.println("No puedes tener más de tres hoteles en el grupo!");
-                                } else {
-                                    System.out.println("Para construír un hotel necesitas tener 4 casas construídas.");
-                                }
+                            if (this.numeroCasas == 4 && (super.getGrupo().getNumeroHoteles() < super.getGrupo().getNumeroSolares())) {
+                                new Hotel(this.valorHotel, id, this);
+                                this.eliminarCasas(jugador, taboleiro);
+                                System.out.println("El avatar " + super.getDuenho().getAvatar().getId() +
+                                        " ha construído un hotel en la casilla " + super.getNombreSinEspacio() +
+                                        " por un valor de: " + this.valorHotel +
+                                        "\nLa fortuna actual del jugador es de: " + super.getDuenho().getFortuna());
+                            } else if (super.getGrupo().getNumeroHoteles() >= super.getGrupo().getNumeroSolares()) {
+                                throw new ExcepcionesEdificios("No puedes tener más de tres hoteles en el grupo!");
                             } else {
-                                System.out.println("No tienes suficiente dinero para construir un hotel.");
+                                throw new ExcepcionesEdificios("Para construír un hotel necesitas tener 4 casas construídas.");
                             }
+
                             break;
                         case "piscina":
-                            if (jugador.getFortuna() >= this.valorPiscina) {
-                                if (this.numeroCasas >= 2 && this.numeroHoteles >= 1 && super.getGrupo().getNumeroPiscinas() < super.getGrupo().getNumeroSolares()) {
-                                    new Piscina(this.valorPiscina, id, this);
-                                    System.out.println("El avatar " + super.getDuenho().getAvatar().getId() +
-                                            " ha construído una piscina en la casilla " + super.getNombreSinEspacio() +
-                                            " por un valor de: " + this.valorPiscina +
-                                            "\nLa fortuna actual del jugador es de: " + super.getDuenho().getFortuna());
-                                } else if (super.getGrupo().getNumeroPiscinas() >= super.getGrupo().getNumeroSolares()) {
-                                    System.out.println("No puedes tener más de tres piscinas en el grupo!");
-                                } else {
-                                    System.out.println("Para construír una piscina necesitas tener al menos 2 casas y 1 hotel construído.");
-                                }
-                            } else {
-                                System.out.println("No tienes suficiente dinero para construir una piscina.");
-                            }
+                            if (this.numeroCasas >= 2 && this.numeroHoteles >= 1 && super.getGrupo().getNumeroPiscinas() < super.getGrupo().getNumeroSolares()) {
+                                new Piscina(this.valorPiscina, id, this);
+                                System.out.println("El avatar " + super.getDuenho().getAvatar().getId() +
+                                        " ha construído una piscina en la casilla " + super.getNombreSinEspacio() +
+                                        " por un valor de: " + this.valorPiscina +
+                                        "\nLa fortuna actual del jugador es de: " + super.getDuenho().getFortuna());
+                            } else if (super.getGrupo().getNumeroPiscinas() >= super.getGrupo().getNumeroSolares()) {
+                                throw new ExcepcionesEdificios("No puedes tener más de tres piscinas en el grupo!");
+                            } else
+                                throw new ExcepcionesEdificios("Para construír una piscina necesitas tener al menos 2 casas y 1 hotel construído.");
                             break;
                         case "pista":
-                            if (jugador.getFortuna() >= this.valorPistaDeporte) {
-                                if (this.numeroHoteles >= 2 && super.getGrupo().getNumeroPistas() < super.getGrupo().getNumeroSolares()) {
-                                    new Pista(this.valorPistaDeporte, id, this);
-                                    System.out.println("El avatar " + super.getDuenho().getAvatar().getId() +
-                                            " ha construído una pista de deporte en la casilla " + super.getNombreSinEspacio() +
-                                            " por un valor de: " + this.valorPistaDeporte +
-                                            "\nLa fortuna actual del jugador es de: " + super.getDuenho().getFortuna());
-                                } else if (super.getGrupo().getNumeroPistas() >= super.getGrupo().getNumeroSolares()) {
-                                    System.out.println("No puedes tener más de tres pistas de deporte en el grupo!");
-                                } else {
-                                    System.out.println("Para construír una pista de deporte necesitas tener al menos 2 hoteles construídos.");
-                                }
-                            } else {
-                                System.out.println("No tienes suficiente dinero para construir una pista de deporte.");
-                            }
+                            if (this.numeroHoteles >= 2 && super.getGrupo().getNumeroPistas() < super.getGrupo().getNumeroSolares()) {
+                                new Pista(this.valorPistaDeporte, id, this);
+                                System.out.println("El avatar " + super.getDuenho().getAvatar().getId() +
+                                        " ha construído una pista de deporte en la casilla " + super.getNombreSinEspacio() +
+                                        " por un valor de: " + this.valorPistaDeporte +
+                                        "\nLa fortuna actual del jugador es de: " + super.getDuenho().getFortuna());
+                            } else if (super.getGrupo().getNumeroPistas() >= super.getGrupo().getNumeroSolares()) {
+                                throw new ExcepcionesEdificios("No puedes tener más de tres pistas de deporte en el grupo!");
+                            } else
+                                throw new ExcepcionesEdificios("Para construír una pista de deporte necesitas tener al menos 2 hoteles construídos.");
                             break;
                         default:
-                            System.out.println("ERROR, opción no válida.");
-                            break;
+                            throw new ExcepcionesEdificios("ERROR, opción no válida.");
                     }
-                } else {
-                    System.out.println("No tienes todas las casillas del grupo ni has caído dos veces en la casilla por lo que no puedes hacer esto!");
-                }
-            } else {
-                System.out.println("No eres el dueño de esta casilla, por lo que no puedes contruír en esta casilla!");
-            }
-        } else {
-            System.out.println("No eres el dueño de esta casilla, por lo que no puedes construír en esta casilla!");
-        }
+                } else
+                    throw new ExcepcionesEdificios("No tienes todas las casillas del grupo ni has caído dos veces en la casilla por lo que no puedes hacer esto!");
+            } else
+                throw new ExcepcionesDuenho("No eres el dueño de esta casilla, por lo que no puedes contruír en esta casilla!");
+        } else
+            throw new ExcepcionesDuenho("No eres el dueño de esta casilla, por lo que no puedes construír en esta casilla!");
     }
 
-    public void venderEdificio(String tipo, Jugador jugador, Taboleiro taboleiro, int numero){
-        if ((tipo != null) && (jugador != null) && (taboleiro != null) && (numero > 0)){
-            switch (tipo.toLowerCase()){
+    public void venderEdificio(String tipo, Jugador jugador, Taboleiro taboleiro, int numero) throws ExcepcionesEdificios, ExcepcionesNull, ExcepcionesDuenho {
+        if ((tipo != null) && (jugador != null) && (taboleiro != null) && (numero > 0)) {
+            switch (tipo.toLowerCase()) {
                 case "casa":
                 case "casas":
                     venderCasa(jugador, taboleiro, numero);
@@ -340,12 +325,12 @@ public final class Solar extends Propiedad {
                     venderPista(jugador, taboleiro, numero);
                     break;
                 default:
-                    System.out.println("Comando incorrecto. Para ver los comandos disponibles escriba: Ver Comandos");
+                    throw new ExcepcionesEdificios("Comando incorrecto. Para ver los comandos disponibles escriba: Ver Interfaces.Comandos");
             }
-        } else System.out.println("Se ha producido un error.");
+        } else throw new ExcepcionesNull("Se ha producido un error.");
     }
 
-    public void venderCasa(Jugador jugador, Taboleiro taboleiro, int numero) {
+    public void venderCasa(Jugador jugador, Taboleiro taboleiro, int numero) throws ExcepcionesEdificios, ExcepcionesDuenho {
         if (super.getDuenho() != null) {
             if (jugador.equals(super.getDuenho())) {
                 if (this.numeroCasas >= numero) {
@@ -363,20 +348,17 @@ public final class Solar extends Propiedad {
                     System.out.println(super.getDuenho().getNombre() + " ha vendido " + numero + " casa(s) en " + this.getNombreSinEspacio() + ", recibiendo " + (numero * this.valorCasa / 2) + "€. En la propiedad queda(n) " + this.numeroCasas + " casa(s).");
                 } else {
                     if (this.numeroCasas > 0) {
-                        System.out.println("Solamente se puede(n) vender " + this.numeroCasas + " casa(s) y se recibirían " + this.numeroCasas * this.valorCasa / 2 + "€.");
-                    } else {
-                        System.out.println("En esta casilla no tienes casas construidas, por lo que no puedes venderlas.");
-                    }
+                        throw new ExcepcionesEdificios("Solamente se puede(n) vender " + this.numeroCasas + " casa(s) y se recibirían " + this.numeroCasas * this.valorCasa / 2 + "€.");
+                    } else
+                        throw new ExcepcionesEdificios("En esta casilla no tienes casas construidas, por lo que no puedes venderlas.");
                 }
-            } else {
-                System.out.println("No eres el dueño de esta casilla, por lo que no puedes vender casas en esta casilla!");
-            }
-        } else {
-            System.out.println("No eres el dueño de esta casilla, por lo que no puedes vender casas en esta casilla!");
-        }
+            } else
+                throw new ExcepcionesDuenho("No eres el dueño de esta casilla, por lo que no puedes vender casas en esta casilla!");
+        } else
+            throw new ExcepcionesEdificios("No eres el dueño de esta casilla, por lo que no puedes vender casas en esta casilla!");
     }
 
-    public void venderHotel(Jugador jugador, Taboleiro taboleiro, int numero) {
+    public void venderHotel(Jugador jugador, Taboleiro taboleiro, int numero) throws ExcepcionesDuenho, ExcepcionesEdificios {
         if (super.getDuenho() != null) {
             if (jugador.equals(super.getDuenho())) {
                 if (this.numeroHoteles >= numero) {
@@ -394,20 +376,17 @@ public final class Solar extends Propiedad {
                     System.out.println(super.getDuenho().getNombre() + " ha vendido " + numero + " hotel(es) en " + this.getNombreSinEspacio() + ", recibiendo " + (numero * this.valorHotel / 2) + "€. En la propiedad queda(n) " + this.numeroHoteles + " hotel(es).");
                 } else {
                     if (this.numeroHoteles > 0) {
-                        System.out.println("Solamente se puede(n) vender " + this.numeroHoteles + " hotel(es) y se recibirían " + this.numeroHoteles * this.valorHotel / 2 + "€.");
-                    } else {
-                        System.out.println("En esta casilla no tienes hoteles construidos, por lo que no puedes venderlos.");
-                    }
+                        throw new ExcepcionesEdificios("Solamente se puede(n) vender " + this.numeroHoteles + " hotel(es) y se recibirían " + this.numeroHoteles * this.valorHotel / 2 + "€.");
+                    } else
+                        throw new ExcepcionesEdificios("En esta casilla no tienes hoteles construidos, por lo que no puedes venderlos.");
                 }
-            } else {
-                System.out.println("No eres el dueño de esta casilla, por lo que no puedes vender hoteles en esta casilla!");
-            }
-        } else {
-            System.out.println("No eres el dueño de esta casilla, por lo que no puedes vender hoteles en esta casilla!");
-        }
+            } else
+                throw new ExcepcionesDuenho("No eres el dueño de esta casilla, por lo que no puedes vender hoteles en esta casilla!");
+        } else
+            throw new ExcepcionesDuenho("No eres el dueño de esta casilla, por lo que no puedes vender hoteles en esta casilla!");
     }
 
-    public void venderPiscina(Jugador jugador, Taboleiro taboleiro, int numero) {
+    public void venderPiscina(Jugador jugador, Taboleiro taboleiro, int numero) throws ExcepcionesEdificios, ExcepcionesDuenho {
         if (super.getDuenho() != null) {
             if (jugador.equals(super.getDuenho())) {
                 if (this.numeroPiscinas >= numero) {
@@ -425,20 +404,17 @@ public final class Solar extends Propiedad {
                     System.out.println(super.getDuenho().getNombre() + " ha vendido " + numero + " piscina(s) en " + this.getNombreSinEspacio() + ", recibiendo " + (numero * this.valorPiscina / 2) + "€. En la propiedad queda(n) " + this.numeroPiscinas + " piscina(s).");
                 } else {
                     if (this.numeroPiscinas > 0) {
-                        System.out.println("Solamente se puede(n) vender " + this.numeroPiscinas + " piscina(s) y se recibirían " + this.numeroPiscinas * this.valorPiscina / 2 + "€.");
-                    } else {
-                        System.out.println("En esta casilla no tienes piscinas construidas, por lo que no puedes venderlas.");
-                    }
+                        throw new ExcepcionesEdificios("Solamente se puede(n) vender " + this.numeroPiscinas + " piscina(s) y se recibirían " + this.numeroPiscinas * this.valorPiscina / 2 + "€.");
+                    } else
+                        throw new ExcepcionesEdificios("En esta casilla no tienes piscinas construidas, por lo que no puedes venderlas.");
                 }
-            } else {
-                System.out.println("No eres el dueño de esta casilla, por lo que no puedes vender piscinas en esta casilla!");
-            }
-        } else {
-            System.out.println("No eres el dueño de esta casilla, por lo que no puedes vender piscinas en esta casilla!");
-        }
+            } else
+                throw new ExcepcionesDuenho("No eres el dueño de esta casilla, por lo que no puedes vender piscinas en esta casilla!");
+        } else
+            throw new ExcepcionesDuenho("No eres el dueño de esta casilla, por lo que no puedes vender piscinas en esta casilla!");
     }
 
-    public void venderPista(Jugador jugador, Taboleiro taboleiro, int numero) {
+    public void venderPista(Jugador jugador, Taboleiro taboleiro, int numero) throws ExcepcionesEdificios, ExcepcionesDuenho {
         if (super.getDuenho() != null) {
             if (jugador.equals(super.getDuenho())) {
                 if (this.numeroPistas >= numero) {
@@ -456,17 +432,14 @@ public final class Solar extends Propiedad {
                     System.out.println(super.getDuenho().getNombre() + " ha vendido " + numero + " pista(s) en " + this.getNombreSinEspacio() + ", recibiendo " + (numero * this.valorPistaDeporte / 2) + "€. En la propiedad queda(n) " + this.numeroPistas + " pista(s).");
                 } else {
                     if (this.numeroPistas > 0) {
-                        System.out.println("Solamente se puede(n) vender " + this.numeroPistas + " pista(s) y se recibirían " + this.numeroPistas * this.valorPistaDeporte / 2 + "€.");
-                    } else {
-                        System.out.println("En esta casilla no tienes pistas construidas, por lo que no puedes venderlas.");
-                    }
+                        throw new ExcepcionesEdificios("Solamente se puede(n) vender " + this.numeroPistas + " pista(s) y se recibirían " + this.numeroPistas * this.valorPistaDeporte / 2 + "€.");
+                    } else
+                        throw new ExcepcionesEdificios("En esta casilla no tienes pistas construidas, por lo que no puedes venderlas.");
                 }
-            } else {
-                System.out.println("No eres el dueño de esta casilla, por lo que no puedes vender pistas en esta casilla!");
-            }
-        } else {
-            System.out.println("No eres el dueño de esta casilla, por lo que no puedes vender pistas en esta casilla!");
-        }
+            } else
+                throw new ExcepcionesDuenho("No eres el dueño de esta casilla, por lo que no puedes vender pistas en esta casilla!");
+        } else
+            throw new ExcepcionesDuenho("No eres el dueño de esta casilla, por lo que no puedes vender pistas en esta casilla!");
     }
 
 

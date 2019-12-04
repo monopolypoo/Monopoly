@@ -2,6 +2,10 @@ package Monopoly;
 
 import Casilla.*;
 import Edificio.*;
+import ExcepcionesNull.*;
+import ExcepcionesNumericas.*;
+import ExcepcionesPartida.*;
+import Interfaces.Comandos;
 import Juego_fisico.*;
 import Jugador.*;
 
@@ -9,19 +13,21 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
 
-public class Juego {
+public class Juego implements Comandos {
     private Dado dado;
     private Taboleiro taboleiro;
     private ArrayList<Jugador> jugadores;
     private HashMap<String, Avatar> avatares;
     private ArrayList<Grupo> grupos;
+    private Menu menu;
 
-    public Juego() {
+    public Juego(Menu menu) {
         this.dado = new Dado();
         this.taboleiro = new Taboleiro(this);
         this.jugadores = new ArrayList<>();
         this.avatares = new HashMap<>();
         this.grupos = new ArrayList<>();
+        this.menu = menu;
     }
 
     public Dado getDado() {
@@ -60,7 +66,7 @@ public class Juego {
     }
 
     public void listarJugadores() {
-        for (Jugador jug : this.jugadores){
+        for (Jugador jug : this.jugadores) {
             System.out.println(jug.toString());
         }
     }
@@ -73,7 +79,7 @@ public class Juego {
         }
     }
 
-    public void listarEdificios(Taboleiro taboleiro) {
+    public void listarEdificios(Taboleiro taboleiro) throws ExcepcionesNull {
         String texto = "Taboleiro non inicializado.";
         String[] aux;
         String id;
@@ -103,7 +109,7 @@ public class Juego {
                             "\tcoste: " + coste + "\n}\n";
                 }
             }
-        }
+        } else throw new ExcepcionesNull("Tablero no inicializado.");
         System.out.println(texto);
     }
 
@@ -163,7 +169,7 @@ public class Juego {
         return texto;
     }
 
-    public void estadisticas(Taboleiro taboleiro) {
+    public void estadisticas(Taboleiro taboleiro) throws ExcepcionesNull, ExcepcionesNumericas {
         String texto = "Taboleiro non inicializado.";
         if (taboleiro != null) {
             texto = "{\n\tCasilla.Casilla más rentable: " + casillaMasRentable() +
@@ -173,11 +179,12 @@ public class Juego {
                     "\n\tJugador más veces dados: " + jugadorMasDados() +
                     "\n\tJugador en cabeza: " + jugadorCabeza() +
                     "\n}";
-        }
+        } else throw new ExcepcionesNull("Tablero no inicializado.");
+
         System.out.println(texto);
     }
 
-    public void estadisticas_jugador(Jugador jugador) {
+    public void estadisticas_jugador(Jugador jugador) throws ExcepcionesNull {
         String texto = "Jugador non encontrado.";
         if (jugador != null) {
             if (this.jugadores.contains(jugador)) {
@@ -190,11 +197,11 @@ public class Juego {
                         "\n\tVeces en la cárcel: " + jugador.getVecesCarcel() +
                         "\n}";
             }
-        }
+        } else throw new ExcepcionesNull("Jugador no inicializado.");
         System.out.println(texto);
     }
 
-    public String casillaFrecuentada(Taboleiro taboleiro) {
+    public String casillaFrecuentada(Taboleiro taboleiro) throws ExcepcionesNull, ExcepcionesNumericas {
         String texto = "Taboleiro non inicializado";
         String[] datos;
         int veces = 0;
@@ -205,16 +212,20 @@ public class Juego {
                 for (Jugador jugador : this.jugadores) {
                     if (casilla.getVecesCasilla().containsKey(jugador.getAvatar().getId())) {
                         datos = casilla.getVecesCasilla().get(jugador.getAvatar().getId());
-                        if (veces < Integer.parseInt(datos[1])) {
-                            veces = Integer.parseInt(datos[1]);
-                            texto = casilla.getNombreSinEspacio();
-                        } else if (veces == Integer.parseInt(datos[1])) {
-                            texto += casilla.getNombreSinEspacio();
+                        try {
+                            if (veces < Integer.parseInt(datos[1])) {
+                                veces = Integer.parseInt(datos[1]);
+                                texto = casilla.getNombreSinEspacio();
+                            } else if (veces == Integer.parseInt(datos[1])) {
+                                texto += casilla.getNombreSinEspacio();
+                            }
+                        } catch (NumberFormatException exc){
+                            throw new ExcepcionesNumericas("Error pasando el string a entero.");
                         }
                     }
                 }
             }
-        }
+        } else throw new ExcepcionesNull("Tablero no inicializado.");
         return texto;
     }
 
@@ -266,9 +277,9 @@ public class Juego {
         return texto;
     }
 
-    public Jugador estaJugadorNombre(String nombre){
-        for (Jugador jugador : this.jugadores){
-            if (jugador.getNombre().equals(nombre)){
+    public Jugador estaJugadorNombre(String nombre) {
+        for (Jugador jugador : this.jugadores) {
+            if (jugador.getNombre().equals(nombre)) {
                 return jugador;
             }
         }
@@ -313,5 +324,340 @@ public class Juego {
 
     public void describirGrupo(int parseInt) {
         System.out.println(this.grupos.get(parseInt));
+    }
+
+    public void CrearJugador(String[] comando) throws ExcepcionesNull, ExcepcionesComandos {
+        if (comando.length == 4) {
+            if (comando[1].equals("jugador")) {
+                if (this.getJugadores().size() < 6) {
+                    if (!this.menu.isPartidaEmpezada()) {
+                        Jugador jugador = new Jugador(comando[2], comando[3], this.menu.getJuego().getJugadores(), this.getTaboleiro().getCasillaPosicion(0));
+                        this.getTaboleiro().getCasillaPosicion(0).setAvatar(jugador.getAvatar());
+                        System.out.println(jugador);
+                        this.anhadeJugador(jugador);
+                        this.menu.setJugadorActual(this.menu.getJuego().getJugadores().get(0));
+                        this.menu.setSigueTurno(true);
+                        this.menu.setDadosLanzados(false);
+
+                        if (this.getJugadores().size() >= 2) {
+                            this.menu.setJugadorTurnoSiguiente(this.getJugadores().get(1));
+                        } else {
+                            this.menu.setJugadorTurnoSiguiente(this.getJugadores().get(0));
+                        }
+                    } else
+                        throw new ExcepcionesNull("No puedes crear más jugadores ya que la partida ya está empezada!");
+                } else throw new ExcepcionesNull("El número de jugadores ya es el máximo, no puedes añadir más!");
+            } else
+                throw new ExcepcionesComandos("Comando incorrecto. Para ver los comandos disponibles escriba: Ver Comandos");
+        } else
+            throw new ExcepcionesComandos("Comando incorrecto. Para ver los comandos disponibles escriba: Ver Comandos");
+    }
+
+    public void Jugador() {
+        System.out.println(this.menu.getJugadorActual());
+    }
+
+    public void Listar(String[] comando) throws ExcepcionesNull, ExcepcionesComandos, ExcepcionesNumericas {
+        if (comando.length == 2) {
+            switch (comando[1]) {
+                case "jugadores":
+                    this.listarJugadores();
+                    break;
+
+                case "avatares":
+                    this.listarAvatares();
+                    break;
+
+                case "enventa":
+                    this.getTaboleiro().listarEnVenta();
+                    break;
+                case "edificios":
+                    this.menu.getJuego().listarEdificios(this.menu.getJuego().getTaboleiro());
+                    break;
+
+                default:
+                    throw new ExcepcionesComandos("Comando incorrecto. Para ver los comandos disponibles escriba: Ver Comandos");
+            }
+        } else if (comando.length == 3) {
+            if (comando[1].equals("edificios")) {
+                try {
+                    if (Integer.parseInt(comando[2]) >= 0 && Integer.parseInt(comando[2]) < 9) {
+                        this.describirGrupo(Integer.parseInt(comando[2]));
+                    } else
+                        throw new ExcepcionesNumericas("Número incorrecto, tiene que ser mayor o igual a 0 y menos que 9.");
+                } catch (NumberFormatException excepcion){
+                    throw new ExcepcionesNumericas("Error pasando el comando a entero.");
+                }
+            } else
+                throw new ExcepcionesComandos("Comando incorrecto. Para ver los comandos disponibles escriba: Ver Comandos");
+        } else
+            throw new ExcepcionesComandos("Comando incorrecto. Para ver los comandos disponibles escriba: Ver Comandos");
+    }
+
+    public void LanzarDados(String[] comando) throws InterruptedException, ExcepcionesDinero, ExcepcionesNull, ExcepcionesJugando, ExcepcionesComandos, ExcepcionesNumericas {
+        if (comando.length == 2) {
+            if (comando[1].equals("dados")) {
+                if (this.getJugadores().size() > 0) {
+                    if (!this.menu.isDadosLanzados()) {
+                        this.getDado().lanzarDadosAux(this.menu);
+                    } else
+                        throw new ExcepcionesJugando("Ya tiraste los dados! Para poder tirarlos el siguinte jugador antes debes acabar turno!");
+                } else
+                    throw new ExcepcionesJugando("Antes de lanzar los dados inserte al jugador! Si no sabe como hacerlo teclee: Ver comandos.");
+            } else
+                throw new ExcepcionesComandos("Comando incorrecto. Para ver los comandos disponibles escriba: Ver Comandos");
+        } else
+            throw new ExcepcionesComandos("Comando incorrecto. Para ver los comandos disponibles escriba: Ver Comandos");
+    }
+
+    public void AcabarTurno(String[] comando) throws ExcepcionesJugando, ExcepcionesComandos {
+        if (comando.length == 2) {
+            if (comando[1].equals("turno")) {
+                if (!this.menu.isSigueTurno()) {
+                    if (this.menu.getJugadorActual().getAvatar() instanceof Coche) {
+                        ((Coche) this.menu.getJugadorActual().getAvatar()).resetCoche(this.menu);
+                    }
+                    this.menu.setPoderComprar(true);
+                    this.menu.calcularJugadores();
+                    this.menu.setDadosLanzados(false);
+                    this.menu.setSigueTurno(true);
+                    if (this.menu.getJugadorActual().getAvatar().isModoAvanzado()) {
+                        System.out.println("El jugador actual es " + this.menu.getJugadorActual().getNombre() + " y está en modo avanzado de " + this.menu.getJugadorActual().getAvatar().getTipo() + ".");
+                    } else {
+                        System.out.println("El jugador actual es " + this.menu.getJugadorActual().getNombre() + " y está en modo normal.");
+                    }
+
+                    if (this.menu.getJugadorActual().getEstarCarcere())
+                        throw new ExcepcionesJugando("Estás en la cárcel, por lo que debes tirar los dados para obtener dobles.");
+                } else throw new ExcepcionesJugando("No puedes acabar turno porque tienes que tirar los dados!");
+            } else
+                throw new ExcepcionesComandos("Comando incorrecto. Para ver los comandos disponibles escriba: Ver Comandos");
+        } else
+            throw new ExcepcionesComandos("Comando incorrecto. Para ver los comandos disponibles escriba: Ver Comandos");
+    }
+
+    public void SalirCarcel(String[] comando) throws ExcepcionesDinero, ExcepcionesJugando, ExcepcionesComandos {
+        if (comando.length == 2) {
+            if (comando[1].equals("carcel")) {
+                if (this.menu.getJugadorActual().getEstarCarcere()) {
+                    this.menu.getJugadorActual().restarFortuna(Valor.SALIR_CARCEL);
+                    ((Especial) this.getTaboleiro().getCasillaPosicion(20)).sumarBote(Valor.SALIR_CARCEL);
+                    this.menu.getJugadorActual().setContadorEstarCarcere(0);
+                    this.menu.setSigueTurno(true);
+                    this.menu.setDadosLanzados(false);
+                    System.out.println("Acabas de pagar " + Valor.SALIR_CARCEL + " para salir de la cárcel.");
+
+                } else throw new ExcepcionesJugando("No puedes salir de la cárcel porque ya no estás en ella.");
+            } else
+                throw new ExcepcionesComandos("Comando incorrecto. Para ver los comandos disponibles escriba: Ver Comandos");
+        } else
+            throw new ExcepcionesComandos("Comando incorrecto. Para ver los comandos disponibles escriba: Ver Comandos");
+    }
+
+    public void Describir(String[] comando) throws ExcepcionesComandos {
+        if (comando.length == 3) {
+            if (comando[1].equals("jugador")) {
+                Jugador jug = this.estaJugadorNombre(comando[2]);
+                if (jug != null) {
+                    System.out.println(jug);
+                } else
+                    throw new ExcepcionesComandos("Comando incorrecto. Jugador no encontrado. Para ver los comandos disponibles escriba: Ver Comandos");
+            } else if (comando[1].equals("avatar")) {
+                if (this.getAvatares().containsKey(comando[2])) {
+                    System.out.println(this.getAvatares().get(comando[2]));
+                } else
+                    throw new ExcepcionesComandos("Comando incorrecto. Avatar no encontrado. Para ver los comandos disponibles escriba: Ver Interfaces.Comandos");
+            } else
+                throw new ExcepcionesComandos("Comando incorrecto. Para ver los comandos disponibles escriba: Ver Comandos");
+        } else if (comando.length == 2) {
+            if (this.getTaboleiro().getCasillas().containsKey(comando[1]))
+                System.out.println(this.getTaboleiro().getCasillas().get(comando[1]));
+            else
+                throw new ExcepcionesComandos("Comando incorrecto. El nombre de una casilla debe introducirse tal y como aparece en el tablero pero SIN espacios." +
+                        " \nPara ver todos los comandos disponibles escriba: Ver Comandos");
+        } else
+            throw new ExcepcionesComandos("Comando incorrecto. Para ver los comandos disponibles escriba: Ver Comandos");
+    }
+
+    public void ComprarCasilla(String[] comando) throws ExcepcionesDuenho, ExcepcionesHipotecar, ExcepcionesDinero, ExcepcionesJugando, ExcepcionesComandos {
+        if (comando.length == 2) {
+            if (comando[1].equals(this.menu.getJugadorActual().getAvatar().getCasilla().getNombreSinEspacios())) {
+                if (!this.menu.getJugadorActual().getEstarCarcere()) {
+                    if (this.menu.getJugadorActual().getAvatar().getCasilla() instanceof Propiedad) {
+                        if (this.menu.getJugadorActual().getAvatar().isModoAvanzado() && (this.menu.getJugadorActual().getAvatar() instanceof Coche) &&
+                                !((Coche) this.menu.getJugadorActual().getAvatar()).isCompraCoche() && this.menu.isPoderComprar()) {
+                            ((Propiedad) this.menu.getJugadorActual().getAvatar().getCasilla()).comprarCasilla(this.menu.getJugadorActual(), this.getTaboleiro());
+                            this.getTaboleiro().setContadorVueltas(0);
+                            if (this.menu.getJugadorActual().getAvatar() instanceof Coche) {
+                                ((Coche) this.menu.getJugadorActual().getAvatar()).setCompraCoche(true);
+                            }
+                            this.menu.setPoderComprar(false);
+                        } else if (this.menu.isPoderComprar()) {
+                            ((Propiedad) this.menu.getJugadorActual().getAvatar().getCasilla()).comprarCasilla(this.menu.getJugadorActual(), this.getTaboleiro());
+                            this.getTaboleiro().setContadorVueltas(0);
+
+                        } else if ((this.menu.getJugadorActual().getAvatar() instanceof Coche) && (((Coche) this.menu.getJugadorActual().getAvatar()).isCompraCoche())) {
+                            throw new ExcepcionesJugando("Ya has comprado en este turno, por lo que no puedes volver a comprar en este turno.");
+                        } else {
+                            throw new ExcepcionesJugando("Para comprar una casilla antes debe tirar los dados.");
+                        }
+                    } else {
+                        throw new ExcepcionesJugando("Esta casilla no se puede comprar.");
+                    }
+                } else {
+                    throw new ExcepcionesJugando("Si estás en la cárcel no puedes comprar.");
+                }
+            } else {
+                throw new ExcepcionesJugando("No puedes comprar una casilla en la que no estás. \n" +
+                        "Asegurate de que has introducido bien el nombre de la casilla (tal y como aparece en el tablero pero sin espacios).");
+            }
+        } else {
+            throw new ExcepcionesComandos("Comando incorrecto. Para ver los comandos disponibles escriba: Ver Comandos");
+        }
+    }
+
+    public void Ver(String[] comando) throws ExcepcionesComandos {
+        if (comando.length == 2) {
+            if (comando[1].equals("tablero"))
+                System.out.println(this.getTaboleiro());
+            else if (comando[1].toLowerCase().equals("comandos")) {
+                this.listarComandos();
+            } else
+                throw new ExcepcionesComandos("Comando incorrecto. Para ver los comandos disponibles escriba: Ver Comandos");
+        } else
+            throw new ExcepcionesComandos("Comando incorrecto. Para ver los comandos disponibles escriba: Ver Comandos");
+    }
+
+    public void Edificar(String[] comando) throws ExcepcionesEdificios, ExcepcionesDuenho, ExcepcionesDinero, ExcepcionesJugando, ExcepcionesNumericas {
+        if (this.menu.getJugadorActual().getAvatar().getCasilla() instanceof Solar) {
+            if (comando.length == 2) {
+                switch (comando[1]) {
+                    case "casa":
+                        ((Solar) this.menu.getJugadorActual().getAvatar().getCasilla()).edificar("casa", this.menu.getJugadorActual(), this.getTaboleiro());
+                        break;
+                    case "hotel":
+                        ((Solar) this.menu.getJugadorActual().getAvatar().getCasilla()).edificar("hotel", this.menu.getJugadorActual(), this.getTaboleiro());
+                        break;
+                    case "piscina":
+                        ((Solar) this.menu.getJugadorActual().getAvatar().getCasilla()).edificar("piscina", this.menu.getJugadorActual(), this.getTaboleiro());
+                        break;
+                    case "pista":
+                        ((Solar) this.menu.getJugadorActual().getAvatar().getCasilla()).edificar("pista", this.menu.getJugadorActual(), this.getTaboleiro());
+                        break;
+                }
+            } else if (comando.length == 4) {
+                if (comando[1].equals("pista") && comando[2].equals("de") && comando[3].equals("deportes")) {
+                    ((Solar) this.menu.getJugadorActual().getAvatar().getCasilla()).edificar("pista", this.menu.getJugadorActual(), this.getTaboleiro());
+                }
+            }
+        } else {
+            throw new ExcepcionesJugando("En esta casilla no se puede construir.");
+        }
+    }
+
+    public void HipotecarCasilla(String[] comando) throws ExcepcionesDuenho, ExcepcionesHipotecar, ExcepcionesEdificios, ExcepcionesJugando, ExcepcionesComandos {
+        if (comando.length == 2) {
+            if (this.getTaboleiro().getCasillas().containsKey(comando[1])) {
+                if (this.getTaboleiro().getCasillas().get(comando[1]) instanceof Propiedad) {
+                    ((Propiedad) this.getTaboleiro().getCasillas().get(comando[1])).hipotecarCasilla(this.menu.getJugadorActual(), this.getTaboleiro());
+                } else {
+                    throw new ExcepcionesJugando("Esta casilla no se puede hipotecar.");
+                }
+            } else {
+                throw new ExcepcionesComandos("Comando incorrecto. El nombre de una casilla debe introducirse tal y como aparece en el tablero pero SIN espacios." +
+                        " \nPara ver todos los comandos disponibles escriba: Ver Comandos");
+            }
+        } else {
+            throw new ExcepcionesComandos("Comando incorrecto. Para ver los comandos disponibles escriba: Ver Comandos");
+        }
+    }
+
+    public void DeshipotecarCasilla(String[] comando) throws ExcepcionesDuenho, ExcepcionesDeshipotecar, ExcepcionesHipotecar, ExcepcionesDinero, ExcepcionesJugando, ExcepcionesComandos {
+        if (comando.length == 2) {
+            if (this.getTaboleiro().getCasillas().containsKey(comando[1])) {
+                if (this.getTaboleiro().getCasillas().get(comando[1]) instanceof Propiedad) {
+                    ((Propiedad) this.getTaboleiro().getCasillas().get(comando[1])).deshipotecarCasilla(this.menu.getJugadorActual(), this.getTaboleiro());
+                } else {
+                    throw new ExcepcionesJugando("Esta casilla no se puede deshipotecar.");
+                }
+            } else {
+                throw new ExcepcionesComandos("Comando incorrecto. El nombre de una casilla debe introducirse tal y como aparece en el tablero pero SIN espacios." +
+                        " \nPara ver todos los comandos disponibles escriba: Ver Comandos");
+            }
+        } else {
+            throw new ExcepcionesComandos("Comando incorrecto. Para ver los comandos disponibles escriba: Ver Comandos");
+        }
+    }
+
+    public void VenderEdificio(String[] comando) throws ExcepcionesEdificios, ExcepcionesDuenho, ExcepcionesNull, ExcepcionesJugando, ExcepcionesComandos, ExcepcionesNumericas {
+        if (comando.length == 4) {
+            int numero = 0;
+            try {
+                numero = Integer.parseInt(comando[3]);
+            } catch (NumberFormatException exc){
+                throw new ExcepcionesNumericas("Error pasando el string a entero.");
+            }
+            if (this.getTaboleiro().getCasillas().get(comando[2]) instanceof Solar) {
+                ((Solar) this.getTaboleiro().getCasillas().get(comando[2])).venderEdificio(comando[1], this.menu.getJugadorActual(), this.getTaboleiro(), numero);
+            } else {
+                throw new ExcepcionesJugando("No se pueden vender edificios en esta casilla.");
+            }
+        } else {
+            throw new ExcepcionesComandos("Comando incorrecto. Para ver los comandos disponibles escriba: Ver Comandos");
+        }
+    }
+
+    public void Estadisticas(String[] comando) throws ExcepcionesComandos, ExcepcionesNull, ExcepcionesNumericas {
+        if (comando.length == 1) {
+            this.estadisticas(this.getTaboleiro());
+        } else if (comando.length == 2) {
+            Jugador jug = this.estaJugadorNombre(comando[1]);
+            if (jug != null) {
+                this.estadisticas_jugador(jug);
+            } else
+                throw new ExcepcionesComandos("Comando incorrecto. Jugador no encontrado. Para ver los comandos disponibles escriba: Ver Comandos");
+        } else {
+            throw new ExcepcionesComandos("Comando incorrecto. Para ver los comandos disponibles escriba: Ver Comandos");
+        }
+    }
+
+    public void CambiarModo(String[] comando) throws ExcepcionesComandos {
+        if (comando.length == 2) {
+            if (comando[1].equals("modo")) {
+                if (!this.menu.getJugadorActual().getAvatar().isModoAvanzado()) {
+                    this.menu.getJugadorActual().getAvatar().setModoAvanzado(true);
+                    if (this.menu.getJugadorActual().getAvatar() instanceof Coche) {
+                        ((Coche) this.menu.getJugadorActual().getAvatar()).setCompraCoche(false);
+                    }
+                    System.out.println("El avatar " + this.menu.getJugadorActual().getAvatar().getId() + " ahora está en modo AVANZADO de " + this.menu.getJugadorActual().getAvatar().getTipo() + ".");
+                } else {
+                    this.menu.getJugadorActual().getAvatar().setModoAvanzado(false);
+                    System.out.println("El avatar " + this.menu.getJugadorActual().getAvatar().getId() + " ahora está en modo NORMAL de " + this.menu.getJugadorActual().getAvatar().getTipo() + ".");
+
+                }
+
+            } else throw new ExcepcionesComandos("Comando incorrecto. Para ver los comandos disponibles escriba: Ver Comandos");
+        } else throw new ExcepcionesComandos("Comando incorrecto. Para ver los comandos disponibles escriba: Ver Comandos");
+    }
+
+    public void Mover(String[] comando) throws ExcepcionesNumericas {
+        if (comando.length == 2) {
+            try {
+                this.getTaboleiro().getCasillaPosicion(this.menu.getJugadorActual().getAvatar().getCasilla().getPosicion()).eliminarAvatar(this.menu.getJugadorActual().getAvatar().getId());
+                this.menu.getJugadorActual().getAvatar().setCasilla(this.getTaboleiro().getCasillaPosicion(Integer.parseInt(comando[1])));
+                this.getTaboleiro().getCasillaPosicion(Integer.parseInt(comando[1])).setAvatar(this.menu.getJugadorActual().getAvatar());
+                System.out.println(this.getTaboleiro());
+            } catch (NumberFormatException exc){
+                throw new ExcepcionesNumericas("Error pasando el string a entero.");
+            }
+        }
+    }
+
+    public void Stop(){
+        String[] comando2 = this.menu.leerComando();
+        if (comando2[0].toLowerCase().equals("si")) {
+            this.menu.setCombinado(true);
+            System.out.print("$> ");
+        }
     }
 }

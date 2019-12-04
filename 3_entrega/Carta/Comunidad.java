@@ -1,6 +1,8 @@
 package Carta;
 
 import Casilla.*;
+import ExcepcionesNumericas.ExcepcionesNumericas;
+import ExcepcionesPartida.ExcepcionesDinero;
 import Juego_fisico.*;
 import Jugador.*;
 import Monopoly.*;
@@ -18,7 +20,7 @@ public final class Comunidad extends Carta {
      **   NO COMPROBAMOS SI SE LE PASAN NULLS YA QUE LO HACEMOS EN LAS FUNCIONES QUE LOS LLAMAN   **
      **********************************************************************************************/
 
-    private void cartasComunidad_1(Jugador jugador, Taboleiro taboleiro) {
+    private void cartasComunidad_1(Jugador jugador, Taboleiro taboleiro) throws ExcepcionesDinero {
         super.setMovimiento(false);
         super.setTexto("Paga " + Valor.VUELTA + "€ por un fin de semana en un balneario de 5 estrellas.");
         if (jugador.getFortuna() < ((float) Valor.VUELTA)) {
@@ -30,7 +32,7 @@ public final class Comunidad extends Carta {
         }
     }
 
-    private void cartasComunidad_2(Jugador jugador, Taboleiro taboleiro) {
+    private void cartasComunidad_2(Jugador jugador, Taboleiro taboleiro) throws ExcepcionesNumericas {
         super.setMovimiento(true);
         super.setTexto("Te investigan por fraude de identidad. Ve a la Cárcel. Ve directamente sin pasar por la casilla " +
                 "de Salida y sin cobrar los " + Valor.VUELTA + "€.");
@@ -61,7 +63,7 @@ public final class Comunidad extends Carta {
         jugador.sumarPremiosInversionesBote((float) Valor.VUELTA * 2);
     }
 
-    private void cartasComunidad_5(Jugador jugador) {
+    private void cartasComunidad_5(Jugador jugador) throws ExcepcionesDinero {
         super.setMovimiento(false);
         super.setTexto("Paga " + Valor.VUELTA + "€ por invitar a todos tus amigos a un viaje a Química.");
         if (jugador.getFortuna() < ((float) Valor.VUELTA)) {
@@ -88,7 +90,7 @@ public final class Comunidad extends Carta {
         jugador.getAvatar().setCasilla(taboleiro.getCasillaPosicion(19));
     }
 
-    private void cartasComunidad_8(Jugador jugador, Menu menu) {
+    private void cartasComunidad_8(Jugador jugador, Menu menu) throws ExcepcionesDinero {
         super.setMovimiento(false);
         Juego juego = menu.getJuego();
         int jugadores = juego.getJugadores().size() - 1;
@@ -113,7 +115,7 @@ public final class Comunidad extends Carta {
         jugador.sumarPremiosInversionesBote(Valor.VUELTA);
     }
 
-    private void cartasComunidad_10(Jugador jugador, Taboleiro taboleiro, Menu menu) {
+    private void cartasComunidad_10(Jugador jugador, Taboleiro taboleiro, Menu menu) throws ExcepcionesNumericas {
         super.setMovimiento(true);
         super.setTexto("Ve a la 'Ing. Caminos' a disfrutar de sus demostraciones de extracción de minerales." +
                 " Si pasas por la casilla de Salida, cobra " + Valor.VUELTA + "€.");
@@ -132,7 +134,7 @@ public final class Comunidad extends Carta {
     }
 
     @Override
-    public void accion(Jugador jugador, Taboleiro taboleiro, Menu menu, int escogida) {
+    public void accion(Jugador jugador, Taboleiro taboleiro, Menu menu, int escogida) throws ExcepcionesDinero, ExcepcionesNumericas {
         int numero;
 
         if (jugador != null && taboleiro != null && menu != null) {

@@ -1,6 +1,7 @@
 package Juego_fisico;
 
 import Casilla.*;
+import ExcepcionesNumericas.ExcepcionesNumericas;
 import Monopoly.*;
 
 import java.util.ArrayList;
@@ -475,7 +476,7 @@ public class Taboleiro {
         }
     }
 
-    public String idCasa(Solar solar) {
+    public String idCasa(Solar solar) throws ExcepcionesNumericas {
         String id;
         String[] aux;
         int numero;
@@ -489,7 +490,11 @@ public class Taboleiro {
             id = "casa-1";
         } else {
             aux = this.idCasas.get(this.idCasas.size() - 1).split("-");
-            numero = Integer.parseInt(aux[1]);
+            try {
+                numero = Integer.parseInt(aux[1]);
+            } catch (NumberFormatException exc){
+                throw new ExcepcionesNumericas("Error pasando el string a entero.");
+            }
             numero++;
             id = "casa-" + numero;
         }
@@ -498,7 +503,7 @@ public class Taboleiro {
         return id;
     }
 
-    public String idHotel(Solar solar) {
+    public String idHotel(Solar solar) throws ExcepcionesNumericas {
         String id;
         String[] aux;
         int numero;
@@ -512,7 +517,11 @@ public class Taboleiro {
             id = "hotel-1";
         } else {
             aux = this.idHoteles.get(this.idHoteles.size() - 1).split("-");
-            numero = Integer.parseInt(aux[1]);
+            try {
+                numero = Integer.parseInt(aux[1]);
+            }catch (NumberFormatException exc){
+                throw new ExcepcionesNumericas("Error pasando el string a entero.");
+            }
             numero++;
             id = "hotel-" + numero;
         }
@@ -521,7 +530,7 @@ public class Taboleiro {
         return id;
     }
 
-    public String idPiscina(Solar solar) {
+    public String idPiscina(Solar solar) throws ExcepcionesNumericas {
         String id;
         String[] aux;
         int numero;
@@ -535,7 +544,11 @@ public class Taboleiro {
             id = "piscina-1";
         } else {
             aux = this.idPiscinas.get(this.idPiscinas.size() - 1).split("-");
-            numero = Integer.parseInt(aux[1]);
+            try {
+                numero = Integer.parseInt(aux[1]);
+            } catch (NumberFormatException exc){
+                throw new ExcepcionesNumericas("Error pasando el string a entero.");
+            }
             numero++;
             id = "piscina-" + numero;
         }
@@ -544,7 +557,7 @@ public class Taboleiro {
         return id;
     }
 
-    public String idPista(Solar solar) {
+    public String idPista(Solar solar) throws ExcepcionesNumericas {
         String id;
         String[] aux;
         int numero;
@@ -558,7 +571,11 @@ public class Taboleiro {
             id = "pista-1";
         } else {
             aux = this.idPistas.get(this.idPistas.size() - 1).split("-");
-            numero = Integer.parseInt(aux[1]);
+            try {
+                numero = Integer.parseInt(aux[1]);
+            }catch (NumberFormatException exc){
+                throw new ExcepcionesNumericas("Error pasando el string a entero.");
+            }
             numero++;
             id = "pista-" + numero;
         }

@@ -1,5 +1,8 @@
 package Carta;
 
+import ExcepcionesNull.ExcepcionesNull;
+import ExcepcionesNumericas.ExcepcionesNumericas;
+import ExcepcionesPartida.ExcepcionesDinero;
 import Juego_fisico.*;
 import Jugador.*;
 import Monopoly.*;
@@ -52,7 +55,7 @@ public abstract class Carta {
         this.movimiento = movimiento;
     }
 
-    public abstract void accion(Jugador jugador, Taboleiro taboleiro, Menu menu, int escogida);
+    public abstract void accion(Jugador jugador, Taboleiro taboleiro, Menu menu, int escogida) throws ExcepcionesDinero, ExcepcionesNull, ExcepcionesNumericas;
 
     public abstract int barajar(int escogida);
 }

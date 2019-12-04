@@ -2,8 +2,11 @@ package Jugador;
 
 import Casilla.*;
 import Edificio.*;
+import ExcepcionesNull.ExcepcionesNull;
+import ExcepcionesNumericas.ExcepcionesNumericas;
 import Juego_fisico.*;
 import Monopoly.*;
+import ExcepcionesPartida.*;
 
 import java.util.ArrayList;
 
@@ -231,25 +234,23 @@ public class Jugador {
         }
     }
 
-    public void restarFortuna(float fortuna) {
-        if (fortuna > 0) {
+    public void restarFortuna(float fortuna) throws ExcepcionesDinero {
+        if (fortuna <= this.fortuna) {
             this.fortuna = this.fortuna - fortuna;
-        }
+        } else throw new ExcepcionesDinero("No tienes suficiente dinero para realizar esta acción.");
     }
 
     public ArrayList<Casilla> getPropiedades() {
         return (propiedades);
     }
 
-    public void setPropiedades(ArrayList<Casilla> propiedades) {
+    public void setPropiedades(ArrayList<Casilla> propiedades) throws ExcepcionesNull {
         if (propiedades == null) {
-            System.err.println("Error: propiedades no inicializadas.");
-            return;
+            throw new ExcepcionesNull("Error: propiedades no inicializadas.");
         }
         for (Casilla casilla : propiedades) {
             if (casilla == null) {
-                System.err.println("Error: casilla no inicializada.");
-                return;
+                throw new ExcepcionesNull("Error: casilla no inicializada.");
             }
         }
         this.propiedades = propiedades;
@@ -272,7 +273,7 @@ public class Jugador {
         }
     }
 
-    public void pagarAlquiler(Casilla casilla, int dadoTotal) {
+    public void pagarAlquiler(Casilla casilla, int dadoTotal) throws ExcepcionesDinero {
         int contador;
         float deuda;
         if (casilla instanceof Propiedad) {
@@ -309,51 +310,41 @@ public class Jugador {
                                     + ". Este avatar tiene " + contador + "casillas de transportes, por lo que se le pagó un alquiler de " + deuda + "€.");
 
                         } else if (propiedad instanceof Solar) {
-                            if (this.fortuna >= propiedad.getValorAlquiler()) {
-                                if (propiedad.tenerTodasCasillas()) {
-                                    this.restarFortuna((float) (2 * propiedad.getValorAlquiler()));
-                                    this.dineroGastado += 2 * propiedad.getValorAlquiler();
-                                    propiedad.getDuenho().sumarFortuna((float) (2 * propiedad.getValorAlquiler()));
-                                    System.out.println("Caiste en una casilla que pertenece al avatar " + propiedad.getDuenho().getAvatar().getId()
-                                            + ", y además todas las casillas de ese grupo le pertenecen, por lo que se le pagó el alquiler de "
-                                            + 2 * propiedad.getValorAlquiler() + "€.");
-                                } else {
-                                    this.restarFortuna((float) propiedad.getValorAlquiler());
-                                    this.dineroGastado += propiedad.getValorAlquiler();
-                                    propiedad.getDuenho().sumarFortuna((float) propiedad.getValorAlquiler());
-                                    System.out.println("Caiste en una casilla que pertenece al avatar " + propiedad.getDuenho().getAvatar().getId()
-                                            + ", por lo que se le pagó el alquiler de " + propiedad.getValorAlquiler() + "€.");
-                                }
+                            if (propiedad.tenerTodasCasillas()) {
+                                this.restarFortuna((float) (2 * propiedad.getValorAlquiler()));
+                                this.dineroGastado += 2 * propiedad.getValorAlquiler();
+                                propiedad.getDuenho().sumarFortuna((float) (2 * propiedad.getValorAlquiler()));
+                                System.out.println("Caiste en una casilla que pertenece al avatar " + propiedad.getDuenho().getAvatar().getId()
+                                        + ", y además todas las casillas de ese grupo le pertenecen, por lo que se le pagó el alquiler de "
+                                        + 2 * propiedad.getValorAlquiler() + "€.");
                             } else {
-                                System.out.println("No tienes dinero suficiente para pagar el alquiler, por lo que debes hipotecar tus propiedades o estarás en bancarrota.");
+                                this.restarFortuna((float) propiedad.getValorAlquiler());
+                                this.dineroGastado += propiedad.getValorAlquiler();
+                                propiedad.getDuenho().sumarFortuna((float) propiedad.getValorAlquiler());
+                                System.out.println("Caiste en una casilla que pertenece al avatar " + propiedad.getDuenho().getAvatar().getId()
+                                        + ", por lo que se le pagó el alquiler de " + propiedad.getValorAlquiler() + "€.");
                             }
                         }
-                    } else {
-                        System.out.println("No se paga alquiler por esta casilla porque existe alguna que está hipotecada en el grupo.");
                     }
                 }
             }
         }
     }
 
-    public void pagarImpuestos(Casilla casilla, Taboleiro taboleiro) {
+    public void pagarImpuestos(Casilla casilla, Taboleiro taboleiro) throws ExcepcionesDinero {
         if (casilla instanceof Impuesto) {
             Impuesto impuesto = (Impuesto) casilla;
             if (taboleiro != null) {
-                if (this.fortuna >= impuesto.getImpuesto()) {
-                    this.restarFortuna((float) impuesto.getImpuesto());
-                    this.dineroGastado += impuesto.getImpuesto();
-                    ((Especial) taboleiro.getCasillaPosicion(20)).sumarBote((float) impuesto.getImpuesto());
-                    this.sumarTasasImpuestos((float) impuesto.getImpuesto());
-                    System.out.println("Caíste en una casilla de impuestos, por lo que se realizó el pago de " + impuesto.getImpuesto() + "€.");
-                } else {
-                    System.out.println("No tienes dinero suficiente para pagar el impuesto, por lo que debes hipotecar tus propiedades o estarás en bancarrota.");
-                }
+                this.restarFortuna((float) impuesto.getImpuesto());
+                this.dineroGastado += impuesto.getImpuesto();
+                ((Especial) taboleiro.getCasillaPosicion(20)).sumarBote((float) impuesto.getImpuesto());
+                this.sumarTasasImpuestos((float) impuesto.getImpuesto());
+                System.out.println("Caíste en una casilla de impuestos, por lo que se realizó el pago de " + impuesto.getImpuesto() + "€.");
             }
         }
     }
 
-    public void cobrarParking(Casilla casilla) {
+    public void cobrarParking(Casilla casilla) throws ExcepcionesNumericas {
         if (casilla.getPosicion() == 20) {
             Especial especial = (Especial) casilla;
             this.sumarFortuna((float) especial.getValor());
@@ -369,7 +360,7 @@ public class Jugador {
             this.propiedades.add(casilla);
     }
 
-    public void irCarcere(Taboleiro taboleiro) {
+    public void irCarcere(Taboleiro taboleiro) throws ExcepcionesNumericas {
         int posSig = 10;
         Casilla casillaSiguiente;
 
@@ -383,12 +374,10 @@ public class Jugador {
         }
     }
 
-    public void eliminarPropiedad(Casilla casilla) {
+    public void eliminarPropiedad(Casilla casilla) throws ExcepcionesDuenho {
         if (this.propiedades.contains(casilla)) {
             this.propiedades.remove(casilla);
-        } else {
-            System.out.println("No se le puede quitar a un jugador una propiedad que ya no le pertenecía.");
-        }
+        } else throw new ExcepcionesDuenho("No se le puede quitar a un jugador una propiedad que ya no le pertenecía.");
     }
 
     @Override

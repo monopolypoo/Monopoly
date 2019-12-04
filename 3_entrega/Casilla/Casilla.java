@@ -1,5 +1,6 @@
 package Casilla;
 
+import ExcepcionesNumericas.ExcepcionesNumericas;
 import Juego_fisico.*;
 import Jugador.*;
 
@@ -72,13 +73,17 @@ public abstract class Casilla {
         this.vecesCasilla = vecesCasilla;
     }*/
 
-    public void setVecesCasilla(Jugador jugador) {
+    public void setVecesCasilla(Jugador jugador) throws ExcepcionesNumericas {
         String[] texto = new String[2];
         int aux;
         if (jugador != null)
             if (this.vecesCasilla.containsKey(jugador.getAvatar().getId())) {
                 texto = this.vecesCasilla.get(jugador.getAvatar().getId());
-                aux = Integer.parseInt(texto[1]);
+                try {
+                    aux = Integer.parseInt(texto[1]);
+                } catch (NumberFormatException exc){
+                    throw new ExcepcionesNumericas("Error pasando el string a entero.");
+                }
                 aux++;
                 texto[1] = "" + aux;
                 this.vecesCasilla.replace(jugador.getAvatar().getId(), texto);
@@ -113,10 +118,15 @@ public abstract class Casilla {
         this.avatares.remove(id);
     }
 
-    public boolean isSubirPrecio() {
+    public boolean isSubirPrecio() throws ExcepcionesNumericas {
         for (String[] cadena : this.vecesCasilla.values()) {
-            if (Integer.parseInt(cadena[1]) < 4)
-                return false;
+            try {
+                if (Integer.parseInt(cadena[1]) < 4)
+                    return false;
+            } catch (NumberFormatException exc){
+                throw new ExcepcionesNumericas("Error pasando el string a entero.");
+            }
+
         }
         return true;
     }

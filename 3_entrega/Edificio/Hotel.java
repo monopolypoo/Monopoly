@@ -1,6 +1,7 @@
 package Edificio;
 
 import Casilla.*;
+import ExcepcionesPartida.ExcepcionesDinero;
 
 public final class Hotel extends Edificio {
 
@@ -8,7 +9,7 @@ public final class Hotel extends Edificio {
         super();
     }
 
-    public Hotel(double precio, String id, Solar solar) {
+    public Hotel(double precio, String id, Solar solar) throws ExcepcionesDinero {
         super(precio, id, solar);
         solar.setNumeroCasas(0);
         solar.setNumeroHoteles(solar.getNumeroHoteles() + 1);

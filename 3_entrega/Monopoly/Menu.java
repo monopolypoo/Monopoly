@@ -1,6 +1,9 @@
 package Monopoly;
 
 import Casilla.*;
+import ExcepcionesNull.*;
+import ExcepcionesNumericas.ExcepcionesNumericas;
+import ExcepcionesPartida.*;
 import Jugador.*;
 
 import java.io.BufferedReader;
@@ -19,18 +22,18 @@ public class Menu {
     private boolean esLeerArchivo;
     private boolean partidaEmpezada;
     private int contadorDobles;
+    private boolean combinado;
 
     public Menu() throws InterruptedException {
-        this.juego = new Juego();
+        this.juego = new Juego(this);
         this.sigueTurno = false;
         this.contadorDobles = 0;
         this.dadosLanzados = false;
         this.esLeerArchivo = false;
         this.partidaEmpezada = false;
+        this.combinado = false;
         boolean seguir = true;
-        boolean combinado = false;
         String[] comando, comando2;
-        String texto;
 
         System.out.print("Desea leer los comandos de un archivo (si/no): ");
         comando2 = leerComando();
@@ -41,7 +44,8 @@ public class Menu {
         if (comando2[0].toLowerCase().equals("si")) {
             buffRead = abrirArchivo();
             this.esLeerArchivo = true;
-            System.out.println("Si necesita introducir un comando en el medio de la ejecución automática, podrá hacerlo en cada stop, tecleando 'si', donde le aparecerá la entrada típica por línea de comandos.");
+            System.out.println("Si necesita introducir un comando en el medio de la ejecución automática, podrá hacerlo " +
+                    "en cada stop, tecleando 'si', donde le aparecerá la entrada típica por línea de comandos.");
         }
 
         while (seguir) { //mirar cuando acabar la partida
@@ -62,344 +66,194 @@ public class Menu {
 
             switch (comando[0].toLowerCase()) {
                 case "crear":
-                    if (comando.length == 4) {
-                        if (comando[1].equals("jugador")) {
-                            if (this.juego.getJugadores().size() < 6) {
-                                if (!partidaEmpezada) {
-                                    Jugador jugador = new Jugador(comando[2], comando[3], this.juego.getJugadores(), this.juego.getTaboleiro().getCasillaPosicion(0));
-                                    this.juego.getTaboleiro().getCasillaPosicion(0).setAvatar(jugador.getAvatar());
-                                    System.out.println(jugador);
-                                    this.juego.anhadeJugador(jugador);
-                                    this.jugadorActual = this.juego.getJugadores().get(0);
-                                    this.sigueTurno = true;
-                                    this.dadosLanzados = false;
-
-                                    if (this.juego.getJugadores().size() >= 2) {
-                                        this.jugadorTurnoSiguiente = this.juego.getJugadores().get(1);
-                                    } else {
-                                        this.jugadorTurnoSiguiente = this.juego.getJugadores().get(0);
-                                    }
-                                } else {
-                                    System.out.println("No puedes crear más jugadores ya que la partida ya está empezada!");
-                                }
-                            } else {
-                                System.out.println("El número de jugadores ya es el máximo, no puedes añadir más!");
-                            }
-                        }
-                    } else
-                        System.out.println("Comando incorrecto. Para ver los comandos disponibles escriba: Ver Comandos");
+                    try {
+                        this.juego.CrearJugador(comando);
+                    } catch (ExcepcionesNull excepcionesNull) {
+                        System.out.println(excepcionesNull.getMessage());
+                    } catch (ExcepcionesComandos excepcionesComandos){
+                        System.out.println(excepcionesComandos.getMessage());
+                    }
                     break;
 
                 case "jugador":
-                    System.out.println(this.jugadorActual);
+                    this.juego.Jugador();
                     break;
 
                 case "listar":
-                    if (comando.length == 2) {
-                        switch (comando[1]) {
-                            case "jugadores":
-                                this.juego.listarJugadores();
-                                break;
-
-                            case "avatares":
-                                this.juego.listarAvatares();
-                                break;
-
-                            case "enventa":
-                                this.juego.getTaboleiro().listarEnVenta();
-                                break;
-                            case "edificios":
-                                this.juego.listarEdificios(this.juego.getTaboleiro());
-                                break;
-
-                            default:
-                                System.out.println("Comando incorrecto. Para ver los comandos disponibles escriba: Ver Comandos");
-                                break;
-                        }
-                    } else if (comando.length == 3) {
-                        if (comando[1].equals("edificios")) {
-                            if (Integer.parseInt(comando[2]) >= 0 && Integer.parseInt(comando[2]) < 9) { // ponerle excepción
-                                this.juego.describirGrupo(Integer.parseInt(comando[2]));
-                            } else {
-                                System.out.println("Número incorrecto, tiene que ser mayor o igual a 0 y menos que 9." +
-                                        "");
-                            }
-                        } else {
-                            System.out.println("Comando incorrecto. Para ver los comandos disponibles escriba: Ver Comandos");
-                        }
-                    } else {
-                        System.out.println("Comando incorrecto. Para ver los comandos disponibles escriba: Ver Comandos");
+                    try {
+                        this.juego.Listar(comando);
+                    } catch (ExcepcionesNull excepcionNull) {
+                        System.out.println(excepcionNull.getMessage());
+                    } catch (ExcepcionesComandos excepcionesComandos){
+                        System.out.println(excepcionesComandos.getMessage());
+                    } catch (ExcepcionesNumericas excepcionesNumericas){
+                        System.out.println(excepcionesNumericas.getMessage());
                     }
                     break;
 
                 case "lanzar":
-                    if (comando.length == 2) {
-                        if (comando[1].equals("dados")) {
-                            if (this.juego.getJugadores().size() > 0) {
-                                if (!this.dadosLanzados) {
-                                    this.juego.getDado().lanzarDadosAux(this);
-                                } else {
-                                    System.out.println("Ya tiraste los dados! Para poder tirarlos el siguinte jugador antes debes acabar turno!");
-                                }
-                            } else {
-                                System.out.println("Antes de lanzar los dados inserte al jugador! Si no sabe como hacerlo teclee: Ver comandos.");
-                            }
-                        } else {
-                            System.out.println("Comando incorrecto. Para ver los comandos disponibles escriba: Ver Comandos");
-                        }
-                    } else {
-                        System.out.println("Comando incorrecto. Para ver los comandos disponibles escriba: Ver Comandos");
+                    try {
+                        this.juego.LanzarDados(comando);
+                    } catch (ExcepcionesDinero excepcionesDinero) {
+                        System.out.println(excepcionesDinero.getMessage());
+                    } catch (ExcepcionesNull excepcionesNull) {
+                        System.out.println(excepcionesNull.getMessage());
+                    } catch (ExcepcionesJugando excepcionesJugando){
+                        System.out.println(excepcionesJugando.getMessage());
+                    } catch (ExcepcionesComandos excepcionesComandos){
+                        System.out.println(excepcionesComandos.getMessage());
+                    } catch (ExcepcionesNumericas excepcionesNumericas){
+                        System.out.println(excepcionesNumericas.getMessage());
                     }
-                    //this.juego.getTaboleiro().getCarta().setTexto("");
                     break;
 
                 case "acabar":
-                    if (comando.length == 2) {
-                        if (comando[1].equals("turno")) {
-                            if (!this.sigueTurno) {
-                                if (this.jugadorActual.getAvatar() instanceof Coche){
-                                    ((Coche) this.jugadorActual.getAvatar()).resetCoche(this);
-                                }
-
-                                this.poderComprar = true;
-                                calcularJugadores();
-                                this.dadosLanzados = false;
-                                this.sigueTurno = true;
-                                if (this.jugadorActual.getAvatar().isModoAvanzado()) {
-                                    System.out.println("El jugador actual es " + this.jugadorActual.getNombre() + " y está en modo avanzado de " + this.jugadorActual.getAvatar().getTipo() + ".");
-                                } else {
-                                    System.out.println("El jugador actual es " + this.jugadorActual.getNombre() + " y está en modo normal.");
-                                }
-
-                                if (this.jugadorActual.getEstarCarcere()) {
-                                    System.out.println("Estás en la cárcel, por lo que debes tirar los dados para obtener dobles.");
-                                }
-                            } else {
-                                System.out.println("No puedes acabar turno porque tienes que tirar los dados!");
-                            }
-                        } else {
-                            System.out.println("Comando incorrecto. Para ver los comandos disponibles escriba: Ver Comandos");
-                        }
-                    } else
-                        System.out.println("Comando incorrecto. Para ver los comandos disponibles escriba: Ver Comandos");
+                    try {
+                        this.juego.AcabarTurno(comando);
+                    } catch (ExcepcionesJugando excepcionesJugando){
+                        System.out.println(excepcionesJugando.getMessage());
+                    } catch (ExcepcionesComandos excepcionesComandos){
+                        System.out.println(excepcionesComandos.getMessage());
+                    }
                     break;
 
                 case "salir":
-                    if (comando.length == 2) {
-                        if (comando[1].equals("carcel")) {
-                            if (this.jugadorActual.getEstarCarcere()) {
-                                if (this.jugadorActual.getFortuna() >= Valor.SALIR_CARCEL) {
-                                    this.jugadorActual.restarFortuna(Valor.SALIR_CARCEL);
-                                    ((Especial) this.juego.getTaboleiro().getCasillaPosicion(20)).sumarBote(Valor.SALIR_CARCEL);
-                                    this.jugadorActual.setContadorEstarCarcere(0);
-                                    this.sigueTurno = true;
-                                    this.dadosLanzados = false;
-                                    System.out.println("Acabas de pagar " + Valor.SALIR_CARCEL + " para salir de la cárcel.");
-                                } else {
-                                    System.out.println("No tienes suficiente dinero para salír de la cárcel, por lo que debes esperar a que pasen los turnos de penalización.");
-                                }
-                            } else {
-                                System.out.println("No puedes salir de la cárcel porque ya no estás en ella.");
-                            }
-                        } else {
-                            System.out.println("Comando incorrecto. Para ver los comandos disponibles escriba: Ver Comandos");
-                        }
-                    } else
-                        System.out.println("Comando incorrecto. Para ver los comandos disponibles escriba: Ver Comandos");
+                    try {
+                        this.getJuego().SalirCarcel(comando);
+                    } catch (ExcepcionesDinero excepcionDinero) {
+                        System.out.println(excepcionDinero.getMessage());
+                    } catch (ExcepcionesJugando excepcionesJugando){
+                        System.out.println(excepcionesJugando.getMessage());
+                    } catch (ExcepcionesComandos excepcionesComandos){
+                        System.out.println(excepcionesComandos.getMessage());
+                    }
                     break;
 
                 case "describir":
-                    if (comando.length == 3) {
-                        if (comando[1].equals("jugador")) {
-                            Jugador jug = this.juego.estaJugadorNombre(comando[2]);
-                            if (jug != null) {
-                                System.out.println(jug);
-                            } else
-                                System.out.println("Comando incorrecto. Jugador no encontrado. Para ver los comandos disponibles escriba: Ver Comandos");
-                        } else if (comando[1].equals("avatar")) {
-                            if (this.juego.getAvatares().containsKey(comando[2])) {
-                                System.out.println(this.juego.getAvatares().get(comando[2])); //mirar en caso de que no este el avatar
-                            } else
-                                System.out.println("Comando incorrecto. Avatar no encontrado. Para ver los comandos disponibles escriba: Ver Comandos");
-                        } else {
-                            System.out.println("Comando incorrecto. Para ver los comandos disponibles escriba: Ver Comandos");
-                        }
-                    } else if (comando.length == 2) {
-                        if (this.juego.getTaboleiro().getCasillas().containsKey(comando[1]))
-                            System.out.println(this.juego.getTaboleiro().getCasillas().get(comando[1]));
-                        else
-                            System.out.println("Comando incorrecto. El nombre de una casilla debe introducirse tal y como aparece en el tablero pero SIN espacios." +
-                                    " \nPara ver todos los comandos disponibles escriba: Ver Comandos");
-                    } else {
-                        System.out.println("Comando incorrecto. Para ver los comandos disponibles escriba: Ver Comandos");
+                    try {
+                        this.juego.Describir(comando);
+                    } catch (ExcepcionesComandos excepcionesComandos){
+                        System.out.println(excepcionesComandos.getMessage());
                     }
-
                     break;
 
                 case "comprar":
-                    if (comando.length == 2) {
-                        if (comando[1].equals(this.jugadorActual.getAvatar().getCasilla().getNombreSinEspacios())) {
-                            if (!this.jugadorActual.getEstarCarcere()) {
-                                if (this.jugadorActual.getAvatar().getCasilla() instanceof Propiedad) {
-                                    if (this.getJugadorActual().getAvatar().isModoAvanzado() && (this.jugadorActual.getAvatar() instanceof Coche) && !((Coche) this.jugadorActual.getAvatar()).isCompraCoche() && this.poderComprar) {
-                                        ((Propiedad) this.jugadorActual.getAvatar().getCasilla()).comprarCasilla(this.jugadorActual, this.juego.getTaboleiro());
-                                        this.juego.getTaboleiro().setContadorVueltas(0);
-                                        if (this.jugadorActual.getAvatar() instanceof Coche) {
-                                            ((Coche) this.jugadorActual.getAvatar()).setCompraCoche(true);
-                                        }
-                                        this.poderComprar = false;
-                                    } else if (this.poderComprar) {
-                                        ((Propiedad) this.jugadorActual.getAvatar().getCasilla()).comprarCasilla(this.jugadorActual, this.juego.getTaboleiro());
-                                        this.juego.getTaboleiro().setContadorVueltas(0);
-                                    } else if ((this.jugadorActual.getAvatar() instanceof Coche) && (((Coche) this.jugadorActual.getAvatar()).isCompraCoche())) {
-                                        System.out.println("Ya has comprado en este turno, por lo que no puedes volver a comprar en este turno.");
-                                    } else {
-                                        System.out.println("Para comprar una casilla antes debe tirar los dados.");
-                                    }
-                                } else{
-                                    System.out.println("Esta casilla no se puede comprar.");
-                                }
-                            } else {
-                                System.out.println("Si estás en la cárcel no puedes comprar.");
-                            }
-                        } else {
-                            System.out.println("No puedes comprar una casilla en la que no estás. \n" +
-                                    "Asegurate de que has introducido bien el nombre de la casilla (tal y como aparece en el tablero pero sin espacios).");
-                        }
-                    } else {
-                        System.out.println("Comando incorrecto. Para ver los comandos disponibles escriba: Ver Comandos");
+                    try {
+                        this.juego.ComprarCasilla(comando);
+                    } catch (ExcepcionesDinero excepcionesDinero) {
+                        System.out.println(excepcionesDinero.getMessage());
+                    } catch (ExcepcionesDuenho excepcionesDuenho) {
+                        System.out.println(excepcionesDuenho.getMessage());
+                    } catch (ExcepcionesHipotecar excepcionesHipotecar) {
+                        System.out.println(excepcionesHipotecar.getMessage());
+                    } catch (ExcepcionesComandos excepcionesComandos){
+                        System.out.println(excepcionesComandos.getMessage());
+                    } catch (ExcepcionesJugando excepcionesJugando){
+                        System.out.println(excepcionesJugando.getMessage());
                     }
                     break;
 
                 case "ver":
-                    if (comando.length == 2) {
-                        if (comando[1].equals("tablero"))
-                            System.out.println(this.juego.getTaboleiro());
-                        else if (comando[1].toLowerCase().equals("comandos")) {
-                            this.juego.listarComandos();
-                        } else
-                            System.out.println("Comando incorrecto. Para ver los comandos disponibles escriba: Ver Comandos");
-                    } else
-                        System.out.println("Comando incorrecto. Para ver los comandos disponibles escriba: Ver Comandos");
-
+                    try {
+                        this.juego.Ver(comando);
+                    } catch (ExcepcionesComandos excepcionesComandos){
+                        System.out.println(excepcionesComandos.getMessage());
+                    }
                     break;
 
                 case "edificar":
-                    if (this.jugadorActual.getAvatar().getCasilla() instanceof Solar) {
-                        if (comando.length == 2) {
-                            switch (comando[1]){
-                                case "casa":
-                                    ((Solar) this.jugadorActual.getAvatar().getCasilla()).edificar("casa", this.jugadorActual, this.juego.getTaboleiro());
-                                    break;
-                                case "hotel":
-                                    ((Solar) this.jugadorActual.getAvatar().getCasilla()).edificar("hotel", this.jugadorActual, this.juego.getTaboleiro());
-                                    break;
-                                case "piscina":
-                                    ((Solar) this.jugadorActual.getAvatar().getCasilla()).edificar("piscina", this.jugadorActual, this.juego.getTaboleiro());
-                                    break;
-                                case "pista":
-                                    ((Solar) this.jugadorActual.getAvatar().getCasilla()).edificar("pista", this.jugadorActual, this.juego.getTaboleiro());
-                                    break;
-                            }
-                        } else if (comando.length == 4) {
-                            if (comando[1].equals("pista") && comando[2].equals("de") && comando[3].equals("deportes")) {
-                                ((Solar) this.jugadorActual.getAvatar().getCasilla()).edificar("pista", this.jugadorActual, this.juego.getTaboleiro());
-                            }
-                        }
-                    } else {
-                        System.out.println("En esta casilla no se puede construir.");
+                    try {
+                        this.juego.Edificar(comando);
+                    } catch (ExcepcionesEdificios excepcionesEdificios) {
+                        System.out.println(excepcionesEdificios.getMessage());
+                    } catch (ExcepcionesDinero excepcionesDinero) {
+                        System.out.println(excepcionesDinero.getMessage());
+                    } catch (ExcepcionesDuenho excepcionesDuenho) {
+                        System.out.println(excepcionesDuenho.getMessage());
+                    } catch (ExcepcionesJugando excepcionesJugando){
+                        System.out.println(excepcionesJugando.getMessage());
+                    } catch (ExcepcionesNumericas excepcionesNumericas){
+                        System.out.println(excepcionesNumericas.getMessage());
                     }
                     break;
 
                 case "hipotecar":
-                    if (comando.length == 2) {
-                        if (this.juego.getTaboleiro().getCasillas().containsKey(comando[1])) {
-                            if (this.juego.getTaboleiro().getCasillas().get(comando[1]) instanceof Propiedad){
-                                ((Propiedad) this.juego.getTaboleiro().getCasillas().get(comando[1])).hipotecarCasilla(this.jugadorActual, this.juego.getTaboleiro());
-                            } else {
-                                System.out.println("Esta casilla no se puede hipotecar.");
-                            }
-                        } else {
-                            System.out.println("Comando incorrecto. El nombre de una casilla debe introducirse tal y como aparece en el tablero pero SIN espacios." +
-                                    " \nPara ver todos los comandos disponibles escriba: Ver Comandos");
-                        }
-                    } else {
-                        System.out.println("Comando incorrecto. Para ver los comandos disponibles escriba: Ver Comandos");
+                    try {
+                        this.juego.HipotecarCasilla(comando);
+                    } catch (ExcepcionesEdificios excepcionesEdificios) {
+                        System.out.println(excepcionesEdificios.getMessage());
+                    } catch (ExcepcionesHipotecar excepcionesHipotecar) {
+                        System.out.println(excepcionesHipotecar.getMessage());
+                    } catch (ExcepcionesDuenho excepcionesDuenho) {
+                        System.out.println(excepcionesDuenho.getMessage());
+                    } catch (ExcepcionesJugando excepcionesJugando){
+                        System.out.println(excepcionesJugando.getMessage());
+                    } catch (ExcepcionesComandos excepcionesComandos){
+                        System.out.println(excepcionesComandos.getMessage());
                     }
                     break;
 
                 case "deshipotecar":
-                    if (comando.length == 2) {
-                        if (this.juego.getTaboleiro().getCasillas().containsKey(comando[1])) {
-                            if (this.juego.getTaboleiro().getCasillas().get(comando[1]) instanceof Propiedad){
-                                ((Propiedad) this.juego.getTaboleiro().getCasillas().get(comando[1])).deshipotecarCasilla(this.jugadorActual, this.juego.getTaboleiro());
-                            } else {
-                                System.out.println("Esta casilla no se puede deshipotecar.");
-                            }
-                        } else {
-                            System.out.println("Comando incorrecto. El nombre de una casilla debe introducirse tal y como aparece en el tablero pero SIN espacios." +
-                                    " \nPara ver todos los comandos disponibles escriba: Ver Comandos");
-                        }
-                    } else {
-                        System.out.println("Comando incorrecto. Para ver los comandos disponibles escriba: Ver Comandos");
+                    try {
+                        this.juego.DeshipotecarCasilla(comando);
+                    } catch (ExcepcionesDinero excepcionesDinero) {
+                        System.out.println(excepcionesDinero.getMessage());
+                    } catch (ExcepcionesHipotecar excepcionesHipotecar) {
+                        System.out.println(excepcionesHipotecar.getMessage());
+                    } catch (ExcepcionesDuenho excepcionesDuenho) {
+                        System.out.println(excepcionesDuenho.getMessage());
+                    } catch (ExcepcionesDeshipotecar excepcionesDeshipotecar) {
+                        System.out.println(excepcionesDeshipotecar.getMessage());
+                    } catch (ExcepcionesComandos excepcionesComandos){
+                        System.out.println(excepcionesComandos.getMessage());
+                    } catch (ExcepcionesJugando excepcionesJugando){
+                        System.out.println(excepcionesJugando.getMessage());
                     }
                     break;
 
                 case "vender":
-                    if (comando.length == 4) {
-                        int numero = Integer.parseInt(comando[3]);
-                        if (this.juego.getTaboleiro().getCasillas().get(comando[2]) instanceof Solar){
-                            ((Solar) this.juego.getTaboleiro().getCasillas().get(comando[2])).venderEdificio(comando[1], this.jugadorActual, this.juego.getTaboleiro(), numero);
-                        } else{
-                            System.out.println("No se pueden vender edificios en esta casilla.");
-                        }
-                    } else {
-                        System.out.println("Comando incorrecto. Para ver los comandos disponibles escriba: Ver Comandos");
+                    try {
+                        this.juego.VenderEdificio(comando);
+                    } catch (ExcepcionesEdificios excepcionesEdificios) {
+                        System.out.println(excepcionesEdificios.getMessage());
+                    } catch (ExcepcionesNull excepcionesNull) {
+                        System.out.println(excepcionesNull.getMessage());
+                    } catch (ExcepcionesDuenho excepcionesDuenho) {
+                        System.out.println(excepcionesDuenho.getMessage());
+                    } catch (ExcepcionesComandos excepcionesComandos){
+                        System.out.println(excepcionesComandos.getMessage());
+                    } catch (ExcepcionesJugando excepcionesJugando){
+                        System.out.println(excepcionesJugando.getMessage());
+                    } catch (ExcepcionesNumericas excepcionesNumericas){
+                        System.out.println(excepcionesNumericas.getMessage());
                     }
                     break;
 
                 case "estadisticas":
-                    if (comando.length == 1) {
-                        this.juego.estadisticas(this.juego.getTaboleiro());
-                    } else if (comando.length == 2) {
-                        Jugador jug = this.juego.estaJugadorNombre(comando[1]);
-                        if (jug != null) {
-                            this.juego.estadisticas_jugador(jug);
-                        } else
-                            System.out.println("Comando incorrecto. Jugador no encontrado. Para ver los comandos disponibles escriba: Ver Comandos");
-                    } else {
-                        System.out.println("Comando incorrecto. Para ver los comandos disponibles escriba: Ver Comandos");
+                    try {
+                        this.juego.Estadisticas(comando);
+                    } catch (ExcepcionesComandos excepcionesComandos){
+                        System.out.println(excepcionesComandos.getMessage());
+                    } catch (ExcepcionesNull excepcionesNull) {
+                        System.out.println(excepcionesNull.getMessage());
+                    } catch (ExcepcionesNumericas excepcionesNumericas){
+                        System.out.println(excepcionesNumericas.getMessage());
                     }
                     break;
 
                 case "cambiar":
-                    if (comando.length == 2) {
-                        if (comando[1].equals("modo")) {
-                            if (!this.jugadorActual.getAvatar().isModoAvanzado()) {
-                                this.jugadorActual.getAvatar().setModoAvanzado(true);
-                                if (this.jugadorActual.getAvatar() instanceof Coche) {
-                                    ((Coche) this.jugadorActual.getAvatar()).setCompraCoche(false);
-                                }
-                                System.out.println("El avatar " + this.jugadorActual.getAvatar().getId() + " ahora está en modo AVANZADO de " + this.jugadorActual.getAvatar().getTipo() + ".");
-                            } else {
-                                this.jugadorActual.getAvatar().setModoAvanzado(false);
-                                System.out.println("El avatar " + this.jugadorActual.getAvatar().getId() + " ahora está en modo NORMAL de " + this.jugadorActual.getAvatar().getTipo() + ".");
-
-                            }
-
-                        } else
-                            System.out.println("Comando incorrecto. Para ver los comandos disponibles escriba: Ver Comandos");
-                    } else
-                        System.out.println("Comando incorrecto. Para ver los comandos disponibles escriba: Ver Comandos");
-
+                    try {
+                        this.juego.CambiarModo(comando);
+                    } catch (ExcepcionesComandos excepcionesComandos){
+                        System.out.println(excepcionesComandos.getMessage());
+                    }
                     break;
 
                 case "mover":
-                    if (comando.length == 2) {
-                        this.juego.getTaboleiro().getCasillaPosicion(this.jugadorActual.getAvatar().getCasilla().getPosicion()).eliminarAvatar(this.jugadorActual.getAvatar().getId());
-                        this.jugadorActual.getAvatar().setCasilla(this.juego.getTaboleiro().getCasillaPosicion(Integer.parseInt(comando[1])));
-                        this.juego.getTaboleiro().getCasillaPosicion(Integer.parseInt(comando[1])).setAvatar(this.jugadorActual.getAvatar());
-                        System.out.println(this.juego.getTaboleiro());
+                    try {
+                        this.juego.Mover(comando);
+                    } catch (ExcepcionesNumericas excepcionesNumericas){
+                        System.out.println(excepcionesNumericas.getMessage());
                     }
                     break;
 
@@ -409,16 +263,11 @@ public class Menu {
                     break;
 
                 case "stop":
-                    comando2 = leerComando();
-                    if (comando2[0].toLowerCase().equals("si")) {
-                        combinado = true;
-                        System.out.print("$> ");
-                    }
-                    //new Scanner(System.in).nextLine();
+                    this.juego.Stop();
                     break;
 
                 default:
-                    System.out.println("Comando incorrecto. Para ver los comandos disponibles escriba: Ver Comandos");
+                    System.out.println("Comando incorrecto. Para ver los comandos disponibles escriba: Ver Interfaces.Comandos");
             }
         }
 
@@ -497,6 +346,10 @@ public class Menu {
         return null;
     }
 
+    public boolean isDadosLanzados() {
+        return dadosLanzados;
+    }
+
     public void setDadosLanzados(boolean dadosLanzados) {
         this.dadosLanzados = dadosLanzados;
     }
@@ -509,6 +362,14 @@ public class Menu {
         return jugadorActual;
     }
 
+    public void setJugadorActual(Jugador jugadorActual) {
+        this.jugadorActual = jugadorActual;
+    }
+
+    public void setJugadorTurnoSiguiente(Jugador jugadorTurnoSiguiente) {
+        this.jugadorTurnoSiguiente = jugadorTurnoSiguiente;
+    }
+
     public void calcularJugadores() {
         this.jugadorActual = this.jugadorTurnoSiguiente;
         this.jugadorTurnoSiguiente = getJugadorTurnoSiguiente(this.jugadorActual);
@@ -519,6 +380,22 @@ public class Menu {
 
     public Juego getJuego() {
         return this.juego;
+    }
+
+    public boolean isSigueTurno() {
+        return sigueTurno;
+    }
+
+    public boolean isPoderComprar() {
+        return poderComprar;
+    }
+
+    public boolean isCombinado() {
+        return combinado;
+    }
+
+    public void setCombinado(boolean combinado) {
+        this.combinado = combinado;
     }
 
     public int getContadorDobles() {

@@ -2,6 +2,9 @@ package Carta;
 
 import Casilla.*;
 import Edificio.*;
+import ExcepcionesNull.ExcepcionesNull;
+import ExcepcionesNumericas.ExcepcionesNumericas;
+import ExcepcionesPartida.ExcepcionesDinero;
 import Juego_fisico.*;
 import Jugador.*;
 import Monopoly.*;
@@ -18,7 +21,7 @@ public final class Suerte extends Carta {
      **   NO COMPROBAMOS SI SE LE PASAN NULLS YA QUE LO HACEMOS EN LAS FUNCIONES QUE LOS LLAMAN   **
      **********************************************************************************************/
 
-    private void cartaSuerte_1(Jugador jugador, Taboleiro taboleiro, Menu menu) {
+    private void cartaSuerte_1(Jugador jugador, Taboleiro taboleiro, Menu menu) throws ExcepcionesNumericas {
         super.setMovimiento(true);
         super.setTexto("Ve al Aeropuerto y coge un avión. Si pasas por la casilla de Salida, cobra " + Valor.VUELTA + "€. ");
         if (jugador.getAvatar().getCasilla().getPosicion() >= 25) {
@@ -50,7 +53,7 @@ public final class Suerte extends Carta {
         jugador.sumarPremiosInversionesBote((float) Valor.VUELTA / 4);
     }
 
-    private void cartasSuerte_4(Jugador jugador, Taboleiro taboleiro, Menu menu) {
+    private void cartasSuerte_4(Jugador jugador, Taboleiro taboleiro, Menu menu) throws ExcepcionesNumericas {
         super.setMovimiento(true);
         super.setTexto("Ve a Filología. Si pasas por la casilla de Salida, cobra " + Valor.VUELTA + "€.");
         if (jugador.getAvatar().getCasilla().getPosicion() >= 23) {
@@ -67,7 +70,7 @@ public final class Suerte extends Carta {
         jugador.getAvatar().setCasilla(taboleiro.getCasillaPosicion(23));
     }
 
-    private void cartasSuerte_5(Jugador jugador, Taboleiro taboleiro) {
+    private void cartasSuerte_5(Jugador jugador, Taboleiro taboleiro) throws ExcepcionesNumericas {
         super.setMovimiento(true);
         super.setTexto("Los acreedores te persiguen por impago. Ve a la Cárcel. Ve directamente sin pasar por la casilla de " +
                 "Salida y sin cobrar los " + Valor.VUELTA + "€.");
@@ -85,7 +88,7 @@ public final class Suerte extends Carta {
         jugador.sumarPremiosInversionesBote((float) Valor.VUELTA / 2);
     }
 
-    private void cartasSuerte_7(Jugador jugador, Taboleiro taboleiro) {
+    private void cartasSuerte_7(Jugador jugador, Taboleiro taboleiro) throws ExcepcionesDinero {
         super.setMovimiento(false);
         super.setTexto("Paga " + Valor.VUELTA + "€ por la matrícula del colegio privado.");
         if (jugador.getFortuna() < Valor.VUELTA) {
@@ -98,7 +101,7 @@ public final class Suerte extends Carta {
         }
     }
 
-    private void cartasSuerte_8(Jugador jugador) {
+    private void cartasSuerte_8(Jugador jugador) throws ExcepcionesDinero {
         super.setMovimiento(false);
         float contador = 0;
         int casas = 0, hoteles = 0, piscinas = 0, pistas = 0;
@@ -121,19 +124,13 @@ public final class Suerte extends Carta {
                 Valor.VUELTA * 2 + "€ por hotel, " + Valor.VUELTA + "€ por piscina y " + Valor.VUELTA * 3 + "€ por pista de deporte." +
                 "\nTienes " + casas + " casas, " + hoteles + " hoteles, " + piscinas + "piscinas y " + pistas +
                 "pistas. Por lo que tienes que pagar " + contador + "€.");
-        if (jugador.getFortuna() >= contador) {
-            jugador.restarFortuna(contador);
-            jugador.setDineroGastado(jugador.getDineroGastado() + contador);
-            jugador.sumarTasasImpuestos(contador);
-            super.anhadirTexto("\nPago efectuado.");
-        } else {
-            super.anhadirTexto("\nNo tienes dinero suficiente para pagar los impuestos por edificios. Debes vender edificios " +
-                    "o hipotecar propiedades.");
-        }
-
+        jugador.restarFortuna(contador);
+        jugador.setDineroGastado(jugador.getDineroGastado() + contador);
+        jugador.sumarTasasImpuestos(contador);
+        super.anhadirTexto("\nPago efectuado.");
     }
 
-    private void cartasSuerte_9(Jugador jugador, Taboleiro taboleiro, Menu menu) {
+    private void cartasSuerte_9(Jugador jugador, Taboleiro taboleiro, Menu menu) throws ExcepcionesNumericas {
         super.setTexto("Ve a Turismo. Si pasas por la casilla de Salida, cobra " + Valor.VUELTA + "€.");
         super.setMovimiento(true);
         if (jugador.getAvatar().getCasilla().getPosicion() >= 13) {
@@ -150,7 +147,7 @@ public final class Suerte extends Carta {
         jugador.getAvatar().setCasilla(taboleiro.getCasillaPosicion(13));
     }
 
-    private void cartasSuerte_10(Jugador jugador, Menu menu) {
+    private void cartasSuerte_10(Jugador jugador, Menu menu) throws ExcepcionesDinero {
         super.setTexto("Has sido elegido presidente de la junta directiva. Paga a cada jugador " + Valor.VUELTA + "€");
         super.setMovimiento(false);
         float dineroApagar = Valor.VUELTA * (menu.getJuego().getJugadores().size() - 1);
@@ -187,7 +184,7 @@ public final class Suerte extends Carta {
         super.anhadirTexto("\n" + taboleiro);
     }
 
-    private void cartasSuerte_12(Jugador jugador, Taboleiro taboleiro) {
+    private void cartasSuerte_12(Jugador jugador, Taboleiro taboleiro) throws ExcepcionesDinero {
         super.setTexto("Te multan por usar el móvil mientras conduces. Paga " + Valor.VUELTA / 4 + "€.");
         super.setMovimiento(false);
         if (jugador.getFortuna() < ((float) Valor.VUELTA / 4)) {
@@ -263,7 +260,7 @@ public final class Suerte extends Carta {
     }
 
     @Override
-    public void accion(Jugador jugador, Taboleiro taboleiro, Menu menu, int escogida) {
+    public void accion(Jugador jugador, Taboleiro taboleiro, Menu menu, int escogida) throws ExcepcionesDinero, ExcepcionesNull, ExcepcionesNumericas {
         int numero;
 
         if (jugador != null && taboleiro != null && menu != null) {
@@ -323,8 +320,6 @@ public final class Suerte extends Carta {
             } else {
                 System.out.println("Error al escoger la carta!");
             }
-        } else {
-            System.out.println("El jugador, el tablero o el menú no se encuentran inicializados!");
-        }
+        } else throw new ExcepcionesNull("El jugador, el tablero o el menú no se encuentran inicializados!");
     }
 }

@@ -2,6 +2,7 @@ package Juego_fisico;
 
 import Casilla.*;
 import ExcepcionesNull.ExcepcionesNull;
+import ExcepcionesNumericas.ExcepcionesNumericas;
 import ExcepcionesPartida.ExcepcionesDinero;
 import Jugador.*;
 import Monopoly.*;
@@ -95,7 +96,7 @@ public class Dado {
         return this.dado1 + this.dado2;
     }
 
-    public void lanzarDados(Jugador jugador, Taboleiro taboleiro, Menu menu) throws InterruptedException, ExcepcionesDinero, ExcepcionesNull {
+    public void lanzarDados(Jugador jugador, Taboleiro taboleiro, Menu menu) throws InterruptedException, ExcepcionesDinero, ExcepcionesNull, ExcepcionesNumericas {
 
         this.dadoTotal = lanzarLosDados();
         jugador.sumarVecesdados();
@@ -148,7 +149,7 @@ public class Dado {
         return texto;
     }
 
-    public void lanzarDadosAux(Menu menu) throws InterruptedException, ExcepcionesDinero, ExcepcionesNull {
+    public void lanzarDadosAux(Menu menu) throws InterruptedException, ExcepcionesDinero, ExcepcionesNull, ExcepcionesNumericas {
         String texto = "";
         if (!((menu.getJugadorActual().getAvatar() instanceof Coche) && (((Coche) menu.getJugadorActual().getAvatar()).getPenalizacion() <= 2))) {
             if (!menu.getJugadorActual().getEstarCarcere()) {

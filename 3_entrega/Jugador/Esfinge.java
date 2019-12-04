@@ -1,6 +1,9 @@
 package Jugador;
 
 import Casilla.*;
+import ExcepcionesNull.ExcepcionesNull;
+import ExcepcionesNumericas.ExcepcionesNumericas;
+import ExcepcionesPartida.ExcepcionesDinero;
 import Juego_fisico.*;
 import Monopoly.*;
 
@@ -64,7 +67,7 @@ public final class Esfinge extends Avatar {
         return posSiguiente;
     }
 
-    private void moverEsfinge(Menu menu, Dado dado, int posInicio) {
+    private void moverEsfinge(Menu menu, Dado dado, int posInicio) throws ExcepcionesDinero, ExcepcionesNumericas, ExcepcionesNull {
         int posSiguiente;
         for (int i = 0; i < dado.getDadoTotal(); i++) {
             if (!this.getJugador().getEstarCarcere()) {
@@ -87,7 +90,7 @@ public final class Esfinge extends Avatar {
     }
 
     @Override
-    public void moverEnAvanzado(Taboleiro taboleiro, Menu menu, Dado dado) {
+    public void moverEnAvanzado(Taboleiro taboleiro, Menu menu, Dado dado) throws ExcepcionesDinero, ExcepcionesNumericas, ExcepcionesNull {
         int posInicio = this.getCasilla().getPosicion();
         System.out.println("El dado tiene el valor de: " + dado.getDadoTotal() + ".");
         if (dado.getDadoTotal() > 4) {

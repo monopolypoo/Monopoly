@@ -1,6 +1,7 @@
 package Edificio;
 
 import Casilla.*;
+import ExcepcionesPartida.ExcepcionesDinero;
 
 public final class Piscina extends Edificio {
 
@@ -8,7 +9,7 @@ public final class Piscina extends Edificio {
         super();
     }
 
-    public Piscina(double precio, String id, Solar solar) {
+    public Piscina(double precio, String id, Solar solar) throws ExcepcionesDinero {
         super(precio, id, solar);
         solar.setNumeroPiscinas(solar.getNumeroPiscinas() + 1);
         solar.getDuenho().restarFortuna((float) precio);

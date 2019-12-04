@@ -1,6 +1,11 @@
 package Jugador;
 
 import Casilla.*;
+import ExcepcionesNull.ExcepcionesNull;
+import ExcepcionesNumericas.ExcepcionesNumericas;
+import ExcepcionesPartida.ExcepcionesDinero;
+import ExcepcionesPartida.ExcepcionesDuenho;
+import ExcepcionesPartida.ExcepcionesHipotecar;
 import Juego_fisico.*;
 import Monopoly.*;
 
@@ -63,7 +68,7 @@ public final class Pelota extends Avatar {
     }
 
     @Override
-    public void moverEnAvanzado(Taboleiro taboleiro, Menu menu, Dado dado) {
+    public void moverEnAvanzado(Taboleiro taboleiro, Menu menu, Dado dado) throws ExcepcionesDinero, ExcepcionesNull, ExcepcionesHipotecar, ExcepcionesDuenho, ExcepcionesNumericas {
         this.seguirPelota = true;
         if (menu.getJuego().getDado().getDadoTotal() > 4) {
             String[] comando;

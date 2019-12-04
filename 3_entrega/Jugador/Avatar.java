@@ -1,6 +1,11 @@
 package Jugador;
 
 import Casilla.*;
+import ExcepcionesNull.ExcepcionesNull;
+import ExcepcionesNumericas.ExcepcionesNumericas;
+import ExcepcionesPartida.ExcepcionesDinero;
+import ExcepcionesPartida.ExcepcionesDuenho;
+import ExcepcionesPartida.ExcepcionesHipotecar;
 import Juego_fisico.*;
 import Monopoly.*;
 
@@ -97,7 +102,7 @@ public abstract class Avatar {
         this.id = idAux;
     }
 
-    public void mover(Taboleiro taboleiro, Menu menu) throws InterruptedException {
+    public void mover(Taboleiro taboleiro, Menu menu) throws ExcepcionesDinero, ExcepcionesNull, ExcepcionesNumericas {
         int posActual, posSiguiente;
         this.jugador.sumarVecesdados();
 
@@ -105,14 +110,20 @@ public abstract class Avatar {
         taboleiro.getCasillaPosicion(posActual).eliminarAvatar(this.jugador.getAvatar().getId());
 
         if (this.modoAvanzado)
-            this.moverEnAvanzado(taboleiro, menu, menu.getJuego().getDado());
+            try {
+                this.moverEnAvanzado(taboleiro, menu, menu.getJuego().getDado());
+            } catch (ExcepcionesHipotecar excepcionesHipotecar){
+                System.out.println(excepcionesHipotecar.getMessage());
+            } catch (ExcepcionesDuenho excepcionesDuenho){
+                System.out.println(excepcionesDuenho.getMessage());
+            }
         else {
             posSiguiente = posActual + menu.getJuego().getDado().getDadoTotal();
             this.moverEnBasico(taboleiro, menu, posSiguiente);
         }
     }
 
-    public void moverEnBasico(Taboleiro taboleiro, Menu menu, int posSiguiente) {
+    public void moverEnBasico(Taboleiro taboleiro, Menu menu, int posSiguiente) throws ExcepcionesDinero, ExcepcionesNull, ExcepcionesNumericas {
         Casilla casillaSiguiente;
         int escogida;
         String[] leer;
@@ -144,22 +155,26 @@ public abstract class Avatar {
 
             System.out.println(taboleiro + texto);
 
-            if (casillaSiguiente instanceof AccionSuerte) {
-                menu.getJuego().getDado().setPosSiguiente(posSiguiente);
-                System.out.print(texto + menu.getJuego().getDado().textoLanzarDados(taboleiro, this.jugador, menu) + "\n" +
-                        jugador.getNombre() + ", elige una carta de suerte (1-13): ");
-                leer = menu.leerComando();                /*** Aquí va una excepción ****/
-                escogida = Integer.parseInt(leer[0]);
-                ((AccionSuerte) casillaSiguiente).getCarta().accion(this.jugador, taboleiro, menu, escogida);
-                System.out.println("Acción: " + ((AccionSuerte) taboleiro.getCasillaPosicion(posSiguiente)).getCarta().getTexto());
-            } else if (casillaSiguiente instanceof AccionCajaComunidad) {
-                menu.getJuego().getDado().setPosSiguiente(posSiguiente);
-                System.out.print(texto + menu.getJuego().getDado().textoLanzarDados(taboleiro, this.jugador, menu) + "\n" +
-                         jugador.getNombre() + ", elige una carta de caja de comunidad (1-10): ");
-                leer = menu.leerComando();                /*** Aquí va una excepción ****/
-                escogida = Integer.parseInt(leer[0]);
-                ((AccionCajaComunidad) casillaSiguiente).getCarta().accion(this.jugador, taboleiro, menu, escogida);
-                System.out.println("Acción: " + ((AccionCajaComunidad) taboleiro.getCasillaPosicion(posSiguiente)).getCarta().getTexto());
+            try {
+                if (casillaSiguiente instanceof AccionSuerte) {
+                    menu.getJuego().getDado().setPosSiguiente(posSiguiente);
+                    System.out.print(texto + menu.getJuego().getDado().textoLanzarDados(taboleiro, this.jugador, menu) + "\n" +
+                            jugador.getNombre() + ", elige una carta de suerte (1-13): ");
+                    leer = menu.leerComando();                /*** Aquí va una excepción ****/
+                    escogida = Integer.parseInt(leer[0]);
+                    ((AccionSuerte) casillaSiguiente).getCarta().accion(this.jugador, taboleiro, menu, escogida);
+                    System.out.println("Acción: " + ((AccionSuerte) taboleiro.getCasillaPosicion(posSiguiente)).getCarta().getTexto());
+                } else if (casillaSiguiente instanceof AccionCajaComunidad) {
+                    menu.getJuego().getDado().setPosSiguiente(posSiguiente);
+                    System.out.print(texto + menu.getJuego().getDado().textoLanzarDados(taboleiro, this.jugador, menu) + "\n" +
+                            jugador.getNombre() + ", elige una carta de caja de comunidad (1-10): ");
+                    leer = menu.leerComando();                /*** Aquí va una excepción ****/
+                    escogida = Integer.parseInt(leer[0]);
+                    ((AccionCajaComunidad) casillaSiguiente).getCarta().accion(this.jugador, taboleiro, menu, escogida);
+                    System.out.println("Acción: " + ((AccionCajaComunidad) taboleiro.getCasillaPosicion(posSiguiente)).getCarta().getTexto());
+                }
+            } catch (NumberFormatException exc){
+                throw new ExcepcionesNumericas("Error pasando el string a entero.");
             }
         }
         menu.getJuego().getDado().setPosSiguiente(posSiguiente);
@@ -167,7 +182,7 @@ public abstract class Avatar {
 
     public abstract String getTipo();
 
-    public abstract void moverEnAvanzado(Taboleiro taboleiro, Menu menu, Dado dado);
+    public abstract void moverEnAvanzado(Taboleiro taboleiro, Menu menu, Dado dado) throws ExcepcionesDinero, ExcepcionesNull, ExcepcionesHipotecar, ExcepcionesDuenho, ExcepcionesNumericas;
 
     @Override
     public abstract String toString();
