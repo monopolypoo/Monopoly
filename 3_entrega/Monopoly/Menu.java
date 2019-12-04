@@ -194,6 +194,7 @@ public class Menu {
                                     this.jugadorActual.setContadorEstarCarcere(0);
                                     this.sigueTurno = true;
                                     this.dadosLanzados = false;
+                                    System.out.println("Acabas de pagar " + Valor.SALIR_CARCEL + " para salir de la cárcel.");
                                 } else {
                                     System.out.println("No tienes suficiente dinero para salír de la cárcel, por lo que debes esperar a que pasen los turnos de penalización.");
                                 }
