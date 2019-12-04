@@ -116,10 +116,11 @@ public abstract class Avatar {
         Casilla casillaSiguiente;
         int escogida;
         String[] leer;
+        String texto = "";
         if (posSiguiente > 39) {
             this.jugador.sumarFortuna(Valor.VUELTA);
             this.jugador.sumarVecesSalida();
-            System.out.println("Has pasado por la casilla de salida, cobras: " + Valor.VUELTA + "€.");
+            texto = "Has pasado por la casilla de salida, cobras: " + Valor.VUELTA + "€.";
             if (taboleiro.getCasillaPosicion(0).isSubirPrecio()) {
                 taboleiro.subirPrecios();
             }
@@ -127,10 +128,11 @@ public abstract class Avatar {
         }
         if (posSiguiente == 30) {
             this.jugador.irCarcere(taboleiro);
-            System.out.println("Caíste en la casilla Ir Cárcel, por lo que ahora estás en la cárcel.");
+            texto += "Caíste en la casilla Ir Cárcel, por lo que ahora estás en la cárcel.";
             taboleiro.getCasillaPosicion(10).setAvatar(jugador.getAvatar());
             this.jugador.sumarVecesCarcel();
             taboleiro.setContadorVueltas(0);
+            System.out.println(taboleiro + texto);
         } else {
             posSiguiente = posSiguiente % 40;
             casillaSiguiente = taboleiro.getCasillaPosicion(posSiguiente);
@@ -140,14 +142,20 @@ public abstract class Avatar {
                 taboleiro.getCasillaPosicion(posSiguiente).setVecesCasilla(this.jugador);
             }
 
+            System.out.println(taboleiro + texto);
+
             if (casillaSiguiente instanceof AccionSuerte) {
-                System.out.print(jugador.getNombre() + ", elige una carta de suerte (1-13): ");
+                menu.getJuego().getDado().setPosSiguiente(posSiguiente);
+                System.out.print(texto + menu.getJuego().getDado().textoLanzarDados(taboleiro, this.jugador, menu) + "\n" +
+                        jugador.getNombre() + ", elige una carta de suerte (1-13): ");
                 leer = menu.leerComando();                /*** Aquí va una excepción ****/
                 escogida = Integer.parseInt(leer[0]);
                 ((AccionSuerte) casillaSiguiente).getCarta().accion(this.jugador, taboleiro, menu, escogida);
                 System.out.println("Acción: " + ((AccionSuerte) taboleiro.getCasillaPosicion(posSiguiente)).getCarta().getTexto());
             } else if (casillaSiguiente instanceof AccionCajaComunidad) {
-                System.out.print(jugador.getNombre() + ", elige una carta de caja de comunidad (1-10): ");
+                menu.getJuego().getDado().setPosSiguiente(posSiguiente);
+                System.out.print(texto + menu.getJuego().getDado().textoLanzarDados(taboleiro, this.jugador, menu) + "\n" +
+                         jugador.getNombre() + ", elige una carta de caja de comunidad (1-10): ");
                 leer = menu.leerComando();                /*** Aquí va una excepción ****/
                 escogida = Integer.parseInt(leer[0]);
                 ((AccionCajaComunidad) casillaSiguiente).getCarta().accion(this.jugador, taboleiro, menu, escogida);

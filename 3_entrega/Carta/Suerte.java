@@ -19,6 +19,7 @@ public final class Suerte extends Carta {
      **********************************************************************************************/
 
     private void cartaSuerte_1(Jugador jugador, Taboleiro taboleiro, Menu menu) {
+        super.setMovimiento(true);
         super.setTexto("Ve al Aeropuerto y coge un avión. Si pasas por la casilla de Salida, cobra " + Valor.VUELTA + "€. ");
         if (jugador.getAvatar().getCasilla().getPosicion() >= 25) {
             jugador.sumarFortuna(Valor.VUELTA);
@@ -35,6 +36,7 @@ public final class Suerte extends Carta {
     }
 
     private void cartasSuerte_2(Jugador jugador, Taboleiro taboleiro) {
+        super.setMovimiento(true);
         super.setTexto("Decides hacer un viaje de placer. Avanza hasta ETSE.");
         taboleiro.getCasillaPosicion(jugador.getAvatar().getCasilla().getPosicion()).eliminarAvatar(jugador.getAvatar().getId());
         taboleiro.getCasillaPosicion(39).setAvatar(jugador.getAvatar());
@@ -42,12 +44,14 @@ public final class Suerte extends Carta {
     }
 
     private void cartasSuerte_3(Jugador jugador) {
+        super.setMovimiento(false);
         super.setTexto("Vendes tu billete de avión para Física en una subasta por Internet. Cobra " + Valor.VUELTA / 4 + "€.");
         jugador.sumarFortuna((float) Valor.VUELTA / 4);
         jugador.sumarPremiosInversionesBote((float) Valor.VUELTA / 4);
     }
 
     private void cartasSuerte_4(Jugador jugador, Taboleiro taboleiro, Menu menu) {
+        super.setMovimiento(true);
         super.setTexto("Ve a Filología. Si pasas por la casilla de Salida, cobra " + Valor.VUELTA + "€.");
         if (jugador.getAvatar().getCasilla().getPosicion() >= 23) {
             jugador.sumarFortuna(Valor.VUELTA);
@@ -64,6 +68,7 @@ public final class Suerte extends Carta {
     }
 
     private void cartasSuerte_5(Jugador jugador, Taboleiro taboleiro) {
+        super.setMovimiento(true);
         super.setTexto("Los acreedores te persiguen por impago. Ve a la Cárcel. Ve directamente sin pasar por la casilla de " +
                 "Salida y sin cobrar los " + Valor.VUELTA + "€.");
         taboleiro.getCasillaPosicion(jugador.getAvatar().getCasilla().getPosicion()).eliminarAvatar(jugador.getAvatar().getId());
@@ -74,12 +79,14 @@ public final class Suerte extends Carta {
     }
 
     private void cartasSuerte_6(Jugador jugador) {
+        super.setMovimiento(false);
         super.setTexto("¡Has ganado el bote de la lotería! Recibe " + Valor.VUELTA / 2 + "€.");
         jugador.sumarFortuna((float) Valor.VUELTA / 2);
         jugador.sumarPremiosInversionesBote((float) Valor.VUELTA / 2);
     }
 
     private void cartasSuerte_7(Jugador jugador, Taboleiro taboleiro) {
+        super.setMovimiento(false);
         super.setTexto("Paga " + Valor.VUELTA + "€ por la matrícula del colegio privado.");
         if (jugador.getFortuna() < Valor.VUELTA) {
             super.anhadirTexto("\nDinero insuficiente para pagar la matrícula del colegio privado. Debes vender edificios " +
@@ -92,6 +99,7 @@ public final class Suerte extends Carta {
     }
 
     private void cartasSuerte_8(Jugador jugador) {
+        super.setMovimiento(false);
         float contador = 0;
         int casas = 0, hoteles = 0, piscinas = 0, pistas = 0;
         for (Edificio edificio : jugador.getEdificaciones()) {
@@ -127,6 +135,7 @@ public final class Suerte extends Carta {
 
     private void cartasSuerte_9(Jugador jugador, Taboleiro taboleiro, Menu menu) {
         super.setTexto("Ve a Turismo. Si pasas por la casilla de Salida, cobra " + Valor.VUELTA + "€.");
+        super.setMovimiento(true);
         if (jugador.getAvatar().getCasilla().getPosicion() >= 13) {
             jugador.sumarFortuna(Valor.VUELTA);
             jugador.sumarVecesSalida();
@@ -143,6 +152,7 @@ public final class Suerte extends Carta {
 
     private void cartasSuerte_10(Jugador jugador, Menu menu) {
         super.setTexto("Has sido elegido presidente de la junta directiva. Paga a cada jugador " + Valor.VUELTA + "€");
+        super.setMovimiento(false);
         float dineroApagar = Valor.VUELTA * (menu.getJuego().getJugadores().size() - 1);
 
         if (jugador.getFortuna() < dineroApagar) {
@@ -164,6 +174,7 @@ public final class Suerte extends Carta {
 
     private void cartasSuerte_11(Jugador jugador, Taboleiro taboleiro) {
         super.setTexto("¡Hora punta de tráfico! Retrocede tres casillas.");
+        super.setMovimiento(true);
         int pos = jugador.getAvatar().getCasilla().getPosicion();
 
         taboleiro.getCasillaPosicion(pos).eliminarAvatar(jugador.getAvatar().getId());
@@ -178,6 +189,7 @@ public final class Suerte extends Carta {
 
     private void cartasSuerte_12(Jugador jugador, Taboleiro taboleiro) {
         super.setTexto("Te multan por usar el móvil mientras conduces. Paga " + Valor.VUELTA / 4 + "€.");
+        super.setMovimiento(false);
         if (jugador.getFortuna() < ((float) Valor.VUELTA / 4)) {
             super.anhadirTexto("\nDinero insuficiente para pagar la multa de tráfico por usar el teléfono. Debes vender " +
                     "edificios o hipotecar propiedades.");
@@ -189,6 +201,7 @@ public final class Suerte extends Carta {
     }
 
     private void cartasSuerte_13(Jugador jugador) {
+        super.setMovimiento(false);
         super.setTexto("Beneficio por la venta de tus acciones. Recibe " + Valor.VUELTA / 4 + "€.");
         jugador.sumarFortuna((float) Valor.VUELTA / 4);
         jugador.sumarPremiosInversionesBote((float) Valor.VUELTA / 4);
@@ -241,7 +254,7 @@ public final class Suerte extends Carta {
         int numero;
         ArrayList<Integer> cartas = new ArrayList<>();
 
-        while (cartas.size() < 14) {
+        while (cartas.size() < 13) {
             numero = (int) (Math.random() * 13 + 1);
             if (!estaNumero(numero, cartas))
                 cartas.add(numero);

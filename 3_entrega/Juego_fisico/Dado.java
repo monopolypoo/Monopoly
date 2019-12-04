@@ -122,7 +122,7 @@ public class Dado {
     }
 
     public String textoLanzarDados(Taboleiro taboleiro, Jugador jugador, Menu menu) {
-        String texto = taboleiro + "\n";
+        String texto = "";
         int sumaDados = this.dado1 + this.dado2;
         if ((this.posSiguiente == 7) || (this.posSiguiente == 22) || (this.posSiguiente == 36)) {
             texto = "";
@@ -169,11 +169,15 @@ public class Dado {
                     menu.getJuego().getTaboleiro().getCasillaPosicion(menu.getJugadorActual().getAvatar().getCasilla().getPosicion()).eliminarAvatar(menu.getJugadorActual().getAvatar().getId());
                     menu.getJuego().getTaboleiro().getCasillaPosicion(10).setAvatar(menu.getJugadorActual().getAvatar());
                     //System.out.println(this.taboleiro);
-                    System.out.println(menu.getJuego().getDado().textoLanzarDados(menu.getJuego().getTaboleiro(), menu.getJugadorActual(), menu) + texto);
+                    if (!(menu.getJugadorActual().getAvatar().getCasilla() instanceof AccionCajaComunidad) &&
+                            !(menu.getJugadorActual().getAvatar().getCasilla() instanceof AccionSuerte))
+                        System.out.println(menu.getJuego().getDado().textoLanzarDados(menu.getJuego().getTaboleiro(), menu.getJugadorActual(), menu) + texto);
                 } else {
                     if ((!menu.getJugadorActual().getAvatar().isModoAvanzado()) || (menu.getJugadorActual().getAvatar().isModoAvanzado() && (menu.getJugadorActual().getAvatar() instanceof Coche))) {
                         //System.out.println(taboleiro);
-                        System.out.println(menu.getJuego().getDado().textoLanzarDados(menu.getJuego().getTaboleiro(), menu.getJugadorActual(), menu) + texto);
+                        if (!(menu.getJugadorActual().getAvatar().getCasilla() instanceof AccionCajaComunidad) &&
+                                !(menu.getJugadorActual().getAvatar().getCasilla() instanceof AccionSuerte))
+                            System.out.println(menu.getJuego().getDado().textoLanzarDados(menu.getJuego().getTaboleiro(), menu.getJugadorActual(), menu) + texto);
                         menu.getJugadorActual().pagarAlquiler(menu.getJugadorActual().getAvatar().getCasilla(), menu.getJuego().getDado().getDadoTotal());
                         menu.getJugadorActual().pagarImpuestos(menu.getJugadorActual().getAvatar().getCasilla(), menu.getJuego().getTaboleiro());
                         menu.getJugadorActual().cobrarParking(menu.getJugadorActual().getAvatar().getCasilla());

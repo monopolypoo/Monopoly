@@ -19,6 +19,7 @@ public final class Comunidad extends Carta {
      **********************************************************************************************/
 
     private void cartasComunidad_1(Jugador jugador, Taboleiro taboleiro) {
+        super.setMovimiento(false);
         super.setTexto("Paga " + Valor.VUELTA + "€ por un fin de semana en un balneario de 5 estrellas.");
         if (jugador.getFortuna() < ((float) Valor.VUELTA)) {
             super.anhadirTexto("\nDinero insuficiente para pagar el fin de semana en el balneario de 5 estrellas. Debes vender " +
@@ -30,6 +31,7 @@ public final class Comunidad extends Carta {
     }
 
     private void cartasComunidad_2(Jugador jugador, Taboleiro taboleiro) {
+        super.setMovimiento(true);
         super.setTexto("Te investigan por fraude de identidad. Ve a la Cárcel. Ve directamente sin pasar por la casilla " +
                 "de Salida y sin cobrar los " + Valor.VUELTA + "€.");
         int pos = jugador.getAvatar().getCasilla().getPosicion();
@@ -42,6 +44,7 @@ public final class Comunidad extends Carta {
     }
 
     private void cartasComunidad_3(Jugador jugador, Taboleiro taboleiro) {
+        super.setMovimiento(true);
         super.setTexto("Colócate en la casilla de Salida. Cobra " + Valor.VUELTA + "€.");
         int pos = jugador.getAvatar().getCasilla().getPosicion();
         taboleiro.getCasillaPosicion(pos).eliminarAvatar(jugador.getAvatar().getId());
@@ -52,12 +55,14 @@ public final class Comunidad extends Carta {
     }
 
     private void cartasComunidad_4(Jugador jugador) {
+        super.setMovimiento(false);
         super.setTexto("Tu compañía de Internet ETSEfónica obtiene beneficios. Recibe " + Valor.VUELTA * 2 + "€.");
         jugador.sumarFortuna((float) Valor.VUELTA * 2);
         jugador.sumarPremiosInversionesBote((float) Valor.VUELTA * 2);
     }
 
     private void cartasComunidad_5(Jugador jugador) {
+        super.setMovimiento(false);
         super.setTexto("Paga " + Valor.VUELTA + "€ por invitar a todos tus amigos a un viaje a Química.");
         if (jugador.getFortuna() < ((float) Valor.VUELTA)) {
             super.anhadirTexto("\nDinero insuficiente para pagar el viaje de tus amigos a Química. Debes vender " +
@@ -68,12 +73,14 @@ public final class Comunidad extends Carta {
     }
 
     private void cartasComunidad_6(Jugador jugador) {
+        super.setMovimiento(false);
         super.setTexto("Devolución de Hacienda. Cobra " + Valor.PRECIO_GRUPO5 + "€.");
         jugador.sumarFortuna(Valor.PRECIO_GRUPO5);
         jugador.sumarPremiosInversionesBote(Valor.PRECIO_GRUPO5);
     }
 
     private void cartasComunidad_7(Jugador jugador, Taboleiro taboleiro) {
+        super.setMovimiento(true);
         super.setTexto("Retrocedes hasta 'FIC' para comprar programadores anticuados.");
         int pos = jugador.getAvatar().getCasilla().getPosicion();
         taboleiro.getCasillaPosicion(pos).eliminarAvatar(jugador.getAvatar().getId());
@@ -82,6 +89,7 @@ public final class Comunidad extends Carta {
     }
 
     private void cartasComunidad_8(Jugador jugador, Menu menu) {
+        super.setMovimiento(false);
         Juego juego = menu.getJuego();
         int jugadores = juego.getJugadores().size() - 1;
         super.setTexto("Alquilas una villa en la 'ETSE' durante una semana, le pagas a cada uno de los jugadores " +
@@ -99,12 +107,14 @@ public final class Comunidad extends Carta {
     }
 
     private void cartasComunidad_9(Jugador jugador) {
+        super.setMovimiento(false);
         super.setTexto("Recibes " + Valor.VUELTA + "€ por el alquiler de tu jet privado.");
         jugador.sumarFortuna(Valor.VUELTA);
         jugador.sumarPremiosInversionesBote(Valor.VUELTA);
     }
 
     private void cartasComunidad_10(Jugador jugador, Taboleiro taboleiro, Menu menu) {
+        super.setMovimiento(true);
         super.setTexto("Ve a la 'Ing. Caminos' a disfrutar de sus demostraciones de extracción de minerales." +
                 " Si pasas por la casilla de Salida, cobra " + Valor.VUELTA + "€.");
         if (jugador.getAvatar().getCasilla().getPosicion() >= 18) {

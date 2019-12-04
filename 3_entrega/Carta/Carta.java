@@ -10,10 +10,12 @@ import java.util.ArrayList;
 public abstract class Carta {
     private int tipo;
     private String texto;
+    private boolean movimiento;
 
     public Carta() {
         this.texto = "";
         this.tipo = 0;
+        this.movimiento = false;
     }
 
     public int getTipo() {
@@ -40,6 +42,14 @@ public abstract class Carta {
                 return true;
         }
         return false;
+    }
+
+    public boolean isMovimiento(){
+        return this.movimiento;
+    }
+
+    public void setMovimiento(boolean movimiento) {
+        this.movimiento = movimiento;
     }
 
     public abstract void accion(Jugador jugador, Taboleiro taboleiro, Menu menu, int escogida);
