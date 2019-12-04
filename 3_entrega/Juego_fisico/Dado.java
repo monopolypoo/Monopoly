@@ -57,6 +57,11 @@ public class Dado {
         return this.dadoTotal;
     }
 
+    public void setDadoTotal(int dadoTotal) {
+        if (dadoTotal >= 2 && dadoTotal <= 12)
+            this.dadoTotal = dadoTotal;
+    }
+
     public int getVecesPelota() {
         return vecesPelota;
     }
@@ -210,6 +215,15 @@ public class Dado {
                 ((Coche) menu.getJugadorActual().getAvatar()).sumarLanzardados(menu);
                 if (((Coche) menu.getJugadorActual().getAvatar()).isCompraCoche())
                     menu.setPoderComprar(false);
+            }
+            if ((menu.getJugadorActual().getAvatar() instanceof Esfinge) && (menu.getJugadorActual().getAvatar().isModoAvanzado())) {
+                if (((Esfinge) menu.getJugadorActual().getAvatar()).getVecesDados() < 3) {
+                    menu.setDadosLanzados(false);
+                    menu.setSigueTurno(true);
+                } else {
+                    ((Esfinge) menu.getJugadorActual().getAvatar()).setVecesDados(0);
+                    ((Esfinge) menu.getJugadorActual().getAvatar()).vaciarRegistroEsfinge();
+                }
             }
         } else {
             System.out.println("Estás penalizado, debes acabar turno y pasarle el turno al siguiente jugador.");
