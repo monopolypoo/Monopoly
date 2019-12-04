@@ -51,6 +51,12 @@ public final class Especial extends Casilla {
         return 0;
     }
 
+    public void devolverBote(double valor) {
+        if (valor >= 0) {
+            this.valor -= valor;
+        }
+    }
+
     public String toString() {
         String texto;
         if (super.getPosicion() == 7 || super.getPosicion() == 17 || super.getPosicion() == 2 || super.getPosicion() == 22
@@ -71,7 +77,7 @@ public final class Especial extends Casilla {
             }
             texto += "]";
             texto = "{\n\tbote: " + this.valor + ",\n\tjugadores: " + texto + "\n}";
-        } else{
+        } else {
             texto = "Esta casilla no es de tipo especial.\n";
         }
         return texto;
