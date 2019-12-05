@@ -1,6 +1,7 @@
 package Carta;
 
 import Casilla.*;
+import Consola.*;
 import Edificio.*;
 import ExcepcionesNull.ExcepcionesNull;
 import ExcepcionesNumericas.ExcepcionesNumericas;
@@ -12,9 +13,11 @@ import Monopoly.*;
 import java.util.ArrayList;
 
 public final class Suerte extends Carta {
+    private Consola consola;
 
     public Suerte() {
         super();
+        this.consola = new ConsolaNormal();
     }
 
     /***********************************************************************************************
@@ -314,11 +317,11 @@ public final class Suerte extends Carta {
                         break;
                      */
                     default:
-                        System.out.println("Error al escoger la carta!");
+                        this.consola.imprimir("Error al escoger la carta!");
                         break;
                 }
             } else {
-                System.out.println("Error al escoger la carta!");
+                this.consola.imprimir("Error al escoger la carta!");
             }
         } else throw new ExcepcionesNull("El jugador, el tablero o el menú no se encuentran inicializados!");
     }

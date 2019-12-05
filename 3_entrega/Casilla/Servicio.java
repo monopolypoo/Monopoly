@@ -15,7 +15,7 @@ public final class Servicio extends Propiedad {
         this.baseAlquiler = (Valor.VUELTA / 200.0);
     }
 
-    public double getBaseAlquiler(){
+    public double getBaseAlquiler() {
         return this.baseAlquiler;
     }
 
@@ -23,13 +23,12 @@ public final class Servicio extends Propiedad {
 
     public double getValorAlquiler() {
         double valor = 0;
-        if (super.cuantasCasillasTiene() == 1){
+        if (super.cuantasCasillasTiene() == 1)
             valor = 4 * this.baseAlquiler;
-        } else if (super.cuantasCasillasTiene() == 2){
+        else if (super.cuantasCasillasTiene() == 2)
             valor = 10 * this.baseAlquiler;
-        } else {
+        else
             valor = 0;
-        }
         return valor;
     }
 

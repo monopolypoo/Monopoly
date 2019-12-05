@@ -6,6 +6,9 @@ import java.util.Scanner;
 
 public class ConsolaNormal implements Consola {
 
+    public ConsolaNormal(){
+    }
+
     @Override
     public void imprimir(String mensaje) {
         System.out.println(mensaje);
@@ -13,6 +16,7 @@ public class ConsolaNormal implements Consola {
 
     @Override
     public String[] leer(String descripcion) {
+        this.imprimir(descripcion);
         String comando;
         Scanner teclado = new Scanner(System.in);
         comando = teclado.nextLine();

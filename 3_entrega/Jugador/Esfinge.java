@@ -42,7 +42,7 @@ public final class Esfinge extends Avatar {
 
     private int calcularPosSiquiente(int posActual, int posInicio) {
         int posSiguiente;
-        if (posInicio >= 10 && posInicio <= 30) {
+        if (posInicio >= 10 && posInicio < 30) {
             if (posActual >= 1 && posActual <= 9)
                 posSiguiente = 29 - posActual + 2;
             else if (posActual >= 10 && posActual <= 20)
@@ -75,7 +75,10 @@ public final class Esfinge extends Avatar {
                 posSiguiente = calcularPosSiquiente(this.getCasilla().getPosicion(), posInicio);
                 if (posSiguiente == 0)
                     posInicio = 0;
-                moverEnBasico(menu.getJuego().getTaboleiro(), menu, posSiguiente);
+                if (posSiguiente == 30)
+                    this.getJugador().irCarcere(menu.getJuego().getTaboleiro());
+                else
+                    moverEnBasico(menu.getJuego().getTaboleiro(), menu, posSiguiente);
                 menu.getJugadorActual().pagarAlquiler(menu.getJugadorActual().getAvatar().getCasilla(), menu.getJuego().getDado().getDadoTotal());
                 menu.getJugadorActual().pagarImpuestos(menu.getJugadorActual().getAvatar().getCasilla(), menu.getJuego().getTaboleiro());
                 menu.getJugadorActual().cobrarParking(menu.getJugadorActual().getAvatar().getCasilla());

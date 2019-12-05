@@ -1,6 +1,7 @@
 package Carta;
 
 import Casilla.*;
+import Consola.*;
 import ExcepcionesNumericas.ExcepcionesNumericas;
 import ExcepcionesPartida.ExcepcionesDinero;
 import Juego_fisico.*;
@@ -10,9 +11,11 @@ import Monopoly.*;
 import java.util.ArrayList;
 
 public final class Comunidad extends Carta {
+    private Consola consola;
 
     public Comunidad() {
         super();
+        this.consola = new ConsolaNormal();
     }
 
 
@@ -173,15 +176,14 @@ public final class Comunidad extends Carta {
                         cartasComunidad_10(jugador, taboleiro, menu);
                         break;
                     default:
-                        System.out.println("Error al escoger la carta!");
+                        this.consola.imprimir("Error al escoger la carta!");
                         break;
                 }
             } else {
-                System.out.println("Error al escoger la carta!");
+                this.consola.imprimir("Error al escoger la carta!");
             }
         } else {
-            System.out.println("El jugador, el tablero o el menú no se encuentran inicializados!");
-
+            this.consola.imprimir("El jugador, el tablero o el menú no se encuentran inicializados!");
         }
     }
 

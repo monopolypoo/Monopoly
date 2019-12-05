@@ -1,5 +1,6 @@
 package Casilla;
 
+import Consola.*;
 import ExcepcionesPartida.*;
 import Juego_fisico.*;
 import Jugador.*;
@@ -10,6 +11,7 @@ public abstract class Propiedad extends Casilla {
     private Jugador duenho;
     private Jugador duenhoAnterior;
     private boolean esHipotecado;
+    private Consola consola;
 
     public Propiedad() {
         super();
@@ -18,6 +20,7 @@ public abstract class Propiedad extends Casilla {
         this.duenho = null;
         this.duenhoAnterior = null;
         this.esHipotecado = false;
+        this.consola = new ConsolaNormal();
     }
 
     public Propiedad(String nombre, int posicion, double valor) {
@@ -32,6 +35,7 @@ public abstract class Propiedad extends Casilla {
         this.duenho = null;
         this.duenhoAnterior = null;
         this.esHipotecado = false;
+        this.consola = new ConsolaNormal();
     }
 
     public double getValor() {
@@ -39,9 +43,8 @@ public abstract class Propiedad extends Casilla {
     }
 
     public void setValor(double valor) {
-        if (valor >= 0) {
+        if (valor >= 0)
             this.valor = valor;
-        }
     }
 
     public double getAlquiler() {
@@ -57,9 +60,8 @@ public abstract class Propiedad extends Casilla {
     }
 
     public void setDuenho(Jugador duenho) {
-        if (duenho != null) {
+        if (duenho != null)
             this.duenho = duenho;
-        }
     }
 
     public Jugador getDuenhoAnterior() {
@@ -67,9 +69,8 @@ public abstract class Propiedad extends Casilla {
     }
 
     public void setDuenhoAnterior(Jugador duenhoAnterior) {
-        if (duenhoAnterior != null) {
+        if (duenhoAnterior != null)
             this.duenhoAnterior = duenhoAnterior;
-        }
     }
 
     public boolean isEsHipotecado() {
@@ -90,7 +91,7 @@ public abstract class Propiedad extends Casilla {
                     jugador.getPropiedades().add(this);
                     jugador.sumarDineroInvertido((float) this.valor);
                     jugador.sumarPremiosInversionesBote((float) this.valor);
-                    System.out.println("El jugador " + jugador.getNombre() + " compra la casilla " + super.getNombre()
+                    consola.imprimir("El jugador " + jugador.getNombre() + " compra la casilla " + super.getNombre()
                             + " por " + this.valor + "€. Su fortuna actual es: " + jugador.getFortuna() + "€.");
                     //taboleiro.getCasillasEnVenta().remove(this);
                     taboleiro.setContadorVueltas(0);
@@ -102,9 +103,7 @@ public abstract class Propiedad extends Casilla {
 
     public boolean perteneceAJugador(Jugador jugador) {
         if (jugador != null) {
-            if (jugador.equals(this.duenho)) {
-                return true;
-            }
+            return jugador.equals(this.duenho);
         }
         return false;
     }
@@ -123,13 +122,10 @@ public abstract class Propiedad extends Casilla {
 
     public int cuantasCasillasTiene() {
         int contador = 0;
-        if (this.getDuenho() != null) {
-            for (Casilla cas : super.getGrupo().getCasillas()) {
-                if (this.getDuenho().equals(((Servicio) cas).getDuenho())) {
+        if (this.getDuenho() != null)
+            for (Casilla cas : super.getGrupo().getCasillas())
+                if (this.getDuenho().equals(((Servicio) cas).getDuenho()))
                     contador++;
-                }
-            }
-        }
         return contador;
     }
 
@@ -144,7 +140,7 @@ public abstract class Propiedad extends Casilla {
                             this.duenho = null;
                             this.duenhoAnterior = jugador;
                             jugador.sumarFortuna((float) this.valor / 2);
-                            System.out.println(jugador.getNombre() + " recibe " + this.valor / 2 + "€ por la hipoteca de " + this.getNombreSinEspacio() +
+                            consola.imprimir(jugador.getNombre() + " recibe " + this.valor / 2 + "€ por la hipoteca de " + this.getNombreSinEspacio() +
                                     ". No puede recibir alquileres ni edificar en el grupo " + super.getGrupo().getNumeroGrupo() + ".");
                         } else
                             throw new ExcepcionesEdificios("No puedes hipotecar la casilla porque existen edificios en ella, antes de hipotecarla debes venderlos todos.");
@@ -156,20 +152,22 @@ public abstract class Propiedad extends Casilla {
 
     public void deshipotecarCasilla(Jugador jugador, Taboleiro taboleiro) throws ExcepcionesDinero, ExcepcionesHipotecar, ExcepcionesDuenho, ExcepcionesDeshipotecar {
         if (this.duenhoAnterior != null) {
-                if (this.duenho == null) {
-                    if (this.duenhoAnterior.equals(jugador)) {
-                        if (this.esHipotecado) {
-                            this.esHipotecado = false;
-                            jugador.anhadirPropiedad(this);
-                            this.duenho = jugador;
-                            this.duenhoAnterior = null;
-                            jugador.restarFortuna((float) this.valor / 2);
-                            System.out.println(jugador.getNombre() + " paga " + this.valor / 2 + "€ por deshipotecar " + this.getNombreSinEspacio() +
-                                    ". Ahora puede recibir alquileres y edificar en el grupo " + super.getGrupo().getNumeroGrupo() + ".");
+            if (this.duenho == null) {
+                if (this.duenhoAnterior.equals(jugador)) {
+                    if (this.esHipotecado) {
+                        this.esHipotecado = false;
+                        jugador.anhadirPropiedad(this);
+                        this.duenho = jugador;
+                        this.duenhoAnterior = null;
+                        jugador.restarFortuna((float) this.valor / 2);
+                        consola.imprimir(jugador.getNombre() + " paga " + this.valor / 2 + "€ por deshipotecar " + this.getNombreSinEspacio() +
+                                ". Ahora puede recibir alquileres y edificar en el grupo " + super.getGrupo().getNumeroGrupo() + ".");
 
-                        } else throw new ExcepcionesHipotecar(super.getNombreSinEspacio(), " no se puede deshipotecar porque ya lo está.");
-                    } else throw new ExcepcionesDuenho("No puedes deshipotecar esta casilla porque no era tuya antes de que fuese hipotecada.");
-                } else throw new ExcepcionesDuenho("No puedes hipotecar esta casilla porque no eres su dueño.");
+                    } else
+                        throw new ExcepcionesHipotecar(super.getNombreSinEspacio(), " no se puede deshipotecar porque ya lo está.");
+                } else
+                    throw new ExcepcionesDuenho("No puedes deshipotecar esta casilla porque no era tuya antes de que fuese hipotecada.");
+            } else throw new ExcepcionesDuenho("No puedes hipotecar esta casilla porque no eres su dueño.");
         } else throw new ExcepcionesDeshipotecar("Esta casilla no se puede deshipotecar porque no está hipotecada.");
     }
 

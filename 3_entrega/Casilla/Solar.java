@@ -1,5 +1,6 @@
 package Casilla;
 
+import Consola.*;
 import Edificio.*;
 import ExcepcionesNull.*;
 import ExcepcionesNumericas.ExcepcionesNumericas;
@@ -23,6 +24,7 @@ public final class Solar extends Propiedad {
     private int numeroHoteles;
     private int numeroPiscinas;
     private int numeroPistas;
+    private Consola consola;
 
     public Solar() {
         super();
@@ -38,6 +40,7 @@ public final class Solar extends Propiedad {
         this.numeroHoteles = 0;
         this.numeroPiscinas = 0;
         this.numeroPistas = 0;
+        this.consola = new ConsolaNormal();
     }
 
     public Solar(String nombre, int posicion, double valor) {
@@ -54,6 +57,7 @@ public final class Solar extends Propiedad {
         this.numeroHoteles = 0;
         this.numeroPiscinas = 0;
         this.numeroPistas = 0;
+        this.consola = new ConsolaNormal();
     }
 
     public double getValorCasa() {
@@ -223,7 +227,7 @@ public final class Solar extends Propiedad {
                 if (super.getVecesCasilla().containsKey(jugador.getAvatar().getId())) {
                     try {
                         aux = Integer.parseInt(super.getVecesCasilla().get(jugador.getAvatar().getId())[1]);
-                    } catch (NumberFormatException exc){
+                    } catch (NumberFormatException exc) {
                         throw new ExcepcionesNumericas("Error pasando el string a entero.");
                     }
                 } else {
@@ -235,23 +239,21 @@ public final class Solar extends Propiedad {
                         case "casa":
                             if (this.numeroCasas < 4) {
                                 new Casa(this.valorCasa, id, this);
-                                System.out.println("El avatar " + super.getDuenho().getAvatar().getId() +
+                                consola.imprimir("El avatar " + super.getDuenho().getAvatar().getId() +
                                         " ha construído una casa en la casilla " + super.getNombreSinEspacio() +
                                         " por un valor de: " + this.valorCasa +
                                         "\nLa fortuna actual del jugador es de: " + super.getDuenho().getFortuna());
                             } else {
-                                System.out.print("Ya hay 4 casas construídas! Quiere construír un hotel? [si/no] ");
 
                                 /* Intentar hacer esto con la interface de comando!!!!!!!!!!!!!!*/
 
-                                String comando;
-                                Scanner leer = new Scanner(System.in);
-                                comando = leer.nextLine();
-                                if (comando.toLowerCase().equals("si")) {
+                                String[] comando;
+                                comando = consola.leer("Ya hay 4 casas construídas! Quiere construír un hotel? [si/no] ");
+
+                                if (comando[0].toLowerCase().equals("si")) {
                                     construirEdificio("hotel", jugador, taboleiro, id);
-                                } else {
-                                    System.out.println("De acuerdo. No se hará ninguna acción.");
-                                }
+                                } else
+                                    consola.imprimir("De acuerdo. No se hará ninguna acción.");
                             }
                             break;
 
@@ -259,7 +261,7 @@ public final class Solar extends Propiedad {
                             if (this.numeroCasas == 4 && (super.getGrupo().getNumeroHoteles() < super.getGrupo().getNumeroSolares())) {
                                 new Hotel(this.valorHotel, id, this);
                                 this.eliminarCasas(jugador, taboleiro);
-                                System.out.println("El avatar " + super.getDuenho().getAvatar().getId() +
+                                consola.imprimir("El avatar " + super.getDuenho().getAvatar().getId() +
                                         " ha construído un hotel en la casilla " + super.getNombreSinEspacio() +
                                         " por un valor de: " + this.valorHotel +
                                         "\nLa fortuna actual del jugador es de: " + super.getDuenho().getFortuna());
@@ -273,7 +275,7 @@ public final class Solar extends Propiedad {
                         case "piscina":
                             if (this.numeroCasas >= 2 && this.numeroHoteles >= 1 && super.getGrupo().getNumeroPiscinas() < super.getGrupo().getNumeroSolares()) {
                                 new Piscina(this.valorPiscina, id, this);
-                                System.out.println("El avatar " + super.getDuenho().getAvatar().getId() +
+                                consola.imprimir("El avatar " + super.getDuenho().getAvatar().getId() +
                                         " ha construído una piscina en la casilla " + super.getNombreSinEspacio() +
                                         " por un valor de: " + this.valorPiscina +
                                         "\nLa fortuna actual del jugador es de: " + super.getDuenho().getFortuna());
@@ -285,7 +287,7 @@ public final class Solar extends Propiedad {
                         case "pista":
                             if (this.numeroHoteles >= 2 && super.getGrupo().getNumeroPistas() < super.getGrupo().getNumeroSolares()) {
                                 new Pista(this.valorPistaDeporte, id, this);
-                                System.out.println("El avatar " + super.getDuenho().getAvatar().getId() +
+                                consola.imprimir("El avatar " + super.getDuenho().getAvatar().getId() +
                                         " ha construído una pista de deporte en la casilla " + super.getNombreSinEspacio() +
                                         " por un valor de: " + this.valorPistaDeporte +
                                         "\nLa fortuna actual del jugador es de: " + super.getDuenho().getFortuna());
@@ -345,7 +347,8 @@ public final class Solar extends Propiedad {
                         taboleiro.eliminarCasa(cas.get(i).getId());
                     }
                     super.getDuenho().sumarFortuna((float) (numero * this.valorCasa / 2));
-                    System.out.println(super.getDuenho().getNombre() + " ha vendido " + numero + " casa(s) en " + this.getNombreSinEspacio() + ", recibiendo " + (numero * this.valorCasa / 2) + "€. En la propiedad queda(n) " + this.numeroCasas + " casa(s).");
+                    consola.imprimir(super.getDuenho().getNombre() + " ha vendido " + numero + " casa(s) en " + this.getNombreSinEspacio() + ", recibiendo "
+                            + (numero * this.valorCasa / 2) + "€. En la propiedad queda(n) " + this.numeroCasas + " casa(s).");
                 } else {
                     if (this.numeroCasas > 0) {
                         throw new ExcepcionesEdificios("Solamente se puede(n) vender " + this.numeroCasas + " casa(s) y se recibirían " + this.numeroCasas * this.valorCasa / 2 + "€.");
@@ -373,7 +376,9 @@ public final class Solar extends Propiedad {
                         taboleiro.eliminarHotel(hot.get(i).getId());
                     }
                     super.getDuenho().sumarFortuna((float) (numero * this.valorHotel / 2));
-                    System.out.println(super.getDuenho().getNombre() + " ha vendido " + numero + " hotel(es) en " + this.getNombreSinEspacio() + ", recibiendo " + (numero * this.valorHotel / 2) + "€. En la propiedad queda(n) " + this.numeroHoteles + " hotel(es).");
+                    consola.imprimir(super.getDuenho().getNombre() + " ha vendido " + numero + " hotel(es) en " +
+                            this.getNombreSinEspacio() + ", recibiendo " + (numero * this.valorHotel / 2) + "€. En la propiedad queda(n) " +
+                            this.numeroHoteles + " hotel(es).");
                 } else {
                     if (this.numeroHoteles > 0) {
                         throw new ExcepcionesEdificios("Solamente se puede(n) vender " + this.numeroHoteles + " hotel(es) y se recibirían " + this.numeroHoteles * this.valorHotel / 2 + "€.");
@@ -401,7 +406,9 @@ public final class Solar extends Propiedad {
                         taboleiro.eliminarPiscina(pis.get(i).getId());
                     }
                     super.getDuenho().sumarFortuna((float) (numero * this.valorPiscina / 2));
-                    System.out.println(super.getDuenho().getNombre() + " ha vendido " + numero + " piscina(s) en " + this.getNombreSinEspacio() + ", recibiendo " + (numero * this.valorPiscina / 2) + "€. En la propiedad queda(n) " + this.numeroPiscinas + " piscina(s).");
+                    consola.imprimir(super.getDuenho().getNombre() + " ha vendido " + numero + " piscina(s) en " +
+                            this.getNombreSinEspacio() + ", recibiendo " + (numero * this.valorPiscina / 2) + "€. En la propiedad queda(n) " +
+                            this.numeroPiscinas + " piscina(s).");
                 } else {
                     if (this.numeroPiscinas > 0) {
                         throw new ExcepcionesEdificios("Solamente se puede(n) vender " + this.numeroPiscinas + " piscina(s) y se recibirían " + this.numeroPiscinas * this.valorPiscina / 2 + "€.");
@@ -429,7 +436,9 @@ public final class Solar extends Propiedad {
                         taboleiro.eliminarPista(pist.get(i).getId());
                     }
                     super.getDuenho().sumarFortuna((float) (numero * this.valorPistaDeporte / 2));
-                    System.out.println(super.getDuenho().getNombre() + " ha vendido " + numero + " pista(s) en " + this.getNombreSinEspacio() + ", recibiendo " + (numero * this.valorPistaDeporte / 2) + "€. En la propiedad queda(n) " + this.numeroPistas + " pista(s).");
+                    consola.imprimir(super.getDuenho().getNombre() + " ha vendido " + numero + " pista(s) en " +
+                            this.getNombreSinEspacio() + ", recibiendo " + (numero * this.valorPistaDeporte / 2) +
+                            "€. En la propiedad queda(n) " + this.numeroPistas + " pista(s).");
                 } else {
                     if (this.numeroPistas > 0) {
                         throw new ExcepcionesEdificios("Solamente se puede(n) vender " + this.numeroPistas + " pista(s) y se recibirían " + this.numeroPistas * this.valorPistaDeporte / 2 + "€.");
@@ -478,35 +487,28 @@ public final class Solar extends Propiedad {
             default:
                 break;
         }
-        aux = piscinas.size();
-        switch (aux) {
-            case 1:
-                valor += 25 * super.getAlquiler();
-                break;
-            case 2:
-                valor += 50 * super.getAlquiler();
-                break;
-            case 3:
-                valor += 75 * super.getAlquiler();
-                break;
-            default:
-                break;
-        }
-        aux = pistas.size();
-        switch (aux) {
-            case 1:
-                valor += 25 * super.getAlquiler();
-                break;
-            case 2:
-                valor += 50 * super.getAlquiler();
-                break;
-            case 3:
-                valor += 75 * super.getAlquiler();
-                break;
-            default:
-                break;
-        }
+        valor = getValor(valor, piscinas.size());
+        valor = getValor(valor, pistas.size());
 
+        return valor;
+    }
+
+    private double getValor(double valor, int size) {
+        int aux;
+        aux = size;
+        switch (aux) {
+            case 1:
+                valor += 25 * super.getAlquiler();
+                break;
+            case 2:
+                valor += 50 * super.getAlquiler();
+                break;
+            case 3:
+                valor += 75 * super.getAlquiler();
+                break;
+            default:
+                break;
+        }
         return valor;
     }
 
