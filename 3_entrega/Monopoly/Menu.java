@@ -104,6 +104,10 @@ public class Menu {
                         System.out.println(excepcionesComandos.getMessage());
                     } catch (ExcepcionesNumericas excepcionesNumericas){
                         System.out.println(excepcionesNumericas.getMessage());
+                    } catch (ExcepcionesHipotecar excepcionesHipotecar){
+                        Juego.consola.imprimir(excepcionesHipotecar.getMessage());
+                    } catch (ExcepcionesDuenho excepcionesDuenho){
+                        Juego.consola.imprimir(excepcionesDuenho.getMessage());
                     }
                     break;
 

@@ -397,7 +397,7 @@ public class Juego implements Comandos {
             throw new ExcepcionesComandos("Comando incorrecto. Para ver los comandos disponibles escriba: Ver Comandos");
     }
 
-    public void LanzarDados(String[] comando) throws InterruptedException, ExcepcionesDinero, ExcepcionesNull, ExcepcionesJugando, ExcepcionesComandos, ExcepcionesNumericas {
+    public void LanzarDados(String[] comando) throws InterruptedException, ExcepcionesDinero, ExcepcionesNull, ExcepcionesJugando, ExcepcionesComandos, ExcepcionesNumericas, ExcepcionesHipotecar, ExcepcionesDuenho {
         if (comando.length == 2) {
             if (comando[1].equals("dados")) {
                 if (this.getJugadores().size() > 0) {
