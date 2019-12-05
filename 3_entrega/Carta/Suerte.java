@@ -37,6 +37,7 @@ public final class Suerte extends Carta {
         taboleiro.getCasillaPosicion(jugador.getAvatar().getCasilla().getPosicion()).eliminarAvatar(jugador.getAvatar().getId());
         taboleiro.getCasillaPosicion(25).setAvatar(jugador.getAvatar());
         jugador.getAvatar().setCasilla(taboleiro.getCasillaPosicion(25));
+        super.anhadirTexto("\n" + taboleiro);
     }
 
     private void cartasSuerte_2(Jugador jugador, Taboleiro taboleiro) {
@@ -45,6 +46,7 @@ public final class Suerte extends Carta {
         taboleiro.getCasillaPosicion(jugador.getAvatar().getCasilla().getPosicion()).eliminarAvatar(jugador.getAvatar().getId());
         taboleiro.getCasillaPosicion(39).setAvatar(jugador.getAvatar());
         jugador.getAvatar().setCasilla(taboleiro.getCasillaPosicion(39));
+        super.anhadirTexto("\n" + taboleiro);
     }
 
     private void cartasSuerte_3(Jugador jugador) {
@@ -69,6 +71,7 @@ public final class Suerte extends Carta {
         taboleiro.getCasillaPosicion(jugador.getAvatar().getCasilla().getPosicion()).eliminarAvatar(jugador.getAvatar().getId());
         taboleiro.getCasillaPosicion(23).setAvatar(jugador.getAvatar());
         jugador.getAvatar().setCasilla(taboleiro.getCasillaPosicion(23));
+        super.anhadirTexto("\n" + taboleiro);
     }
 
     private void cartasSuerte_5(Jugador jugador, Taboleiro taboleiro) throws ExcepcionesNumericas {
@@ -80,6 +83,7 @@ public final class Suerte extends Carta {
         jugador.irCarcere(taboleiro);
         jugador.sumarVecesCarcel();
         taboleiro.setContadorVueltas(0);
+        super.anhadirTexto("\n" + taboleiro);
     }
 
     private void cartasSuerte_6(Jugador jugador) {
@@ -123,8 +127,8 @@ public final class Suerte extends Carta {
         }
         super.setTexto("El aumento del impuesto sobre bienes inmuebles afecta a todas tus propiedades. Paga " + Valor.VUELTA / 2 + "€ por casa, " +
                 Valor.VUELTA * 2 + "€ por hotel, " + Valor.VUELTA + "€ por piscina y " + Valor.VUELTA * 3 + "€ por pista de deporte." +
-                "\nTienes " + casas + " casas, " + hoteles + " hoteles, " + piscinas + "piscinas y " + pistas +
-                "pistas. Por lo que tienes que pagar " + contador + "€.");
+                "\nTienes " + casas + " casas, " + hoteles + " hoteles, " + piscinas + " piscinas y " + pistas +
+                " pistas. Por lo que tienes que pagar " + contador + "€.");
         jugador.restarFortuna(contador);
         jugador.setDineroGastado(jugador.getDineroGastado() + contador);
         jugador.sumarTasasImpuestos(contador);
@@ -143,6 +147,7 @@ public final class Suerte extends Carta {
             }
             taboleiro.subirPreciosTotal(menu.getJuego());
         }
+        super.anhadirTexto("\n" + taboleiro);
         taboleiro.getCasillaPosicion(jugador.getAvatar().getCasilla().getPosicion()).eliminarAvatar(jugador.getAvatar().getId());
         taboleiro.getCasillaPosicion(13).setAvatar(jugador.getAvatar());
         jugador.getAvatar().setCasilla(taboleiro.getCasillaPosicion(13));
@@ -243,7 +248,6 @@ public final class Suerte extends Carta {
             }
         }
     }
-
      */
 
     @Override

@@ -7,6 +7,7 @@ import ExcepcionesNumericas.ExcepcionesNumericas;
 import Juego_fisico.*;
 import Monopoly.*;
 import ExcepcionesPartida.*;
+import Trato.Tratos;
 
 import java.util.ArrayList;
 
@@ -17,6 +18,8 @@ public class Jugador {
     private Avatar avatar;
     private ArrayList<Casilla> propiedades;
     private ArrayList<Edificio> edificaciones;
+    private ArrayList<Tratos> tratosPropuestos;
+    private ArrayList<Tratos> tratosDisponibles;
     private boolean estarCarcere;
     private int contadorEstarCarcere;
     private float dineroInvertido;
@@ -35,6 +38,8 @@ public class Jugador {
         this.avatar = new Coche();
         this.propiedades = new ArrayList<>(); //tambien se le pueden poner inicialmente todas las propiedades a la banca
         this.edificaciones = new ArrayList<>();
+        this.tratosPropuestos = new ArrayList<>();
+        this.tratosDisponibles = new ArrayList<>();
         this.estarCarcere = false;
         this.contadorEstarCarcere = 0;
         this.dineroInvertido = 0;
@@ -57,6 +62,8 @@ public class Jugador {
         this.dineroGastado = 0;
         this.propiedades = new ArrayList<>();
         this.edificaciones = new ArrayList<>();
+        this.tratosPropuestos = new ArrayList<>();
+        this.tratosDisponibles = new ArrayList<>();
         this.estarCarcere = false;
         this.contadorEstarCarcere = 0;
         this.dineroInvertido = 0;
@@ -100,6 +107,26 @@ public class Jugador {
         } else {
             this.nombre = "jugador_random";
         }
+    }
+
+    public ArrayList<Tratos> getTratosDisponibles() {
+        return tratosDisponibles;
+    }
+
+    public ArrayList<Tratos> getTratosPropuestos() {
+        return tratosPropuestos;
+    }
+
+    public void anhadirTratosDisponibles(Tratos trato) {
+        if (trato != null && this.tratosDisponibles != null)
+            if (!this.tratosDisponibles.contains(trato))
+                this.tratosDisponibles.add(trato);
+    }
+
+    public void anhadirTratosPropuestos(Tratos trato) {
+        if (trato != null && this.tratosPropuestos != null)
+            if (!this.tratosPropuestos.contains(trato))
+                this.tratosPropuestos.add(trato);
     }
 
     public int getVecesDados() {

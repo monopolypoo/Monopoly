@@ -16,7 +16,7 @@ public class ConsolaNormal implements Consola {
 
     @Override
     public String[] leer(String descripcion) {
-        this.imprimir(descripcion);
+        System.out.print(descripcion);
         String comando;
         Scanner teclado = new Scanner(System.in);
         comando = teclado.nextLine();

@@ -9,6 +9,7 @@ import ExcepcionesPartida.*;
 import Interfaces.Comandos;
 import Juego_fisico.*;
 import Jugador.*;
+import Trato.Tratos;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -22,6 +23,8 @@ public class Juego implements Comandos {
     private ArrayList<Grupo> grupos;
     private Menu menu;
     public static Consola consola;
+    private ArrayList<Tratos> tratos;
+    private HashMap<String, Jugador[]> inforTratos;
 
     public Juego(Menu menu) {
         this.dado = new Dado();
@@ -31,6 +34,8 @@ public class Juego implements Comandos {
         this.grupos = new ArrayList<>();
         this.menu = menu;
         consola = new ConsolaNormal();
+        this.tratos = new ArrayList<>();
+        this.inforTratos = new HashMap<>();
     }
 
     public Dado getDado() {
@@ -81,6 +86,27 @@ public class Juego implements Comandos {
             Juego.consola.imprimir(ava.toString());
         }
     }
+
+
+    public ArrayList<Tratos> getTratos() {
+        return this.tratos;
+    }
+
+    public HashMap<String, Jugador[]> getInfor() {
+        return inforTratos;
+    }
+
+    public void anhadirTratos(Tratos trato) {
+        if (trato != null && this.tratos != null && this.inforTratos != null)
+            if (!this.tratos.contains(trato) && !this.inforTratos.containsKey(trato.getId())) {
+                this.tratos.add(trato);
+                Jugador[] jugadors = new Jugador[2];
+                jugadors[0] = trato.getJugadorOrigen();
+                jugadors[1] = trato.getJugadorDestino();
+                this.inforTratos.put(trato.getId(), jugadors);
+            }
+    }
+
 
     public void listarEdificios(Taboleiro taboleiro) throws ExcepcionesNull {
         String texto = "Taboleiro non inicializado.";

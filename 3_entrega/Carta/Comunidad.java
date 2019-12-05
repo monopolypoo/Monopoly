@@ -44,6 +44,7 @@ public final class Comunidad extends Carta {
         taboleiro.getCasillaPosicion(10).setAvatar(jugador.getAvatar());
         jugador.sumarVecesCarcel();
         taboleiro.setContadorVueltas(0);
+        super.anhadirTexto("\n" + taboleiro);
     }
 
     private void cartasComunidad_3(Jugador jugador, Taboleiro taboleiro) {
@@ -55,6 +56,7 @@ public final class Comunidad extends Carta {
         taboleiro.getCasillaPosicion(0).setAvatar(jugador.getAvatar());
         jugador.sumarVecesSalida();
         jugador.sumarFortuna(Valor.VUELTA);
+        super.anhadirTexto("\n" + taboleiro);
     }
 
     private void cartasComunidad_4(Jugador jugador) {
@@ -89,6 +91,7 @@ public final class Comunidad extends Carta {
         taboleiro.getCasillaPosicion(pos).eliminarAvatar(jugador.getAvatar().getId());
         taboleiro.getCasillaPosicion(19).setAvatar(jugador.getAvatar());
         jugador.getAvatar().setCasilla(taboleiro.getCasillaPosicion(19));
+        super.anhadirTexto("\n" + taboleiro);
     }
 
     private void cartasComunidad_8(Jugador jugador, Menu menu) throws ExcepcionesDinero {
@@ -132,6 +135,7 @@ public final class Comunidad extends Carta {
         taboleiro.getCasillaPosicion(jugador.getAvatar().getCasilla().getPosicion()).eliminarAvatar(jugador.getAvatar().getId());
         taboleiro.getCasillaPosicion(18).setAvatar(jugador.getAvatar());
         jugador.getAvatar().setCasilla(taboleiro.getCasillaPosicion(18));
+        super.anhadirTexto("\n" + taboleiro);
     }
 
     @Override
