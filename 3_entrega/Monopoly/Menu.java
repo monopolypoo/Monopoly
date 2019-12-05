@@ -35,8 +35,7 @@ public class Menu {
         boolean seguir = true;
         String[] comando, comando2;
 
-        System.out.print("Desea leer los comandos de un archivo (si/no): ");
-        comando2 = leerComando();
+        comando2 = Juego.consola.leer("Desea leer los comandos de un archivo (si/no): ");
 
         //abrir archivo de los comandos
         BufferedReader buffRead = null;
@@ -44,7 +43,7 @@ public class Menu {
         if (comando2[0].toLowerCase().equals("si")) {
             buffRead = abrirArchivo();
             this.esLeerArchivo = true;
-            System.out.println("Si necesita introducir un comando en el medio de la ejecución automática, podrá hacerlo " +
+            Juego.consola.imprimir("Si necesita introducir un comando en el medio de la ejecución automática, podrá hacerlo " +
                     "en cada stop, tecleando 'si', donde le aparecerá la entrada típica por línea de comandos.");
         }
 
@@ -52,16 +51,15 @@ public class Menu {
 
             if (this.esLeerArchivo) {
                 //leer comandos del archivo
-                if (!combinado) {
+                if (!this.combinado) {
                     comando = leerComandoArchivo(buffRead);
                 } else {
-                    comando = leerComando();
-                    combinado = false;
+                    comando = Juego.consola.leer("");
+                    this.combinado = false;
                 }
             } else {
                 //leer comandos por consola
-                System.out.print("$> ");
-                comando = leerComando();
+                comando = Juego.consola.leer("$> ");
             }
 
             switch (comando[0].toLowerCase()) {
@@ -69,9 +67,9 @@ public class Menu {
                     try {
                         this.juego.CrearJugador(comando);
                     } catch (ExcepcionesNull excepcionesNull) {
-                        System.out.println(excepcionesNull.getMessage());
+                        Juego.consola.imprimir(excepcionesNull.getMessage());
                     } catch (ExcepcionesComandos excepcionesComandos){
-                        System.out.println(excepcionesComandos.getMessage());
+                        Juego.consola.imprimir(excepcionesComandos.getMessage());
                     }
                     break;
 
@@ -83,11 +81,11 @@ public class Menu {
                     try {
                         this.juego.Listar(comando);
                     } catch (ExcepcionesNull excepcionNull) {
-                        System.out.println(excepcionNull.getMessage());
+                        Juego.consola.imprimir(excepcionNull.getMessage());
                     } catch (ExcepcionesComandos excepcionesComandos){
-                        System.out.println(excepcionesComandos.getMessage());
+                        Juego.consola.imprimir(excepcionesComandos.getMessage());
                     } catch (ExcepcionesNumericas excepcionesNumericas){
-                        System.out.println(excepcionesNumericas.getMessage());
+                        Juego.consola.imprimir(excepcionesNumericas.getMessage());
                     }
                     break;
 
@@ -95,15 +93,15 @@ public class Menu {
                     try {
                         this.juego.LanzarDados(comando);
                     } catch (ExcepcionesDinero excepcionesDinero) {
-                        System.out.println(excepcionesDinero.getMessage());
+                        Juego.consola.imprimir(excepcionesDinero.getMessage());
                     } catch (ExcepcionesNull excepcionesNull) {
-                        System.out.println(excepcionesNull.getMessage());
+                        Juego.consola.imprimir(excepcionesNull.getMessage());
                     } catch (ExcepcionesJugando excepcionesJugando){
-                        System.out.println(excepcionesJugando.getMessage());
+                        Juego.consola.imprimir(excepcionesJugando.getMessage());
                     } catch (ExcepcionesComandos excepcionesComandos){
-                        System.out.println(excepcionesComandos.getMessage());
+                        Juego.consola.imprimir(excepcionesComandos.getMessage());
                     } catch (ExcepcionesNumericas excepcionesNumericas){
-                        System.out.println(excepcionesNumericas.getMessage());
+                        Juego.consola.imprimir(excepcionesNumericas.getMessage());
                     } catch (ExcepcionesHipotecar excepcionesHipotecar){
                         Juego.consola.imprimir(excepcionesHipotecar.getMessage());
                     } catch (ExcepcionesDuenho excepcionesDuenho){
@@ -115,9 +113,9 @@ public class Menu {
                     try {
                         this.juego.AcabarTurno(comando);
                     } catch (ExcepcionesJugando excepcionesJugando){
-                        System.out.println(excepcionesJugando.getMessage());
+                        Juego.consola.imprimir(excepcionesJugando.getMessage());
                     } catch (ExcepcionesComandos excepcionesComandos){
-                        System.out.println(excepcionesComandos.getMessage());
+                        Juego.consola.imprimir(excepcionesComandos.getMessage());
                     }
                     break;
 
@@ -125,11 +123,11 @@ public class Menu {
                     try {
                         this.getJuego().SalirCarcel(comando);
                     } catch (ExcepcionesDinero excepcionDinero) {
-                        System.out.println(excepcionDinero.getMessage());
+                        Juego.consola.imprimir(excepcionDinero.getMessage());
                     } catch (ExcepcionesJugando excepcionesJugando){
-                        System.out.println(excepcionesJugando.getMessage());
+                        Juego.consola.imprimir(excepcionesJugando.getMessage());
                     } catch (ExcepcionesComandos excepcionesComandos){
-                        System.out.println(excepcionesComandos.getMessage());
+                        Juego.consola.imprimir(excepcionesComandos.getMessage());
                     }
                     break;
 
@@ -137,7 +135,7 @@ public class Menu {
                     try {
                         this.juego.Describir(comando);
                     } catch (ExcepcionesComandos excepcionesComandos){
-                        System.out.println(excepcionesComandos.getMessage());
+                        Juego.consola.imprimir(excepcionesComandos.getMessage());
                     }
                     break;
 
@@ -145,15 +143,15 @@ public class Menu {
                     try {
                         this.juego.ComprarCasilla(comando);
                     } catch (ExcepcionesDinero excepcionesDinero) {
-                        System.out.println(excepcionesDinero.getMessage());
+                        Juego.consola.imprimir(excepcionesDinero.getMessage());
                     } catch (ExcepcionesDuenho excepcionesDuenho) {
-                        System.out.println(excepcionesDuenho.getMessage());
+                        Juego.consola.imprimir(excepcionesDuenho.getMessage());
                     } catch (ExcepcionesHipotecar excepcionesHipotecar) {
-                        System.out.println(excepcionesHipotecar.getMessage());
+                        Juego.consola.imprimir(excepcionesHipotecar.getMessage());
                     } catch (ExcepcionesComandos excepcionesComandos){
-                        System.out.println(excepcionesComandos.getMessage());
+                        Juego.consola.imprimir(excepcionesComandos.getMessage());
                     } catch (ExcepcionesJugando excepcionesJugando){
-                        System.out.println(excepcionesJugando.getMessage());
+                        Juego.consola.imprimir(excepcionesJugando.getMessage());
                     }
                     break;
 
@@ -161,7 +159,7 @@ public class Menu {
                     try {
                         this.juego.Ver(comando);
                     } catch (ExcepcionesComandos excepcionesComandos){
-                        System.out.println(excepcionesComandos.getMessage());
+                        Juego.consola.imprimir(excepcionesComandos.getMessage());
                     }
                     break;
 
@@ -169,15 +167,15 @@ public class Menu {
                     try {
                         this.juego.Edificar(comando);
                     } catch (ExcepcionesEdificios excepcionesEdificios) {
-                        System.out.println(excepcionesEdificios.getMessage());
+                        Juego.consola.imprimir(excepcionesEdificios.getMessage());
                     } catch (ExcepcionesDinero excepcionesDinero) {
-                        System.out.println(excepcionesDinero.getMessage());
+                        Juego.consola.imprimir(excepcionesDinero.getMessage());
                     } catch (ExcepcionesDuenho excepcionesDuenho) {
-                        System.out.println(excepcionesDuenho.getMessage());
+                        Juego.consola.imprimir(excepcionesDuenho.getMessage());
                     } catch (ExcepcionesJugando excepcionesJugando){
-                        System.out.println(excepcionesJugando.getMessage());
+                        Juego.consola.imprimir(excepcionesJugando.getMessage());
                     } catch (ExcepcionesNumericas excepcionesNumericas){
-                        System.out.println(excepcionesNumericas.getMessage());
+                        Juego.consola.imprimir(excepcionesNumericas.getMessage());
                     }
                     break;
 
@@ -185,15 +183,15 @@ public class Menu {
                     try {
                         this.juego.HipotecarCasilla(comando);
                     } catch (ExcepcionesEdificios excepcionesEdificios) {
-                        System.out.println(excepcionesEdificios.getMessage());
+                        Juego.consola.imprimir(excepcionesEdificios.getMessage());
                     } catch (ExcepcionesHipotecar excepcionesHipotecar) {
-                        System.out.println(excepcionesHipotecar.getMessage());
+                        Juego.consola.imprimir(excepcionesHipotecar.getMessage());
                     } catch (ExcepcionesDuenho excepcionesDuenho) {
-                        System.out.println(excepcionesDuenho.getMessage());
+                        Juego.consola.imprimir(excepcionesDuenho.getMessage());
                     } catch (ExcepcionesJugando excepcionesJugando){
-                        System.out.println(excepcionesJugando.getMessage());
+                        Juego.consola.imprimir(excepcionesJugando.getMessage());
                     } catch (ExcepcionesComandos excepcionesComandos){
-                        System.out.println(excepcionesComandos.getMessage());
+                        Juego.consola.imprimir(excepcionesComandos.getMessage());
                     }
                     break;
 
@@ -201,17 +199,17 @@ public class Menu {
                     try {
                         this.juego.DeshipotecarCasilla(comando);
                     } catch (ExcepcionesDinero excepcionesDinero) {
-                        System.out.println(excepcionesDinero.getMessage());
+                        Juego.consola.imprimir(excepcionesDinero.getMessage());
                     } catch (ExcepcionesHipotecar excepcionesHipotecar) {
-                        System.out.println(excepcionesHipotecar.getMessage());
+                        Juego.consola.imprimir(excepcionesHipotecar.getMessage());
                     } catch (ExcepcionesDuenho excepcionesDuenho) {
-                        System.out.println(excepcionesDuenho.getMessage());
+                        Juego.consola.imprimir(excepcionesDuenho.getMessage());
                     } catch (ExcepcionesDeshipotecar excepcionesDeshipotecar) {
-                        System.out.println(excepcionesDeshipotecar.getMessage());
+                        Juego.consola.imprimir(excepcionesDeshipotecar.getMessage());
                     } catch (ExcepcionesComandos excepcionesComandos){
-                        System.out.println(excepcionesComandos.getMessage());
+                        Juego.consola.imprimir(excepcionesComandos.getMessage());
                     } catch (ExcepcionesJugando excepcionesJugando){
-                        System.out.println(excepcionesJugando.getMessage());
+                        Juego.consola.imprimir(excepcionesJugando.getMessage());
                     }
                     break;
 
@@ -219,17 +217,17 @@ public class Menu {
                     try {
                         this.juego.VenderEdificio(comando);
                     } catch (ExcepcionesEdificios excepcionesEdificios) {
-                        System.out.println(excepcionesEdificios.getMessage());
+                        Juego.consola.imprimir(excepcionesEdificios.getMessage());
                     } catch (ExcepcionesNull excepcionesNull) {
-                        System.out.println(excepcionesNull.getMessage());
+                        Juego.consola.imprimir(excepcionesNull.getMessage());
                     } catch (ExcepcionesDuenho excepcionesDuenho) {
-                        System.out.println(excepcionesDuenho.getMessage());
+                        Juego.consola.imprimir(excepcionesDuenho.getMessage());
                     } catch (ExcepcionesComandos excepcionesComandos){
-                        System.out.println(excepcionesComandos.getMessage());
+                        Juego.consola.imprimir(excepcionesComandos.getMessage());
                     } catch (ExcepcionesJugando excepcionesJugando){
-                        System.out.println(excepcionesJugando.getMessage());
+                        Juego.consola.imprimir(excepcionesJugando.getMessage());
                     } catch (ExcepcionesNumericas excepcionesNumericas){
-                        System.out.println(excepcionesNumericas.getMessage());
+                        Juego.consola.imprimir(excepcionesNumericas.getMessage());
                     }
                     break;
 
@@ -237,11 +235,11 @@ public class Menu {
                     try {
                         this.juego.Estadisticas(comando);
                     } catch (ExcepcionesComandos excepcionesComandos){
-                        System.out.println(excepcionesComandos.getMessage());
+                        Juego.consola.imprimir(excepcionesComandos.getMessage());
                     } catch (ExcepcionesNull excepcionesNull) {
-                        System.out.println(excepcionesNull.getMessage());
+                        Juego.consola.imprimir(excepcionesNull.getMessage());
                     } catch (ExcepcionesNumericas excepcionesNumericas){
-                        System.out.println(excepcionesNumericas.getMessage());
+                        Juego.consola.imprimir(excepcionesNumericas.getMessage());
                     }
                     break;
 
@@ -249,7 +247,7 @@ public class Menu {
                     try {
                         this.juego.CambiarModo(comando);
                     } catch (ExcepcionesComandos excepcionesComandos){
-                        System.out.println(excepcionesComandos.getMessage());
+                        Juego.consola.imprimir(excepcionesComandos.getMessage());
                     }
                     break;
 
@@ -257,12 +255,12 @@ public class Menu {
                     try {
                         this.juego.Mover(comando);
                     } catch (ExcepcionesNumericas excepcionesNumericas){
-                        System.out.println(excepcionesNumericas.getMessage());
+                        Juego.consola.imprimir(excepcionesNumericas.getMessage());
                     }
                     break;
 
                 case "abandonar":
-                    System.out.println("Abandonando partida...");
+                    Juego.consola.imprimir("Abandonando partida...");
                     seguir = false;
                     break;
 
@@ -271,7 +269,7 @@ public class Menu {
                     break;
 
                 default:
-                    System.out.println("Comando incorrecto. Para ver los comandos disponibles escriba: Ver Interfaces.Comandos");
+                    Juego.consola.imprimir("Comando incorrecto. Para ver los comandos disponibles escriba: Ver Comandos");
             }
         }
 
@@ -293,13 +291,6 @@ public class Menu {
         this.poderComprar = poderComprar;
     }
 
-    public String[] leerComando() {
-        String comando;
-        Scanner teclado = new Scanner(System.in);
-        comando = teclado.nextLine();
-        return comando.split(" ");
-    }
-
     public BufferedReader abrirArchivo() {
         BufferedReader buffRead = null;
         try {
@@ -307,7 +298,7 @@ public class Menu {
             FileReader fileRead = new FileReader(directorio + "comandos.txt");
             buffRead = new BufferedReader(fileRead);
         } catch (FileNotFoundException notFound) {
-            System.out.print(notFound.getMessage());
+            Juego.consola.imprimir(notFound.getMessage());
             System.exit(0);
         }
         return buffRead;
@@ -319,16 +310,15 @@ public class Menu {
         try {
             comandoEntero = buffRead.readLine();
         } catch (IOException io) {
-            System.out.println(io.getMessage());
+            Juego.consola.imprimir(io.getMessage());
         }
         if (comandoEntero != null) {
-            System.out.println("$> " + comandoEntero);
+            Juego.consola.imprimir("$> " + comandoEntero);
             comando = comandoEntero.split(" ");
         } else {
-            System.out.println("ERROR leyendo el archivo. Se acabó de leer el archivo, introduce tus comandos.");
+            Juego.consola.imprimir("ERROR leyendo el archivo. Se acabó de leer el archivo, introduce tus comandos.");
             this.esLeerArchivo = false;
-            System.out.print("$> ");
-            comando = leerComando();
+            comando = Juego.consola.leer("$> ");
         }
         return comando;
     }
@@ -378,7 +368,7 @@ public class Menu {
         this.jugadorActual = this.jugadorTurnoSiguiente;
         this.jugadorTurnoSiguiente = getJugadorTurnoSiguiente(this.jugadorActual);
         if (this.jugadorTurnoSiguiente == null) {
-            System.err.println("ERROR al calcular el jugador siguinte.");
+            Juego.consola.imprimir("ERROR al calcular el jugador siguinte.");
         }
     }
 
