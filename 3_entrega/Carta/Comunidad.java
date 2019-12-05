@@ -11,11 +11,9 @@ import Monopoly.*;
 import java.util.ArrayList;
 
 public final class Comunidad extends Carta {
-    private Consola consola;
 
     public Comunidad() {
         super();
-        this.consola = new ConsolaNormal();
     }
 
 
@@ -176,14 +174,14 @@ public final class Comunidad extends Carta {
                         cartasComunidad_10(jugador, taboleiro, menu);
                         break;
                     default:
-                        this.consola.imprimir("Error al escoger la carta!");
+                        Juego.consola.imprimir("Error al escoger la carta!");
                         break;
                 }
             } else {
-                this.consola.imprimir("Error al escoger la carta!");
+                Juego.consola.imprimir("Error al escoger la carta!");
             }
         } else {
-            this.consola.imprimir("El jugador, el tablero o el menú no se encuentran inicializados!");
+            Juego.consola.imprimir("El jugador, el tablero o el menú no se encuentran inicializados!");
         }
     }
 

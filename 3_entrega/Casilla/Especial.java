@@ -5,11 +5,9 @@ import Monopoly.*;
 
 public final class Especial extends Casilla {
     private double valor;
-    private Consola consola;
 
     public Especial(String nombre, int posicion) {
         super(nombre, posicion);
-        this.consola = new ConsolaNormal();
         switch (posicion) {
             case 10:
                 this.valor = Valor.SALIR_CARCEL;
@@ -28,7 +26,7 @@ public final class Especial extends Casilla {
                 this.valor = Valor.VUELTA;
                 break;
             default:
-                consola.imprimir("ERROR creando la casilla especial.");
+                Juego.consola.imprimir("ERROR creando la casilla especial.");
                 break;
         }
     }
@@ -41,7 +39,7 @@ public final class Especial extends Casilla {
         if ((precio > 0) && (super.getPosicion() == 20)) {
             this.valor += precio;
         } else {
-            consola.imprimir("ERROR, el valor de esta casilla no se puede incrementar.");
+            Juego.consola.imprimir("ERROR, el valor de esta casilla no se puede incrementar.");
         }
     }
 

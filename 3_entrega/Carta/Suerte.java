@@ -13,11 +13,9 @@ import Monopoly.*;
 import java.util.ArrayList;
 
 public final class Suerte extends Carta {
-    private Consola consola;
 
     public Suerte() {
         super();
-        this.consola = new ConsolaNormal();
     }
 
     /***********************************************************************************************
@@ -317,11 +315,11 @@ public final class Suerte extends Carta {
                         break;
                      */
                     default:
-                        this.consola.imprimir("Error al escoger la carta!");
+                        Juego.consola.imprimir("Error al escoger la carta!");
                         break;
                 }
             } else {
-                this.consola.imprimir("Error al escoger la carta!");
+                Juego.consola.imprimir("Error al escoger la carta!");
             }
         } else throw new ExcepcionesNull("El jugador, el tablero o el menú no se encuentran inicializados!");
     }

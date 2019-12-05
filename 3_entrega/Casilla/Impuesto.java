@@ -5,17 +5,15 @@ import Monopoly.*;
 
 public final class Impuesto extends Casilla {
     private double valor;
-    private Consola consola;
 
     public Impuesto(String nombre, int posicion, String colorGrupo) {
         super(nombre, posicion, colorGrupo);
-        this.consola = new ConsolaNormal();
         if (posicion == 4)
             this.valor = Valor.VUELTA;
         else if (posicion == 38)
             this.valor = Valor.VUELTA / 2.0;
         else
-            consola.imprimir("ERROR creando la casilla de impuesto.");
+            Juego.consola.imprimir("ERROR creando la casilla de impuesto.");
     }
 
     public double getImpuesto() {

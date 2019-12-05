@@ -1,6 +1,7 @@
 package Monopoly;
 
 import Casilla.*;
+import Consola.*;
 import Edificio.*;
 import ExcepcionesNull.*;
 import ExcepcionesNumericas.*;
@@ -20,6 +21,7 @@ public class Juego implements Comandos {
     private HashMap<String, Avatar> avatares;
     private ArrayList<Grupo> grupos;
     private Menu menu;
+    public static Consola consola;
 
     public Juego(Menu menu) {
         this.dado = new Dado();
@@ -28,6 +30,7 @@ public class Juego implements Comandos {
         this.avatares = new HashMap<>();
         this.grupos = new ArrayList<>();
         this.menu = menu;
+        consola = new ConsolaNormal();
     }
 
     public Dado getDado() {
