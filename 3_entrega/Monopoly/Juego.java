@@ -70,7 +70,7 @@ public class Juego implements Comandos {
 
     public void listarJugadores() {
         for (Jugador jug : this.jugadores) {
-            System.out.println(jug.toString());
+            Juego.consola.imprimir(jug.toString());
         }
     }
 
@@ -78,7 +78,7 @@ public class Juego implements Comandos {
         Iterator<Avatar> ava_i = this.avatares.values().iterator();
         while (ava_i.hasNext()) {
             Avatar ava = ava_i.next();
-            System.out.println(ava.toString());
+            Juego.consola.imprimir(ava.toString());
         }
     }
 
@@ -113,7 +113,7 @@ public class Juego implements Comandos {
                 }
             }
         } else throw new ExcepcionesNull("Tablero no inicializado.");
-        System.out.println(texto);
+        Juego.consola.imprimir(texto);
     }
 
     public ArrayList<Grupo> getGrupos() {
@@ -184,7 +184,7 @@ public class Juego implements Comandos {
                     "\n}";
         } else throw new ExcepcionesNull("Tablero no inicializado.");
 
-        System.out.println(texto);
+        Juego.consola.imprimir(texto);
     }
 
     public void estadisticas_jugador(Jugador jugador) throws ExcepcionesNull {
@@ -201,7 +201,7 @@ public class Juego implements Comandos {
                         "\n}";
             }
         } else throw new ExcepcionesNull("Jugador no inicializado.");
-        System.out.println(texto);
+        Juego.consola.imprimir(texto);
     }
 
     public String casillaFrecuentada(Taboleiro taboleiro) throws ExcepcionesNull, ExcepcionesNumericas {
@@ -222,7 +222,7 @@ public class Juego implements Comandos {
                             } else if (veces == Integer.parseInt(datos[1])) {
                                 texto += casilla.getNombreSinEspacio();
                             }
-                        } catch (NumberFormatException exc){
+                        } catch (NumberFormatException exc) {
                             throw new ExcepcionesNumericas("Error pasando el string a entero.");
                         }
                     }
@@ -322,11 +322,11 @@ public class Juego implements Comandos {
                 "\t\tEstadisticas jugador ──> Se muestran las estadísticas del jugador introducido.\n" +
                 "\t\tCambiar modo ──> Se cambia el modo del que se lanzan los dados según el tipo de jugador que sea.\n" +
                 "}";
-        System.out.println(comandos);
+        Juego.consola.imprimir(comandos);
     }
 
     public void describirGrupo(int parseInt) {
-        System.out.println(this.grupos.get(parseInt));
+        Juego.consola.imprimir("" + this.grupos.get(parseInt));
     }
 
     public void CrearJugador(String[] comando) throws ExcepcionesNull, ExcepcionesComandos {
@@ -336,7 +336,7 @@ public class Juego implements Comandos {
                     if (!this.menu.isPartidaEmpezada()) {
                         Jugador jugador = new Jugador(comando[2], comando[3], this.menu.getJuego().getJugadores(), this.getTaboleiro().getCasillaPosicion(0));
                         this.getTaboleiro().getCasillaPosicion(0).setAvatar(jugador.getAvatar());
-                        System.out.println(jugador);
+                        Juego.consola.imprimir(jugador.toString());
                         this.anhadeJugador(jugador);
                         this.menu.setJugadorActual(this.menu.getJuego().getJugadores().get(0));
                         this.menu.setSigueTurno(true);
@@ -357,7 +357,7 @@ public class Juego implements Comandos {
     }
 
     public void Jugador() {
-        System.out.println(this.menu.getJugadorActual());
+        Juego.consola.imprimir(this.menu.getJugadorActual().toString());
     }
 
     public void Listar(String[] comando) throws ExcepcionesNull, ExcepcionesComandos, ExcepcionesNumericas {
@@ -388,7 +388,7 @@ public class Juego implements Comandos {
                         this.describirGrupo(Integer.parseInt(comando[2]));
                     } else
                         throw new ExcepcionesNumericas("Número incorrecto, tiene que ser mayor o igual a 0 y menos que 9.");
-                } catch (NumberFormatException excepcion){
+                } catch (NumberFormatException excepcion) {
                     throw new ExcepcionesNumericas("Error pasando el comando a entero.");
                 }
             } else
@@ -424,11 +424,11 @@ public class Juego implements Comandos {
                     this.menu.calcularJugadores();
                     this.menu.setDadosLanzados(false);
                     this.menu.setSigueTurno(true);
-                    if (this.menu.getJugadorActual().getAvatar().isModoAvanzado()) {
-                        System.out.println("El jugador actual es " + this.menu.getJugadorActual().getNombre() + " y está en modo avanzado de " + this.menu.getJugadorActual().getAvatar().getTipo() + ".");
-                    } else {
-                        System.out.println("El jugador actual es " + this.menu.getJugadorActual().getNombre() + " y está en modo normal.");
-                    }
+                    if (this.menu.getJugadorActual().getAvatar().isModoAvanzado())
+                        Juego.consola.imprimir("El jugador actual es " + this.menu.getJugadorActual().getNombre() + " y está en modo avanzado de " +
+                                this.menu.getJugadorActual().getAvatar().getTipo() + ".");
+                    else
+                        Juego.consola.imprimir("El jugador actual es " + this.menu.getJugadorActual().getNombre() + " y está en modo normal.");
 
                     if (this.menu.getJugadorActual().getEstarCarcere())
                         throw new ExcepcionesJugando("Estás en la cárcel, por lo que debes tirar los dados para obtener dobles.");
@@ -448,7 +448,7 @@ public class Juego implements Comandos {
                     this.menu.getJugadorActual().setContadorEstarCarcere(0);
                     this.menu.setSigueTurno(true);
                     this.menu.setDadosLanzados(false);
-                    System.out.println("Acabas de pagar " + Valor.SALIR_CARCEL + " para salir de la cárcel.");
+                    Juego.consola.imprimir("Acabas de pagar " + Valor.SALIR_CARCEL + " para salir de la cárcel.");
 
                 } else throw new ExcepcionesJugando("No puedes salir de la cárcel porque ya no estás en ella.");
             } else
@@ -461,20 +461,20 @@ public class Juego implements Comandos {
         if (comando.length == 3) {
             if (comando[1].equals("jugador")) {
                 Jugador jug = this.estaJugadorNombre(comando[2]);
-                if (jug != null) {
-                    System.out.println(jug);
-                } else
+                if (jug != null)
+                    Juego.consola.imprimir(jug.toString());
+                else
                     throw new ExcepcionesComandos("Comando incorrecto. Jugador no encontrado. Para ver los comandos disponibles escriba: Ver Comandos");
             } else if (comando[1].equals("avatar")) {
-                if (this.getAvatares().containsKey(comando[2])) {
-                    System.out.println(this.getAvatares().get(comando[2]));
-                } else
+                if (this.getAvatares().containsKey(comando[2]))
+                    Juego.consola.imprimir(this.getAvatares().get(comando[2]).toString());
+                else
                     throw new ExcepcionesComandos("Comando incorrecto. Avatar no encontrado. Para ver los comandos disponibles escriba: Ver Interfaces.Comandos");
             } else
                 throw new ExcepcionesComandos("Comando incorrecto. Para ver los comandos disponibles escriba: Ver Comandos");
         } else if (comando.length == 2) {
             if (this.getTaboleiro().getCasillas().containsKey(comando[1]))
-                System.out.println(this.getTaboleiro().getCasillas().get(comando[1]));
+                Juego.consola.imprimir(this.getTaboleiro().getCasillas().get(comando[1]).toString());
             else
                 throw new ExcepcionesComandos("Comando incorrecto. El nombre de una casilla debe introducirse tal y como aparece en el tablero pero SIN espacios." +
                         " \nPara ver todos los comandos disponibles escriba: Ver Comandos");
@@ -522,7 +522,7 @@ public class Juego implements Comandos {
     public void Ver(String[] comando) throws ExcepcionesComandos {
         if (comando.length == 2) {
             if (comando[1].equals("tablero"))
-                System.out.println(this.getTaboleiro());
+                Juego.consola.imprimir(this.getTaboleiro().toString());
             else if (comando[1].toLowerCase().equals("comandos")) {
                 this.listarComandos();
             } else
@@ -597,7 +597,7 @@ public class Juego implements Comandos {
             int numero = 0;
             try {
                 numero = Integer.parseInt(comando[3]);
-            } catch (NumberFormatException exc){
+            } catch (NumberFormatException exc) {
                 throw new ExcepcionesNumericas("Error pasando el string a entero.");
             }
             if (this.getTaboleiro().getCasillas().get(comando[2]) instanceof Solar) {
@@ -632,15 +632,18 @@ public class Juego implements Comandos {
                     if (this.menu.getJugadorActual().getAvatar() instanceof Coche) {
                         ((Coche) this.menu.getJugadorActual().getAvatar()).setCompraCoche(false);
                     }
-                    System.out.println("El avatar " + this.menu.getJugadorActual().getAvatar().getId() + " ahora está en modo AVANZADO de " + this.menu.getJugadorActual().getAvatar().getTipo() + ".");
+                    Juego.consola.imprimir("El avatar " + this.menu.getJugadorActual().getAvatar().getId() + " ahora está en modo AVANZADO de " +
+                            this.menu.getJugadorActual().getAvatar().getTipo() + ".");
                 } else {
                     this.menu.getJugadorActual().getAvatar().setModoAvanzado(false);
-                    System.out.println("El avatar " + this.menu.getJugadorActual().getAvatar().getId() + " ahora está en modo NORMAL de " + this.menu.getJugadorActual().getAvatar().getTipo() + ".");
-
+                    Juego.consola.imprimir("El avatar " + this.menu.getJugadorActual().getAvatar().getId() + " ahora está en modo NORMAL de " +
+                            this.menu.getJugadorActual().getAvatar().getTipo() + ".");
                 }
 
-            } else throw new ExcepcionesComandos("Comando incorrecto. Para ver los comandos disponibles escriba: Ver Comandos");
-        } else throw new ExcepcionesComandos("Comando incorrecto. Para ver los comandos disponibles escriba: Ver Comandos");
+            } else
+                throw new ExcepcionesComandos("Comando incorrecto. Para ver los comandos disponibles escriba: Ver Comandos");
+        } else
+            throw new ExcepcionesComandos("Comando incorrecto. Para ver los comandos disponibles escriba: Ver Comandos");
     }
 
     public void Mover(String[] comando) throws ExcepcionesNumericas {
@@ -649,18 +652,18 @@ public class Juego implements Comandos {
                 this.getTaboleiro().getCasillaPosicion(this.menu.getJugadorActual().getAvatar().getCasilla().getPosicion()).eliminarAvatar(this.menu.getJugadorActual().getAvatar().getId());
                 this.menu.getJugadorActual().getAvatar().setCasilla(this.getTaboleiro().getCasillaPosicion(Integer.parseInt(comando[1])));
                 this.getTaboleiro().getCasillaPosicion(Integer.parseInt(comando[1])).setAvatar(this.menu.getJugadorActual().getAvatar());
-                System.out.println(this.getTaboleiro());
-            } catch (NumberFormatException exc){
+                Juego.consola.imprimir(this.getTaboleiro().toString());
+            } catch (NumberFormatException exc) {
                 throw new ExcepcionesNumericas("Error pasando el string a entero.");
             }
         }
     }
 
-    public void Stop(){
-        String[] comando2 = this.menu.leerComando();
+    public void Stop() {
+        String[] comando2 = Juego.consola.leer("");
         if (comando2[0].toLowerCase().equals("si")) {
             this.menu.setCombinado(true);
-            System.out.print("$> ");
+            Juego.consola.imprimir("$> ");
         }
     }
 }
