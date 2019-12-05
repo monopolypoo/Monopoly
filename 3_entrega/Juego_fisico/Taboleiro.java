@@ -438,7 +438,7 @@ public class Taboleiro {
                 }
             }
         }
-        System.out.println(texto);
+        Juego.consola.imprimir(texto);
     }
 
     public boolean sePuedeComprar(Casilla casilla) {

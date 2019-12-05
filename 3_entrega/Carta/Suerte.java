@@ -228,19 +228,18 @@ public final class Suerte extends Carta {
         }
         if (jugador.getAvatar().getCasilla().getDuenho() == null) {
             String[] respuesta;
-            System.out.print("Esta casilla no tiene dueño, desea comprarla (si/no)?: ");
-            respuesta = menu.leerComando();
+            respuesta = Juego.consola.leer("Esta casilla no tiene dueño, desea comprarla (si/no)?: ");
             if (respuesta[0].toLowerCase().equals("si")) {
                 jugador.comprarCasilla(jugador.getAvatar().getCasilla(), taboleiro);
             } else {
-                System.out.println("De acuerdo, no se comprará.");
+                Juego.consola.imprimir("De acuerdo, no se comprará.");
             }
         } else {
             if (!jugador.getAvatar().getCasilla().getDuenho().getAvatar().getId().equals(jugador.getAvatar().getId())) {
-                System.out.println("Por elegir esta carta de suerte y caer en una casilla que ya tiene dueño, debes pagar el doble del alquiler.");
+                Juego.consola.imprimir("Por elegir esta carta de suerte y caer en una casilla que ya tiene dueño, debes pagar el doble del alquiler.");
                 jugador.pagarAlquiler(jugador.getAvatar().getCasilla(), 0, taboleiro, 2);
             } else {
-                System.out.println("Has caído en una casilla que ya es tuya, por lo que no ocurre nada.");
+                Juego.consola.imprimir("Has caído en una casilla que ya es tuya, por lo que no ocurre nada.");
             }
         }
     }

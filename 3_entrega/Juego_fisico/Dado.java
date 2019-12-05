@@ -4,6 +4,8 @@ import Casilla.*;
 import ExcepcionesNull.ExcepcionesNull;
 import ExcepcionesNumericas.ExcepcionesNumericas;
 import ExcepcionesPartida.ExcepcionesDinero;
+import ExcepcionesPartida.ExcepcionesDuenho;
+import ExcepcionesPartida.ExcepcionesHipotecar;
 import Jugador.*;
 import Monopoly.*;
 
@@ -96,7 +98,7 @@ public class Dado {
         return this.dado1 + this.dado2;
     }
 
-    public void lanzarDados(Jugador jugador, Taboleiro taboleiro, Menu menu) throws InterruptedException, ExcepcionesDinero, ExcepcionesNull, ExcepcionesNumericas {
+    public void lanzarDados(Jugador jugador, Taboleiro taboleiro, Menu menu) throws InterruptedException, ExcepcionesDinero, ExcepcionesNull, ExcepcionesNumericas, ExcepcionesHipotecar, ExcepcionesDuenho {
 
         this.dadoTotal = lanzarLosDados();
         jugador.sumarVecesdados();
@@ -149,7 +151,7 @@ public class Dado {
         return texto;
     }
 
-    public void lanzarDadosAux(Menu menu) throws InterruptedException, ExcepcionesDinero, ExcepcionesNull, ExcepcionesNumericas {
+    public void lanzarDadosAux(Menu menu) throws InterruptedException, ExcepcionesDinero, ExcepcionesNull, ExcepcionesNumericas, ExcepcionesHipotecar, ExcepcionesDuenho {
         String texto = "";
         if (!((menu.getJugadorActual().getAvatar() instanceof Coche) && (((Coche) menu.getJugadorActual().getAvatar()).getPenalizacion() <= 2))) {
             if (!menu.getJugadorActual().getEstarCarcere()) {
@@ -176,16 +178,16 @@ public class Dado {
                     texto = "Sacastes tres dobles seguidos, por lo que tienes que ir a la cárcel!";
                     menu.getJuego().getTaboleiro().getCasillaPosicion(menu.getJugadorActual().getAvatar().getCasilla().getPosicion()).eliminarAvatar(menu.getJugadorActual().getAvatar().getId());
                     menu.getJuego().getTaboleiro().getCasillaPosicion(10).setAvatar(menu.getJugadorActual().getAvatar());
-                    //System.out.println(this.taboleiro);
+                    //Juego.consola.imprimir(this.taboleiro.toString());
                     if (!(menu.getJugadorActual().getAvatar().getCasilla() instanceof AccionCajaComunidad) &&
                             !(menu.getJugadorActual().getAvatar().getCasilla() instanceof AccionSuerte))
-                        System.out.println(menu.getJuego().getDado().textoLanzarDados(menu.getJuego().getTaboleiro(), menu.getJugadorActual(), menu) + texto);
+                        Juego.consola.imprimir(menu.getJuego().getDado().textoLanzarDados(menu.getJuego().getTaboleiro(), menu.getJugadorActual(), menu) + texto);
                 } else {
                     if ((!menu.getJugadorActual().getAvatar().isModoAvanzado()) || (menu.getJugadorActual().getAvatar().isModoAvanzado() && (menu.getJugadorActual().getAvatar() instanceof Coche))) {
-                        //System.out.println(taboleiro);
+                        //Juego.consola.imprimir(taboleiro.toString());
                         if (!(menu.getJugadorActual().getAvatar().getCasilla() instanceof AccionCajaComunidad) &&
                                 !(menu.getJugadorActual().getAvatar().getCasilla() instanceof AccionSuerte))
-                            System.out.println(menu.getJuego().getDado().textoLanzarDados(menu.getJuego().getTaboleiro(), menu.getJugadorActual(), menu) + texto);
+                            Juego.consola.imprimir(menu.getJuego().getDado().textoLanzarDados(menu.getJuego().getTaboleiro(), menu.getJugadorActual(), menu) + texto);
                         menu.getJugadorActual().pagarAlquiler(menu.getJugadorActual().getAvatar().getCasilla(), menu.getJuego().getDado().getDadoTotal());
                         menu.getJugadorActual().pagarImpuestos(menu.getJugadorActual().getAvatar().getCasilla(), menu.getJuego().getTaboleiro());
                         menu.getJugadorActual().cobrarParking(menu.getJugadorActual().getAvatar().getCasilla());
@@ -195,20 +197,20 @@ public class Dado {
                 menu.getJuego().getDado().lanzarLosDados();
                 if (menu.getJuego().getDado().getIguales()) {
                     menu.getJugadorActual().setContadorEstarCarcere(0);
-                    System.out.println("Sacastes dobles, puedes salír de la cárcel. Lanza los dados para continuar.");
+                    Juego.consola.imprimir("Sacastes dobles, puedes salír de la cárcel. Lanza los dados para continuar.");
                     menu.setDadosLanzados(false);
                     menu.setSigueTurno(true);
                 } else {
                     menu.getJugadorActual().setContadorEstarCarcere(1);
-                    System.out.println("No sacastes dobles, llevas " + menu.getJugadorActual().getContadorEstarCarcere() + " intentos.");
+                    Juego.consola.imprimir("No sacastes dobles, llevas " + menu.getJugadorActual().getContadorEstarCarcere() + " intentos.");
                     menu.setDadosLanzados(true);
                     menu.setSigueTurno(false);
                     if (menu.getJugadorActual().getContadorEstarCarcere() >= 3) {
-                        System.out.println("Ya llevas 3 intentos, por lo que debes pagar para salír.");
+                        Juego.consola.imprimir("Ya llevas 3 intentos, por lo que debes pagar para salír.");
                         menu.getJugadorActual().restarFortuna(Valor.SALIR_CARCEL);
                         ((Especial) menu.getJuego().getTaboleiro().getCasillaPosicion(20)).sumarBote(Valor.SALIR_CARCEL);
                         menu.getJugadorActual().setContadorEstarCarcere(0);
-                        System.out.println("Pago efectuado. Ya podrás tirar en el seguiente turno.");
+                        Juego.consola.imprimir("Pago efectuado. Ya podrás tirar en el seguiente turno.");
                     }
                 }
             }
@@ -227,7 +229,7 @@ public class Dado {
                 }
             }
         } else {
-            System.out.println("Estás penalizado, debes acabar turno y pasarle el turno al siguiente jugador.");
+            Juego.consola.imprimir("Estás penalizado, debes acabar turno y pasarle el turno al siguiente jugador.");
             menu.setDadosLanzados(true);
             menu.setSigueTurno(false);
         }

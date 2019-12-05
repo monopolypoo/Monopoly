@@ -12,7 +12,7 @@ public interface Comandos {
 
     public void Listar(String[] comandos) throws ExcepcionesNull, ExcepcionesComandos, ExcepcionesNumericas;
 
-    public void LanzarDados(String[] comando) throws InterruptedException, ExcepcionesDinero, ExcepcionesNull, ExcepcionesJugando, ExcepcionesComandos, ExcepcionesNumericas;
+    public void LanzarDados(String[] comando) throws InterruptedException, ExcepcionesDinero, ExcepcionesNull, ExcepcionesJugando, ExcepcionesComandos, ExcepcionesNumericas, ExcepcionesHipotecar, ExcepcionesDuenho;
 
     public void AcabarTurno(String[] comando) throws ExcepcionesJugando, ExcepcionesComandos;
 

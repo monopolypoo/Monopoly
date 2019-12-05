@@ -102,7 +102,7 @@ public abstract class Avatar {
         this.id = idAux;
     }
 
-    public void mover(Taboleiro taboleiro, Menu menu) throws ExcepcionesDinero, ExcepcionesNull, ExcepcionesNumericas {
+    public void mover(Taboleiro taboleiro, Menu menu) throws ExcepcionesDinero, ExcepcionesNull, ExcepcionesNumericas, ExcepcionesHipotecar, ExcepcionesDuenho {
         int posActual, posSiguiente;
         this.jugador.sumarVecesdados();
 
@@ -110,13 +110,7 @@ public abstract class Avatar {
         taboleiro.getCasillaPosicion(posActual).eliminarAvatar(this.jugador.getAvatar().getId());
 
         if (this.modoAvanzado)
-            try {
-                this.moverEnAvanzado(taboleiro, menu, menu.getJuego().getDado());
-            } catch (ExcepcionesHipotecar excepcionesHipotecar){
-                System.out.println(excepcionesHipotecar.getMessage());
-            } catch (ExcepcionesDuenho excepcionesDuenho){
-                System.out.println(excepcionesDuenho.getMessage());
-            }
+            this.moverEnAvanzado(taboleiro, menu, menu.getJuego().getDado());
         else {
             posSiguiente = posActual + menu.getJuego().getDado().getDadoTotal();
             this.moverEnBasico(taboleiro, menu, posSiguiente);
@@ -143,7 +137,7 @@ public abstract class Avatar {
             taboleiro.getCasillaPosicion(10).setAvatar(jugador.getAvatar());
             this.jugador.sumarVecesCarcel();
             taboleiro.setContadorVueltas(0);
-            System.out.println(taboleiro + texto);
+            Juego.consola.imprimir(taboleiro.toString() + texto);
         } else {
             posSiguiente = posSiguiente % 40;
             casillaSiguiente = taboleiro.getCasillaPosicion(posSiguiente);
@@ -153,27 +147,25 @@ public abstract class Avatar {
                 taboleiro.getCasillaPosicion(posSiguiente).setVecesCasilla(this.jugador);
             }
 
-            System.out.println(taboleiro + texto);
+            Juego.consola.imprimir(taboleiro.toString() + texto);
 
             try {
                 if (casillaSiguiente instanceof AccionSuerte) {
                     menu.getJuego().getDado().setPosSiguiente(posSiguiente);
-                    System.out.print(texto + menu.getJuego().getDado().textoLanzarDados(taboleiro, this.jugador, menu) + "\n" +
+                    leer = Juego.consola.leer(texto + menu.getJuego().getDado().textoLanzarDados(taboleiro, this.jugador, menu) + "\n" +
                             jugador.getNombre() + ", elige una carta de suerte (1-13): ");
-                    leer = menu.leerComando();                /*** Aquí va una excepción ****/
                     escogida = Integer.parseInt(leer[0]);
                     ((AccionSuerte) casillaSiguiente).getCarta().accion(this.jugador, taboleiro, menu, escogida);
-                    System.out.println("Acción: " + ((AccionSuerte) taboleiro.getCasillaPosicion(posSiguiente)).getCarta().getTexto());
+                    Juego.consola.imprimir("Acción: " + ((AccionSuerte) taboleiro.getCasillaPosicion(posSiguiente)).getCarta().getTexto());
                 } else if (casillaSiguiente instanceof AccionCajaComunidad) {
                     menu.getJuego().getDado().setPosSiguiente(posSiguiente);
-                    System.out.print(texto + menu.getJuego().getDado().textoLanzarDados(taboleiro, this.jugador, menu) + "\n" +
+                    leer = Juego.consola.leer(texto + menu.getJuego().getDado().textoLanzarDados(taboleiro, this.jugador, menu) + "\n" +
                             jugador.getNombre() + ", elige una carta de caja de comunidad (1-10): ");
-                    leer = menu.leerComando();                /*** Aquí va una excepción ****/
                     escogida = Integer.parseInt(leer[0]);
                     ((AccionCajaComunidad) casillaSiguiente).getCarta().accion(this.jugador, taboleiro, menu, escogida);
-                    System.out.println("Acción: " + ((AccionCajaComunidad) taboleiro.getCasillaPosicion(posSiguiente)).getCarta().getTexto());
+                    Juego.consola.imprimir("Acción: " + ((AccionCajaComunidad) taboleiro.getCasillaPosicion(posSiguiente)).getCarta().getTexto());
                 }
-            } catch (NumberFormatException exc){
+            } catch (NumberFormatException exc) {
                 throw new ExcepcionesNumericas("Error pasando el string a entero.");
             }
         }

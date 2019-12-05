@@ -75,7 +75,7 @@ public final class Pelota extends Avatar {
             String casillaAnterior;
             int contador = 0;
             if (menu.getJuego().getDado().getIguales()) {
-                System.out.println("Has sacado dobles, cuando termines con el modo avanzado de pelota, tendrás que volver a tirar los dados.");
+                Juego.consola.imprimir("Has sacado dobles, cuando termines con el modo avanzado de pelota, tendrás que volver a tirar los dados.");
             } else {
                 menu.setContadorDobles(0);
             }
@@ -84,7 +84,7 @@ public final class Pelota extends Avatar {
                     this.seguirPelota = false;
                     this.numeroPelota = 0;
                     this.vecesPelota = 0;
-                    System.out.println(Valor.RESET + "El modo avanzado de pelota ha finalizado.");
+                    Juego.consola.imprimir(Valor.RESET + "El modo avanzado de pelota ha finalizado.");
                 } else if ((contador + 1) == menu.getJuego().getDado().getDadoTotal()) {
                     menu.getJuego().getDado().setPosActual(super.getCasilla().getPosicion());
                     casillaAnterior = super.getCasilla().getNombreSinEspacio();
@@ -95,24 +95,22 @@ public final class Pelota extends Avatar {
                     this.seguirPelota = false;
                     this.numeroPelota = 0;
                     this.vecesPelota = 0;
-                    System.out.println(taboleiro);
-                    System.out.println(Valor.RESET + "En los dados te ha tocado un " + menu.getJuego().getDado().getDadoTotal() + ", y por estar en el modo avanzado de pelota, avanzas 1 posición, desde "
+                    Juego.consola.imprimir(taboleiro.toString());
+                    Juego.consola.imprimir(Valor.RESET + "En los dados te ha tocado un " + menu.getJuego().getDado().getDadoTotal() + ", y por estar en el modo avanzado de pelota, avanzas 1 posición, desde "
                             + casillaAnterior + " hasta " + super.getCasilla().getNombreSinEspacio() + ".");
                     super.getJugador().pagarAlquiler(super.getCasilla(), menu.getJuego().getDado().getDadoTotal());
                     super.getJugador().pagarImpuestos(super.getCasilla(), taboleiro);
                     super.getJugador().cobrarParking(super.getCasilla());
                     if (taboleiro.sePuedeComprar(super.getCasilla()) && (((Propiedad) super.getCasilla()).getDuenho() == null)) {
-                        System.out.print(Valor.RESET + "Estás en la casilla " + super.getCasilla().getNombreSinEspacio() + " y se puede comprar, desea comprarla (si/no)? ");
-                        comando = menu.leerComando();
+                        comando = Juego.consola.leer(Valor.RESET + "Estás en la casilla " + super.getCasilla().getNombreSinEspacio() + " y se puede comprar, desea comprarla (si/no)? ");
                         if (comando[0].toLowerCase().equals("si")) {
                             ((Propiedad) super.getCasilla()).comprarCasilla(super.getJugador(), taboleiro);
-                            System.out.println("Pulse enter para continuar con el modo pelota.");
-                            menu.leerComando();
+                            Juego.consola.leer("Pulse enter para continuar con el modo pelota.");
                         } else {
-                            System.out.println("De acuerdo, no se comprará.");
+                            Juego.consola.imprimir("De acuerdo, no se comprará.");
                         }
                     }
-                    System.out.println(Valor.RESET + "El modo avanzado de pelota ha finalizado.");
+                    Juego.consola.imprimir(Valor.RESET + "El modo avanzado de pelota ha finalizado.");
                 } else {
                     this.numeroPelota = sumarImpar(this.vecesPelota);
                     contador += this.numeroPelota;
@@ -122,8 +120,8 @@ public final class Pelota extends Avatar {
                     taboleiro.getCasillaPosicion(menu.getJuego().getDado().getPosActual()).eliminarAvatar(super.getId());
                     super.moverEnBasico(taboleiro, menu, menu.getJuego().getDado().getPosSiguiente());
                     this.vecesPelota++;
-                    System.out.println(taboleiro);
-                    System.out.println(Valor.RESET + "En los dados te ha tocado un " + menu.getJuego().getDado().getDadoTotal() + ", y por estar en el modo avanzado de pelota, avanzas "
+                    Juego.consola.imprimir(taboleiro.toString());
+                    Juego.consola.imprimir(Valor.RESET + "En los dados te ha tocado un " + menu.getJuego().getDado().getDadoTotal() + ", y por estar en el modo avanzado de pelota, avanzas "
                             + this.numeroPelota + " posiciones, desde " + casillaAnterior + " hasta " + super.getCasilla().getNombreSinEspacio() + ".");
                     super.getJugador().pagarAlquiler(super.getCasilla(), menu.getJuego().getDado().getDadoTotal());
                     super.getJugador().pagarImpuestos(super.getCasilla(), taboleiro);
@@ -133,23 +131,20 @@ public final class Pelota extends Avatar {
                     this.seguirPelota = false;
                     this.numeroPelota = 0;
                     this.vecesPelota = 0;
-                    System.out.println(Valor.RESET + "Caíste en la casilla Ir Cárcel, por lo que ahora estás en la cárcel.");
-                    System.out.println("El modo avanzado de pelota ha finalizado.");
+                    Juego.consola.imprimir(Valor.RESET + "Caíste en la casilla Ir Cárcel, por lo que ahora estás en la cárcel.");
+                    Juego.consola.imprimir("El modo avanzado de pelota ha finalizado.");
                 }
                 if (this.seguirPelota) {
                     if (taboleiro.sePuedeComprar(super.getCasilla()) && (((Propiedad) super.getCasilla()).getDuenho() == null)) {
-                        System.out.print(Valor.RESET + "Estás en la casilla " + super.getCasilla().getNombreSinEspacio() + " y se puede comprar, desea comprarla (si/no)? ");
-                        comando = menu.leerComando();
+                        comando = Juego.consola.leer(Valor.RESET + "Estás en la casilla " + super.getCasilla().getNombreSinEspacio() + " y se puede comprar, desea comprarla (si/no)? ");
                         if (comando[0].toLowerCase().equals("si")) {
                             ((Propiedad) super.getCasilla()).comprarCasilla(super.getJugador(), taboleiro);
-                            System.out.println("Pulse enter para continuar con el modo pelota.");
-                            menu.leerComando();
+                            Juego.consola.leer("Pulse enter para continuar con el modo pelota.");
                         } else {
-                            System.out.println("De acuerdo, no se comprará.");
+                            Juego.consola.imprimir("De acuerdo, no se comprará.");
                         }
                     } else {
-                        System.out.println("Pulse enter para continuar con el modo pelota.");
-                        menu.leerComando();
+                        Juego.consola.leer("Pulse enter para continuar con el modo pelota.");
                     }
                 }
             }
@@ -184,8 +179,8 @@ public final class Pelota extends Avatar {
                 casillaAnterior = super.getCasilla().getNombreSinEspacio();
                 taboleiro.getCasillaPosicion(menu.getJuego().getDado().getPosActual()).eliminarAvatar(super.getId());
                 super.moverEnBasico(menu.getJuego().getTaboleiro(), menu, menu.getJuego().getDado().getPosSiguiente());
-                System.out.println(taboleiro);
-                System.out.println(Valor.RESET + "En los dados te ha tocado un " + menu.getJuego().getDado().getDadoTotal() + ", y por estar en el modo avanzado de pelota, retrocedes "
+                Juego.consola.imprimir(taboleiro.toString());
+                Juego.consola.imprimir(Valor.RESET + "En los dados te ha tocado un " + menu.getJuego().getDado().getDadoTotal() + ", y por estar en el modo avanzado de pelota, retrocedes "
                         + num + " posiciones, desde " + casillaAnterior + " hasta " + super.getCasilla().getNombreSinEspacio() + ".");
             }
         }

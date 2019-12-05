@@ -289,14 +289,14 @@ public class Jugador {
                                 this.sumarPagoAlquileres(deuda);
                                 propiedad.getDuenho().sumarCobroAlquileres(deuda);
                                 propiedad.getDuenho().sumarFortuna(deuda);
-                                System.out.println("Caiste en una casilla de servicios que pertenece al avatar " + propiedad.getDuenho().getAvatar().getId()
+                                Juego.consola.imprimir("Caiste en una casilla de servicios que pertenece al avatar " + propiedad.getDuenho().getAvatar().getId()
                                         + ", por lo que se le pagó un alquiler de " + deuda + "€.");
                             } else {
                                 deuda = (float) (4 * dadoTotal * (Valor.VUELTA / 200));
                                 this.restarFortuna(deuda);
                                 this.dineroGastado += deuda;
                                 propiedad.getDuenho().sumarFortuna(deuda);
-                                System.out.println("Caiste en una casilla de servicios que pertenece al avatar " + propiedad.getDuenho().getAvatar().getId()
+                                Juego.consola.imprimir("Caiste en una casilla de servicios que pertenece al avatar " + propiedad.getDuenho().getAvatar().getId()
                                         + ", por lo que se le pagó un alquiler de " + deuda + "€.");
                             }
 
@@ -306,7 +306,7 @@ public class Jugador {
                             this.restarFortuna(deuda);
                             this.dineroGastado += deuda;
                             propiedad.getDuenho().sumarFortuna(deuda);
-                            System.out.println("Caiste en una casilla de transportes que pertenece al avatar " + propiedad.getDuenho().getAvatar().getId()
+                            Juego.consola.imprimir("Caiste en una casilla de transportes que pertenece al avatar " + propiedad.getDuenho().getAvatar().getId()
                                     + ". Este avatar tiene " + contador + "casillas de transportes, por lo que se le pagó un alquiler de " + deuda + "€.");
 
                         } else if (propiedad instanceof Solar) {
@@ -314,14 +314,14 @@ public class Jugador {
                                 this.restarFortuna((float) (2 * propiedad.getValorAlquiler()));
                                 this.dineroGastado += 2 * propiedad.getValorAlquiler();
                                 propiedad.getDuenho().sumarFortuna((float) (2 * propiedad.getValorAlquiler()));
-                                System.out.println("Caiste en una casilla que pertenece al avatar " + propiedad.getDuenho().getAvatar().getId()
+                                Juego.consola.imprimir("Caiste en una casilla que pertenece al avatar " + propiedad.getDuenho().getAvatar().getId()
                                         + ", y además todas las casillas de ese grupo le pertenecen, por lo que se le pagó el alquiler de "
                                         + 2 * propiedad.getValorAlquiler() + "€.");
                             } else {
                                 this.restarFortuna((float) propiedad.getValorAlquiler());
                                 this.dineroGastado += propiedad.getValorAlquiler();
                                 propiedad.getDuenho().sumarFortuna((float) propiedad.getValorAlquiler());
-                                System.out.println("Caiste en una casilla que pertenece al avatar " + propiedad.getDuenho().getAvatar().getId()
+                                Juego.consola.imprimir("Caiste en una casilla que pertenece al avatar " + propiedad.getDuenho().getAvatar().getId()
                                         + ", por lo que se le pagó el alquiler de " + propiedad.getValorAlquiler() + "€.");
                             }
                         }
@@ -339,7 +339,7 @@ public class Jugador {
                 this.dineroGastado += impuesto.getImpuesto();
                 ((Especial) taboleiro.getCasillaPosicion(20)).sumarBote((float) impuesto.getImpuesto());
                 this.sumarTasasImpuestos((float) impuesto.getImpuesto());
-                System.out.println("Caíste en una casilla de impuestos, por lo que se realizó el pago de " + impuesto.getImpuesto() + "€.");
+                Juego.consola.imprimir("Caíste en una casilla de impuestos, por lo que se realizó el pago de " + impuesto.getImpuesto() + "€.");
             }
         }
     }
@@ -350,7 +350,7 @@ public class Jugador {
             this.sumarFortuna((float) especial.getValor());
             especial.setVecesCasilla(this);
             this.sumarPremiosInversionesBote((float) especial.getValor());
-            System.out.println("Caíste en el Parking, por lo que cobras el total acumulado que es de: " + especial.getValor() + "€.");
+            Juego.consola.imprimir("Caíste en el Parking, por lo que cobras el total acumulado que es de: " + especial.getValor() + "€.");
             especial.vaciarBote();
         }
     }

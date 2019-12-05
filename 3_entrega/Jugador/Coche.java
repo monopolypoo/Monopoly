@@ -89,14 +89,14 @@ public final class Coche extends Avatar {
         if (this.contadorCoche < 3 && this.lanzarDadosCoche) {
             menu.setDadosLanzados(false);
             menu.setSigueTurno(true);
-            System.out.println("El jugador " + menu.getJugadorActual().getNombre() + " mantiene el turno.");
+            Juego.consola.imprimir("El jugador " + menu.getJugadorActual().getNombre() + " mantiene el turno.");
 
             if (menu.getJugadorActual().getEstarCarcere()) {
-                System.out.println("Estás en la cárcel, por lo que debes tirar los dados para obtener dobles.");
+                Juego.consola.imprimir("Estás en la cárcel, por lo que debes tirar los dados para obtener dobles.");
             }
             this.sumarContadorCoche();
         } else {
-            System.out.println("Ya tiraste los dados el número máximo en tu modo avanzado");
+            Juego.consola.imprimir("Ya tiraste los dados el número máximo en tu modo avanzado");
             menu.setDadosLanzados(true);
             menu.setSigueTurno(false);
             this.lanzarDadosCoche = false;
