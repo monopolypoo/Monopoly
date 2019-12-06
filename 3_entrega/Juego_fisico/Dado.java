@@ -218,14 +218,21 @@ public class Dado {
                 ((Coche) menu.getJugadorActual().getAvatar()).sumarLanzardados(menu);
                 if (((Coche) menu.getJugadorActual().getAvatar()).isCompraCoche())
                     menu.setPoderComprar(false);
-            }
-            if ((menu.getJugadorActual().getAvatar() instanceof Esfinge) && (menu.getJugadorActual().getAvatar().isModoAvanzado())) {
+            } else if ((menu.getJugadorActual().getAvatar() instanceof Esfinge) && (menu.getJugadorActual().getAvatar().isModoAvanzado())) {
                 if (((Esfinge) menu.getJugadorActual().getAvatar()).getVecesDados() < 3) {
                     menu.setDadosLanzados(false);
                     menu.setSigueTurno(true);
                 } else {
                     ((Esfinge) menu.getJugadorActual().getAvatar()).setVecesDados(0);
                     ((Esfinge) menu.getJugadorActual().getAvatar()).vaciarRegistroEsfinge();
+                }
+            } else if ((menu.getJugadorActual().getAvatar() instanceof Sombrero) && (menu.getJugadorActual().getAvatar().isModoAvanzado())) {
+                if (((Sombrero) menu.getJugadorActual().getAvatar()).getVecesDados() < 3) {
+                    menu.setDadosLanzados(false);
+                    menu.setSigueTurno(true);
+                } else {
+                    ((Sombrero) menu.getJugadorActual().getAvatar()).setVecesDados(0);
+                    ((Sombrero) menu.getJugadorActual().getAvatar()).vaciarRegistroSombrero();
                 }
             }
         } else {

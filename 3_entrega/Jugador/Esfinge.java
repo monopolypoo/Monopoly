@@ -45,25 +45,27 @@ public final class Esfinge extends Avatar {
         if (posInicio >= 10 && posInicio < 30) {
             if (posActual >= 1 && posActual <= 9)
                 posSiguiente = 29 - posActual + 2;
-            else if (posActual >= 10 && posActual <= 20)
+            else if (posActual >= 10 && posActual < 20)
                 posSiguiente = 21;
+            else if (posActual == 20)
+                posSiguiente = 9;
             else if (posActual == 0)
-                posSiguiente = 29;
+                posSiguiente = 20;
             else
                 posSiguiente = Math.abs(posActual - 29); // si va de izquierda a derecha
         } else {
-            if (posActual >= 1 && posActual <= 8)
+            if (posActual >= 1 && posActual <= 9)
                 posSiguiente = 29 - posActual;
-            else if (posActual == 10)
+            else if (posActual == 10 || posActual == 20)
                 posSiguiente = 0;
-            else if (posActual > 10 && posActual < 20)
-                posSiguiente = 21;
+                //else if (posActual > 10 && posActual < 20)
+                //posSiguiente = 21;
             else if (posActual == 0 && posInicio != 0)
                 posSiguiente = 20;
             else if (posActual == 0)
                 posSiguiente = 29;
-            else if (posActual == 20)
-                posSiguiente = 9;
+            else if (posActual > 30 && posActual <= 39)
+                posSiguiente = 1;
             else
                 posSiguiente = 29 - posActual + 2;
         }
@@ -146,6 +148,10 @@ public final class Esfinge extends Avatar {
                 }
                 vaciarRegistroEsfinge();
             }
+            menu.setDadosLanzados(true);
+            menu.setSigueTurno(false);
+            menu.setPoderComprar(false);
+            menu.setContadorDobles(0);
             this.vecesDados = 4; // num mayor que 3 para que no deje volver a tirar los dados
             moverEnBasico(menu.getJuego().getTaboleiro(), menu, posInicio);
             // Juego.consola.imprimir(taboleiro.toString());
