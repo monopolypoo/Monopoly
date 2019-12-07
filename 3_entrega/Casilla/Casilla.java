@@ -193,6 +193,18 @@ public abstract class Casilla {
         return null;
     }
 
+    public int frecuenciaVisita() throws ExcepcionesNumericas {
+        int contador = 0;
+        for (String[] aux : this.vecesCasilla.values()){
+            try {
+                contador += Integer.parseInt(aux[1]);
+            } catch (NumberFormatException exc){
+                throw new ExcepcionesNumericas("Error conviertiendo el string a entero.");
+            }
+        }
+        return contador;
+    }
+
     @Override
     public abstract String toString();
 }

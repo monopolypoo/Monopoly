@@ -5,6 +5,8 @@ import ExcepcionesNumericas.ExcepcionesNumericas;
 import ExcepcionesPartida.*;
 import Monopoly.Menu;
 
+import java.util.concurrent.atomic.AtomicReference;
+
 public interface Comandos {
     public void CrearJugador(String[] comando) throws ExcepcionesNull, ExcepcionesComandos;
 
@@ -37,6 +39,14 @@ public interface Comandos {
     public void CambiarModo(String[] comando) throws ExcepcionesComandos;
 
     public void Mover(String[] comando) throws ExcepcionesNumericas;
+
+    public void Tratos(String[] comando) throws ExcepcionesComandos, ExcepcionesNumericas, ExcepcionesJugando, ExcepcionesDuenho;
+
+    public void AceptarTrato(String[] comando) throws ExcepcionesComandos, ExcepcionesDinero, ExcepcionesJugando;
+
+    public void TratosJugador() throws ExcepcionesNull;
+
+    public void EliminarTrato(String[] comando) throws ExcepcionesComandos, ExcepcionesJugando;
 
     public void Stop();
 }

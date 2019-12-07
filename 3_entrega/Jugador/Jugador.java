@@ -117,16 +117,20 @@ public class Jugador {
         return tratosPropuestos;
     }
 
-    public void anhadirTratosDisponibles(Tratos trato) {
-        if (trato != null && this.tratosDisponibles != null)
-            if (!this.tratosDisponibles.contains(trato))
-                this.tratosDisponibles.add(trato);
+    public void anhadirTratosPropuestos(Tratos trato) {
+        if ((trato != null) && (this.tratosPropuestos != null)) {
+            if (!this.tratosPropuestos.contains(trato)) {
+                this.tratosPropuestos.add(trato);
+            }
+        }
     }
 
-    public void anhadirTratosPropuestos(Tratos trato) {
-        if (trato != null && this.tratosPropuestos != null)
-            if (!this.tratosPropuestos.contains(trato))
-                this.tratosPropuestos.add(trato);
+    public void anhadirTratosDisponibles(Tratos trato) {
+        if ((trato != null) && (this.tratosDisponibles != null)) {
+            if (!this.tratosDisponibles.contains(trato)) {
+                this.tratosDisponibles.add(trato);
+            }
+        }
     }
 
     public int getVecesDados() {
@@ -308,48 +312,54 @@ public class Jugador {
             if (propiedad.getDuenho() != null) {
                 if (!propiedad.getDuenho().equals(this)) {
                     if (!propiedad.hayAlgunaHipoteca()) {
-                        if (propiedad instanceof Servicio) {
-                            if (propiedad.tenerTodasCasillas()) {
-                                deuda = (float) (10 * dadoTotal * (Valor.VUELTA / 200));
-                                this.restarFortuna(deuda);
-                                this.dineroGastado += deuda;
-                                this.sumarPagoAlquileres(deuda);
-                                propiedad.getDuenho().sumarCobroAlquileres(deuda);
-                                propiedad.getDuenho().sumarFortuna(deuda);
-                                Juego.consola.imprimir("Caiste en una casilla de servicios que pertenece al avatar " + propiedad.getDuenho().getAvatar().getId()
-                                        + ", por lo que se le pagó un alquiler de " + deuda + "€.");
-                            } else {
-                                deuda = (float) (4 * dadoTotal * (Valor.VUELTA / 200));
-                                this.restarFortuna(deuda);
-                                this.dineroGastado += deuda;
-                                propiedad.getDuenho().sumarFortuna(deuda);
-                                Juego.consola.imprimir("Caiste en una casilla de servicios que pertenece al avatar " + propiedad.getDuenho().getAvatar().getId()
-                                        + ", por lo que se le pagó un alquiler de " + deuda + "€.");
-                            }
+                        if (!this.equals(((Propiedad) casilla).getJugadorSinPagar())) {
+                            if (!(((Propiedad) casilla).getTurnosSinPagar() > 0)) {
+                                if (propiedad instanceof Servicio) {
+                                    if (propiedad.tenerTodasCasillas()) {
+                                        deuda = (float) (10 * dadoTotal * (Valor.VUELTA / 200));
+                                        this.restarFortuna(deuda);
+                                        this.dineroGastado += deuda;
+                                        this.sumarPagoAlquileres(deuda);
+                                        propiedad.getDuenho().sumarCobroAlquileres(deuda);
+                                        propiedad.getDuenho().sumarFortuna(deuda);
+                                        Juego.consola.imprimir("Caiste en una casilla de servicios que pertenece al avatar " + propiedad.getDuenho().getAvatar().getId()
+                                                + ", por lo que se le pagó un alquiler de " + deuda + "€.");
+                                    } else {
+                                        deuda = (float) (4 * dadoTotal * (Valor.VUELTA / 200));
+                                        this.restarFortuna(deuda);
+                                        this.dineroGastado += deuda;
+                                        propiedad.getDuenho().sumarFortuna(deuda);
+                                        Juego.consola.imprimir("Caiste en una casilla de servicios que pertenece al avatar " + propiedad.getDuenho().getAvatar().getId()
+                                                + ", por lo que se le pagó un alquiler de " + deuda + "€.");
+                                    }
 
-                        } else if (propiedad instanceof Transportes) { //si es le de transportes
-                            contador = propiedad.getGrupo().cuantasCasillasTiene(this);
-                            deuda = (float) (contador * 0.25 * propiedad.getValorAlquiler());
-                            this.restarFortuna(deuda);
-                            this.dineroGastado += deuda;
-                            propiedad.getDuenho().sumarFortuna(deuda);
-                            Juego.consola.imprimir("Caiste en una casilla de transportes que pertenece al avatar " + propiedad.getDuenho().getAvatar().getId()
-                                    + ". Este avatar tiene " + contador + "casillas de transportes, por lo que se le pagó un alquiler de " + deuda + "€.");
+                                } else if (propiedad instanceof Transportes) { //si es le de transportes
+                                    contador = propiedad.getGrupo().cuantasCasillasTiene(this);
+                                    deuda = (float) (contador * 0.25 * propiedad.getValorAlquiler());
+                                    this.restarFortuna(deuda);
+                                    this.dineroGastado += deuda;
+                                    propiedad.getDuenho().sumarFortuna(deuda);
+                                    Juego.consola.imprimir("Caiste en una casilla de transportes que pertenece al avatar " + propiedad.getDuenho().getAvatar().getId()
+                                            + ". Este avatar tiene " + contador + "casillas de transportes, por lo que se le pagó un alquiler de " + deuda + "€.");
 
-                        } else if (propiedad instanceof Solar) {
-                            if (propiedad.tenerTodasCasillas()) {
-                                this.restarFortuna((float) (2 * propiedad.getValorAlquiler()));
-                                this.dineroGastado += 2 * propiedad.getValorAlquiler();
-                                propiedad.getDuenho().sumarFortuna((float) (2 * propiedad.getValorAlquiler()));
-                                Juego.consola.imprimir("Caiste en una casilla que pertenece al avatar " + propiedad.getDuenho().getAvatar().getId()
-                                        + ", y además todas las casillas de ese grupo le pertenecen, por lo que se le pagó el alquiler de "
-                                        + 2 * propiedad.getValorAlquiler() + "€.");
-                            } else {
-                                this.restarFortuna((float) propiedad.getValorAlquiler());
-                                this.dineroGastado += propiedad.getValorAlquiler();
-                                propiedad.getDuenho().sumarFortuna((float) propiedad.getValorAlquiler());
-                                Juego.consola.imprimir("Caiste en una casilla que pertenece al avatar " + propiedad.getDuenho().getAvatar().getId()
-                                        + ", por lo que se le pagó el alquiler de " + propiedad.getValorAlquiler() + "€.");
+                                } else if (propiedad instanceof Solar) {
+                                    if (propiedad.tenerTodasCasillas()) {
+                                        this.restarFortuna((float) (2 * propiedad.getValorAlquiler()));
+                                        this.dineroGastado += 2 * propiedad.getValorAlquiler();
+                                        propiedad.getDuenho().sumarFortuna((float) (2 * propiedad.getValorAlquiler()));
+                                        Juego.consola.imprimir("Caiste en una casilla que pertenece al avatar " + propiedad.getDuenho().getAvatar().getId()
+                                                + ", y además todas las casillas de ese grupo le pertenecen, por lo que se le pagó el alquiler de "
+                                                + 2 * propiedad.getValorAlquiler() + "€.");
+                                    } else {
+                                        this.restarFortuna((float) propiedad.getValorAlquiler());
+                                        this.dineroGastado += propiedad.getValorAlquiler();
+                                        propiedad.getDuenho().sumarFortuna((float) propiedad.getValorAlquiler());
+                                        Juego.consola.imprimir("Caiste en una casilla que pertenece al avatar " + propiedad.getDuenho().getAvatar().getId()
+                                                + ", por lo que se le pagó el alquiler de " + propiedad.getValorAlquiler() + "€.");
+                                    }
+                                }
+                            } else{
+                                ((Propiedad) casilla).setTurnosSinPagar(((Propiedad) casilla).getTurnosSinPagar() - 1);
                             }
                         }
                     }

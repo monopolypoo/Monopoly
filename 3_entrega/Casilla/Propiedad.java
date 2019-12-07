@@ -12,6 +12,8 @@ public abstract class Propiedad extends Casilla {
     private Jugador duenho;
     private Jugador duenhoAnterior;
     private boolean esHipotecado;
+    private int turnosSinPagar;
+    private Jugador jugadorSinPagar;
 
     public Propiedad() {
         super();
@@ -20,6 +22,8 @@ public abstract class Propiedad extends Casilla {
         this.duenho = null;
         this.duenhoAnterior = null;
         this.esHipotecado = false;
+        this.turnosSinPagar = 0;
+        this.jugadorSinPagar = null;
     }
 
     public Propiedad(String nombre, int posicion, double valor) {
@@ -34,6 +38,8 @@ public abstract class Propiedad extends Casilla {
         this.duenho = null;
         this.duenhoAnterior = null;
         this.esHipotecado = false;
+        this.turnosSinPagar = 0;
+        this.jugadorSinPagar = null;
     }
 
     public double getValor() {
@@ -43,6 +49,26 @@ public abstract class Propiedad extends Casilla {
     public void setValor(double valor) {
         if (valor >= 0)
             this.valor = valor;
+    }
+
+    public int getTurnosSinPagar(){
+        return this.turnosSinPagar;
+    }
+
+    public void setTurnosSinPagar(int turnosSinPagar) {
+        if (turnosSinPagar >= 0) {
+            this.turnosSinPagar = turnosSinPagar;
+        }
+    }
+
+    public Jugador getJugadorSinPagar() {
+        return jugadorSinPagar;
+    }
+
+    public void setJugadorSinPagar(Jugador jugadorSinPagar){
+        if (jugadorSinPagar != null){
+            this.jugadorSinPagar = jugadorSinPagar;
+        }
     }
 
     public double getAlquiler() {
@@ -89,7 +115,7 @@ public abstract class Propiedad extends Casilla {
                     jugador.getPropiedades().add(this);
                     jugador.sumarDineroInvertido((float) this.valor);
                     jugador.sumarPremiosInversionesBote((float) this.valor);
-                    Juego.consola.imprimir("El jugador " + jugador.getNombre() + " compra la casilla " + super.getNombre()
+                    Juego.consola.imprimir("El jugador " + jugador.getNombre() + " compra la casilla " + super.getNombreSinEspacio()
                             + " por " + this.valor + "€. Su fortuna actual es: " + jugador.getFortuna() + "€.");
                     //taboleiro.getCasillasEnVenta().remove(this);
                     taboleiro.setContadorVueltas(0);

@@ -66,7 +66,7 @@ public class Taboleiro {
         // Casillas USC Santiago (LESTE)
         Especial irCarcere = new Especial(" Ir Cárcel        ", 30);
         Solar solar18 = new Solar(" Farmacia         ", 31, Valor.PRECIO_GRUPO7);
-        Solar solar19 = new Solar(" Bioloxía         ", 32, Valor.PRECIO_GRUPO7);
+        Solar solar19 = new Solar(" Biología         ", 32, Valor.PRECIO_GRUPO7);
         AccionCajaComunidad caixa3 = new AccionCajaComunidad(" Caja Comunidad   ", 33, Valor.BLACK_BOLD);
         Solar solar20 = new Solar(" Química          ", 34, Valor.PRECIO_GRUPO7);
         Transportes trans4 = new Transportes(" E. tren Santiago ", 35, Valor.VUELTA);
@@ -687,6 +687,6 @@ public class Taboleiro {
         }
         String texto = BLANCO + textoTope + textoNorte + BLANCO + "│\n" + textoAvataresNorte + BLANCO + "│\n" + textoTopeMedioArriba +
                 textoOesteLeste + textoTopeMedioAbajo + textoSur + BLANCO + "│\n" + textoAvataresSur + BLANCO + "│\n" + textoTopeAbajo;
-        return texto;
+        return texto + Valor.RESET;
     }
 }

@@ -243,6 +243,50 @@ public class Menu {
                     }
                     break;
 
+                case "trato":
+                    try {
+                        this.juego.Tratos(comando);
+                    } catch (ExcepcionesDuenho excepcionesDuenho) {
+                        Juego.consola.imprimir(excepcionesDuenho.getMessage());
+                    } catch (ExcepcionesComandos excepcionesComandos){
+                        Juego.consola.imprimir(excepcionesComandos.getMessage());
+                    } catch (ExcepcionesJugando excepcionesJugando){
+                        Juego.consola.imprimir(excepcionesJugando.getMessage());
+                    } catch (ExcepcionesNumericas excepcionesNumericas){
+                        Juego.consola.imprimir(excepcionesNumericas.getMessage());
+                    }
+                    break;
+
+                case "aceptar":
+                    try {
+                        this.juego.AceptarTrato(comando);
+                    } catch (ExcepcionesComandos excepcionesComandos){
+                        Juego.consola.imprimir(excepcionesComandos.getMessage());
+                    } catch (ExcepcionesDinero excepcionesDinero){
+                        Juego.consola.imprimir(excepcionesDinero.getMessage());
+                    } catch (ExcepcionesJugando excepcionesJugando){
+                        Juego.consola.imprimir(excepcionesJugando.getMessage());
+                    }
+                    break;
+
+                case "tratos":
+                    try {
+                        this.juego.TratosJugador();
+                    } catch (ExcepcionesNull excepcionesNull){
+                        Juego.consola.imprimir(excepcionesNull.getMessage());
+                    }
+                    break;
+
+                case "eliminar":
+                    try {
+                        this.juego.EliminarTrato(comando);
+                    } catch (ExcepcionesComandos excepcionesComandos){
+                        Juego.consola.imprimir(excepcionesComandos.getMessage());
+                    } catch (ExcepcionesJugando excepcionesJugando){
+                        Juego.consola.imprimir(excepcionesJugando.getMessage());
+                    }
+                    break;
+
                 case "cambiar":
                     try {
                         this.juego.CambiarModo(comando);

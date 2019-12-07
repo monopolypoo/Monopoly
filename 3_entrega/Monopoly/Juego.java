@@ -9,7 +9,7 @@ import ExcepcionesPartida.*;
 import Interfaces.Comandos;
 import Juego_fisico.*;
 import Jugador.*;
-import Trato.Tratos;
+import Trato.*;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -20,11 +20,11 @@ public class Juego implements Comandos {
     private Taboleiro taboleiro;
     private ArrayList<Jugador> jugadores;
     private HashMap<String, Avatar> avatares;
+    private ArrayList<Tratos> tratos;
+    private HashMap<String, Tratos> inforTratos;
     private ArrayList<Grupo> grupos;
     private Menu menu;
     public static Consola consola;
-    private ArrayList<Tratos> tratos;
-    private HashMap<String, Jugador[]> inforTratos;
 
     public Juego(Menu menu) {
         this.dado = new Dado();
@@ -32,10 +32,10 @@ public class Juego implements Comandos {
         this.jugadores = new ArrayList<>();
         this.avatares = new HashMap<>();
         this.grupos = new ArrayList<>();
-        this.menu = menu;
-        consola = new ConsolaNormal();
         this.tratos = new ArrayList<>();
         this.inforTratos = new HashMap<>();
+        this.menu = menu;
+        consola = new ConsolaNormal();
     }
 
     public Dado getDado() {
@@ -56,6 +56,36 @@ public class Juego implements Comandos {
         if (jugadores != null) {
             this.jugadores = jugadores;
         }
+    }
+
+    public ArrayList<Tratos> getTratos() {
+        return this.tratos;
+    }
+
+    public void anhadirTratos(Tratos trato) {
+        if ((trato != null) && (this.tratos != null)) {
+            if ((!this.tratos.contains(trato)) && (!this.inforTratos.containsKey(trato.getId()))) {
+                this.tratos.add(trato);
+                this.inforTratos.put(trato.getId(), trato);
+                trato.getJugadorOrigen().getTratosPropuestos().add(trato);
+                trato.getJugadorDestino().getTratosDisponibles().add(trato);
+            }
+        }
+    }
+
+    public void eliminarTratos(Tratos trato) {
+        if ((trato != null) && (this.tratos != null)) {
+            if (this.tratos.contains(trato) && this.inforTratos.containsKey(trato.getId())) {
+                this.tratos.remove(trato);
+                this.inforTratos.remove(trato.getId());
+                trato.getJugadorOrigen().getTratosPropuestos().remove(trato);
+                trato.getJugadorDestino().getTratosDisponibles().remove(trato);
+            }
+        }
+    }
+
+    public HashMap<String, Tratos> getInforTratos() {
+        return this.inforTratos;
     }
 
     public HashMap<String, Avatar> getAvatares() {
@@ -86,27 +116,6 @@ public class Juego implements Comandos {
             Juego.consola.imprimir(ava.toString());
         }
     }
-
-
-    public ArrayList<Tratos> getTratos() {
-        return this.tratos;
-    }
-
-    public HashMap<String, Jugador[]> getInfor() {
-        return inforTratos;
-    }
-
-    public void anhadirTratos(Tratos trato) {
-        if (trato != null && this.tratos != null && this.inforTratos != null)
-            if (!this.tratos.contains(trato) && !this.inforTratos.containsKey(trato.getId())) {
-                this.tratos.add(trato);
-                Jugador[] jugadors = new Jugador[2];
-                jugadors[0] = trato.getJugadorOrigen();
-                jugadors[1] = trato.getJugadorDestino();
-                this.inforTratos.put(trato.getId(), jugadors);
-            }
-    }
-
 
     public void listarEdificios(Taboleiro taboleiro) throws ExcepcionesNull {
         String texto = "Taboleiro non inicializado.";
@@ -201,9 +210,9 @@ public class Juego implements Comandos {
     public void estadisticas(Taboleiro taboleiro) throws ExcepcionesNull, ExcepcionesNumericas {
         String texto = "Taboleiro non inicializado.";
         if (taboleiro != null) {
-            texto = "{\n\tCasilla.Casilla más rentable: " + casillaMasRentable() +
+            texto = "{\n\tCasilla más rentable: " + casillaMasRentable() +
                     "\n\tGrupo más rentable: " + grupoMasRentable() +
-                    "\n\tCasilla.Casilla más frecuentada: " + casillaFrecuentada(taboleiro) +
+                    "\n\tCasilla más frecuentada: " + casillaFrecuentada(taboleiro) +
                     "\n\tJugador más vueltas: " + jugadorMasVueltas() +
                     "\n\tJugador más veces dados: " + jugadorMasDados() +
                     "\n\tJugador en cabeza: " + jugadorCabeza() +
@@ -456,6 +465,11 @@ public class Juego implements Comandos {
                     else
                         Juego.consola.imprimir("El jugador actual es " + this.menu.getJugadorActual().getNombre() + " y está en modo normal.");
 
+                    int num = numeroTratosDisponibles();
+                    if (num > 0){
+                        Juego.consola.imprimir("Tiene " + num + " trato(s) disponibles. Para verlos escriba: 'tratos'.");
+                    }
+
                     if (this.menu.getJugadorActual().getEstarCarcere())
                         throw new ExcepcionesJugando("Estás en la cárcel, por lo que debes tirar los dados para obtener dobles.");
                 } else throw new ExcepcionesJugando("No puedes acabar turno porque tienes que tirar los dados!");
@@ -463,6 +477,18 @@ public class Juego implements Comandos {
                 throw new ExcepcionesComandos("Comando incorrecto. Para ver los comandos disponibles escriba: Ver Comandos");
         } else
             throw new ExcepcionesComandos("Comando incorrecto. Para ver los comandos disponibles escriba: Ver Comandos");
+    }
+
+    public int numeroTratosDisponibles(){
+        int contador = 0;
+        if (this.menu.getJugadorActual().getTratosDisponibles().size() > 0){
+            for (Tratos trato : this.menu.getJugadorActual().getTratosDisponibles()){
+                if (!trato.isAceptado()){
+                    contador++;
+                }
+            }
+        }
+        return contador;
     }
 
     public void SalirCarcel(String[] comando) throws ExcepcionesDinero, ExcepcionesJugando, ExcepcionesComandos {
@@ -691,5 +717,496 @@ public class Juego implements Comandos {
             this.menu.setCombinado(true);
             Juego.consola.imprimir("$> ");
         }
+    }
+
+    public void TratosJugador() throws ExcepcionesNull {
+        if (this.menu.getJugadorActual() != null) {
+            String texto = "";
+            for (Tratos trato : this.menu.getJugadorActual().getTratosDisponibles()) {
+                if (!trato.isAceptado()) {
+                    texto += trato.toString() + "\n";
+                }
+            }
+            if (texto.equals("")){
+                Juego.consola.imprimir("No tienes ningún trato disponible.");
+            } else{
+                Juego.consola.imprimir(texto);
+            }
+        } else throw new ExcepcionesNull("El jugador actual no existe todavía.");
+    }
+
+    public void Tratos(String[] comando) throws ExcepcionesComandos, ExcepcionesNumericas, ExcepcionesJugando, ExcepcionesDuenho {
+        if (comando.length == 2) {
+            Jugador jug = this.estaJugadorNombre(comando[1]);
+            if (jug != null) {
+                int aux;
+
+                this.imprimirTiposTratos();
+                comando = Juego.consola.leer("Qué tipo de trato desea realizar con " + jug.getNombre() + " (1-6)?: ");
+
+                try {
+                    aux = Integer.parseInt(comando[0]);
+                } catch (NumberFormatException exc) {
+                    throw new ExcepcionesNumericas("Error pasando el string a entero.");
+                }
+
+                switch (aux) {
+                    case 1:
+                        this.hacerTrato1(jug);
+                        break;
+
+                    case 2:
+                        this.hacerTrato2(jug);
+                        break;
+
+                    case 3:
+                        this.hacerTrato3(jug);
+                        break;
+
+                    case 4:
+                        this.hacerTrato4(jug);
+                        break;
+
+                    case 5:
+                        this.hacerTrato5(jug);
+                        break;
+
+                    case 6:
+                        this.hacerTrato6(jug);
+                        break;
+
+                    default:
+                        throw new ExcepcionesJugando("Error, opción no válida.");
+                }
+            } else {
+                throw new ExcepcionesComandos("Comando incorrecto. Jugador no encontrado. Para ver los comandos disponibles escriba: Ver Comandos");
+            }
+        } else {
+            throw new ExcepcionesComandos("Comando incorrecto. Para ver los comandos disponibles escriba: Ver Comandos");
+        }
+    }
+
+    public void AceptarTrato(String[] comando) throws ExcepcionesComandos, ExcepcionesDinero, ExcepcionesJugando {
+        if (comando.length == 2) {
+            String id = comando[1];
+            if (this.inforTratos.containsKey(id)) {
+                Tratos trato = this.inforTratos.get(id);
+                if (this.menu.getJugadorActual().getTratosDisponibles().contains(trato)) {
+                    if (!trato.isAceptado()) {
+                        if (trato instanceof Trato1) {
+                            Trato1 trato1 = ((Trato1) trato);
+                            trato1.getJugadorOrigen().getPropiedades().remove(trato1.getPropiedadOrigen());
+                            trato1.getJugadorOrigen().getPropiedades().add(trato1.getPropiedadDestino());
+                            trato1.getJugadorDestino().getPropiedades().add(trato1.getPropiedadOrigen());
+                            trato1.getJugadorDestino().getPropiedades().remove(trato1.getPropiedadDestino());
+                            trato1.getPropiedadOrigen().setDuenho(trato1.getJugadorDestino());
+                            trato1.getPropiedadDestino().setDuenho(trato1.getJugadorOrigen());
+                            trato1.setAceptado(true);
+                            Juego.consola.imprimir("El trato se ha efectuado con éxito."); //añadir un buen comentario
+                        } else if (trato instanceof Trato2) {
+                            Trato2 trato2 = ((Trato2) trato);
+                            trato2.getJugadorOrigen().getPropiedades().remove(trato2.getPropiedadOrigen());
+                            trato2.getJugadorDestino().getPropiedades().add(trato2.getPropiedadOrigen());
+                            trato2.getJugadorDestino().restarFortuna((float) trato2.getDineroDestino());
+                            trato2.getJugadorOrigen().sumarFortuna((float) trato2.getDineroDestino());
+                            trato2.getPropiedadOrigen().setDuenho(trato2.getJugadorDestino());
+                            trato2.setAceptado(true);
+                            Juego.consola.imprimir("El trato se ha efectuado con éxito."); //añadir un buen comentario
+
+                        } else if (trato instanceof Trato3) {
+                            Trato3 trato3 = ((Trato3) trato);
+                            trato3.getJugadorOrigen().restarFortuna((float) trato3.getDineroOrigen());
+                            trato3.getJugadorDestino().sumarFortuna((float) trato3.getDineroOrigen());
+                            trato3.getJugadorDestino().getPropiedades().remove(trato3.getPropiedadDestino());
+                            trato3.getJugadorOrigen().getPropiedades().add(trato3.getPropiedadDestino());
+                            trato3.getPropiedadDestino().setDuenho(trato3.getJugadorOrigen());
+                            trato3.setAceptado(true);
+                            Juego.consola.imprimir("El trato se ha efectuado con éxito."); //añadir un buen comentario
+
+                        } else if (trato instanceof Trato4) {
+                            Trato4 trato4 = ((Trato4) trato);
+                            trato4.getJugadorOrigen().getPropiedades().remove(trato4.getPropiedadOrigen());
+                            trato4.getJugadorOrigen().getPropiedades().add(trato4.getPropiedadDestino());
+                            trato4.getJugadorDestino().getPropiedades().add(trato4.getPropiedadOrigen());
+                            trato4.getJugadorDestino().getPropiedades().remove(trato4.getPropiedadDestino());
+                            trato4.getPropiedadOrigen().setDuenho(trato4.getJugadorDestino());
+                            trato4.getPropiedadDestino().setDuenho(trato4.getJugadorOrigen());
+                            trato4.getJugadorDestino().restarFortuna((float) trato4.getDineroDestino());
+                            trato4.getJugadorOrigen().sumarFortuna((float) trato4.getDineroDestino());
+                            trato4.setAceptado(true);
+                            Juego.consola.imprimir("El trato se ha efectuado con éxito."); //añadir un buen comentario
+
+                        } else if (trato instanceof Trato5) {
+                            Trato5 trato5 = ((Trato5) trato);
+                            trato5.getJugadorOrigen().getPropiedades().remove(trato5.getPropiedadOrigen());
+                            trato5.getJugadorDestino().getPropiedades().add(trato5.getPropiedadOrigen());
+                            trato5.getPropiedadOrigen().setDuenho(trato5.getJugadorDestino());
+                            trato5.getJugadorOrigen().restarFortuna((float) trato5.getDineroOrigen());
+                            trato5.getJugadorDestino().sumarFortuna((float) trato5.getDineroOrigen());
+                            trato5.getJugadorDestino().getPropiedades().remove(trato5.getPropiedadDestino());
+                            trato5.getJugadorOrigen().getPropiedades().add(trato5.getPropiedadDestino());
+                            trato5.getPropiedadDestino().setDuenho(trato5.getJugadorOrigen());
+                            trato5.setAceptado(true);
+                            Juego.consola.imprimir("El trato se ha efectuado con éxito."); //añadir un buen comentario
+
+                        } else if (trato instanceof Trato6) {
+                            Trato6 trato6 = ((Trato6) trato);
+                            trato6.getJugadorOrigen().getPropiedades().remove(trato6.getPropiedadOrigen());
+                            trato6.getJugadorOrigen().getPropiedades().add(trato6.getPropiedadDestino());
+                            trato6.getJugadorDestino().getPropiedades().add(trato6.getPropiedadOrigen());
+                            trato6.getJugadorDestino().getPropiedades().remove(trato6.getPropiedadDestino());
+                            trato6.getPropiedadOrigen().setDuenho(trato6.getJugadorDestino());
+                            trato6.getPropiedadDestino().setDuenho(trato6.getJugadorOrigen());
+                            trato6.getPropiedadAlquiler().setJugadorSinPagar(trato6.getJugadorDestino());
+                            trato6.getPropiedadAlquiler().setTurnosSinPagar(trato6.getTurnos());
+                            trato6.setAceptado(true);
+                            Juego.consola.imprimir("El trato se ha efectuado con éxito."); //añadir un buen comentario
+                        }
+                    }
+                } else{
+                    throw new ExcepcionesJugando("Trato no encontrado.");
+                }
+            } else {
+                throw new ExcepcionesJugando("Trato no encontrado.");
+            }
+        } else {
+            throw new ExcepcionesComandos("Comando incorrecto. Para ver los comandos disponibles escriba: Ver Comandos");
+        }
+    }
+
+    public void EliminarTrato(String[] comando) throws ExcepcionesComandos, ExcepcionesJugando {
+        if ((comando.length == 2) && (comando[1].equals("trato"))){
+            if (this.menu.getJugadorActual().getTratosPropuestos().size() > 0){
+                String texto = "";
+                for (Tratos trato : this.menu.getJugadorActual().getTratosPropuestos()){
+                    if (!trato.isAceptado()){
+                        texto += trato.textoDisponible() + "\n";
+                    }
+                }
+                if (!texto.equals("")){
+                    Juego.consola.imprimir("Los tratos que puede eliminar son:");
+                    Juego.consola.imprimir(texto);
+                    comando = Juego.consola.leer("Introduce el id del trato que desea eliminar: ");
+                    if (this.inforTratos.containsKey(comando[0])){
+                        Tratos trato = this.inforTratos.get(comando[0]);
+                        if (trato.getJugadorOrigen().equals(this.menu.getJugadorActual())){
+                            if (!trato.isAceptado()){
+                                eliminarTratos(trato);
+                                Juego.consola.imprimir("Trato eliminado con éxito.");
+                            } else{
+                                throw new ExcepcionesJugando("Trato no encontrado.");
+                            }
+                        } else{
+                            throw new ExcepcionesJugando("Trato no encontrado.");
+                        }
+                    } else{
+                        throw new ExcepcionesJugando("Trato no encontrado.");
+                    }
+                } else{
+                    throw new ExcepcionesJugando("No puedes eliminar ningún trato porque ya han sido aceptados.");
+                }
+            } else{
+                throw new ExcepcionesJugando("No tienes ningún trato para eliminar.");
+            }
+        } else{
+            throw new ExcepcionesComandos("Comando incorrecto. Para ver los comandos disponibles escriba: Ver Comandos");
+        }
+
+    }
+
+    public String idTrato() throws ExcepcionesNumericas {
+        String[] idAux;
+        String id = "Trato-";
+        int num, numMax = 0;
+        for (Tratos trato : this.tratos) {
+            idAux = trato.getId().split("-");
+
+            try {
+                num = Integer.parseInt(idAux[1]);
+            } catch (NumberFormatException exc) {
+                throw new ExcepcionesNumericas("Error pasando el string a entero.");
+            }
+
+            if (num > numMax) {
+                numMax = num;
+            }
+        }
+        id += (numMax + 1) + "";
+        return id;
+    }
+
+    public void hacerTrato1(Jugador jugadorDestino) throws ExcepcionesDuenho, ExcepcionesComandos, ExcepcionesNumericas {
+        String[] comando;
+        comando = Juego.consola.leer("Qué propiedad desea ofrecer?: ");
+        if (this.getTaboleiro().getCasillas().containsKey(comando[0])) {
+            if (this.getTaboleiro().getCasillas().get(comando[0]) instanceof Propiedad) {
+                Propiedad propiedadOrigen = ((Propiedad) this.getTaboleiro().getCasillas().get(comando[0]));
+                if (this.menu.getJugadorActual().equals(propiedadOrigen.getDuenho())) {
+                    comando = Juego.consola.leer("Qué propiedad de " + jugadorDestino.getNombre() + " desea?: ");
+                    if (this.getTaboleiro().getCasillas().containsKey(comando[0])) {
+                        if (this.getTaboleiro().getCasillas().get(comando[0]) instanceof Propiedad) {
+                            Propiedad propiedadDestino = ((Propiedad) this.getTaboleiro().getCasillas().get(comando[0]));
+                            if (jugadorDestino.equals(propiedadDestino.getDuenho())) {
+                                Juego.consola.imprimir("De acuerdo, el trato resultante es:");
+                                Juego.consola.imprimir(jugadorDestino.getNombre() + ", ¿te doy " + propiedadOrigen.getNombreSinEspacio() + " y tú me das " + propiedadDestino.getNombreSinEspacio() + "?");
+
+                                String id = idTrato();
+                                Trato1 trato = new Trato1(id, this.menu.getJugadorActual(), jugadorDestino, propiedadOrigen, propiedadDestino);
+                                anhadirTratos(trato);
+
+                            } else {
+                                throw new ExcepcionesDuenho("No puedes hacer un trato con esta casilla porque no pertenece a " + jugadorDestino.getNombre() + ".");
+                            }
+                        } else {
+                            throw new ExcepcionesDuenho("No puedes hacer un trato con esta casilla porque no pertenece a " + jugadorDestino.getNombre() + ".");
+                        }
+                    } else {
+                        throw new ExcepcionesComandos("Casilla no encontrada. Debes introducir el nombre tal y como aparece en el tablero pero sin espacios.");
+                    }
+                } else {
+                    throw new ExcepcionesDuenho("No puedes hacer un trato con esta casilla porque no eres su dueño.");
+                }
+            } else {
+                throw new ExcepcionesDuenho("No puedes hacer un trato con esta casilla porque no eres su dueño.");
+            }
+        } else {
+            throw new ExcepcionesComandos("Casilla no encontrada. Debes introducir el nombre tal y como aparece en el tablero pero sin espacios.");
+        }
+    }
+
+    public void hacerTrato2(Jugador jugadorDestino) throws ExcepcionesDuenho, ExcepcionesComandos, ExcepcionesNumericas, ExcepcionesJugando {
+        String[] comando;
+        comando = Juego.consola.leer("Qué propiedad desea ofrecer?: ");
+        if (this.getTaboleiro().getCasillas().containsKey(comando[0])) {
+            if (this.getTaboleiro().getCasillas().get(comando[0]) instanceof Propiedad) {
+                Propiedad propiedadOrigen = ((Propiedad) this.getTaboleiro().getCasillas().get(comando[0]));
+                if (this.menu.getJugadorActual().equals(propiedadOrigen.getDuenho())) {
+                    comando = Juego.consola.leer("Cuánto dinero quiere que pague " + jugadorDestino.getNombre() + "?: ");
+                    try {
+                        double dinero = Integer.parseInt(comando[0]);
+                        if (dinero >= 0) {
+                            Juego.consola.imprimir("De acuerdo, el trato resultante es:");
+                            Juego.consola.imprimir(jugadorDestino.getNombre() + ", ¿te doy " + propiedadOrigen.getNombreSinEspacio() + " y tú me das " + dinero + "€?");
+
+                            String id = idTrato();
+                            Trato2 trato = new Trato2(id, this.menu.getJugadorActual(), jugadorDestino, propiedadOrigen, dinero);
+                            anhadirTratos(trato);
+
+                        } else
+                            throw new ExcepcionesJugando("El dinero debe ser mayor que 0.");
+                    } catch (NumberFormatException exc) {
+                        throw new ExcepcionesNumericas("Error pasando el string a entero.");
+                    }
+                } else {
+                    throw new ExcepcionesDuenho("No puedes hacer un trato con esta casilla porque no eres su dueño.");
+                }
+            } else {
+                throw new ExcepcionesDuenho("No puedes hacer un trato con esta casilla porque no eres su dueño.");
+            }
+        } else {
+            throw new ExcepcionesComandos("Casilla no encontrada. Debes introducir el nombre tal y como aparece en el tablero pero sin espacios.");
+        }
+    }
+
+    public void hacerTrato3(Jugador jugadorDestino) throws ExcepcionesDuenho, ExcepcionesComandos, ExcepcionesNumericas, ExcepcionesJugando {
+        String[] comando;
+        comando = Juego.consola.leer("Cuánto dinero desea ofrecer?: ");
+        try {
+            double dinero = Integer.parseInt(comando[0]);
+            if (dinero >= 0) {
+                comando = Juego.consola.leer("Qué propiedad de " + jugadorDestino.getNombre() + " desea?: ");
+                if (this.getTaboleiro().getCasillas().containsKey(comando[0])) {
+                    if (this.getTaboleiro().getCasillas().get(comando[0]) instanceof Propiedad) {
+                        Propiedad propiedadDestino = ((Propiedad) this.getTaboleiro().getCasillas().get(comando[0]));
+                        if (this.menu.getJugadorActual().equals(propiedadDestino.getDuenho())) {
+                            Juego.consola.imprimir("De acuerdo, el trato resultante es:");
+                            Juego.consola.imprimir(jugadorDestino.getNombre() + ", ¿te doy " + dinero + "€ y tú me das " + propiedadDestino.getNombreSinEspacio() + "?");
+
+                            String id = idTrato();
+                            Trato3 trato = new Trato3(id, this.menu.getJugadorActual(), jugadorDestino, dinero, propiedadDestino);
+                            anhadirTratos(trato);
+
+                        } else {
+                            throw new ExcepcionesDuenho("No puedes hacer un trato con esta casilla porque no pertenece a " + jugadorDestino.getNombre() + ".");
+                        }
+                    } else {
+                        throw new ExcepcionesDuenho("No puedes hacer un trato con esta casilla porque no pertenece a " + jugadorDestino.getNombre() + ".");
+                    }
+                } else {
+                    throw new ExcepcionesComandos("Casilla no encontrada. Debes introducir el nombre tal y como aparece en el tablero pero sin espacios.");
+                }
+            } else
+                throw new ExcepcionesJugando("El dinero debe ser mayor que 0.");
+        } catch (NumberFormatException exc) {
+            throw new ExcepcionesNumericas("Error pasando el string a entero.");
+        }
+    }
+
+    public void hacerTrato4(Jugador jugadorDestino) throws ExcepcionesDuenho, ExcepcionesComandos, ExcepcionesNumericas, ExcepcionesJugando {
+        String[] comando;
+        comando = Juego.consola.leer("Qué propiedad desea ofrecer?: ");
+        if (this.getTaboleiro().getCasillas().containsKey(comando[0])) {
+            if (this.getTaboleiro().getCasillas().get(comando[0]) instanceof Propiedad) {
+                Propiedad propiedadOrigen = ((Propiedad) this.getTaboleiro().getCasillas().get(comando[0]));
+                if (this.menu.getJugadorActual().equals(propiedadOrigen.getDuenho())) {
+                    comando = Juego.consola.leer("Qué propiedad de " + jugadorDestino.getNombre() + " desea?: ");
+                    if (this.getTaboleiro().getCasillas().containsKey(comando[0])) {
+                        if (this.getTaboleiro().getCasillas().get(comando[0]) instanceof Propiedad) {
+                            Propiedad propiedadDestino = ((Propiedad) this.getTaboleiro().getCasillas().get(comando[0]));
+                            if (jugadorDestino.equals(propiedadDestino.getDuenho())) {
+                                comando = Juego.consola.leer("Cuánto dinero quiere que pague " + jugadorDestino.getNombre() + "?: ");
+                                try {
+                                    double dinero = Integer.parseInt(comando[0]);
+                                    if (dinero >= 0) {
+                                        Juego.consola.imprimir("De acuerdo, el trato resultante es:");
+                                        Juego.consola.imprimir(jugadorDestino.getNombre() + ", ¿te doy " + propiedadOrigen.getNombreSinEspacio() + " y tú me das " + propiedadDestino.getNombreSinEspacio() + " y " + dinero + "€?");
+
+                                        String id = idTrato();
+                                        Trato4 trato = new Trato4(id, this.menu.getJugadorActual(), jugadorDestino, propiedadOrigen, propiedadDestino, dinero);
+                                        anhadirTratos(trato);
+
+                                    } else
+                                        throw new ExcepcionesJugando("El dinero debe ser mayor que 0.");
+                                } catch (NumberFormatException exc) {
+                                    throw new ExcepcionesNumericas("Error pasando el string a entero.");
+                                }
+                            } else {
+                                throw new ExcepcionesDuenho("No puedes hacer un trato con esta casilla porque no pertenece a " + jugadorDestino.getNombre() + ".");
+                            }
+                        } else {
+                            throw new ExcepcionesDuenho("No puedes hacer un trato con esta casilla porque no pertenece a " + jugadorDestino.getNombre() + ".");
+                        }
+                    } else {
+                        throw new ExcepcionesComandos("Casilla no encontrada. Debes introducir el nombre tal y como aparece en el tablero pero sin espacios.");
+                    }
+                } else {
+                    throw new ExcepcionesDuenho("No puedes hacer un trato con esta casilla porque no eres su dueño.");
+                }
+            } else {
+                throw new ExcepcionesDuenho("No puedes hacer un trato con esta casilla porque no eres su dueño.");
+            }
+        } else {
+            throw new ExcepcionesComandos("Casilla no encontrada. Debes introducir el nombre tal y como aparece en el tablero pero sin espacios.");
+        }
+    }
+
+    public void hacerTrato5(Jugador jugadorDestino) throws ExcepcionesDuenho, ExcepcionesComandos, ExcepcionesNumericas, ExcepcionesJugando {
+        String[] comando;
+        comando = Juego.consola.leer("Qué propiedad desea ofrecer?: ");
+        if (this.getTaboleiro().getCasillas().containsKey(comando[0])) {
+            if (this.getTaboleiro().getCasillas().get(comando[0]) instanceof Propiedad) {
+                Propiedad propiedadOrigen = ((Propiedad) this.getTaboleiro().getCasillas().get(comando[0]));
+                if (this.menu.getJugadorActual().equals(propiedadOrigen.getDuenho())) {
+                    comando = Juego.consola.leer("Cuánto dinero quiere ofrecer?: ");
+                    try {
+                        double dinero = Integer.parseInt(comando[0]);
+                        if (dinero >= 0) {
+                            comando = Juego.consola.leer("Qué propiedad de " + jugadorDestino.getNombre() + " desea?: ");
+                            if (this.getTaboleiro().getCasillas().containsKey(comando[0])) {
+                                if (this.getTaboleiro().getCasillas().get(comando[0]) instanceof Propiedad) {
+                                    Propiedad propiedadDestino = ((Propiedad) this.getTaboleiro().getCasillas().get(comando[0]));
+                                    if (jugadorDestino.equals(propiedadDestino.getDuenho())) {
+                                        Juego.consola.imprimir("De acuerdo, el trato resultante es:");
+                                        Juego.consola.imprimir(jugadorDestino.getNombre() + ", ¿te doy " + propiedadOrigen.getNombreSinEspacio() + " y " + dinero + "€ y tú me das " + propiedadDestino.getNombreSinEspacio() + "?");
+
+                                        String id = idTrato();
+                                        Trato5 trato = new Trato5(id, this.menu.getJugadorActual(), jugadorDestino, propiedadOrigen, dinero, propiedadDestino);
+                                        anhadirTratos(trato);
+
+                                    } else {
+                                        throw new ExcepcionesDuenho("No puedes hacer un trato con esta casilla porque no pertenece a " + jugadorDestino.getNombre() + ".");
+                                    }
+                                } else {
+                                    throw new ExcepcionesDuenho("No puedes hacer un trato con esta casilla porque no pertenece a " + jugadorDestino.getNombre() + ".");
+                                }
+                            } else {
+                                throw new ExcepcionesComandos("Casilla no encontrada. Debes introducir el nombre tal y como aparece en el tablero pero sin espacios.");
+                            }
+                        } else
+                            throw new ExcepcionesJugando("El dinero debe ser mayor que 0.");
+                    } catch (NumberFormatException exc) {
+                        throw new ExcepcionesNumericas("Error pasando el string a entero.");
+                    }
+                } else {
+                    throw new ExcepcionesDuenho("No puedes hacer un trato con esta casilla porque no eres su dueño.");
+                }
+            } else {
+                throw new ExcepcionesDuenho("No puedes hacer un trato con esta casilla porque no eres su dueño.");
+            }
+        } else {
+            throw new ExcepcionesComandos("Casilla no encontrada. Debes introducir el nombre tal y como aparece en el tablero pero sin espacios.");
+        }
+    }
+
+    public void hacerTrato6(Jugador jugadorDestino) throws ExcepcionesDuenho, ExcepcionesComandos, ExcepcionesNumericas {
+        String[] comando;
+        comando = Juego.consola.leer("Qué propiedad desea ofrecer?: ");
+        if (this.getTaboleiro().getCasillas().containsKey(comando[0])) {
+            if (this.getTaboleiro().getCasillas().get(comando[0]) instanceof Propiedad) {
+                Propiedad propiedadOrigen = ((Propiedad) this.getTaboleiro().getCasillas().get(comando[0]));
+                if (this.menu.getJugadorActual().equals(propiedadOrigen.getDuenho())) {
+                    comando = Juego.consola.leer("Qué propiedad de " + jugadorDestino.getNombre() + " desea?: ");
+                    if (this.getTaboleiro().getCasillas().containsKey(comando[0])) {
+                        if (this.getTaboleiro().getCasillas().get(comando[0]) instanceof Propiedad) {
+                            Propiedad propiedadDestino = ((Propiedad) this.getTaboleiro().getCasillas().get(comando[0]));
+                            if (jugadorDestino.equals(propiedadDestino.getDuenho())) {
+                                comando = Juego.consola.leer("¿En que propiedad quiere que " + jugadorDestino.getNombre() + " no pague alquiler?: ");
+                                if (this.getTaboleiro().getCasillas().containsKey(comando[0])) {
+                                    if (this.getTaboleiro().getCasillas().get(comando[0]) instanceof Propiedad) {
+                                        Propiedad propiedadAlquiler = ((Propiedad) this.getTaboleiro().getCasillas().get(comando[0]));
+                                        if (this.menu.getJugadorActual().equals(propiedadAlquiler.getDuenho())) {
+                                            comando = Juego.consola.leer("¿Durante cuántos turnos quiere que " + jugadorDestino.getNombre() + " no pague alquiler?: ");
+                                            try {
+                                                int turnos = Integer.parseInt(comando[0]);
+
+                                                Juego.consola.imprimir("De acuerdo, el trato resultante es:");
+                                                Juego.consola.imprimir(jugadorDestino.getNombre() + ", ¿te doy " + propiedadOrigen.getNombreSinEspacio() + " y tú me das " +
+                                                        propiedadDestino.getNombreSinEspacio() + " y además no pagarás alquiler en " + propiedadAlquiler.getNombreSinEspacio() + " durante " + turnos + " turnos?");
+
+                                                String id = idTrato();
+                                                Trato6 trato = new Trato6(id, this.menu.getJugadorActual(), jugadorDestino, propiedadOrigen, propiedadDestino, propiedadAlquiler, turnos);
+                                                anhadirTratos(trato);
+
+                                            } catch (NumberFormatException exc) {
+                                                throw new ExcepcionesNumericas("Error pasando el string a entero.");
+                                            }
+                                        } else {
+                                            throw new ExcepcionesDuenho("No puedes hacer un trato con esta casilla porque no eres su dueño.");
+                                        }
+                                    } else {
+                                        throw new ExcepcionesDuenho("No puedes hacer un trato con esta casilla porque no eres su dueño.");
+                                    }
+                                } else {
+                                    throw new ExcepcionesComandos("Casilla no encontrada. Debes introducir el nombre tal y como aparece en el tablero pero sin espacios.");
+                                }
+                            } else {
+                                throw new ExcepcionesDuenho("No puedes hacer un trato con esta casilla porque no pertenece a " + jugadorDestino.getNombre() + ".");
+                            }
+                        } else {
+                            throw new ExcepcionesDuenho("No puedes hacer un trato con esta casilla porque no pertenece a " + jugadorDestino.getNombre() + ".");
+                        }
+                    } else {
+                        throw new ExcepcionesComandos("Casilla no encontrada. Debes introducir el nombre tal y como aparece en el tablero pero sin espacios.");
+                    }
+                } else {
+                    throw new ExcepcionesDuenho("No puedes hacer un trato con esta casilla porque no eres su dueño.");
+                }
+            } else {
+                throw new ExcepcionesDuenho("No puedes hacer un trato con esta casilla porque no eres su dueño.");
+            }
+        } else {
+            throw new ExcepcionesComandos("Casilla no encontrada. Debes introducir el nombre tal y como aparece en el tablero pero sin espacios.");
+        }
+    }
+
+
+    public void imprimirTiposTratos() {
+        Juego.consola.imprimir("Los tipos de tratos disponibles son:");
+        Juego.consola.imprimir("Tipo de trato (1): Cambiar una propiedad por otra propiedad.");
+        Juego.consola.imprimir("Tipo de trato (2): Vender una propiedad a otro jugador.");
+        Juego.consola.imprimir("Tipo de trato (3): Comprar una propiedad a otro jugador.");
+        Juego.consola.imprimir("Tipo de trato (4): Cambiar una propiedad a cambio de otra propiedad y un cantidad de dinero.");
+        Juego.consola.imprimir("Tipo de trato (5): Cambiar una propiedad y una cantidad de dinero a cambio de otra propiedad.");
+        Juego.consola.imprimir("Tipo de trato (6): Cambiar una propiedad por otra propiedad y no pagar alquiler en otra propiedad unos determinados turnos.");
     }
 }
