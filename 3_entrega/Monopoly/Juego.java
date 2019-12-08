@@ -466,7 +466,7 @@ public class Juego implements Comandos {
                         Juego.consola.imprimir("El jugador actual es " + this.menu.getJugadorActual().getNombre() + " y está en modo normal.");
 
                     int num = numeroTratosDisponibles();
-                    if (num > 0){
+                    if (num > 0) {
                         Juego.consola.imprimir("Tiene " + num + " trato(s) disponibles. Para verlos escriba: 'tratos'.");
                     }
 
@@ -479,11 +479,11 @@ public class Juego implements Comandos {
             throw new ExcepcionesComandos("Comando incorrecto. Para ver los comandos disponibles escriba: Ver Comandos");
     }
 
-    public int numeroTratosDisponibles(){
+    public int numeroTratosDisponibles() {
         int contador = 0;
-        if (this.menu.getJugadorActual().getTratosDisponibles().size() > 0){
-            for (Tratos trato : this.menu.getJugadorActual().getTratosDisponibles()){
-                if (!trato.isAceptado()){
+        if (this.menu.getJugadorActual().getTratosDisponibles().size() > 0) {
+            for (Tratos trato : this.menu.getJugadorActual().getTratosDisponibles()) {
+                if (!trato.isAceptado()) {
                     contador++;
                 }
             }
@@ -727,9 +727,9 @@ public class Juego implements Comandos {
                     texto += trato.toString() + "\n";
                 }
             }
-            if (texto.equals("")){
+            if (texto.equals("")) {
                 Juego.consola.imprimir("No tienes ningún trato disponible.");
-            } else{
+            } else {
                 Juego.consola.imprimir(texto);
             }
         } else throw new ExcepcionesNull("El jugador actual no existe todavía.");
@@ -739,44 +739,48 @@ public class Juego implements Comandos {
         if (comando.length == 2) {
             Jugador jug = this.estaJugadorNombre(comando[1]);
             if (jug != null) {
-                int aux;
+                if (!jug.equals(this.menu.getJugadorActual())) {
+                    int aux;
 
-                this.imprimirTiposTratos();
-                comando = Juego.consola.leer("Qué tipo de trato desea realizar con " + jug.getNombre() + " (1-6)?: ");
+                    this.imprimirTiposTratos();
+                    comando = Juego.consola.leer("Qué tipo de trato desea realizar con " + jug.getNombre() + " (1-6)?: ");
 
-                try {
-                    aux = Integer.parseInt(comando[0]);
-                } catch (NumberFormatException exc) {
-                    throw new ExcepcionesNumericas("Error pasando el string a entero.");
-                }
+                    try {
+                        aux = Integer.parseInt(comando[0]);
+                    } catch (NumberFormatException exc) {
+                        throw new ExcepcionesNumericas("Error pasando el string a entero.");
+                    }
 
-                switch (aux) {
-                    case 1:
-                        this.hacerTrato1(jug);
-                        break;
+                    switch (aux) {
+                        case 1:
+                            this.hacerTrato1(jug);
+                            break;
 
-                    case 2:
-                        this.hacerTrato2(jug);
-                        break;
+                        case 2:
+                            this.hacerTrato2(jug);
+                            break;
 
-                    case 3:
-                        this.hacerTrato3(jug);
-                        break;
+                        case 3:
+                            this.hacerTrato3(jug);
+                            break;
 
-                    case 4:
-                        this.hacerTrato4(jug);
-                        break;
+                        case 4:
+                            this.hacerTrato4(jug);
+                            break;
 
-                    case 5:
-                        this.hacerTrato5(jug);
-                        break;
+                        case 5:
+                            this.hacerTrato5(jug);
+                            break;
 
-                    case 6:
-                        this.hacerTrato6(jug);
-                        break;
+                        case 6:
+                            this.hacerTrato6(jug);
+                            break;
 
-                    default:
-                        throw new ExcepcionesJugando("Error, opción no válida.");
+                        default:
+                            throw new ExcepcionesJugando("Error, opción no válida.");
+                    }
+                } else {
+                    throw new ExcepcionesJugando("No puedes proponerte tratos a ti mismo.");
                 }
             } else {
                 throw new ExcepcionesComandos("Comando incorrecto. Jugador no encontrado. Para ver los comandos disponibles escriba: Ver Comandos");
@@ -863,7 +867,7 @@ public class Juego implements Comandos {
                             Juego.consola.imprimir("El trato se ha efectuado con éxito."); //añadir un buen comentario
                         }
                     }
-                } else{
+                } else {
                     throw new ExcepcionesJugando("Trato no encontrado.");
                 }
             } else {
@@ -875,40 +879,40 @@ public class Juego implements Comandos {
     }
 
     public void EliminarTrato(String[] comando) throws ExcepcionesComandos, ExcepcionesJugando {
-        if ((comando.length == 2) && (comando[1].equals("trato"))){
-            if (this.menu.getJugadorActual().getTratosPropuestos().size() > 0){
+        if ((comando.length == 2) && (comando[1].equals("trato"))) {
+            if (this.menu.getJugadorActual().getTratosPropuestos().size() > 0) {
                 String texto = "";
-                for (Tratos trato : this.menu.getJugadorActual().getTratosPropuestos()){
-                    if (!trato.isAceptado()){
+                for (Tratos trato : this.menu.getJugadorActual().getTratosPropuestos()) {
+                    if (!trato.isAceptado()) {
                         texto += trato.textoDisponible() + "\n";
                     }
                 }
-                if (!texto.equals("")){
+                if (!texto.equals("")) {
                     Juego.consola.imprimir("Los tratos que puede eliminar son:");
                     Juego.consola.imprimir(texto);
                     comando = Juego.consola.leer("Introduce el id del trato que desea eliminar: ");
-                    if (this.inforTratos.containsKey(comando[0])){
+                    if (this.inforTratos.containsKey(comando[0])) {
                         Tratos trato = this.inforTratos.get(comando[0]);
-                        if (trato.getJugadorOrigen().equals(this.menu.getJugadorActual())){
-                            if (!trato.isAceptado()){
+                        if (trato.getJugadorOrigen().equals(this.menu.getJugadorActual())) {
+                            if (!trato.isAceptado()) {
                                 eliminarTratos(trato);
                                 Juego.consola.imprimir("Trato eliminado con éxito.");
-                            } else{
+                            } else {
                                 throw new ExcepcionesJugando("Trato no encontrado.");
                             }
-                        } else{
+                        } else {
                             throw new ExcepcionesJugando("Trato no encontrado.");
                         }
-                    } else{
+                    } else {
                         throw new ExcepcionesJugando("Trato no encontrado.");
                     }
-                } else{
+                } else {
                     throw new ExcepcionesJugando("No puedes eliminar ningún trato porque ya han sido aceptados.");
                 }
-            } else{
+            } else {
                 throw new ExcepcionesJugando("No tienes ningún trato para eliminar.");
             }
-        } else{
+        } else {
             throw new ExcepcionesComandos("Comando incorrecto. Para ver los comandos disponibles escriba: Ver Comandos");
         }
 
@@ -1018,7 +1022,7 @@ public class Juego implements Comandos {
                 if (this.getTaboleiro().getCasillas().containsKey(comando[0])) {
                     if (this.getTaboleiro().getCasillas().get(comando[0]) instanceof Propiedad) {
                         Propiedad propiedadDestino = ((Propiedad) this.getTaboleiro().getCasillas().get(comando[0]));
-                        if (this.menu.getJugadorActual().equals(propiedadDestino.getDuenho())) {
+                        if (jugadorDestino.equals(propiedadDestino.getDuenho())) {
                             Juego.consola.imprimir("De acuerdo, el trato resultante es:");
                             Juego.consola.imprimir(jugadorDestino.getNombre() + ", ¿te doy " + dinero + "€ y tú me das " + propiedadDestino.getNombreSinEspacio() + "?");
 
