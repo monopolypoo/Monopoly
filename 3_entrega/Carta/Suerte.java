@@ -34,15 +34,17 @@ public final class Suerte extends Carta {
             }
             taboleiro.subirPreciosTotal(menu.getJuego());
         }
+        menu.getJuego().getTaboleiro().getCasillaPosicion(jugador.getAvatar().getCasilla().getPosicion()).eliminarAvatar(jugador.getAvatar().getId());
         taboleiro.getCasillaPosicion(jugador.getAvatar().getCasilla().getPosicion()).eliminarAvatar(jugador.getAvatar().getId());
         taboleiro.getCasillaPosicion(25).setAvatar(jugador.getAvatar());
         jugador.getAvatar().setCasilla(taboleiro.getCasillaPosicion(25));
         super.anhadirTexto("\n" + taboleiro);
     }
 
-    private void cartasSuerte_2(Jugador jugador, Taboleiro taboleiro) {
+    private void cartasSuerte_2(Jugador jugador, Taboleiro taboleiro, Menu menu) {
         super.setMovimiento(true);
         super.setTexto("Decides hacer un viaje de placer. Avanza hasta ETSE.");
+        menu.getJuego().getTaboleiro().getCasillaPosicion(jugador.getAvatar().getCasilla().getPosicion()).eliminarAvatar(jugador.getAvatar().getId());
         taboleiro.getCasillaPosicion(jugador.getAvatar().getCasilla().getPosicion()).eliminarAvatar(jugador.getAvatar().getId());
         taboleiro.getCasillaPosicion(39).setAvatar(jugador.getAvatar());
         jugador.getAvatar().setCasilla(taboleiro.getCasillaPosicion(39));
@@ -68,16 +70,18 @@ public final class Suerte extends Carta {
             }
             taboleiro.subirPreciosTotal(menu.getJuego());
         }
+        menu.getJuego().getTaboleiro().getCasillaPosicion(jugador.getAvatar().getCasilla().getPosicion()).eliminarAvatar(jugador.getAvatar().getId());
         taboleiro.getCasillaPosicion(jugador.getAvatar().getCasilla().getPosicion()).eliminarAvatar(jugador.getAvatar().getId());
         taboleiro.getCasillaPosicion(23).setAvatar(jugador.getAvatar());
         jugador.getAvatar().setCasilla(taboleiro.getCasillaPosicion(23));
         super.anhadirTexto("\n" + taboleiro);
     }
 
-    private void cartasSuerte_5(Jugador jugador, Taboleiro taboleiro) throws ExcepcionesNumericas {
+    private void cartasSuerte_5(Jugador jugador, Taboleiro taboleiro, Menu menu) throws ExcepcionesNumericas {
         super.setMovimiento(true);
         super.setTexto("Los acreedores te persiguen por impago. Ve a la Cárcel. Ve directamente sin pasar por la casilla de " +
                 "Salida y sin cobrar los " + Valor.VUELTA + "€.");
+        menu.getJuego().getTaboleiro().getCasillaPosicion(jugador.getAvatar().getCasilla().getPosicion()).eliminarAvatar(jugador.getAvatar().getId());
         taboleiro.getCasillaPosicion(jugador.getAvatar().getCasilla().getPosicion()).eliminarAvatar(jugador.getAvatar().getId());
         taboleiro.getCasillaPosicion(10).setAvatar(jugador.getAvatar());
         jugador.irCarcere(taboleiro);
@@ -148,6 +152,7 @@ public final class Suerte extends Carta {
             taboleiro.subirPreciosTotal(menu.getJuego());
         }
         super.anhadirTexto("\n" + taboleiro);
+        menu.getJuego().getTaboleiro().getCasillaPosicion(jugador.getAvatar().getCasilla().getPosicion()).eliminarAvatar(jugador.getAvatar().getId());
         taboleiro.getCasillaPosicion(jugador.getAvatar().getCasilla().getPosicion()).eliminarAvatar(jugador.getAvatar().getId());
         taboleiro.getCasillaPosicion(13).setAvatar(jugador.getAvatar());
         jugador.getAvatar().setCasilla(taboleiro.getCasillaPosicion(13));
@@ -175,11 +180,12 @@ public final class Suerte extends Carta {
 
     }
 
-    private void cartasSuerte_11(Jugador jugador, Taboleiro taboleiro) {
+    private void cartasSuerte_11(Jugador jugador, Taboleiro taboleiro, Menu menu) {
         super.setTexto("¡Hora punta de tráfico! Retrocede tres casillas.");
         super.setMovimiento(true);
         int pos = jugador.getAvatar().getCasilla().getPosicion();
 
+        menu.getJuego().getTaboleiro().getCasillaPosicion(jugador.getAvatar().getCasilla().getPosicion()).eliminarAvatar(jugador.getAvatar().getId());
         taboleiro.getCasillaPosicion(pos).eliminarAvatar(jugador.getAvatar().getId());
         if (pos < 3) {
             pos += 40;
@@ -277,7 +283,7 @@ public final class Suerte extends Carta {
                         cartaSuerte_1(jugador, taboleiro, menu);
                         break;
                     case 2:
-                        cartasSuerte_2(jugador, taboleiro);
+                        cartasSuerte_2(jugador, taboleiro, menu);
                         break;
                     case 3:
                         cartasSuerte_3(jugador);
@@ -286,7 +292,7 @@ public final class Suerte extends Carta {
                         cartasSuerte_4(jugador, taboleiro, menu);
                         break;
                     case 5:
-                        cartasSuerte_5(jugador, taboleiro);
+                        cartasSuerte_5(jugador, taboleiro, menu);
                         break;
                     case 6:
                         cartasSuerte_6(jugador);
@@ -304,7 +310,7 @@ public final class Suerte extends Carta {
                         cartasSuerte_10(jugador, menu);
                         break;
                     case 11:
-                        cartasSuerte_11(jugador, taboleiro);
+                        cartasSuerte_11(jugador, taboleiro, menu);
                         break;
                     case 12:
                         cartasSuerte_12(jugador, taboleiro);

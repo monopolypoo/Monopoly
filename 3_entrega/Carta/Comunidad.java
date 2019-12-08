@@ -28,16 +28,17 @@ public final class Comunidad extends Carta {
             super.anhadirTexto("\nDinero insuficiente para pagar el fin de semana en el balneario de 5 estrellas. Debes vender " +
                     "edificios o hipotecar propiedades.");
         } else {
-            ((Especial)taboleiro.getCasillaPosicion(20)).sumarBote((float) Valor.VUELTA);
+            ((Especial) taboleiro.getCasillaPosicion(20)).sumarBote((float) Valor.VUELTA);
             jugador.restarFortuna((float) Valor.VUELTA);
         }
     }
 
-    private void cartasComunidad_2(Jugador jugador, Taboleiro taboleiro) throws ExcepcionesNumericas {
+    private void cartasComunidad_2(Jugador jugador, Taboleiro taboleiro, Menu menu) throws ExcepcionesNumericas {
         super.setMovimiento(true);
         super.setTexto("Te investigan por fraude de identidad. Ve a la Cárcel. Ve directamente sin pasar por la casilla " +
                 "de Salida y sin cobrar los " + Valor.VUELTA + "€.");
         int pos = jugador.getAvatar().getCasilla().getPosicion();
+        menu.getJuego().getTaboleiro().getCasillaPosicion(jugador.getAvatar().getCasilla().getPosicion()).eliminarAvatar(jugador.getAvatar().getId());
         taboleiro.getCasillaPosicion(pos).eliminarAvatar(jugador.getAvatar().getId());
 
         jugador.irCarcere(taboleiro);
@@ -47,10 +48,11 @@ public final class Comunidad extends Carta {
         super.anhadirTexto("\n" + taboleiro);
     }
 
-    private void cartasComunidad_3(Jugador jugador, Taboleiro taboleiro) {
+    private void cartasComunidad_3(Jugador jugador, Taboleiro taboleiro, Menu menu) {
         super.setMovimiento(true);
         super.setTexto("Colócate en la casilla de Salida. Cobra " + Valor.VUELTA + "€.");
         int pos = jugador.getAvatar().getCasilla().getPosicion();
+        menu.getJuego().getTaboleiro().getCasillaPosicion(jugador.getAvatar().getCasilla().getPosicion()).eliminarAvatar(jugador.getAvatar().getId());
         taboleiro.getCasillaPosicion(pos).eliminarAvatar(jugador.getAvatar().getId());
 
         taboleiro.getCasillaPosicion(0).setAvatar(jugador.getAvatar());
@@ -84,10 +86,11 @@ public final class Comunidad extends Carta {
         jugador.sumarPremiosInversionesBote(Valor.PRECIO_GRUPO5);
     }
 
-    private void cartasComunidad_7(Jugador jugador, Taboleiro taboleiro) {
+    private void cartasComunidad_7(Jugador jugador, Taboleiro taboleiro, Menu menu) {
         super.setMovimiento(true);
         super.setTexto("Retrocedes hasta 'FIC' para comprar programadores anticuados.");
         int pos = jugador.getAvatar().getCasilla().getPosicion();
+        menu.getJuego().getTaboleiro().getCasillaPosicion(jugador.getAvatar().getCasilla().getPosicion()).eliminarAvatar(jugador.getAvatar().getId());
         taboleiro.getCasillaPosicion(pos).eliminarAvatar(jugador.getAvatar().getId());
         taboleiro.getCasillaPosicion(19).setAvatar(jugador.getAvatar());
         jugador.getAvatar().setCasilla(taboleiro.getCasillaPosicion(19));
@@ -132,6 +135,7 @@ public final class Comunidad extends Carta {
             }
             taboleiro.subirPreciosTotal(menu.getJuego());
         }
+        menu.getJuego().getTaboleiro().getCasillaPosicion(jugador.getAvatar().getCasilla().getPosicion()).eliminarAvatar(jugador.getAvatar().getId());
         taboleiro.getCasillaPosicion(jugador.getAvatar().getCasilla().getPosicion()).eliminarAvatar(jugador.getAvatar().getId());
         taboleiro.getCasillaPosicion(18).setAvatar(jugador.getAvatar());
         jugador.getAvatar().setCasilla(taboleiro.getCasillaPosicion(18));
@@ -151,10 +155,10 @@ public final class Comunidad extends Carta {
                         cartasComunidad_1(jugador, taboleiro);
                         break;
                     case 2:
-                        cartasComunidad_2(jugador, taboleiro);
+                        cartasComunidad_2(jugador, taboleiro, menu);
                         break;
                     case 3:
-                        cartasComunidad_3(jugador, taboleiro);
+                        cartasComunidad_3(jugador, taboleiro, menu);
                         break;
                     case 4:
                         cartasComunidad_4(jugador);
@@ -166,7 +170,7 @@ public final class Comunidad extends Carta {
                         cartasComunidad_6(jugador);
                         break;
                     case 7:
-                        cartasComunidad_7(jugador, taboleiro);
+                        cartasComunidad_7(jugador, taboleiro, menu);
                         break;
                     case 8:
                         cartasComunidad_8(jugador, menu);

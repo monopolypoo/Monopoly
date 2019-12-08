@@ -56,7 +56,7 @@ public final class Sombrero extends Avatar {
             posSiguiente = 11;
         else
             posSiguiente = 49 - posActual + 2;
-        
+
         return posSiguiente;
     }
 

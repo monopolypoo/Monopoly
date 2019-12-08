@@ -108,7 +108,6 @@ public final class Esfinge extends Avatar {
         Juego.consola.imprimir("El dado tiene el valor de: " + dado.getDadoTotal() + ".");
         if (dado.getDadoTotal() > 4) {
             menu.getJuego().getDado().setDadoTotal(menu.getJuego().getDado().getDadoTotal() - 1);
-            dado.setDadoTotal(dado.getDadoTotal() - 1);
             if (super.getCasilla().getPosicion() <= 39 && super.getCasilla().getPosicion() > 30 /*|| super.getCasilla().getPosicion() == 0*/) {
                 moverEnBasico(taboleiro, menu, 40);
                 this.casillas.add(taboleiro.getCasillaPosicion(1).getNombreSinEspacios());
